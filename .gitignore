@@ -52,13 +52,6 @@ out/
 # Los proyectos viven dentro de este repo monolítico (no como submódulos).
 # Sus copias originales en GitHub quedan como referencia histórica.
 
-# ─── Activos pesados generados ────────────────────────────────
-# Frames de vídeo, vídeos crudos y fuentes binarias grandes
-*.mp4
-*.mov
-*.avi
-frames/
-
 # ─── Locks específicos del orquestador ────────────────────────
 .claude/cache/
 .claude/sessions/
