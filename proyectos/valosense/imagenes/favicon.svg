@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <defs>
+        <linearGradient id="fvRed" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FF6B78"/>
+            <stop offset="100%" stop-color="#C03040"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Fondo oscuro de la marca -->
+    <rect width="64" height="64" fill="#0F0F23"/>
+
+    <!-- Línea superior de marca -->
+    <rect x="0" y="0" width="64" height="2" fill="#FF4655"/>
+
+    <!-- Esquineros tácticos -->
+    <g fill="none" stroke="#FF4655" stroke-width="3" stroke-linejoin="miter">
+        <path d="M6 16 L6 6 L16 6"/>
+        <path d="M48 6 L58 6 L58 16"/>
+        <path d="M6 48 L6 58 L16 58"/>
+        <path d="M48 58 L58 58 L58 48"/>
+    </g>
+
+    <!-- Chevron con degradado -->
+    <path d="M16 20 L32 46 L48 20 L41 20 L32 36 L23 20 Z" fill="url(#fvRed)"/>
+
+    <!-- Diana cian central -->
+    <circle cx="32" cy="51" r="2.2" fill="#00E0FF"/>
+</svg>

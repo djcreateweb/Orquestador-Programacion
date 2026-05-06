@@ -48,12 +48,9 @@ out/
 .nuxt/
 .vite/
 
-# ─── Subproyectos con su propio repositorio Git ───────────────
-# Cada proyecto vive en su propio remote. Para incluirlos aquí en el
-# futuro, conviértelos en submódulos:
-#   git submodule add <url> proyectos/<slug>/<slug>
-proyectos/dj-create-3d/
-proyectos/valosense/
+# ─── Subproyectos ─────────────────────────────────────────────
+# Los proyectos viven dentro de este repo monolítico (no como submódulos).
+# Sus copias originales en GitHub quedan como referencia histórica.
 
 # ─── Activos pesados generados ────────────────────────────────
 # Frames de vídeo, vídeos crudos y fuentes binarias grandes

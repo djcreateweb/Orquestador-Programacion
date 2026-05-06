@@ -1,0 +1,42 @@
+# =====================================================
+# ValoSense · .htaccess
+# Compresión, caché de assets y protección de archivos sensibles.
+# =====================================================
+
+# Compresión gzip para texto (HTML, CSS, JS, SVG, XML, JSON)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+    AddOutputFilterByType DEFLATE application/javascript application/json application/xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Caché de larga duración para assets (se invalidan con ?v=<mtime>)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/png        "access plus 30 days"
+    ExpiresByType image/jpeg       "access plus 30 days"
+    ExpiresByType image/webp       "access plus 30 days"
+    ExpiresByType image/svg+xml    "access plus 30 days"
+    ExpiresByType image/x-icon     "access plus 30 days"
+    ExpiresByType text/css         "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType font/woff2       "access plus 365 days"
+</IfModule>
+
+# No servir backups ni dumps por error (defensa en profundidad)
+<FilesMatch "\.(bak|backup|sql|env|log)$">
+    Require all denied
+</FilesMatch>
+
+# No servir ficheros que empiezan por punto (.git, .env, .htaccess)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Rewrite amigable para /sitemap.xml → controlador sitemap
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Solo si no existe el fichero físico con ese nombre
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^sitemap\.xml$ index.php?controlador=sitemap&action=xml [L,QSA]
+</IfModule>

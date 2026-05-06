@@ -1,0 +1,20 @@
+# Archivos de vídeo (regenerables, fuente del cliente)
+*.mp4
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# Logs
+*.log

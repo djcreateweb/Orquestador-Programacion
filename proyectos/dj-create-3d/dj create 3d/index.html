@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJ Create — Tu presencia digital, reinventada</title>
+  <meta name="description" content="Agencia de diseño web 3D e inmersivo en Murcia. Webs cinematográficas que convierten visitantes en clientes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Geist+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/intro.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       DJ CREATE — Loader (entrada 3s + salida 2s + cortina 2s = 7s)
+       Clases prefijadas con dj-loader- para evitar colisiones.
+       ============================================================ -->
+  <div id="dj-loader-root" class="dj-loader-root" aria-hidden="true">
+
+    <!-- Capa final revelada tras la cortina -->
+    <div class="dj-loader-reveal"></div>
+
+    <!-- CORTINA DIAGONAL: dos triángulos que se separan hacia
+         esquinas opuestas (NE y SW) por la diagonal TL→BR -->
+    <div class="dj-loader-curtain">
+      <div class="dj-loader-curtain-half dj-loader-tr">
+        <div class="dj-loader-curtain-content">
+          <div class="dj-loader-bg-art">
+            <div class="dj-loader-arc"></div>
+            <div class="dj-loader-plane dj-loader-plane-1"></div>
+            <div class="dj-loader-plane dj-loader-plane-2"></div>
+            <div class="dj-loader-plane dj-loader-plane-3"></div>
+            <div class="dj-loader-plane dj-loader-plane-4"></div>
+            <div class="dj-loader-plane dj-loader-plane-5"></div>
+            <div class="dj-loader-v-lines"></div>
+            <div class="dj-loader-corner-mark"></div>
+            <div class="dj-loader-dots"></div>
+            <div class="dj-loader-lines">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="dj-loader-vignette"></div>
+          </div>
+        </div>
+      </div>
+      <div class="dj-loader-curtain-half dj-loader-bl">
+        <div class="dj-loader-curtain-content">
+          <div class="dj-loader-bg-art">
+            <div class="dj-loader-arc"></div>
+            <div class="dj-loader-plane dj-loader-plane-1"></div>
+            <div class="dj-loader-plane dj-loader-plane-2"></div>
+            <div class="dj-loader-plane dj-loader-plane-3"></div>
+            <div class="dj-loader-plane dj-loader-plane-4"></div>
+            <div class="dj-loader-plane dj-loader-plane-5"></div>
+            <div class="dj-loader-v-lines"></div>
+            <div class="dj-loader-corner-mark"></div>
+            <div class="dj-loader-dots"></div>
+            <div class="dj-loader-lines">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="dj-loader-vignette"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Beam y halo -->
+
+    <div class="dj-loader-grain"></div>
+
+    <!-- MARCO EDITORIAL -->
+    <div class="dj-loader-frame">
+      <div class="dj-loader-corner dj-loader-tl"></div>
+      <div class="dj-loader-corner dj-loader-tr"></div>
+      <div class="dj-loader-corner dj-loader-bl"></div>
+      <div class="dj-loader-corner dj-loader-br"></div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <main class="dj-loader-stage">
+      <header class="dj-loader-topbar">
+        <div class="dj-loader-left">
+          <span class="dj-loader-index">N.º 001</span>
+        </div>
+        <div class="dj-loader-center">
+          <span class="dj-loader-pill"><span class="dj-loader-dot"></span>En sesión</span>
+        </div>
+        <div class="dj-loader-right">
+          <span>2026</span>
+        </div>
+      </header>
+
+      <section class="dj-loader-core">
+        <h1 class="dj-loader-logo" aria-label="DJ Create">
+          <span class="dj-loader-logo-char" style="--char-delay: 0ms;">D</span>
+          <span class="dj-loader-logo-char" style="--char-delay: 85ms;">J</span>
+          <span class="dj-loader-amp" aria-hidden="true"></span>
+          <span class="dj-loader-logo-char" style="--char-delay: 210ms;">C</span>
+          <span class="dj-loader-logo-char" style="--char-delay: 295ms;">r</span>
+          <span class="dj-loader-logo-char" style="--char-delay: 380ms;">e</span>
+          <span class="dj-loader-logo-char" style="--char-delay: 465ms;">a</span>
+          <span class="dj-loader-logo-char" style="--char-delay: 550ms;">t</span>
+          <span class="dj-loader-logo-char" style="--char-delay: 635ms;">e</span>
+        </h1>
+
+        <div class="dj-loader-divider">
+          <span class="dj-loader-line"></span>
+          <span class="dj-loader-mark"></span>
+          <span class="dj-loader-line"></span>
+        </div>
+
+        <p class="dj-loader-tagline">
+          Estudio de diseño web <span class="dj-loader-sep">·</span> Murcia
+        </p>
+      </section>
+
+      <footer class="dj-loader-footer-block">
+        <div class="dj-loader-left">Murcia · España</div>
+
+        <div class="dj-loader-status">
+          <span class="dj-loader-label">
+            Preparando la experiencia<span class="dj-loader-cursor"></span>
+          </span>
+          <div class="dj-loader-progress"><div class="dj-loader-bar"></div></div>
+        </div>
+
+        <div class="dj-loader-right dj-loader-meta">© DJ Create</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var loader = document.getElementById('dj-loader-root');
+      if (!loader) return;
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      document.documentElement.classList.add('dj-loader-active');
+      document.body.classList.add('dj-loader-active');
+      window.scrollTo(0, 0);
+
+      // T+1.7s — libera clicks durante los últimos 0.3s del telón
+      setTimeout(function () {
+        loader.style.pointerEvents = 'none';
+      }, 1700);
+
+      // T+2.0s — total exacto: removeChild y libera scroll
+      setTimeout(function () {
+        document.documentElement.classList.remove('dj-loader-active');
+        document.body.classList.remove('dj-loader-active');
+        if (loader.parentNode) loader.parentNode.removeChild(loader);
+        window.scrollTo(0, 0);
+        requestAnimationFrame(function () {
+          window.scrollTo(0, 0);
+        });
+      }, 2000);
+    })();
+  </script>
+
+  <!-- Gradient defs — separados del intro para que sigan activos en nav/footer -->
+  <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
+    <defs>
+      <linearGradient id="djc-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#00F5D4"/>
+        <stop offset="55%" stop-color="#3D9DFF"/>
+        <stop offset="100%" stop-color="#7C3AED"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- NAV FLOTANTE -->
+  <nav id="nav" class="nav-pill">
+    <a href="#hero" class="nav-logo" data-scroll>
+      <svg class="nav-logo-mark" viewBox="0 0 22 22" aria-hidden="true">
+        <circle cx="11" cy="11" r="8.5" fill="none" stroke="url(#djc-grad)" stroke-width="1.5"/>
+        <circle cx="11" cy="11" r="2.6" fill="url(#djc-grad)"/>
+      </svg>
+      DJ Create
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero" data-scroll>Inicio</a></li>
+      <li><a href="#servicios" data-scroll>Servicios</a></li>
+      <li><a href="#portafolio" data-scroll>Portafolio</a></li>
+      <li><a href="#nosotros" data-scroll>Nosotros</a></li>
+      <li><a href="#contacto" data-scroll>Contacto</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta" data-scroll>CONTACTO</a>
+  </nav>
+
+  <!-- HERO — SCROLL DRIVEN -->
+  <section id="hero">
+    <div id="scrollCanvas">
+      <canvas id="frameCanvas"></canvas>
+    </div>
+
+    <!-- Fade-out: oculta progresivamente los frames finales del vídeo
+         para evitar que el texto baked-in se solape con el hero-content -->
+    <div id="heroFadeout" aria-hidden="true"></div>
+
+    <div class="hero-overlay">
+      <div class="hero-content" id="heroContent">
+        <span class="hero-accent" aria-hidden="true"></span>
+        <p class="hero-tag"><span class="hero-tag-mark">●</span> Agencia de diseño web · Murcia</p>
+        <h1 class="hero-title">
+          Diseñamos<br>experiencias<br><span class="grad">que se recuerdan.</span>
+        </h1>
+        <p class="hero-sub">Webs que no se olvidan. Diseñadas a medida, sin plantillas, con obsesión por cada detalle.</p>
+        <div class="hero-btns">
+          <a href="#portafolio" class="btn-main" data-scroll>Ver proyectos</a>
+          <a href="#contacto" class="btn-ghost" data-scroll>Hablemos →</a>
+        </div>
+        <p class="hero-meta">
+          <span>Murcia · ES</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Cursor custom (reticle scope) — sigue al ratón en el hero -->
+    <div class="scroll-hint" aria-hidden="true">
+      <svg class="shc" viewBox="0 0 28 28" aria-hidden="true">
+        <circle class="shc-ring" cx="14" cy="14" r="13"/>
+        <circle class="shc-ring shc-ring--dashed" cx="14" cy="14" r="8"/>
+        <line class="shc-tick shc-tick--n" x1="14" y1="0" x2="14" y2="3"/>
+        <line class="shc-tick shc-tick--s" x1="14" y1="25" x2="14" y2="28"/>
+        <line class="shc-tick shc-tick--e" x1="25" y1="14" x2="28" y2="14"/>
+        <line class="shc-tick shc-tick--w" x1="0" y1="14" x2="3" y2="14"/>
+        <circle class="shc-dot" cx="14" cy="14" r="1.8"/>
+      </svg>
+      <span class="shc-label">Scroll</span>
+      <div class="scroll-bar"></div>
+    </div>
+  </section>
+
+  <!-- DIVIDER hero → servicios -->
+  <div class="section-divider divider-haze" aria-hidden="true"></div>
+
+  <!-- SERVICIOS · tier-2 · bento -->
+  <section id="servicios" class="section section--tier-2 section-servicios">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="section-eyebrow"><span>01 / Servicios</span></p>
+        <h2 class="section-title split-words has-rule">Planes a medida<br><span class="grad">para cada visión.</span></h2>
+        <p class="section-lead">Desde landing pages que convierten hasta experiencias 3D cinematográficas. Elige el plan que encaje con tu proyecto.</p>
+      </div>
+
+      <div class="plans-list" data-reveal-stagger="100">
+
+        <!-- 01 Plan Basico -->
+        <article class="plan-row reveal-up" data-num="01">
+          <div class="plan-row__left">
+            <span class="plan-row__num">01</span>
+            <div class="plan-row__identity">
+              <p class="plan-row__name">Plan Básico</p>
+              <p class="plan-row__price"><span>300</span><em>€</em></p>
+            </div>
+          </div>
+          <div class="plan-row__center">
+            <p class="plan-row__desc">Web one-page profesional para autónomos y pequeños negocios.</p>
+            <ul class="plan-row__features">
+              <li>Diseño one-page responsive</li>
+              <li>Hasta 4 secciones</li>
+              <li>Formulario de contacto</li>
+              <li>SEO básico on-page</li>
+              <li>Hosting + dominio (1er año)</li>
+            </ul>
+          </div>
+          <div class="plan-row__right">
+            <a href="#contacto" class="plan-row__cta" data-scroll>Empezar →</a>
+          </div>
+        </article>
+
+        <!-- 02 Plan Avanzado (featured) -->
+        <article class="plan-row plan-row--featured reveal-up" data-num="02">
+          <span class="plan-row__badge">Más popular</span>
+          <div class="plan-row__left">
+            <span class="plan-row__num">02</span>
+            <div class="plan-row__identity">
+              <p class="plan-row__name">Plan Avanzado</p>
+              <p class="plan-row__price"><span>400</span><em>€</em></p>
+            </div>
+          </div>
+          <div class="plan-row__center">
+            <p class="plan-row__desc">Web multipágina con animaciones avanzadas, blog y panel para gestionar contenidos.</p>
+            <ul class="plan-row__features">
+              <li>Hasta 6 páginas a medida</li>
+              <li>Animaciones GSAP / scroll</li>
+              <li>Blog con CMS</li>
+              <li>SEO técnico avanzado</li>
+              <li>Analytics + dashboard</li>
+              <li>2 meses de soporte</li>
+            </ul>
+          </div>
+          <div class="plan-row__right">
+            <a href="#contacto" class="plan-row__cta plan-row__cta--solid" data-scroll>Empezar →</a>
+          </div>
+        </article>
+
+        <!-- 03 Plan 3D -->
+        <article class="plan-row reveal-up" data-num="03">
+          <div class="plan-row__left">
+            <span class="plan-row__num">03</span>
+            <div class="plan-row__identity">
+              <p class="plan-row__name">Plan 3D</p>
+              <p class="plan-row__price"><span>500</span><em>€</em></p>
+            </div>
+          </div>
+          <div class="plan-row__center">
+            <p class="plan-row__desc">Experiencia inmersiva con escenas 3D y scroll cinematográfico.</p>
+            <ul class="plan-row__features">
+              <li>Escenas 3D con Three.js</li>
+              <li>Animaciones scroll-driven</li>
+              <li>Modelado básico incluido</li>
+              <li>Optimización móvil</li>
+              <li>Diseño cinematográfico</li>
+            </ul>
+          </div>
+          <div class="plan-row__right">
+            <a href="#contacto" class="plan-row__cta" data-scroll>Empezar →</a>
+          </div>
+        </article>
+
+        <!-- 04 Plan Tienda -->
+        <article class="plan-row reveal-up" data-num="04">
+          <div class="plan-row__left">
+            <span class="plan-row__num">04</span>
+            <div class="plan-row__identity">
+              <p class="plan-row__name">Plan Tienda</p>
+              <p class="plan-row__price"><span>desde 800</span><em>€</em></p>
+            </div>
+          </div>
+          <div class="plan-row__center">
+            <p class="plan-row__desc">Tienda online completa con pasarela de pago, gestión de productos y envíos.</p>
+            <ul class="plan-row__features">
+              <li>Catálogo ilimitado</li>
+              <li>Stripe / Redsys integrado</li>
+              <li>Panel de gestión</li>
+              <li>Cupones y descuentos</li>
+              <li>Email transaccional</li>
+              <li>Formación incluida</li>
+            </ul>
+          </div>
+          <div class="plan-row__right">
+            <a href="#contacto" class="plan-row__cta" data-scroll>Empezar →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER servicios → portafolio -->
+  <div class="section-divider divider-scanline" aria-hidden="true"><span class="divider-dot"></span></div>
+
+  <!-- PORTAFOLIO · tier-2 · editorial full-bleed -->
+  <section id="portafolio" class="section section--tier-2 section-portafolio">
+    <div class="section-inner section-inner--bleed">
+      <div class="section-head reveal">
+        <p class="section-eyebrow"><span>02 / Portafolio</span></p>
+        <h2 class="section-title split-words has-rule">Trabajos<br><span class="grad">recientes.</span></h2>
+        <p class="section-lead">Una selección de proyectos donde diseño y código se encuentran.</p>
+      </div>
+
+      <div class="portfolio-grid portfolio-grid--editorial" data-reveal-stagger="100">
+
+        <!-- ============================================================
+             PLANTILLA — copia este bloque por cada proyecto real.
+             Sustituye:
+               · href      → URL real del proyecto
+               · data-url  → dominio que se muestra en la barra
+               · <video>   → ruta a tu MP4 (assets/portfolio/<slug>.mp4)
+               · tag/título/desc → datos reales
+
+             Tamaños disponibles (combina libremente para grid editorial):
+               .portfolio-card--w2   → 2 cols (vertical)
+               .portfolio-card--w3   → 3 cols (estándar)
+               .portfolio-card--w4   → 4 cols (destacado horizontal)
+
+             Borra los .portfolio-card--placeholder cuando subas tu primer
+             proyecto. La tarjeta CTA del final puedes mantenerla siempre.
+        ============================================================ -->
+
+        <!--
+        <a href="https://tudominio.com" target="_blank" rel="noopener" class="portfolio-card portfolio-card--w4 reveal-blur" data-url="tudominio.com">
+          <div class="portfolio-thumb portfolio-thumb--video">
+            <div class="portfolio-bar">
+              <span class="portfolio-bar-dots"><i class="dot dot--r"></i><i class="dot dot--y"></i><i class="dot dot--g"></i></span>
+              <span class="portfolio-bar-url">tudominio.com</span>
+            </div>
+            <video src="assets/portfolio/proyecto.mp4" autoplay loop muted playsinline preload="metadata"></video>
+          </div>
+          <div class="portfolio-meta">
+            <span class="portfolio-tag">Categoría · Tipo</span>
+            <h3 class="portfolio-title">Nombre del proyecto</h3>
+            <p class="portfolio-desc">Una línea sobre el reto y la solución.</p>
+          </div>
+        </a>
+        -->
+
+        <!-- Placeholders elegantes — borrar cuando haya proyectos reales -->
+        <div class="portfolio-card portfolio-card--placeholder portfolio-card--w3 reveal-blur" aria-hidden="true">
+          <div class="portfolio-thumb portfolio-thumb--video">
+            <div class="portfolio-bar">
+              <span class="portfolio-bar-dots"><i class="dot dot--r"></i><i class="dot dot--y"></i><i class="dot dot--g"></i></span>
+              <span class="portfolio-bar-url">en-produccion.djcreate.es</span>
+            </div>
+            <div class="portfolio-skeleton">
+              <span class="portfolio-skeleton-tag">Próximamente</span>
+            </div>
+          </div>
+          <div class="portfolio-meta">
+            <span class="portfolio-tag">Caso · En producción</span>
+            <h3 class="portfolio-title">Proyecto en preparación</h3>
+            <p class="portfolio-desc">Estoy puliendo este caso antes de mostrarlo. Vuelve pronto.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card portfolio-card--placeholder portfolio-card--w3 reveal-blur" aria-hidden="true">
+          <div class="portfolio-thumb portfolio-thumb--video">
+            <div class="portfolio-bar">
+              <span class="portfolio-bar-dots"><i class="dot dot--r"></i><i class="dot dot--y"></i><i class="dot dot--g"></i></span>
+              <span class="portfolio-bar-url">caso-de-estudio.djcreate.es</span>
+            </div>
+            <div class="portfolio-skeleton">
+              <span class="portfolio-skeleton-tag">Próximamente</span>
+            </div>
+          </div>
+          <div class="portfolio-meta">
+            <span class="portfolio-tag">Caso · En producción</span>
+            <h3 class="portfolio-title">Caso de estudio en montaje</h3>
+            <p class="portfolio-desc">Editando el vídeo y la documentación. Disponible en breve.</p>
+          </div>
+        </div>
+
+        <a href="#contacto" class="portfolio-card portfolio-card--cta portfolio-card--w6 reveal-blur" data-scroll>
+          <div class="portfolio-cta-inner">
+            <span class="portfolio-tag">+ proyecto</span>
+            <h3 class="portfolio-title">¿El siguiente caso<br><span class="grad">es el tuyo?</span></h3>
+            <p>Cuéntame tu idea → escribimos guion, diseño y código</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER portafolio → nosotros -->
+  <div class="section-divider divider-tech" aria-hidden="true"><span>03 — estudio</span></div>
+
+  <!-- NOSOTROS · tier-1 · split editorial + 47 gigante -->
+  <section id="nosotros" class="section section--tier-1 section-nosotros">
+    <span class="nosotros-bignum" aria-hidden="true" data-parallax-speed="-0.18">47</span>
+
+    <div class="section-inner">
+      <div class="nosotros-grid">
+        <aside class="nosotros-aside reveal">
+          <div class="nosotros-aside-inner">
+            <p class="section-eyebrow"><span>03 / Nosotros</span></p>
+            <h2 class="section-title split-words has-rule">Estudio<br>pequeño,<br><span class="grad">obsesión<br>grande.</span></h2>
+            <p class="nosotros-meta">DJ Create<br>Murcia, ES</p>
+          </div>
+        </aside>
+
+        <div class="nosotros-text reveal">
+          <p class="nosotros-lead">Estudio de diseño web en Murcia. Para marcas que no se conforman con plantillas.</p>
+
+          <ol class="nosotros-manifest">
+            <li>
+              <span class="nosotros-manifest__num">01</span>
+              <h3 class="nosotros-manifest__title">Hecho a medida</h3>
+              <p class="nosotros-manifest__desc">Cada web desde cero. Sin plantillas, sin temas comprados.</p>
+            </li>
+            <li>
+              <span class="nosotros-manifest__num">02</span>
+              <h3 class="nosotros-manifest__title">Obsesivos con el detalle</h3>
+              <p class="nosotros-manifest__desc">Cada animación, cada transición, cada línea de código.</p>
+            </li>
+            <li>
+              <span class="nosotros-manifest__num">03</span>
+              <h3 class="nosotros-manifest__title">Pocos clientes</h3>
+              <p class="nosotros-manifest__desc">Un puñado de proyectos al año. Toda la atención que merecen.</p>
+            </li>
+          </ol>
+
+          <ul class="nosotros-stats">
+            <li><strong data-counter="100" data-counter-suffix="%">100%</strong><span>diseño a medida</span></li>
+            <li><strong data-counter="5" data-counter-suffix="★">5★</strong><span>satisfacción cliente</span></li>
+            <li><strong>1 a 1</strong><span>atención dedicada</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER nosotros → contacto -->
+  <div class="section-divider divider-haze" aria-hidden="true"></div>
+
+  <!-- CONTACTO · tier-2 · split asimétrico 60/40 -->
+  <section id="contacto" class="section section--tier-2 section-contacto">
+    <div class="section-inner section-inner--wide">
+      <div class="contacto-grid contacto-grid--asym">
+        <form class="contacto-form reveal" id="contactForm" novalidate>
+          <header class="contacto-form-head">
+            <p class="section-eyebrow"><span>04 / Contacto</span></p>
+            <h2 class="section-title split-words has-rule">¿Tienes un proyecto?<br><span class="grad">Hablemos.</span></h2>
+          </header>
+
+          <div class="field">
+            <label for="name">Nombre</label>
+            <input id="name" name="name" type="text" required placeholder=" ">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required placeholder=" ">
+            </div>
+            <div class="field">
+              <label for="plan">¿Qué plan?</label>
+              <select id="plan" name="plan">
+                <option>Plan Básico — 300€</option>
+                <option>Plan Avanzado — 400€</option>
+                <option>Plan 3D — 500€</option>
+                <option>Plan Tienda — desde 800€</option>
+                <option>Otro / no estoy seguro</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
+          </div>
+          <button type="submit" class="btn-main btn-submit">Enviar mensaje →</button>
+          <p class="form-feedback" id="formFeedback" aria-live="polite"></p>
+        </form>
+
+        <aside class="contacto-aside reveal">
+          <p class="contacto-aside-lead">Respondemos en menos de 24h con propuesta inicial sin compromiso.</p>
+
+          <ul class="contacto-info">
+            <li><span>Email</span><a href="mailto:djcreateweb@gmail.com">djcreateweb@gmail.com</a></li>
+            <li><span>WhatsApp</span><a href="tel:+34600000000">+34 600 000 000</a></li>
+            <li><span>Ubicación</span><p>Murcia, ES</p></li>
+            <li><span>Horario</span><p>L–V · 9h–19h</p></li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <a href="#hero" class="nav-logo" data-scroll>
+        <svg class="nav-logo-mark" viewBox="0 0 22 22" aria-hidden="true">
+          <circle cx="11" cy="11" r="8.5" fill="none" stroke="url(#djc-grad)" stroke-width="1.5"/>
+          <circle cx="11" cy="11" r="2.6" fill="url(#djc-grad)"/>
+        </svg>
+        DJ Create
+      </a>
+      <ul class="footer-links">
+        <li><a href="#servicios" data-scroll>Servicios</a></li>
+        <li><a href="#portafolio" data-scroll>Portafolio</a></li>
+        <li><a href="#nosotros" data-scroll>Nosotros</a></li>
+        <li><a href="#contacto" data-scroll>Contacto</a></li>
+      </ul>
+      <ul class="footer-social">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Behance</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> DJ Create. Hecho con obsesión en Murcia.</p>
+      <p>
+        <a href="legal/aviso-legal.html">Aviso legal</a> ·
+        <a href="legal/politica-privacidad.html">Privacidad</a> ·
+        <a href="legal/politica-cookies.html">Cookies</a> ·
+        <a href="#" data-cookie-open>Configurar cookies</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- COOKIE BANNER -->
+  <div id="cookieBanner" class="cookie-banner" role="dialog" aria-modal="false" aria-labelledby="cookieBannerTitle" aria-hidden="true" hidden>
+    <div class="cookie-banner__head">
+      <span class="cookie-banner__mark" aria-hidden="true"></span>
+      <span class="cookie-banner__eyebrow" id="cookieBannerTitle">Aviso de cookies</span>
+    </div>
+    <p class="cookie-banner__text">
+      Usamos cookies propias y de terceros para que el sitio funcione, medir el uso y mostrarte una experiencia coherente.
+      Puedes aceptar todas, rechazar las no esenciales o configurar tu elección. Más información en nuestra
+      <a href="legal/politica-cookies.html">Política de Cookies</a>.
+    </p>
+    <div class="cookie-banner__actions">
+      <button type="button" class="cookie-btn cookie-btn--text" data-cookie-config>Configurar</button>
+      <button type="button" class="cookie-btn cookie-btn--ghost" data-cookie-reject>Rechazar</button>
+      <button type="button" class="cookie-btn cookie-btn--primary" data-cookie-accept-all>Aceptar todas</button>
+    </div>
+  </div>
+
+  <!-- COOKIE MODAL -->
+  <div id="cookieModal" class="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookieModalTitle" aria-hidden="true" hidden>
+    <div class="cookie-modal__backdrop" aria-hidden="true"></div>
+    <div class="cookie-modal__dialog">
+      <h3 class="cookie-modal__title" id="cookieModalTitle">Preferencias de cookies</h3>
+      <p class="cookie-modal__lede">Activa o desactiva cada categoría según tus preferencias. Las cookies técnicas son imprescindibles para que el sitio funcione y no pueden desactivarse.</p>
+
+      <div class="cookie-cat">
+        <div>
+          <p class="cookie-cat__name">Necesarias</p>
+          <p class="cookie-cat__desc">Mantienen la sesión, las preferencias básicas y permiten que el sitio funcione correctamente. Siempre activas.</p>
+        </div>
+        <label class="cookie-switch" aria-label="Cookies necesarias (siempre activas)">
+          <input type="checkbox" data-cookie-toggle="necessary" checked disabled>
+          <span class="cookie-switch__slider"></span>
+        </label>
+      </div>
+
+      <div class="cookie-cat">
+        <div>
+          <p class="cookie-cat__name">Analítica</p>
+          <p class="cookie-cat__desc">Nos ayuda a entender cómo se usa el sitio, de forma agregada y anónima, para mejorar la experiencia.</p>
+        </div>
+        <label class="cookie-switch" aria-label="Cookies de analítica">
+          <input type="checkbox" data-cookie-toggle="analytics">
+          <span class="cookie-switch__slider"></span>
+        </label>
+      </div>
+
+      <div class="cookie-cat">
+        <div>
+          <p class="cookie-cat__name">Marketing</p>
+          <p class="cookie-cat__desc">Permiten medir la eficacia de campañas y mostrar contenido relevante en plataformas externas.</p>
+        </div>
+        <label class="cookie-switch" aria-label="Cookies de marketing">
+          <input type="checkbox" data-cookie-toggle="marketing">
+          <span class="cookie-switch__slider"></span>
+        </label>
+      </div>
+
+      <div class="cookie-modal__actions">
+        <button type="button" class="cookie-btn cookie-btn--text" data-cookie-close>Cerrar</button>
+        <button type="button" class="cookie-btn cookie-btn--ghost" data-cookie-save>Guardar selección</button>
+        <button type="button" class="cookie-btn cookie-btn--primary" data-cookie-accept-all-modal>Aceptar todas</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/frames.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cookies.js"></script>
+</body>
+</html>

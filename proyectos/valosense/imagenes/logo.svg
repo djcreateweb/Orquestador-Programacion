@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ValoSense">
+    <defs>
+        <!-- Degradado rojo del chevron: brillante arriba, profundo abajo -->
+        <linearGradient id="vRed" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FF6B78"/>
+            <stop offset="55%" stop-color="#FF4655"/>
+            <stop offset="100%" stop-color="#C03040"/>
+        </linearGradient>
+
+        <!-- Halo cian de la diana central -->
+        <radialGradient id="cyanGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#50F0FF" stop-opacity="1"/>
+            <stop offset="60%" stop-color="#00E0FF" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#00E0FF" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
+
+    <!-- Hexágono envolvente (sutil, sólo da contexto táctico) -->
+    <path d="M32 3 L58 17 L58 47 L32 61 L6 47 L6 17 Z"
+          fill="none"
+          stroke="#FF4655"
+          stroke-width="1"
+          stroke-opacity="0.35"/>
+
+    <!-- Esquineros tácticos (más gruesos en las esquinas del hexágono) -->
+    <g fill="none" stroke="#FF4655" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="butt">
+        <path d="M32 3 L40 7.5"/>
+        <path d="M32 3 L24 7.5"/>
+        <path d="M32 61 L40 56.5"/>
+        <path d="M32 61 L24 56.5"/>
+    </g>
+
+    <!-- Marcas laterales de mira (scope ticks) -->
+    <g stroke="#FF4655" stroke-width="2" stroke-linecap="butt">
+        <line x1="2" y1="32" x2="7" y2="32"/>
+        <line x1="57" y1="32" x2="62" y2="32"/>
+    </g>
+
+    <!-- Chevron angular con degradado (letra V dominante) -->
+    <path d="M14 17 L32 46 L50 17 L43 17 L32 36 L21 17 Z"
+          fill="url(#vRed)"/>
+
+    <!-- Reflejo interior del chevron (toque de volumen) -->
+    <path d="M14 17 L21 17 L32 36 L29 32 Z"
+          fill="#FFFFFF"
+          fill-opacity="0.12"/>
+
+    <!-- Diana: halo cian + anillo + punto central -->
+    <circle cx="32" cy="51" r="5" fill="url(#cyanGlow)"/>
+    <circle cx="32" cy="51" r="2.8" fill="none" stroke="#00E0FF" stroke-width="1" stroke-opacity="0.7"/>
+    <circle cx="32" cy="51" r="1.3" fill="#FFFFFF"/>
+</svg>

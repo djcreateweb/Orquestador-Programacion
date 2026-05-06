@@ -1,0 +1,1080 @@
+/* ============================================================
+   ValoSense — Lineups
+   Estilos específicos de la página de biblioteca de lineups.
+   Depende de styles.css (tokens, navbar, footer, botones, etc.)
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1. Hero variante de lineups
+   Variante del hero con acento cian para diferenciarlo del
+   hero principal (que usa rojo). Mantiene la base global.
+   ------------------------------------------------------------ */
+.hero-lineups {
+    border-bottom: 1px solid var(--border-cyan);
+    box-shadow: inset 0 -1px 0 0 rgba(0, 224, 255, 0.08);
+}
+
+.hero-lineups .hero-title .text-red {
+    color: var(--cyan-accent);
+    text-shadow: 0 0 24px rgba(0, 224, 255, 0.35);
+}
+
+.hero-lineups .corner {
+    color: var(--cyan-accent);
+}
+
+
+/* ------------------------------------------------------------
+   2. Buscador de lineups
+   Rejilla de filtros con acciones alineadas a la derecha.
+   ------------------------------------------------------------ */
+.lineup-search {
+    padding: var(--sp-12) 0;
+}
+
+.lineup-form {
+    margin-top: var(--sp-6);
+    padding: var(--sp-6);
+    background: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    position: relative;
+}
+
+.lineup-filters {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+}
+
+.filter-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--sp-2);
+}
+
+.filter-actions {
+    display: flex;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    grid-column: 1 / -1;
+    margin-top: var(--sp-2);
+}
+
+.filter-actions .btn-primary,
+.filter-actions .btn-secondary {
+    min-height: 44px;
+}
+
+
+/* ------------------------------------------------------------
+   3. Acceso rápido por mapa
+   Fila de chips tipo píldora con contador en rojo.
+   ------------------------------------------------------------ */
+.map-quick-access {
+    padding: var(--sp-10) 0;
+}
+
+.section-head-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+}
+
+.link-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--cyan-accent);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: transform var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+}
+
+.link-arrow:hover {
+    transform: translateX(2px);
+    color: var(--text-primary);
+}
+
+.link-arrow:focus-visible {
+    outline: 2px solid var(--cyan-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-xs);
+}
+
+.map-chips {
+    list-style: none;
+    padding: 0;
+    margin: var(--sp-6) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+}
+
+.map-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-2) var(--sp-4);
+    min-height: 40px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-pill);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: transform var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.map-chip:hover {
+    border-color: var(--red-primary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-red);
+}
+
+.map-chip:focus-visible {
+    outline: 2px solid var(--cyan-accent);
+    outline-offset: 3px;
+}
+
+.map-chip-name {
+    font-size: 0.95rem;
+}
+
+.map-chip-count {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--red-primary);
+    background: rgba(255, 70, 85, 0.12);
+    border: 1px solid rgba(255, 70, 85, 0.35);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    letter-spacing: 0.04em;
+}
+
+/* Estado activo (mapa seleccionado en URL) */
+.map-chip.is-active {
+    background: var(--red-primary);
+    color: #000;
+    border-color: var(--red-primary);
+    box-shadow: 0 0 18px rgba(255, 70, 85, 0.4);
+}
+.map-chip.is-active:hover {
+    color: #000;
+    transform: translateY(-1px);
+}
+
+
+
+/* ------------------------------------------------------------
+   4. Resultados de lineups (rejilla + tarjetas)
+   ------------------------------------------------------------ */
+.lineups-results {
+    padding: var(--sp-10) 0 var(--sp-16);
+}
+
+.results-tools {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+}
+
+.sort-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.sort-select {
+    min-width: 180px;
+}
+
+.lineups-grid {
+    margin-top: var(--sp-6);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+}
+
+
+/* --- Tarjeta base --- */
+.lineup-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: transform var(--dur-med) var(--ease-out),
+                border-color var(--dur-med) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+}
+
+.lineup-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-red);
+    box-shadow: var(--shadow-red);
+}
+
+.lineup-card:focus-within {
+    border-color: var(--cyan-accent);
+    box-shadow: var(--shadow-cyan);
+}
+
+
+/* --- Miniatura 16:9 con duración e icono play --- */
+.lineup-thumb {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bg-deep);
+}
+
+.lineup-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--dur-slow) var(--ease-out),
+                opacity var(--dur-med) var(--ease-out);
+}
+
+.lineup-card:hover .lineup-thumb-img {
+    transform: scale(1.04);
+    opacity: 0.9;
+}
+
+.lineup-duration {
+    position: absolute;
+    right: var(--sp-3);
+    bottom: var(--sp-3);
+    padding: 2px var(--sp-2);
+    background: rgba(0, 0, 0, 0.75);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    border-radius: var(--radius-xs);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lineup-play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    background: var(--red-primary);
+    border-radius: 50%;
+    box-shadow: var(--shadow-red), 0 0 0 2px rgba(0, 0, 0, 0.2);
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform var(--dur-med) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+    pointer-events: none;
+}
+
+.lineup-card:hover .lineup-play-icon {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: var(--shadow-red-strong);
+}
+
+
+/* --- Cuerpo de la tarjeta --- */
+.lineup-card-body {
+    padding: var(--sp-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    flex: 1;
+}
+
+.lineup-card-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+}
+
+
+/* --- Etiquetas (tags) --- */
+.lineup-agent-tag,
+.lineup-map-tag,
+.lineup-type-tag,
+.lineup-side-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--sp-2);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-xs);
+    line-height: 1.4;
+}
+
+.lineup-agent-tag {
+    background: var(--red-primary);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.lineup-map-tag {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--text-secondary);
+}
+
+/* Variantes de tipo de habilidad */
+.lineup-type-tag.type-smoke {
+    background: rgba(0, 224, 255, 0.18);
+    color: var(--cyan-accent);
+    border: 1px solid rgba(0, 224, 255, 0.45);
+}
+
+.lineup-type-tag.type-flash {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--bg-deep);
+    font-weight: 600;
+}
+
+.lineup-type-tag.type-molly {
+    background: rgba(255, 181, 71, 0.18);
+    color: var(--warning);
+    border: 1px solid rgba(255, 181, 71, 0.45);
+}
+
+.lineup-type-tag.type-recon {
+    background: rgba(168, 85, 247, 0.18);
+    color: #C9A9FF;
+    border: 1px solid rgba(168, 85, 247, 0.45);
+}
+
+.lineup-type-tag.type-wall {
+    background: rgba(76, 255, 181, 0.16);
+    color: var(--success);
+    border: 1px solid rgba(76, 255, 181, 0.4);
+}
+
+/* Variantes de lado */
+.lineup-side-tag.side-atk {
+    background: var(--red-deep);
+    color: var(--text-primary);
+    border: 1px solid var(--border-red);
+}
+
+.lineup-side-tag.side-def {
+    background: rgba(0, 224, 255, 0.2);
+    color: var(--cyan-accent);
+    border: 1px solid var(--border-cyan);
+}
+
+
+/* --- Título y descripción --- */
+.lineup-title {
+    margin: var(--sp-1) 0 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+}
+
+.lineup-desc {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+
+/* --- Ruta: desde → hacia --- */
+.lineup-route {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-3);
+    background: var(--bg-deep);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xs);
+}
+
+.lineup-route-step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.lineup-route-step dt {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.lineup-route-step dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lineup-route-arrow {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--red-primary);
+    text-shadow: 0 0 8px rgba(255, 70, 85, 0.5);
+    flex-shrink: 0;
+}
+
+
+/* --- Meta: dificultad + valoración --- */
+.lineup-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    padding: var(--sp-2) 0;
+}
+
+.lineup-difficulty {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+}
+
+.diff-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.diff-dots {
+    display: inline-flex;
+    gap: var(--sp-1);
+}
+
+.diff-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    display: inline-block;
+    transition: background var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.diff-dot-on {
+    background: var(--red-primary);
+    box-shadow: 0 0 6px rgba(255, 70, 85, 0.6);
+}
+
+/* Soporte opcional vía data-level en .diff-dots */
+.diff-dots[data-level="1"] .diff-dot:nth-child(-n+1),
+.diff-dots[data-level="2"] .diff-dot:nth-child(-n+2),
+.diff-dots[data-level="3"] .diff-dot:nth-child(-n+3),
+.diff-dots[data-level="4"] .diff-dot:nth-child(-n+4) {
+    background: var(--red-primary);
+    box-shadow: 0 0 6px rgba(255, 70, 85, 0.6);
+}
+
+.lineup-rating {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-2);
+}
+
+.rating-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.rating-stars {
+    color: var(--warning);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 6px rgba(255, 181, 71, 0.35);
+}
+
+
+/* --- Footer de tarjeta: estadísticas + acciones --- */
+.lineup-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+    padding-top: var(--sp-4);
+    margin-top: auto;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.lineup-stats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+}
+
+.lineup-stats li {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.lineup-stats li span {
+    color: var(--red-primary);
+    font-size: 0.85rem;
+}
+
+.lineup-actions {
+    display: inline-flex;
+    gap: var(--sp-2);
+    flex-wrap: wrap;
+}
+
+.lineup-actions .btn-small,
+.lineup-actions .btn-ghost,
+.lineup-actions .btn-primary {
+    min-height: 36px;
+}
+
+
+/* ------------------------------------------------------------
+   5. CTA banner — ajuste menor de alineación
+   ------------------------------------------------------------ */
+.cta-banner-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+    align-items: flex-start;
+}
+
+
+/* ------------------------------------------------------------
+   6. Responsive — mobile-first breakpoints
+   ------------------------------------------------------------ */
+
+/* 520px — móvil grande: meta en línea cómoda */
+@media (min-width: 520px) {
+    .lineup-filters {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lineup-card-body {
+        padding: var(--sp-6);
+    }
+}
+
+/* 768px — tablet: filtros a 3 columnas, rejilla 2 col */
+@media (min-width: 768px) {
+    .lineup-filters {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .filter-actions {
+        justify-content: flex-end;
+    }
+
+    .lineups-grid {
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: var(--sp-6);
+    }
+
+    .cta-banner-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+/* 960px — desktop: filtros en rejilla densa */
+@media (min-width: 960px) {
+    .lineup-search {
+        padding: var(--sp-16) 0;
+    }
+
+    .lineup-filters {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .filter-actions {
+        grid-column: 1 / -1;
+    }
+
+    .lineups-results {
+        padding: var(--sp-12) 0 var(--sp-20);
+    }
+}
+
+
+/* ------------------------------------------------------------
+   7. Preferencias del usuario: reducir movimiento
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    .lineup-card,
+    .lineup-thumb-img,
+    .lineup-play-icon,
+    .map-chip,
+    .link-arrow,
+    .diff-dot {
+        transition: none;
+    }
+
+    .lineup-card:hover,
+    .map-chip:hover {
+        transform: none;
+    }
+
+    .lineup-card:hover .lineup-thumb-img {
+        transform: none;
+    }
+
+    .lineup-card:hover .lineup-play-icon {
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+/* =============================================================
+   Selector de agente — estilo inspirado en perfil-agent-card
+   pero en versión compacta para la barra de filtros de lineups.
+   ============================================================= */
+
+.lineup-agents-grid {
+    list-style: none;
+    padding: 0;
+    margin: var(--sp-6) 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+    gap: var(--sp-3);
+}
+
+.lineup-agent-chip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: var(--sp-3) var(--sp-2) var(--sp-2);
+    background: var(--bg-dark);
+    border: 1px solid var(--border-default);
+    border-left: 3px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out),
+                background var(--dur-fast) var(--ease-out);
+}
+
+.lineup-agent-chip::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red-primary);
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.lineup-agent-chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-red);
+    box-shadow: var(--shadow-red);
+}
+.lineup-agent-chip:hover::before { opacity: 0.7; }
+
+.lineup-agent-chip.is-active {
+    border-color: var(--red-primary);
+    background: linear-gradient(180deg, rgba(255,70,85,0.12), var(--bg-dark));
+    box-shadow: var(--shadow-red-strong);
+}
+.lineup-agent-chip.is-active::before { opacity: 1; }
+
+.lineup-agent-chip-img {
+    display: block;
+    width: 64px;
+    height: 64px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    background:
+        radial-gradient(circle at 50% 35%, rgba(255, 70, 85, 0.18), transparent 60%),
+        var(--bg-void);
+    transition: transform var(--dur-med) var(--ease-out);
+}
+.lineup-agent-chip:hover .lineup-agent-chip-img { transform: scale(1.06); }
+
+.lineup-agent-chip-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+    line-height: 1.1;
+    margin-top: 2px;
+}
+
+.lineup-agent-chip-rol {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Colores por rol — borde izquierdo y etiqueta */
+.lineup-agent-chip.role-duelist    { border-left-color: var(--role-duelist); }
+.lineup-agent-chip.role-initiator  { border-left-color: var(--role-initiator); }
+.lineup-agent-chip.role-controller { border-left-color: var(--role-controller); }
+.lineup-agent-chip.role-sentinel   { border-left-color: var(--role-sentinel); }
+
+.lineup-agent-chip.role-duelist    .lineup-agent-chip-rol { color: var(--role-duelist); }
+.lineup-agent-chip.role-initiator  .lineup-agent-chip-rol { color: var(--role-initiator); }
+.lineup-agent-chip.role-controller .lineup-agent-chip-rol { color: var(--role-controller); }
+.lineup-agent-chip.role-sentinel   .lineup-agent-chip-rol { color: var(--role-sentinel); }
+
+/* Focus accesible */
+.lineup-agent-chip:focus-visible {
+    outline: 2px solid var(--cyan-accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+    .lineup-agents-grid {
+        grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+        gap: var(--sp-2);
+    }
+    .lineup-agent-chip-img { width: 54px; height: 54px; }
+    .lineup-agent-chip-name { font-size: 0.72rem; }
+    .lineup-agent-chip-rol  { font-size: 0.55rem; }
+}
+
+
+/* =============================================================
+   Selector de mapa — con imagen 16:9 estilo map-btn del team_view
+   ============================================================= */
+
+.lineup-maps-grid {
+    list-style: none;
+    padding: 0;
+    margin: var(--sp-6) 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--sp-3);
+}
+
+.lineup-map-chip {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--bg-dark);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.lineup-map-chip-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) brightness(0.78);
+    transition: filter var(--dur-med) var(--ease-out),
+                transform var(--dur-med) var(--ease-out);
+}
+
+.lineup-map-chip-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.85) 100%);
+    pointer-events: none;
+}
+
+.lineup-map-chip-name {
+    position: absolute;
+    left: var(--sp-3);
+    bottom: var(--sp-2);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+    z-index: 1;
+}
+
+.lineup-map-chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-red);
+    box-shadow: var(--shadow-red);
+}
+.lineup-map-chip:hover .lineup-map-chip-img {
+    filter: saturate(1.1) brightness(0.95);
+    transform: scale(1.04);
+}
+
+.lineup-map-chip.is-active {
+    border: 2px solid var(--red-primary);
+    box-shadow: var(--shadow-red-strong);
+}
+
+.lineup-map-chip:focus-visible {
+    outline: 2px solid var(--cyan-accent);
+    outline-offset: 2px;
+}
+
+
+/* =============================================================
+   Agentes agrupados en 4 filas por rol (Duelist / Initiator /
+   Controller / Sentinel). Cada fila con su etiqueta coloreada.
+   ============================================================= */
+
+.lineup-agents-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    margin-top: var(--sp-6);
+}
+
+/* CTA "Ver lineups" al final del selector de agente, baja a #resultados */
+.lineup-cta-row {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--sp-8);
+}
+.lineup-cta-row .btn-primary {
+    min-width: 260px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.lineup-go-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 24px;
+    padding: 0 8px;
+    background: rgba(0, 0, 0, 0.28);
+    color: var(--text-primary);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.lineup-agents-row {
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--border-default);
+    border-radius: var(--radius-sm);
+}
+
+.lineup-agents-row.role-duelist    { border-left-color: var(--role-duelist); }
+.lineup-agents-row.role-initiator  { border-left-color: var(--role-initiator); }
+.lineup-agents-row.role-controller { border-left-color: var(--role-controller); }
+.lineup-agents-row.role-sentinel   { border-left-color: var(--role-sentinel); }
+
+.lineup-agents-row-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-2);
+    padding-bottom: var(--sp-2);
+    margin-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.lineup-agents-row-rol {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.lineup-agents-row.role-duelist    .lineup-agents-row-rol { color: var(--role-duelist); }
+.lineup-agents-row.role-initiator  .lineup-agents-row-rol { color: var(--role-initiator); }
+.lineup-agents-row.role-controller .lineup-agents-row-rol { color: var(--role-controller); }
+.lineup-agents-row.role-sentinel   .lineup-agents-row-rol { color: var(--role-sentinel); }
+
+.lineup-agents-row-count {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+}
+
+.lineup-agents-row-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: var(--sp-2);
+}
+
+.lineup-agents-row-list .lineup-agent-chip {
+    padding: var(--sp-2);
+    gap: 4px;
+}
+
+.lineup-agents-row-list .lineup-agent-chip-img {
+    width: 54px;
+    height: 54px;
+}
+
+.lineup-agents-row-list .lineup-agent-chip-name {
+    font-size: 0.75rem;
+}
+
+@media (max-width: 520px) {
+    .lineup-maps-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    .lineup-agents-row-list {
+        grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    }
+    .lineup-agents-row-list .lineup-agent-chip-img {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+
+
+/* =============================================================
+   Enviar lineup — refinamiento visual del form
+   Identifica el form por tener dentro #yt-preview (único).
+   - Preview de YouTube más pequeño
+   - Form tarjeta con acento superior y sombras
+   - Focus coherente + actions con separador
+   ============================================================= */
+
+.search-form:has(#yt-preview) {
+    max-width: 820px;
+    margin-inline: auto;
+    padding: var(--sp-6);
+    background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Acento superior en degradado rojo -> cian */
+.search-form:has(#yt-preview)::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--red-primary) 30%, var(--cyan-accent) 70%, transparent);
+    opacity: 0.85;
+}
+
+/* Preview compacto y con sombra */
+.search-form:has(#yt-preview) .yt-preview {
+    max-width: 420px;
+    margin: var(--sp-3) 0 0;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+}
+
+.search-form:has(#yt-preview) .yt-preview-empty {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding: 0 var(--sp-3);
+}
+
+/* Labels más legibles */
+.search-form:has(#yt-preview) .filter-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+
+/* Focus elegante en inputs y select */
+.search-form:has(#yt-preview) .form-input:focus,
+.search-form:has(#yt-preview) .filter-select:focus {
+    outline: none;
+    border-color: var(--red-primary);
+    box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.18);
+}
+
+/* Acciones inferiores con separador */
+.search-form:has(#yt-preview) .filter-actions {
+    margin-top: var(--sp-4);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sp-3);
+}
+
+/* Transición suave en hover del form */
+.search-form:has(#yt-preview):hover {
+    border-color: var(--border-default);
+}
+
+@media (max-width: 520px) {
+    .search-form:has(#yt-preview) { padding: var(--sp-4); }
+    .search-form:has(#yt-preview) .yt-preview { max-width: 100%; }
+}
