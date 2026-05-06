@@ -49,10 +49,11 @@ out/
 .vite/
 
 # ─── Subproyectos con su propio repositorio Git ───────────────
-# dj-create-3d ya está versionado en su propio remote.
-# Para incluirlo aquí en el futuro, conviértelo en submódulo:
-#   git submodule add <url> proyectos/dj-create-3d/dj-create-3d
+# Cada proyecto vive en su propio remote. Para incluirlos aquí en el
+# futuro, conviértelos en submódulos:
+#   git submodule add <url> proyectos/<slug>/<slug>
 proyectos/dj-create-3d/
+proyectos/valosense/
 
 # ─── Activos pesados generados ────────────────────────────────
 # Frames de vídeo, vídeos crudos y fuentes binarias grandes

@@ -29,19 +29,19 @@
 | Proyecto | Estado | Próxima tarea |
 |----------|--------|---------------|
 | **dj-create-3d** | 🟡 En desarrollo · sincronizado con GitHub (HEAD 9a63d64) | Hero con escena Three.js + iluminación neón azul |
-| **valosense** | ⚪ Sin iniciar | Sesión de planificación inicial — definir tipo, stack y branding |
+| **valosense** | 🟡 Clonado desde GitHub (HEAD fafcf4e) — PHP MVC vanilla + MySQL | Sesión de análisis: revisar README/docs y decidir próximas tareas |
 
 ---
 
 ## 🔴 Bloqueantes globales
-- **Valosense** sin información — falta sesión de planificación inicial
+- **Valosense** — proyecto PHP/MVC ya existente (no React+Laravel). Falta revisar README + docs para entender el alcance antes de delegar.
 
 ---
 
 ## ⏭️ Próxima sesión recomendada
 
-1. **Valosense** — sesión de planificación inicial. El orquestador debe preguntar qué es el proyecto, su público y stack antes de delegar nada.
-2. **DJ Create 3D** — empezar con el hero Three.js si Valosense aún no tiene briefing.
+1. **Valosense** — leer `README.md` y `docs/` para mapear estado real (stack PHP MVC, OAuth Google, MySQL) y decidir qué tocar.
+2. **DJ Create 3D** — empezar con el hero Three.js si Valosense queda en pausa.
 
 ---
 
