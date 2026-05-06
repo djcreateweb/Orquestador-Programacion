@@ -34,9 +34,8 @@ orquestador-programacion/
 │       ├── 11-github/             ← Git + commits semánticos + push
 │       └── 12-deploy/             ← Contabo VPS + Nginx + Let's Encrypt
 └── proyectos/
-    ├── _plantilla/                ← Plantilla para proyectos nuevos
     ├── dj-create-3d/              ← Web 3D agencia (Three.js + GSAP)
-    └── valosense/                 ← Pendiente de sesión inicial
+    └── valosense/                 ← TFG PHP MVC + MySQL + OAuth Google
 ```
 
 ---
@@ -68,14 +67,6 @@ orquestador-programacion/
    - Define el plan y delega a los agentes correctos
    - Al finalizar, invoca al `documentacion-agent`
    - Pregunta si quieres push a GitHub o deploy en VPS
-
----
-
-## 📋 Crear un proyecto nuevo
-
-1. Copia `proyectos/_plantilla/` → `proyectos/mi-proyecto/`
-2. Edita `CLAUDE.md`, `ESTADO.md` y `.env.example` con la info real
-3. Pide al orquestador: "trabajamos en mi-proyecto"
 
 ---
 

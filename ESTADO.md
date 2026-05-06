@@ -50,7 +50,6 @@
 - **Agentes totales:** 13 (orquestador + 12 especialistas)
 - **Repositorios GitHub referenciados:** ~93 únicos
 - **Proyectos activos:** 2
-- **Plantilla de proyecto nuevo:** /proyectos/_plantilla/
 
 ---
 
