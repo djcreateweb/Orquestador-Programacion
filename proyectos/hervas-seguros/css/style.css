@@ -426,7 +426,7 @@ input, textarea, select {
 .hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('../imagenes/imagen1.jpg');
+  background-image: url('../imagenes/Fondo1.png');
   background-size: cover;
   background-position: center;
   transform: scale(1.05);
