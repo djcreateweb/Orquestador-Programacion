@@ -2046,6 +2046,53 @@ tr:hover td { background: var(--color-grey-xlight); }
 }
 
 /* ============================================================
+   BOTÓN "VOLVER" (páginas legales)
+   ============================================================ */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 10px 14px;
+  background: #fff;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--color-grey-light);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform var(--t-fast), border-color var(--t-fast),
+              background var(--t-fast), color var(--t-fast),
+              box-shadow var(--t-fast);
+  margin-bottom: 24px;
+}
+
+.btn-back svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--t-base);
+  color: var(--color-primary);
+}
+
+.btn-back:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-red);
+}
+
+.btn-back:hover svg {
+  color: #fff;
+  transform: translateX(-3px);
+}
+
+.btn-back:focus-visible {
+  outline: 3px solid rgba(204, 0, 0, 0.35);
+  outline-offset: 2px;
+}
+
+/* ============================================================
    LEGAL PAGES (Aviso Legal, Privacidad, Cookies)
    ============================================================ */
 .legal-section {
