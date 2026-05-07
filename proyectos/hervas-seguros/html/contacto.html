@@ -67,21 +67,19 @@
     <section class="contact-section" aria-labelledby="contact-title">
       <div class="container">
 
-        <div class="contact-centered">
+        <div class="asesor-wrap">
 
-          <!-- ============ INFO DE CONTACTO (sin formulario) ============ -->
-          <aside class="reveal" style="text-align:center;max-width:720px;margin:0 auto;">
+          <!-- ============ HEAD ============ -->
+          <header class="asesor-head reveal">
             <span class="section-label">Estamos aquí para ti</span>
-            <h2 class="contact-info__title" id="contact-title">
+            <h2 class="asesor-title" id="contact-title">
               Habla directamente<br>con un asesor
             </h2>
-            <p class="contact-info__sub">
+            <p class="asesor-lead">
               Sin esperas, sin bots. Cuando nos llamas, te atiende una persona real
               que conoce tu situación y trabaja para encontrarte el mejor seguro.
             </p>
-
-            <!-- CTAs principales -->
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:28px 0 36px;">
+            <div class="asesor-ctas">
               <a href="tel:+34623517944" class="btn btn--primary btn--lg">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                 Llamar ahora
@@ -93,74 +91,71 @@
                 WhatsApp
               </a>
             </div>
+          </header>
 
-            <!-- Teléfono -->
-            <div class="contact-item">
-              <div class="contact-item__icon" aria-hidden="true">
+          <!-- ============ TARJETAS DE CONTACTO ============ -->
+          <div class="asesor-grid reveal">
+
+            <article class="asesor-card">
+              <div class="asesor-card__icon" aria-hidden="true">
                 <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               </div>
-              <div>
-                <div class="contact-item__label">Teléfono</div>
-                <div class="contact-item__value">
-                  <a href="tel:+34623517944">623 517 944</a>
-                </div>
-                <div style="font-size:0.8125rem;color:var(--color-text-muted);margin-top:2px;">
-                  Lun – Vie: 9:00 – 19:00 · Sáb: 10:00 – 14:00
-                </div>
+              <div class="asesor-card__label">Teléfono</div>
+              <div class="asesor-card__value">
+                <a href="tel:+34623517944">623 517 944</a>
               </div>
-            </div>
+              <div class="asesor-card__hint">
+                Lun – Vie: 9:00 – 19:00<br>Sáb: 10:00 – 14:00
+              </div>
+            </article>
 
-            <!-- Email -->
-            <div class="contact-item">
-              <div class="contact-item__icon" aria-hidden="true">
+            <article class="asesor-card">
+              <div class="asesor-card__icon" aria-hidden="true">
                 <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               </div>
-              <div>
-                <div class="contact-item__label">Email</div>
-                <div class="contact-item__value">
-                  <a href="mailto:info@hervasseguros.es">info@hervasseguros.es</a>
-                </div>
-                <div style="font-size:0.8125rem;color:var(--color-text-muted);margin-top:2px;">
-                  Respondemos en menos de 24 horas
-                </div>
+              <div class="asesor-card__label">Email</div>
+              <div class="asesor-card__value">
+                <a href="mailto:info@hervasseguros.es">info@hervasseguros.es</a>
               </div>
-            </div>
+              <div class="asesor-card__hint">
+                Respondemos en menos<br>de 24 horas
+              </div>
+            </article>
 
-            <!-- Dirección -->
-            <div class="contact-item">
-              <div class="contact-item__icon" aria-hidden="true">
+            <article class="asesor-card">
+              <div class="asesor-card__icon" aria-hidden="true">
                 <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               </div>
-              <div>
-                <div class="contact-item__label">Dirección</div>
-                <div class="contact-item__value">Calle Mayor 12, Local 1</div>
-                <div style="font-size:0.8125rem;color:var(--color-text-muted);margin-top:2px;">
-                  Ciudad, España · CP 00000
-                </div>
+              <div class="asesor-card__label">Dirección</div>
+              <div class="asesor-card__value">Calle Mayor 12, Local 1</div>
+              <div class="asesor-card__hint">
+                Ciudad, España<br>CP 00000
               </div>
-            </div>
+            </article>
 
-            <!-- Confianza -->
-            <div style="margin-top:32px;padding:20px;background:var(--color-grey-xlight);border-radius:var(--radius-md);">
-              <div style="font-family:var(--font-heading);font-weight:700;font-size:0.9rem;color:var(--color-text);margin-bottom:12px;">
-                ¿Por qué elegirnos?
-              </div>
-              <ul style="display:inline-flex;flex-direction:column;gap:8px;text-align:left;">
-                <li style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:var(--color-text-muted);">
-                  <span style="color:var(--color-primary);font-weight:700;">✓</span> Trato directo con un asesor real
-                </li>
-                <li style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:var(--color-text-muted);">
-                  <span style="color:var(--color-primary);font-weight:700;">✓</span> Comparamos +12 compañías por ti
-                </li>
-                <li style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:var(--color-text-muted);">
-                  <span style="color:var(--color-primary);font-weight:700;">✓</span> Respuesta en menos de 24 horas
-                </li>
-                <li style="display:flex;align-items:center;gap:8px;font-size:0.875rem;color:var(--color-text-muted);">
-                  <span style="color:var(--color-primary);font-weight:700;">✓</span> Sin letra pequeña ni sorpresas
-                </li>
-              </ul>
-            </div>
+          </div>
 
+          <!-- ============ CONFIANZA ============ -->
+          <aside class="asesor-trust reveal">
+            <div class="asesor-trust__title">¿Por qué elegirnos?</div>
+            <ul class="asesor-trust__list">
+              <li>
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+                Trato directo con un asesor real
+              </li>
+              <li>
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+                Comparamos +12 compañías por ti
+              </li>
+              <li>
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+                Respuesta en menos de 24 horas
+              </li>
+              <li>
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
+                Sin letra pequeña ni sorpresas
+              </li>
+            </ul>
           </aside>
 
         </div>
