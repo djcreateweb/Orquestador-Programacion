@@ -45,6 +45,7 @@
       menu.classList.remove('is-open');
       toggle.classList.remove('is-active');
       toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Abrir menú');
       document.body.classList.remove('nav-is-open');
       if (overlay) overlay.classList.remove('is-visible');
     }
@@ -53,6 +54,7 @@
       const isOpen = menu.classList.toggle('is-open');
       toggle.classList.toggle('is-active');
       toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
       document.body.classList.toggle('nav-is-open', isOpen);
       if (overlay) overlay.classList.toggle('is-visible', isOpen);
     });
