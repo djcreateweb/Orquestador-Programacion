@@ -3,34 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuestros Seguros — Hervás Seguros</title>
-  <meta name="description" content="Seguros de vehículo a terceros, todo riesgo, para autónomos y flotas de empresa. Compara coberturas y elige la mejor opción para ti.">
-  <meta property="og:title"       content="Nuestros Seguros — Hervás Seguros">
-  <meta property="og:description" content="Descubre todas las modalidades de seguro de vehículo que ofrece Hervás Seguros.">
-  <meta property="og:type"        content="website">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23CC0000'/><text y='24' x='5' font-size='22' font-family='Arial' font-weight='bold' fill='white'>H</text></svg>">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Seguros de Coche, Salud, Hogar y Vida | Herv&aacute;s</title>
+  <meta name="description" content="Plataforma multi-seguro de Herv&aacute;s Seguros: coche, salud, hogar y vida con asesoramiento experto, comparador de precios y coberturas premium.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://hervasseguros.es/html/seguros.html">
+  <meta property="og:title" content="Seguros de Coche, Salud, Hogar y Vida | Herv&aacute;s Seguros">
+  <meta property="og:description" content="Compara seguros de coche, salud, hogar y vida con una corredur&iacute;a moderna, cercana y profesional.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hervasseguros.es/html/seguros.html">
+  <meta property="og:image" content="https://hervasseguros.es/imagenes/Nuestrossegurosheader.png">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Seguros de Coche, Salud, Hogar y Vida | Herv&aacute;s">
+  <meta name="twitter:description" content="Compara seguros de coche, salud, hogar y vida con asesoramiento experto y trato cercano.">
+  <meta name="twitter:image" content="https://hervasseguros.es/imagenes/Nuestrossegurosheader.png">
+  <link rel="icon" type="image/svg+xml" href="../imagenes/favicon.svg">
+  <link rel="preload" as="image" href="../imagenes/Nuestrossegurosheader.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["InsuranceAgency", "LocalBusiness"],
+    "name": "Hervas Seguros",
+    "url": "https://hervasseguros.es/html/seguros.html",
+    "telephone": "+34623517944",
+    "email": "info@hervasseguros.es",
+    "areaServed": "ES",
+    "image": "https://hervasseguros.es/imagenes/Nuestrossegurosheader.png",
+    "priceRange": "$$",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Seguros personales y patrimoniales",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro de coche", "serviceType": "Seguro de coche" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro de salud", "serviceType": "Seguro de salud" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro de hogar", "serviceType": "Seguro de hogar" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Seguro de vida", "serviceType": "Seguro de vida" } }
+      ]
+    }
+  }
+  </script>
 </head>
 <body>
 
-  <div id="navOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8;"></div>
+  <div id="navOverlay" class="nav-overlay"></div>
 
-  <!-- =========================================================
-       NAVEGACIÓN
-  ========================================================= -->
-  <nav class="navbar navbar--scrolled" id="navbar" role="navigation" aria-label="Menú principal">
+  <nav class="navbar navbar--transparent" id="navbar" role="navigation" aria-label="Men&uacute; principal">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo" aria-label="Hervás Seguros - Inicio">
-        <img src="../imagenes/logo.png" alt="Hervás Seguros"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-        <span class="nav-logo-text" style="display:none">HERVÁS <span>SEGUROS</span></span>
+      <a href="index.html" class="nav-logo" aria-label="Herv&aacute;s Seguros - Inicio">
+        <img src="../imagenes/logo.png" width="375" height="375" decoding="async" alt="Herv&aacute;s Seguros">
+        <span class="nav-logo-text is-hidden">HERV&Aacute;S <span>SEGUROS</span></span>
       </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir men&uacute;" aria-expanded="false" aria-controls="navMenu">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-menu" id="navMenu" role="list">
-        <li><a href="index.html"    class="nav-link">Inicio</a></li>
-        <li><a href="seguros.html"  class="nav-link active">Nuestros Seguros</a></li>
+        <li><a href="index.html" class="nav-link">Inicio</a></li>
+        <li><a href="seguros.html" class="nav-link active">Nuestros Seguros</a></li>
         <li><a href="nosotros.html" class="nav-link">Sobre Nosotros</a></li>
         <li><a href="contacto.html" class="nav-link nav-link--cta">Pide Presupuesto</a></li>
       </ul>
@@ -38,265 +72,247 @@
   </nav>
 
   <main>
-
-    <!-- =========================================================
-         PAGE HEADER
-    ========================================================= -->
-    <header class="page-header" aria-labelledby="page-title">
-      <div class="container">
-        <nav class="breadcrumb" aria-label="Ruta de navegación">
+    <header class="multi-hero" aria-labelledby="page-title">
+      <div class="multi-hero__bg" aria-hidden="true"></div>
+      <div class="multi-hero__overlay" aria-hidden="true"></div>
+      <div class="container multi-hero__inner">
+        <nav class="breadcrumb multi-hero__breadcrumb" aria-label="Ruta de navegaci&oacute;n">
           <a href="index.html">Inicio</a>
           <span class="sep" aria-hidden="true">/</span>
           <span class="current" aria-current="page">Nuestros Seguros</span>
         </nav>
-        <div class="page-header__content">
-          <h1 class="page-header__title" id="page-title">
-            El seguro que tu vehículo<br>realmente necesita
-          </h1>
-          <p class="page-header__sub">
-            Desde la cobertura más básica hasta la protección más completa.
-            Elige tu modalidad y personaliza las coberturas según tu perfil.
+        <div class="multi-hero__content reveal">
+          <span class="multi-eyebrow">Corredur&iacute;a integral premium</span>
+          <h1 class="multi-hero__title" id="page-title">Seguros para proteger cada decisi&oacute;n importante.</h1>
+          <p class="multi-hero__lead">
+            Coche, salud, hogar y vida en una experiencia clara, tecnol&oacute;gica y cercana. Analizamos coberturas, precios y condiciones para construir una protecci&oacute;n a medida.
           </p>
+          <div class="multi-hero__actions">
+            <a href="contacto.html" class="btn btn--primary btn--lg">Comparar seguros</a>
+            <a href="#categorias" class="btn btn--translucent btn--lg">Ver categor&iacute;as</a>
+          </div>
         </div>
+        <aside class="multi-hero__panel reveal reveal--right" aria-label="Indicadores de confianza">
+          <div class="multi-panel__top">
+            <span>Herv&aacute;s Risk Advisor</span>
+            <strong>Evaluaci&oacute;n 360&deg;</strong>
+          </div>
+          <div class="multi-risk">
+            <span class="multi-risk__ring">98%</span>
+            <p>Compatibilidad media entre necesidades reales, coberturas y presupuesto.</p>
+          </div>
+          <div class="multi-panel__grid">
+            <span>Asistencia 24/7</span>
+            <span>Comparador</span>
+            <span>Familia</span>
+            <span>Empresa</span>
+          </div>
+        </aside>
       </div>
     </header>
 
-    <!-- =========================================================
-         TABS — TIPOS DE SEGURO
-    ========================================================= -->
-    <section class="insurance-tabs section" aria-labelledby="tabs-title">
-      <div class="container">
+    <section class="multi-stats" aria-label="Datos destacados">
+      <div class="container multi-stats__grid">
+        <div class="multi-stat reveal">
+          <strong data-count="26">0</strong>
+          <span>a&ntilde;os asesorando</span>
+        </div>
+        <div class="multi-stat reveal reveal--delay-1">
+          <strong data-count="4">0</strong>
+          <span>familias de seguros</span>
+        </div>
+        <div class="multi-stat reveal reveal--delay-2">
+          <strong data-count="24">0</strong>
+          <span>horas de asistencia</span>
+        </div>
+        <div class="multi-stat reveal reveal--delay-3">
+          <strong data-count="100">0</strong>
+          <span>asesoramiento humano</span>
+        </div>
+      </div>
+    </section>
 
-        <header style="text-align:center;margin-bottom:40px;" class="reveal">
-          <span class="section-label">Modalidades disponibles</span>
-          <h2 class="section-title" id="tabs-title">Encuentra tu seguro ideal</h2>
+    <section class="multi-categories section" id="categorias" aria-labelledby="categories-title">
+      <div class="container">
+        <header class="section-head-centered reveal">
+          <span class="section-label">Plataforma multi-seguro</span>
+          <h2 class="section-title" id="categories-title">Cuatro &aacute;reas de protecci&oacute;n, una estrategia com&uacute;n</h2>
           <p class="section-subtitle">
-            Cuatro modalidades diseñadas para adaptarse a cualquier tipo de conductor y vehículo.
+            Organizamos tus p&oacute;lizas para que no tengas coberturas duplicadas, lagunas importantes ni renovaciones sin revisar.
           </p>
         </header>
 
-        <!-- Tabs nav -->
-        <div class="tabs-nav reveal" role="tablist" aria-label="Tipos de seguro">
-          <button class="tab-btn active" data-tab="tab-terceros" role="tab" aria-selected="true"  aria-controls="tab-terceros">A Terceros</button>
-          <button class="tab-btn"        data-tab="tab-todoriesgo" role="tab" aria-selected="false" aria-controls="tab-todoriesgo">Todo Riesgo</button>
-          <button class="tab-btn"        data-tab="tab-autonomos" role="tab" aria-selected="false" aria-controls="tab-autonomos">Autónomos</button>
-          <button class="tab-btn"        data-tab="tab-flotas"    role="tab" aria-selected="false" aria-controls="tab-flotas">Flotas de Empresa</button>
-        </div>
-
-        <!-- TAB 1: Terceros -->
-        <div class="tab-panel active" id="tab-terceros" role="tabpanel">
-          <div class="tab-panel__info reveal reveal--left">
-            <span class="tab-panel__tag">Más popular</span>
-            <h3 class="tab-panel__title">Seguro a Terceros</h3>
-            <p class="tab-panel__desc">
-              La cobertura esencial para cumplir con la ley y proteger a los demás en caso
-              de accidente. Ideal para vehículos de menor valor o conductores con experiencia
-              contrastada que buscan el mejor precio.
-            </p>
-            <ul class="coverage-list" aria-label="Coberturas incluidas">
-              <li>Responsabilidad civil obligatoria ilimitada</li>
-              <li>Asistencia en carretera 24 horas</li>
-              <li>Defensa jurídica y reclamación de daños</li>
-              <li>Cobertura de ocupantes del vehículo</li>
-              <li>Responsabilidad civil voluntaria ampliada</li>
+        <div class="multi-category-grid">
+          <article class="multi-card multi-card--car reveal">
+            <div class="multi-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13l2-5a3 3 0 012.8-2h8.4A3 3 0 0119 8l2 5"/><path d="M5 13h14v5H5z"/><path d="M7 18v1.5M17 18v1.5"/><circle cx="8" cy="16" r="1"/><circle cx="16" cy="16" r="1"/></svg>
+            </div>
+            <span class="multi-card__label">Movilidad</span>
+            <h3>Seguro de coche</h3>
+            <p>Terceros, robo, incendio, lunas, da&ntilde;os propios y soluciones para veh&iacute;culos premium, el&eacute;ctricos o de uso profesional.</p>
+            <ul class="multi-list">
+              <li>Da&ntilde;os a terceros y defensa jur&iacute;dica.</li>
+              <li>Robo, incendio y da&ntilde;os propios.</li>
+              <li>Comparador de precios y franquicias.</li>
             </ul>
-            <a href="contacto.html" class="btn btn--primary">Pedir presupuesto a terceros</a>
-          </div>
-          <div class="tab-panel__image reveal reveal--right">
-            <img src="../imagenes/imagen1.jpg" alt="Seguro a terceros para vehículos" loading="lazy">
-          </div>
-        </div>
+            <a href="#coche" class="multi-card__link">Explorar coche</a>
+          </article>
 
-        <!-- TAB 2: Todo Riesgo -->
-        <div class="tab-panel" id="tab-todoriesgo" role="tabpanel">
-          <div class="tab-panel__info reveal reveal--left">
-            <span class="tab-panel__tag">Máxima protección</span>
-            <h3 class="tab-panel__title">Seguro Todo Riesgo</h3>
-            <p class="tab-panel__desc">
-              La tranquilidad total para tu vehículo, pase lo que pase. Protección completa
-              tanto para los daños que puedas causar como para los que pueda sufrir tu propio
-              coche, con o sin culpa.
-            </p>
-            <ul class="coverage-list" aria-label="Coberturas incluidas">
-              <li>Todo lo incluido en Terceros</li>
-              <li>Daños propios con y sin culpa</li>
-              <li>Robo e intento de robo del vehículo</li>
-              <li>Incendio, explosión y rotura de lunas</li>
-              <li>Fenómenos naturales (inundaciones, granizo, viento)</li>
-              <li>Vehículo de sustitución hasta 30 días</li>
+          <article class="multi-card multi-card--health reveal reveal--delay-1">
+            <div class="multi-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.3-9-10a5.2 5.2 0 019-4.9A5.2 5.2 0 0121 11c-2 5.7-9 10-9 10z"/><path d="M12 8v6M9 11h6"/></svg>
+            </div>
+            <span class="multi-card__label">Bienestar</span>
+            <h3>Seguro de salud</h3>
+            <p>Medicina privada, especialistas, pruebas diagn&oacute;sticas, hospitalizaci&oacute;n y asistencia &aacute;gil para familias y profesionales.</p>
+            <ul class="multi-list">
+              <li>Especialistas y centros privados.</li>
+              <li>Hospitalizaci&oacute;n y urgencias.</li>
+              <li>Atenci&oacute;n m&eacute;dica 24/7.</li>
             </ul>
-            <a href="contacto.html" class="btn btn--primary">Pedir presupuesto todo riesgo</a>
-          </div>
-          <div class="tab-panel__image reveal reveal--right">
-            <img src="../imagenes/imagen2.jpg" alt="Seguro todo riesgo para vehículos" loading="lazy">
-          </div>
-        </div>
+            <a href="#salud" class="multi-card__link">Explorar salud</a>
+          </article>
 
-        <!-- TAB 3: Autónomos -->
-        <div class="tab-panel" id="tab-autonomos" role="tabpanel">
-          <div class="tab-panel__info reveal reveal--left">
-            <span class="tab-panel__tag">Para tu negocio</span>
-            <h3 class="tab-panel__title">Seguro para Autónomos</h3>
-            <p class="tab-panel__desc">
-              Si usas tu vehículo para trabajar, necesitas una cobertura especial.
-              Diseñada para autónomos y trabajadores independientes que pasan muchas
-              horas al volante y no pueden permitirse parar.
-            </p>
-            <ul class="coverage-list" aria-label="Coberturas incluidas">
-              <li>Uso profesional y particular incluido</li>
-              <li>Cobertura de mercancías transportadas</li>
-              <li>Vehículo de sustitución prioritario (24h)</li>
-              <li>Asistencia jurídica laboral y de tráfico</li>
-              <li>Accidente de trabajo al conducir cubierto</li>
-              <li>Primas deducibles como gasto profesional</li>
+          <article class="multi-card multi-card--home reveal reveal--delay-2">
+            <div class="multi-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+            </div>
+            <span class="multi-card__label">Patrimonio</span>
+            <h3>Seguro de hogar</h3>
+            <p>Protecci&oacute;n de vivienda, contenido, responsabilidad civil y servicios urgentes para cuidar el lugar donde ocurre lo importante.</p>
+            <ul class="multi-list">
+              <li>Incendios, robos y agua.</li>
+              <li>Protecci&oacute;n familiar y del hogar.</li>
+              <li>Asistencia urgente en vivienda.</li>
             </ul>
-            <a href="contacto.html" class="btn btn--primary">Pedir presupuesto autónomos</a>
-          </div>
-          <div class="tab-panel__image reveal reveal--right">
-            <img src="../imagenes/imagen3.jpg" alt="Seguro de vehículo para autónomos" loading="lazy">
-          </div>
-        </div>
+            <a href="#hogar" class="multi-card__link">Explorar hogar</a>
+          </article>
 
-        <!-- TAB 4: Flotas -->
-        <div class="tab-panel" id="tab-flotas" role="tabpanel">
-          <div class="tab-panel__info reveal reveal--left">
-            <span class="tab-panel__tag">Para empresas</span>
-            <h3 class="tab-panel__title">Flotas de Empresa</h3>
-            <p class="tab-panel__desc">
-              Gestiona todos los vehículos de tu empresa bajo una única póliza con
-              condiciones exclusivas. Precios que mejoran cuanto más grande es tu flota,
-              con un gestor dedicado para toda la empresa.
-            </p>
-            <ul class="coverage-list" aria-label="Coberturas incluidas">
-              <li>Una sola póliza para todos tus vehículos</li>
-              <li>Conductor designado o cualquier empleado</li>
-              <li>Descuento por volumen desde 3 vehículos</li>
-              <li>Gestor de cuenta dedicado para tu empresa</li>
-              <li>Reporte mensual de siniestralidad</li>
-              <li>Renovación automática con revisión anual de precios</li>
+          <article class="multi-card multi-card--life reveal reveal--delay-3">
+            <div class="multi-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 5-3.4 8-8 9-4.6-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-5"/></svg>
+            </div>
+            <span class="multi-card__label">Futuro</span>
+            <h3>Seguro de vida</h3>
+            <p>Protecci&oacute;n financiera para la familia, hipoteca, estudios, continuidad de ingresos y tranquilidad ante imprevistos graves.</p>
+            <ul class="multi-list">
+              <li>Capital para la familia.</li>
+              <li>Protecci&oacute;n de hipoteca y futuro.</li>
+              <li>Dise&ntilde;o emocional y responsable.</li>
             </ul>
-            <a href="contacto.html" class="btn btn--primary">Pedir presupuesto para flota</a>
-          </div>
-          <div class="tab-panel__image reveal reveal--right">
-            <img src="../imagenes/imagen4.jpg" alt="Seguro de flotas para empresas" loading="lazy">
-          </div>
+            <a href="#vida" class="multi-card__link">Explorar vida</a>
+          </article>
         </div>
-
       </div>
     </section>
 
-    <!-- =========================================================
-         TABLA COMPARATIVA DE COBERTURAS
-    ========================================================= -->
-    <section class="coverage-table" aria-labelledby="table-title">
-      <div class="container">
-
-        <div class="coverage-table__header reveal">
-          <span class="section-label">Comparativa</span>
-          <h2 class="section-title" id="table-title">¿Qué incluye cada modalidad?</h2>
-          <p class="section-subtitle">
-            Compara las coberturas de un vistazo y elige con toda la información.
-          </p>
+    <section class="multi-product multi-product--car" id="coche" aria-labelledby="car-title">
+      <div class="container multi-product__grid">
+        <div class="multi-product__copy reveal reveal--left">
+          <span class="section-label">Seguro de coche</span>
+          <h2 class="section-title" id="car-title">Conduce con una p&oacute;liza ajustada a tu coche, no a una plantilla.</h2>
+          <p>Comparamos terceros, terceros ampliado, todo riesgo con franquicia y todo riesgo completo para encontrar equilibrio entre precio, asistencia y protecci&oacute;n real.</p>
+          <div class="multi-benefits">
+            <span>Cobertura a terceros</span>
+            <span>Robo e incendio</span>
+            <span>Da&ntilde;os propios</span>
+            <span>Comparador de precios</span>
+          </div>
         </div>
-
-        <div class="table-wrapper reveal">
-          <table role="table" aria-label="Tabla comparativa de coberturas de seguros">
-            <thead>
-              <tr>
-                <th scope="col">Cobertura</th>
-                <th scope="col">Terceros</th>
-                <th scope="col" class="highlight">Todo Riesgo</th>
-                <th scope="col">Autónomos</th>
-                <th scope="col">Flotas</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Responsabilidad civil obligatoria</td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Asistencia en carretera 24h</td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Defensa jurídica</td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Daños propios con culpa</td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Robo e intento de robo</td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Vehículo de sustitución</td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td>Hasta 30 días</td>
-                <td>Prioritario 24h</td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Uso profesional cubierto</td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Gestor de cuenta dedicado</td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-              <tr>
-                <td>Descuento por volumen</td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="dash" aria-label="No incluido">—</span></td>
-                <td><span class="check" aria-label="Incluido">✓</span></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="multi-plan-grid reveal reveal--right">
+          <article class="multi-plan">
+            <span>B&aacute;sico</span>
+            <h3>Terceros inteligente</h3>
+            <p>Para veh&iacute;culos de uso diario con responsabilidad civil, defensa jur&iacute;dica y asistencia.</p>
+          </article>
+          <article class="multi-plan multi-plan--featured">
+            <span>Recomendado</span>
+            <h3>Ampliado premium</h3>
+            <p>Lunas, robo, incendio y opciones de sustituci&oacute;n para una cuota equilibrada.</p>
+          </article>
+          <article class="multi-plan">
+            <span>Total</span>
+            <h3>Todo riesgo</h3>
+            <p>Da&ntilde;os propios, franquicia flexible y gesti&oacute;n preferente de siniestros.</p>
+          </article>
         </div>
-
       </div>
     </section>
 
-    <!-- =========================================================
-         CTA BANNER
-    ========================================================= -->
+    <section class="multi-product multi-product--health" id="salud" aria-labelledby="health-title">
+      <div class="container multi-split">
+        <div class="multi-visual reveal reveal--left">
+          <div class="multi-visual__glass">
+            <strong>24/7</strong>
+            <span>Atenci&oacute;n y orientaci&oacute;n m&eacute;dica</span>
+          </div>
+        </div>
+        <div class="multi-product__copy reveal reveal--right">
+          <span class="section-label">Seguro de salud</span>
+          <h2 class="section-title" id="health-title">Acceso m&eacute;dico privado con claridad, rapidez y confianza.</h2>
+          <p>Seleccionamos opciones con cuadro m&eacute;dico, reembolso, especialistas, pruebas diagn&oacute;sticas y hospitalizaci&oacute;n para que tu salud no dependa de letras peque&ntilde;as.</p>
+          <div class="multi-feature-list">
+            <article><strong>Especialistas</strong><span>Consulta con profesionales y centros privados.</span></article>
+            <article><strong>Hospitalizaci&oacute;n</strong><span>Coberturas para ingreso, cirug&iacute;a y pruebas.</span></article>
+            <article><strong>Familias</strong><span>Planes adaptados a pareja, hijos y profesionales.</span></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="multi-product multi-product--home" id="hogar" aria-labelledby="home-title">
+      <div class="container multi-product__grid">
+        <div class="multi-product__copy reveal reveal--left">
+          <span class="section-label">Seguro de hogar</span>
+          <h2 class="section-title" id="home-title">Tu vivienda protegida con una cobertura c&aacute;lida, precisa y completa.</h2>
+          <p>Analizamos continente, contenido, responsabilidad civil y servicios urgentes para proteger tu casa frente a incendios, robos, agua y aver&iacute;as relevantes.</p>
+          <div class="multi-benefits">
+            <span>Incendio</span>
+            <span>Robo</span>
+            <span>Da&ntilde;os por agua</span>
+            <span>Protecci&oacute;n familiar</span>
+          </div>
+        </div>
+        <div class="multi-home-panel reveal reveal--right">
+          <div>
+            <span>Protecci&oacute;n residencial</span>
+            <strong>Hogar, contenido y familia bajo control.</strong>
+          </div>
+          <ul class="multi-list">
+            <li>Asistencia urgente en vivienda.</li>
+            <li>Responsabilidad civil familiar.</li>
+            <li>Revisi&oacute;n de capitales asegurados.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="multi-product multi-product--life" id="vida" aria-labelledby="life-title">
+      <div class="container multi-split multi-split--reverse">
+        <div class="multi-life-metrics reveal reveal--left">
+          <div><strong>Familia</strong><span>Capital adaptado a ingresos y cargas.</span></div>
+          <div><strong>Futuro</strong><span>Hipoteca, estudios y continuidad.</span></div>
+          <div><strong>Calma</strong><span>Decisiones importantes bien cubiertas.</span></div>
+        </div>
+        <div class="multi-product__copy reveal reveal--right">
+          <span class="section-label">Seguro de vida</span>
+          <h2 class="section-title" id="life-title">Una decisi&oacute;n serena para proteger a quienes m&aacute;s importan.</h2>
+          <p>Dise&ntilde;amos una cobertura financiera comprensible, proporcional y revisable para que tu familia tenga estabilidad ante fallecimiento, invalidez o cambios vitales.</p>
+          <a href="contacto.html" class="btn btn--primary">Dise&ntilde;ar protecci&oacute;n familiar</a>
+        </div>
+      </div>
+    </section>
+
     <section class="cta-banner" aria-labelledby="cta-seguros-title">
       <div class="container">
         <div class="cta-banner__content reveal">
-          <h2 class="cta-banner__title" id="cta-seguros-title">
-            ¿Tienes dudas sobre qué cobertura elegir?
-          </h2>
+          <h2 class="cta-banner__title" id="cta-seguros-title">Convierte tus seguros en una estrategia de protecci&oacute;n.</h2>
           <p class="cta-banner__sub">
-            Te asesoramos gratis y sin compromiso. Un experto te ayuda a elegir
-            la opción que mejor se adapta a ti.
+            Cu&eacute;ntanos qu&eacute; quieres proteger y te ayudamos a comparar opciones con criterio profesional.
           </p>
           <div class="cta-banner__actions">
-            <a href="contacto.html" class="btn btn--outline btn--lg">Hablar con un asesor</a>
-            <a href="tel:+34623517944" class="btn btn--lg" style="background:rgba(255,255,255,0.15);color:#fff;border:2px solid rgba(255,255,255,0.3);">
+            <a href="contacto.html" class="btn btn--outline btn--lg">Pedir presupuesto</a>
+            <a href="https://api.whatsapp.com/send/?phone=34623517944&amp;text=Hola%2C+quiero+comparar+seguros+de+coche%2C+salud%2C+hogar+o+vida&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer" class="btn btn--lg btn--translucent">
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               623 517 944
             </a>
@@ -304,22 +320,17 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- =========================================================
-       FOOTER
-  ========================================================= -->
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__grid">
         <div>
-          <a href="index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
-            <img src="../imagenes/logo.png" alt="Hervás Seguros" style="height:48px;"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-            <span class="nav-logo-text" style="display:none">HERVÁS <span>SEGUROS</span></span>
+          <a href="index.html" class="nav-logo footer-logo-link">
+            <img src="../imagenes/logo.png" width="375" height="375" decoding="async" alt="Herv&aacute;s Seguros" class="footer-logo-img">
+            <span class="nav-logo-text is-hidden">HERV&Aacute;S <span>SEGUROS</span></span>
           </a>
-          <p class="footer__desc">Tu tranquilidad al mejor precio. Seguros de vehículo con trato personal desde 1998.</p>
+          <p class="footer__desc">Tu tranquilidad al mejor precio. Seguros de coche, salud, hogar y vida con trato personal desde 1998.</p>
           <div class="footer__social">
             <a href="https://api.whatsapp.com/send/?phone=34623517944&amp;text=Hola%2C+necesito+asesoramiento+sobre+seguros&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.71.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
             <a href="https://www.instagram.com/hervasseguros/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
@@ -327,7 +338,7 @@
           </div>
         </div>
         <div>
-          <h3 class="footer__col-title">Navegación</h3>
+          <h3 class="footer__col-title">Navegaci&oacute;n</h3>
           <nav class="footer__links">
             <a href="index.html">Inicio</a>
             <a href="seguros.html">Nuestros Seguros</a>
@@ -337,7 +348,7 @@
         </div>
         <div>
           <h3 class="footer__col-title">Contacto</h3>
-          <address style="font-style:normal;">
+          <address class="footer-address">
             <div class="footer__contact-item">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               <a href="tel:+34623517944">623 517 944</a>
@@ -350,12 +361,12 @@
         </div>
       </div>
       <div class="footer__bottom">
-        <p class="footer__copy">&copy; 2026 Hervás Seguros. Todos los derechos reservados.</p>
+        <p class="footer__copy">&copy; 2026 Herv&aacute;s Seguros. Todos los derechos reservados.</p>
         <nav class="footer__legal"><a href="../legal/aviso-legal.html">Aviso Legal</a><a href="../legal/privacidad.html">Privacidad</a><a href="../legal/cookies.html">Cookies</a></nav>
       </div>
     </div>
   </footer>
 
-  <script src="../js/script.js"></script>
+  <script src="../js/script.js" defer></script>
 </body>
 </html>
