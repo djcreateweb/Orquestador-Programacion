@@ -1,5 +1,5 @@
-﻿/* ============================================================
-   HERVÃS SEGUROS â€” STYLESHEET PRINCIPAL
+/* ============================================================
+   HERVÁS SEGUROS — STYLESHEET PRINCIPAL
    ============================================================
    Paleta:
      Primario (Rojo):        #CC0000
@@ -11,12 +11,12 @@
      Texto principal:        #111827
      Dark (footer/nav):      #0F172A
    ============================================================
-   TipografÃ­as:
-     TÃ­tulos:  Montserrat 700/800 â€” Fuerza, solidez, modernidad.
+   Tipografías:
+     Títulos:  Montserrat 700/800 — Fuerza, solidez, modernidad.
                Ideal para una aseguradora que quiere transmitir
                confianza sin parecer anticuada.
-     Cuerpo:   Inter 400/500/600 â€” MÃ¡xima legibilidad en
-               pÃ¡rrafos, formularios y textos tÃ©cnicos.
+     Cuerpo:   Inter 400/500/600 — Máxima legibilidad en
+               párrafos, formularios y textos técnicos.
    ============================================================ */
 
 /* ============================================================
@@ -89,7 +89,7 @@ input, textarea, select {
   --color-text-muted:    #6B7280;
   --color-dark:          #0F172A;
 
-  /* TipografÃ­as */
+  /* Tipografías */
   --font-heading: 'Montserrat', sans-serif;
   --font-body:    'Inter', sans-serif;
 
@@ -142,7 +142,7 @@ input, textarea, select {
 .text-red    { color: var(--color-primary); }
 
 /* ============================================================
-   TIPOGRAFÃA
+   TIPOGRAFÍA
    ============================================================ */
 .section-label {
   display: inline-block;
@@ -653,7 +653,7 @@ select:focus-visible,
 }
 
 /* ============================================================
-   POR QUÃ‰ HERVAS â€” CARDS
+   POR QUÉ HERVAS — CARDS
    ============================================================ */
 .features {
   padding: var(--section-py) 0;
@@ -747,7 +747,7 @@ select:focus-visible,
 }
 
 /* ============================================================
-   CÃ“MO FUNCIONA â€” STEPS
+   CÓMO FUNCIONA — STEPS
    ============================================================ */
 .steps {
   padding: var(--section-py) 0;
@@ -928,7 +928,7 @@ select:focus-visible,
 }
 
 /* ============================================================
-   PAGE HEADER (pÃ¡ginas interiores)
+   PAGE HEADER (páginas interiores)
    ============================================================ */
 .page-header {
   padding: 140px 0 80px;
@@ -1006,7 +1006,7 @@ select:focus-visible,
 }
 
 /* ============================================================
-   SEGUROS â€” TABS / CARDS
+   SEGUROS — TABS / CARDS
    ============================================================ */
 .insurance-tabs {
   padding: var(--section-py) 0;
@@ -1136,7 +1136,7 @@ select:focus-visible,
 }
 
 .coverage-list li::before {
-  content: 'âœ“';
+  content: '✓';
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -1920,7 +1920,7 @@ tr:hover td { background: var(--color-grey-xlight); }
 }
 
 /* ============================================================
-   RESPONSIVE â€” TABLET (â‰¤ 1024px)
+   RESPONSIVE — TABLET (≤ 1024px)
    ============================================================ */
 @media (max-width: 1024px) {
   :root {
@@ -1961,7 +1961,7 @@ tr:hover td { background: var(--color-grey-xlight); }
 }
 
 /* ============================================================
-   RESPONSIVE â€” MOBILE (â‰¤ 768px)
+   RESPONSIVE — MOBILE (≤ 768px)
    ============================================================ */
 @media (max-width: 768px) {
   :root {
@@ -2099,7 +2099,7 @@ tr:hover td { background: var(--color-grey-xlight); }
   }
 
   .nav-menu::before {
-    content: 'MenÃº principal';
+    content: 'Menú principal';
     display: block;
     margin-bottom: 14px;
     padding-bottom: 18px;
@@ -2244,7 +2244,7 @@ tr:hover td { background: var(--color-grey-xlight); }
 }
 
 /* ============================================================
-   ASESOR â€” Contacto centrado (sin formulario)
+   ASESOR — Contacto centrado (sin formulario)
    ============================================================ */
 .asesor-wrap {
   max-width: 960px;
@@ -2475,7 +2475,7 @@ tr:hover td { background: var(--color-grey-xlight); }
 }
 
 /* ============================================================
-   BOTÃ“N "VOLVER" (pÃ¡ginas legales)
+   BOTÓN "VOLVER" (páginas legales)
    ============================================================ */
 .btn-back {
   display: inline-flex;
