@@ -1,0 +1,251 @@
+/* Animaciones de entrada (scroll + utilidades) */
+
+/* ——— Keyframes entrada ——— */
+@keyframes gb-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gb-fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gb-fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes gb-fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes gb-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gb-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes gb-tilt-in {
+  from {
+    opacity: 0;
+    transform: perspective(720px) rotateX(10deg) translateY(1.1rem);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(720px) rotateX(0) translateY(0);
+  }
+}
+
+@keyframes gb-skew-in {
+  from {
+    opacity: 0;
+    transform: skewX(-5deg) translateX(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: skewX(0) translateX(0);
+  }
+}
+
+@keyframes gb-rotate-in {
+  from {
+    opacity: 0;
+    transform: rotate(-5deg) translateY(1rem) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) translateY(0) scale(1);
+  }
+}
+
+@keyframes gb-clip-up {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
+/* ——— Scroll: estado inicial por tipo ——— */
+/* Nota: will-change se aplica solo cuando el elemento entra en viewport
+   (.is-visible), no en el estado inicial, para evitar promocionar a capa GPU
+   decenas de elementos fuera de pantalla simultáneamente. */
+.animar-al-scroll {
+  --entrada-duracion: 0.72s;
+  --entrada-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --entrada-delay: 0ms;
+  opacity: 0;
+}
+
+.animar-al-scroll.is-visible {
+  will-change: opacity, transform;
+}
+
+.animar-al-scroll[data-anim="fade-up"] {
+  transform: translateY(1.35rem);
+}
+
+.animar-al-scroll[data-anim="fade-down"] {
+  transform: translateY(-1.25rem);
+}
+
+.animar-al-scroll[data-anim="fade-left"] {
+  transform: translateX(2rem);
+}
+
+.animar-al-scroll[data-anim="fade-right"] {
+  transform: translateX(-2rem);
+}
+
+.animar-al-scroll[data-anim="scale-in"] {
+  transform: scale(0.88);
+}
+
+.animar-al-scroll[data-anim="blur-in"] {
+  filter: blur(14px);
+  transform: translateY(0.6rem);
+}
+
+.animar-al-scroll[data-anim="tilt-in"] {
+  transform: perspective(720px) rotateX(10deg) translateY(1.1rem);
+}
+
+.animar-al-scroll[data-anim="skew-in"] {
+  transform: skewX(-5deg) translateX(1.5rem);
+}
+
+.animar-al-scroll[data-anim="rotate-in"] {
+  transform: rotate(-5deg) translateY(1rem) scale(0.94);
+}
+
+.animar-al-scroll[data-anim="clip-up"] {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.5rem);
+}
+
+/* ——— Al entrar en viewport ——— */
+.animar-al-scroll[data-anim="fade-up"].is-visible {
+  animation: gb-fade-up var(--entrada-duracion) var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="fade-down"].is-visible {
+  animation: gb-fade-down var(--entrada-duracion) var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="fade-left"].is-visible {
+  animation: gb-fade-left var(--entrada-duracion) var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="fade-right"].is-visible {
+  animation: gb-fade-right var(--entrada-duracion) var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="scale-in"].is-visible {
+  animation: gb-scale-in 0.78s var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="blur-in"].is-visible {
+  animation: gb-blur-in 0.85s var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="tilt-in"].is-visible {
+  animation: gb-tilt-in 0.8s var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="skew-in"].is-visible {
+  animation: gb-skew-in 0.75s var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="rotate-in"].is-visible {
+  animation: gb-rotate-in 0.82s var(--entrada-ease) var(--entrada-delay) both;
+}
+
+.animar-al-scroll[data-anim="clip-up"].is-visible {
+  animation: gb-clip-up 0.78s var(--entrada-ease) var(--entrada-delay) both;
+}
+
+/* Hero: escalonado (chips → título → lead → texto → botones) */
+.hero-contenido--entrada > .animar-al-scroll:nth-child(1) {
+  --entrada-delay: 0ms;
+}
+.hero-contenido--entrada > .animar-al-scroll:nth-child(2) {
+  --entrada-delay: 60ms;
+}
+.hero-contenido--entrada > .animar-al-scroll:nth-child(3) {
+  --entrada-delay: 115ms;
+}
+.hero-contenido--entrada > .animar-al-scroll:nth-child(4) {
+  --entrada-delay: 170ms;
+}
+.hero-contenido--entrada > .animar-al-scroll:nth-child(5) {
+  --entrada-delay: 220ms;
+}
+
+.hero-contenedor--duo > .hero-visual.animar-al-scroll {
+  --entrada-delay: 140ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animar-al-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    will-change: auto;
+  }
+}
+
+.galeria-item,
+.horario-tabla-wrap {
+  transition: box-shadow var(--transicion);
+}

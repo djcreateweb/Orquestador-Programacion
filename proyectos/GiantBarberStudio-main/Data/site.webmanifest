@@ -1,0 +1,16 @@
+{
+  "name": "Giant Barber Studio",
+  "short_name": "Giant Barber",
+  "description": "Barbería premium en Murcia — Calle Paloma 3.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#3E2723",
+  "theme_color": "#3E2723",
+  "lang": "es-ES",
+  "icons": [
+    { "src": "/Imagenes/Marca/favicon.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/Imagenes/Marca/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/Imagenes/Marca/logo-marca.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

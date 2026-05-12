@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+.cursor/
+.vscode/
+*.local
+
+# Backup local de imagenes originales (PNGs pesados, no van a produccion)
+Imagenes/_Originales/

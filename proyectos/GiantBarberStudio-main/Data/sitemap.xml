@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://giantbarberstudio.es/</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <xhtml:link rel="alternate" hreflang="es" href="https://giantbarberstudio.es/"/>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://giantbarberstudio.es/Imagenes/Marca/og-image.png</image:loc>
+      <image:title>Giant Barber Studio — Barbería premium en Murcia</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://giantbarberstudio.es/Imagenes/Hero/giant-01.webp</image:loc>
+      <image:title>Fachada de Giant Barber Studio en Murcia</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://giantbarberstudio.es/Imagenes/Galeria/giant-02.webp</image:loc>
+      <image:title>Puesto de trabajo en el estudio</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://giantbarberstudio.es/Imagenes/Galeria/giant-03.webp</image:loc>
+      <image:title>Zona de lavado</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://giantbarberstudio.es/Imagenes/Galeria/giant-04.webp</image:loc>
+      <image:title>Recepción y sala de espera</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://giantbarberstudio.es/Html/aviso-legal.html</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://giantbarberstudio.es/Html/politica-privacidad.html</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://giantbarberstudio.es/Html/cookies.html</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+</urlset>

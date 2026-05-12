@@ -1,0 +1,386 @@
+/* Servicios V2.1 premium */
+
+.servicios {
+  background: linear-gradient(180deg, var(--fondo-banda-1) 0%, var(--fondo-banda-2) 48%, #e8ddd2 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* Menos aire vertical que el .seccion genérico: bloque cabecera + tipos + grid más compacto */
+.servicios.seccion {
+  padding-block: clamp(1.75rem, 3.2vw, 2.75rem);
+}
+
+.servicios-header {
+  text-align: center;
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.servicios .seccion-label {
+  margin-bottom: 0.45rem;
+}
+
+.servicios .seccion-titulo-grande {
+  margin-bottom: 0.4rem;
+}
+
+.servicios .seccion-descripcion {
+  font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.02rem);
+  line-height: 1.45;
+}
+
+.servicios-tipos-cabecera {
+  text-align: center;
+  max-width: 36rem;
+  margin-inline: auto;
+  margin-bottom: clamp(0.55rem, 1vw, 0.85rem);
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid rgba(62, 39, 35, 0.1);
+}
+
+.servicios-tipos-titulo {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 1.15rem + 1.1vw, 1.95rem);
+  font-weight: 700;
+  color: var(--color-marron-oscuro);
+  line-height: 1.2;
+  margin: 0 0 0.3rem;
+  letter-spacing: 0.02em;
+}
+
+.servicios-tipos-texto {
+  font-family: var(--font-titulo);
+  font-size: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+  font-weight: 500;
+  color: rgba(62, 39, 35, 0.78);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(1.25rem, 2vw, 2rem);
+  margin-top: 0;
+  margin-bottom: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.servicio-tarjeta {
+  --srv-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--color-blanco);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--color-shadow);
+  border: 1px solid rgba(215, 204, 200, 0.45);
+  transition: transform 0.35s var(--srv-ease), box-shadow 0.35s var(--srv-ease), border-color 0.35s var(--srv-ease);
+  opacity: 0;
+  animation-duration: 0.7s;
+  animation-timing-function: var(--srv-ease);
+  animation-delay: calc(var(--srv-i, 0) * 65ms);
+  animation-fill-mode: both;
+  position: relative;
+  animation-name: none;
+}
+
+.servicio-tarjeta::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--srv-ease);
+  background: radial-gradient(60% 60% at 50% 20%, rgba(245, 230, 211, 0.35), transparent 60%);
+}
+
+.servicio-tarjeta.is-visible[data-entrada="0"] {
+  animation-name: gb-fade-up;
+}
+
+.servicio-tarjeta.is-visible[data-entrada="1"] {
+  animation-name: gb-fade-left;
+}
+
+.servicio-tarjeta.is-visible[data-entrada="2"] {
+  animation-name: gb-scale-in;
+  animation-duration: 0.75s;
+}
+
+.servicio-tarjeta.is-visible[data-entrada="3"] {
+  animation-name: gb-blur-in;
+  animation-duration: 0.8s;
+}
+
+.servicio-tarjeta.is-visible[data-entrada="4"] {
+  animation-name: gb-skew-in;
+}
+
+.servicio-tarjeta.is-visible[data-entrada="5"] {
+  animation-name: gb-tilt-in;
+  animation-duration: 0.76s;
+}
+
+.servicio-tarjeta:hover {
+  transform: translateY(-12px) scale(1.012);
+  box-shadow: 0 22px 56px rgba(62, 39, 35, 0.22);
+  border-color: rgba(141, 110, 99, 0.4);
+}
+
+.servicio-tarjeta:hover::after {
+  opacity: 1;
+}
+
+.servicio-tarjeta:focus-within {
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 20px 52px rgba(62, 39, 35, 0.22);
+  border-color: rgba(141, 110, 99, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .servicio-tarjeta {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .servicio-tarjeta:hover {
+    transform: none;
+  }
+}
+
+.servicio-imagen {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  background: var(--color-gris-claro);
+}
+
+.servicio-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s var(--srv-ease);
+}
+
+.servicio-tarjeta:hover .servicio-imagen img {
+  transform: scale(1.12);
+}
+
+.servicio-overlay {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(62, 39, 35, 0.88);
+  color: var(--color-blanco);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radio-pill);
+  font-family: var(--font-titulo);
+  font-size: 0.78rem;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  transition: transform 0.35s var(--srv-ease), background 0.35s var(--srv-ease);
+}
+
+.servicio-tarjeta:hover .servicio-overlay {
+  transform: translateY(-2px) scale(1.03);
+  background: rgba(62, 39, 35, 0.94);
+}
+
+.servicio-contenido {
+  padding: 1.5rem 1.35rem 1.35rem;
+}
+
+.servicio-nombre {
+  font-family: var(--font-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-marron-oscuro);
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.02em;
+}
+
+.servicio-descripcion {
+  font-size: 0.92rem;
+  color: rgba(26, 26, 26, 0.68);
+  margin: 0 0 1rem;
+  line-height: 1.55;
+}
+
+.servicio-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--color-gris-claro);
+  margin-bottom: 1rem;
+}
+
+.servicio-precio {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-marron-claro);
+}
+
+.servicio-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.servicio-btn {
+  flex: 1;
+  min-width: 7rem;
+  text-align: center;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radio-pill);
+  font-family: var(--font-titulo);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.servicio-btn--reserva {
+  background: linear-gradient(135deg, var(--color-marron-oscuro), var(--color-marron-medio));
+  color: var(--color-blanco);
+  box-shadow: 0 3px 12px rgba(62, 39, 35, 0.25);
+}
+
+.servicio-btn--wa {
+  background: linear-gradient(135deg, #25d366, #20ba5a);
+  color: var(--color-blanco);
+  box-shadow: 0 3px 12px rgba(37, 211, 102, 0.28);
+}
+
+.servicio-btn:hover {
+  transform: translateY(-2px);
+}
+
+.servicios-cta {
+  text-align: center;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  background: linear-gradient(135deg, rgba(62, 39, 35, 0.05) 0%, rgba(141, 110, 99, 0.06) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(141, 110, 99, 0.22);
+  box-shadow: var(--sombra-suave);
+}
+
+.servicios-cta-texto {
+  font-size: 1.05rem;
+  color: var(--color-marron-oscuro);
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.boton-whatsapp-servicios {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: linear-gradient(135deg, #25d366 0%, #20ba5a 100%);
+  color: var(--color-blanco);
+  padding: 0.85rem 1.85rem;
+  border-radius: var(--radio-pill);
+  text-decoration: none;
+  font-family: var(--font-titulo);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.32);
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.boton-whatsapp-servicios:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.38);
+}
+
+/* ============================================================
+   MOBILE — reducir longitud de la sección servicios (≤768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* 1. Padding vertical de la sección mucho más compacto */
+  .servicios.seccion {
+    padding-block: 1rem;
+  }
+
+  /* Eliminar separador superior visible en móvil */
+  .servicios {
+    box-shadow: none;
+  }
+
+  /* 2. Header principal visible encima de las tarjetas */
+  .servicios-header {
+    display: block !important;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Ocultar el subtítulo/intro de "Tipos de servicio" */
+  .servicios-tipos-cabecera {
+    display: none;
+  }
+
+  /* 3. Grid de 2 columnas para reducir filas y altura total */
+  .servicios-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  /* 4. Tarjetas con bordes menos redondeados y sin sombra pesada */
+  .servicio-tarjeta {
+    border-radius: 10px;
+  }
+
+  /* 5. Descripción completa sin puntos suspensivos */
+  .servicio-descripcion {
+    display: block;
+    overflow: visible;
+    font-size: 0.70rem;
+    line-height: 1.4;
+    margin-bottom: 0.4rem;
+  }
+
+  /* 6. Padding interno del contenido más generoso */
+  .servicio-contenido {
+    padding: 0.85rem 0.85rem 0.9rem;
+  }
+
+  /* 7. Imagen más alta para dar más presencia visual */
+  .servicio-imagen {
+    height: 160px;
+  }
+
+  /* 8. Nombre del servicio ligeramente mayor */
+  .servicio-nombre {
+    font-size: 0.82rem;
+    margin-bottom: 0.25rem;
+  }
+
+  /* 9. Footer precio más compacto */
+  .servicio-footer {
+    padding-top: 0.4rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .servicio-precio {
+    font-size: 0.88rem;
+  }
+
+  /* 10. Botones de acción apilados y sin min-width rígido */
+  .servicio-acciones {
+    gap: 0.35rem;
+  }
+
+  .servicio-btn {
+    min-width: 0;
+    font-size: 0.6rem;
+    padding: 0.45rem 0.5rem;
+  }
+}
+

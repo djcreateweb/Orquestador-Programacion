@@ -1,0 +1,10 @@
+# Giant Barber Studio — https://giantbarberstudio.es
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /private/
+Disallow: /Docs/
+Disallow: /Imagenes/_Originales/
+
+Sitemap: https://giantbarberstudio.es/Data/sitemap.xml

@@ -1,0 +1,216 @@
+/* Breakpoints V3 */
+
+/* ── ≤1024px: hamburger (móvil + tablet) ── */
+@media (max-width: 1024px) {
+  body {
+    padding-top: 62px;
+  }
+
+  .hamburguesa {
+    display: flex;
+  }
+
+  .encabezado {
+    padding: 0.75rem 0;
+  }
+
+  .encabezado-contenedor.contenedor {
+    grid-template-columns: auto 1fr auto;
+    padding-inline: max(0.75rem, env(safe-area-inset-left)) max(0.75rem, env(safe-area-inset-right));
+    gap: 0.75rem;
+  }
+
+  /* ── Menú móvil premium ── */
+  .navegacion {
+    display: none;
+    position: fixed;
+    top: 62px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(175deg, #2a1f1c 0%, var(--color-negro) 60%);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.75rem 0 0;
+    z-index: 199;
+    box-shadow: 0 32px 64px rgba(0,0,0,0.7);
+    border-top: 1px solid rgba(245,230,211,0.1);
+  }
+
+  .navegacion.navegacion--abierta {
+    display: flex;
+    animation: nav-slide-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes nav-slide-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Número de orden + enlace */
+  .nav-enlace {
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 4.5vw, 1.75rem);
+    font-weight: 700;
+    color: rgba(245,230,211,0.88);
+    letter-spacing: -0.015em;
+    padding: 0.85rem clamp(1.5rem, 6vw, 2.25rem);
+    border-bottom: 1px solid rgba(245,230,211,0.07);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    white-space: normal;
+    transition: color 0.2s ease, background 0.2s ease;
+    counter-increment: nav-count;
+  }
+
+  .navegacion { counter-reset: nav-count; }
+
+  .nav-enlace::before {
+    display: block;
+    content: "0" counter(nav-count);
+    font-family: var(--font-titulo);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-marron-claro);
+    opacity: 0.7;
+    flex-shrink: 0;
+    width: 1.5rem;
+  }
+
+  .nav-enlace::after {
+    content: "";
+    display: block;
+    margin-left: auto;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid rgba(245,230,211,0.3);
+    border-top: 1.5px solid rgba(245,230,211,0.3);
+    transform: rotate(45deg);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .nav-enlace:active,
+  .nav-enlace:focus-visible {
+    color: var(--color-blanco);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .nav-enlace:last-of-type { border-bottom: none; }
+
+  /* Pie del menú — visible solo en móvil */
+  .nav-pie {
+    display: flex;
+    margin-top: 0.5rem;
+    padding: 1.25rem clamp(1.5rem, 6vw, 2.25rem) 1.5rem;
+    border-top: 1px solid rgba(245,230,211,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-pie__acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .nav-pie__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.7rem 0.5rem;
+    border-radius: 8px;
+    font-family: var(--font-titulo);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .nav-pie__btn--reservar {
+    background: var(--color-crema);
+    color: var(--color-marron-oscuro);
+  }
+
+  .nav-pie__btn--wa {
+    background: rgba(37,211,102,0.15);
+    color: #4ade80;
+    border: 1px solid rgba(37,211,102,0.25);
+  }
+
+  .nav-pie__info {
+    margin: 0;
+    font-family: var(--font-titulo);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,230,211,0.35);
+    text-align: center;
+  }
+
+  /* Solo Reservar en el header */
+  .boton-whatsapp-header,
+  .boton-resenas-header {
+    display: none;
+  }
+
+  .boton-reservar-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    min-height: 40px;
+    white-space: nowrap;
+  }
+
+  .acciones-header {
+    justify-self: end;
+  }
+
+  .servicios-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body {
+    font-size: 0.95rem;
+  }
+
+  .seccion {
+    padding-block: var(--espacio-lg);
+  }
+
+  .seccion-titulo-grande {
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+  }
+}
+
+/* ── ≤480px: ajustes extra móvil pequeño ── */
+@media (max-width: 480px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .boton-reservar-header {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .servicio-btn {
+    min-width: 0;
+    flex: 1 1 100%;
+    padding: 0.75rem 0.75rem;
+    font-size: 0.72rem;
+    min-height: 44px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .contenedor {
+    max-width: 92rem;
+  }
+}

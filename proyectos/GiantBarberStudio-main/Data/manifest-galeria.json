@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "src": "Imagenes/Galeria/estacion-trabajo-herramientas-barbero.webp",
+      "srcset": "Imagenes/Galeria/estacion-trabajo-herramientas-barbero-mobile.webp 400w, Imagenes/Galeria/estacion-trabajo-herramientas-barbero-tablet.webp 540w, Imagenes/Galeria/estacion-trabajo-herramientas-barbero-desktop.webp 675w",
+      "sizes": "(max-width: 400px) 400px, (max-width: 540px) 540px, 675px",
+      "alt": "Interior panorámico de Giant Barber Studio con sillones y luces LED",
+      "descripcion": "Vista completa del estudio: sillones de barbería, columna de ladrillo, iluminación LED morada y mural artístico."
+    },
+    {
+      "src": "Imagenes/Galeria/interior-barberia-sillones-mural.webp",
+      "srcset": "Imagenes/Galeria/interior-barberia-sillones-mural-mobile.webp 400w, Imagenes/Galeria/interior-barberia-sillones-mural-tablet.webp 540w, Imagenes/Galeria/interior-barberia-sillones-mural-desktop.webp 675w",
+      "sizes": "(max-width: 400px) 400px, (max-width: 540px) 540px, 675px",
+      "alt": "Zona de lavacabezas con sillones rojos y mural artístico en Giant Barber Studio",
+      "descripcion": "Zona de lavado con sillones rojos burdeos, lavacabezas blancos y el mural artístico en blanco y negro."
+    },
+    {
+      "src": "Imagenes/Galeria/zona-recepcion-cartel-giant.webp",
+      "srcset": "Imagenes/Galeria/zona-recepcion-cartel-giant-mobile.webp 400w, Imagenes/Galeria/zona-recepcion-cartel-giant-tablet.webp 540w, Imagenes/Galeria/zona-recepcion-cartel-giant-desktop.webp 675w",
+      "sizes": "(max-width: 400px) 400px, (max-width: 540px) 540px, 675px",
+      "alt": "Estación de trabajo del barbero con tijeras y maquinillas profesionales",
+      "descripcion": "El arsenal del barbero: tijeras de precisión, maquinillas JRL y SC, peines y productos sobre la estación de trabajo."
+    },
+    {
+      "src": "Imagenes/Galeria/decoracion-buda-trofeos-pared.webp",
+      "srcset": "Imagenes/Galeria/decoracion-buda-trofeos-pared-mobile.webp 400w, Imagenes/Galeria/decoracion-buda-trofeos-pared-tablet.webp 540w, Imagenes/Galeria/decoracion-buda-trofeos-pared-desktop.webp 675w",
+      "sizes": "(max-width: 400px) 400px, (max-width: 540px) 540px, 675px",
+      "alt": "Recepción y zona de espera de Giant Barber Studio Murcia",
+      "descripcion": "Recepción con el mostrador Giant Barber Studio, sillas de espera negras y decoración cuidada."
+    },
+    {
+      "src": "Imagenes/Galeria/sillon-principal-led-morado.webp",
+      "srcset": "Imagenes/Galeria/sillon-principal-led-morado-mobile.webp 400w, Imagenes/Galeria/sillon-principal-led-morado-tablet.webp 540w, Imagenes/Galeria/sillon-principal-led-morado-desktop.webp 675w",
+      "sizes": "(max-width: 400px) 400px, (max-width: 540px) 540px, 675px",
+      "objectPosition": "center center",
+      "alt": "Mural artístico y estanterías de Giant Barber Studio Murcia",
+      "descripcion": "El mural artístico que protagoniza el estudio, con las estanterías y la identidad visual de Giant Barber Studio."
+    }
+  ]
+}

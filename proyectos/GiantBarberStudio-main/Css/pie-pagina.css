@@ -1,0 +1,128 @@
+/* Footer */
+
+.pie-pagina {
+  padding-block: var(--espacio-lg) var(--espacio-md);
+  background: linear-gradient(180deg, #141414 0%, var(--color-negro) 100%);
+  color: var(--color-gris-claro);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pie-grid {
+  display: grid;
+  gap: var(--espacio-lg);
+  margin-bottom: var(--espacio-lg);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .pie-grid {
+    grid-template-columns: 1.2fr 1fr 1fr;
+  }
+}
+
+.pie-logo {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-blanco);
+  margin: 0 0 var(--espacio-xs);
+}
+
+.pie-logo span {
+  color: var(--color-crema);
+}
+
+.pie-texto {
+  margin: 0 auto;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  max-width: 20rem;
+}
+
+.pie-titulo {
+  font-family: var(--font-titulo);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-crema);
+  margin: 0 0 var(--espacio-sm);
+}
+
+.pie-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.pie-lista li {
+  margin-bottom: var(--espacio-xs);
+}
+
+.pie-lista a {
+  color: var(--color-gris-claro);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.pie-lista a:hover {
+  color: var(--color-blanco);
+  text-decoration: underline;
+}
+
+.pie-legal {
+  padding-top: var(--espacio-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
+  font-size: 0.82rem;
+  opacity: 0.75;
+}
+
+.pie-legal p {
+  margin: 0;
+}
+
+/* Contacto en footer */
+.pie-contacto {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pie-contacto li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: rgba(232,232,232,0.8);
+  line-height: 1.4;
+  text-align: left;
+}
+
+.pie-contacto li svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  opacity: 0.7;
+}
+
+.pie-contacto a {
+  color: rgba(232,232,232,0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.pie-contacto a:hover {
+  color: var(--color-crema);
+}
+
+/* Contacto centrado */
+.pie-contacto {
+  align-items: center;
+}
+
+.pie-contacto li {
+  justify-content: center;
+  text-align: center;
+}
