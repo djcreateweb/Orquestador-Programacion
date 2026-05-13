@@ -1,85 +1,236 @@
 /**
- * Giant Barber Studio — menú móvil y cierre al elegir enlace
+ * Giant Barber Studio — navegación: menú móvil + dropdown EXPLORAR
  */
 (function () {
-  const btn = document.getElementById("hamburguesa");
-  const nav = document.getElementById("navegacion-principal");
-  if (!btn || !nav) {
-    return;
+  'use strict';
+
+  /* =============================================
+     REDUCCIÓN DE MOVIMIENTO
+     ============================================= */
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =============================================
+     MENÚ MÓVIL (hamburguesa)
+     ============================================= */
+  const btnHam = document.getElementById('hamburguesa');
+  const navPrincipal = document.getElementById('navegacion-principal');
+
+  function cerrarMenuMovil() {
+    if (!btnHam || !navPrincipal) return;
+    btnHam.setAttribute('aria-expanded', 'false');
+    btnHam.setAttribute('aria-label', 'Abrir menú');
+    navPrincipal.classList.remove('navegacion--abierta');
   }
 
-  function cerrar() {
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-label", "Abrir menú");
-    nav.classList.remove("navegacion--abierta");
+  function abrirMenuMovil() {
+    if (!btnHam || !navPrincipal) return;
+    btnHam.setAttribute('aria-expanded', 'true');
+    btnHam.setAttribute('aria-label', 'Cerrar menú');
+    navPrincipal.classList.add('navegacion--abierta');
   }
 
-  function abrir() {
-    btn.setAttribute("aria-expanded", "true");
-    btn.setAttribute("aria-label", "Cerrar menú");
-    nav.classList.add("navegacion--abierta");
-  }
-
-  btn.addEventListener("click", () => {
-    const abierto = btn.getAttribute("aria-expanded") === "true";
-    if (abierto) {
-      cerrar();
-    } else {
-      abrir();
-    }
-  });
-
-  nav.querySelectorAll('a[href^="#"]').forEach((a) => {
-    a.addEventListener("click", () => {
-      cerrar();
+  if (btnHam && navPrincipal) {
+    btnHam.addEventListener('click', () => {
+      const abierto = btnHam.getAttribute('aria-expanded') === 'true';
+      if (abierto) {
+        cerrarMenuMovil();
+      } else {
+        abrirMenuMovil();
+      }
     });
-  });
 
-  window.addEventListener("resize", () => {
-    if (window.matchMedia("(min-width: 1025px)").matches) {
-      cerrar();
+    // Cierra al hacer click en enlace interno del pie del menú
+    navPrincipal.querySelectorAll('a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', () => {
+        cerrarMenuMovil();
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.matchMedia('(min-width: 1025px)').matches) {
+        cerrarMenuMovil();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btnHam.getAttribute('aria-expanded') === 'true') {
+        cerrarMenuMovil();
+        btnHam.focus();
+      }
+    });
+  }
+
+  /* =============================================
+     DROPDOWN EXPLORAR (desktop)
+     ============================================= */
+  const explorarBtn  = document.getElementById('explorar-btn');
+  const explorarMenu = document.getElementById('explorar-dropdown');
+  const explorarWrap = document.getElementById('nav-explorar');
+
+  if (explorarBtn && explorarMenu) {
+    const items = Array.from(explorarMenu.querySelectorAll('.nav-dropdown__item'));
+
+    function abrirDropdown() {
+      explorarBtn.setAttribute('aria-expanded', 'true');
+      explorarMenu.removeAttribute('hidden');
+      // Forzamos reflow para que la transición CSS se dispare
+      // eslint-disable-next-line no-unused-expressions
+      explorarMenu.offsetHeight;
     }
-  });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") {
-      cerrar();
-      btn.focus();
+    function cerrarDropdown(devolverFoco) {
+      explorarBtn.setAttribute('aria-expanded', 'false');
+
+      if (reducedMotion) {
+        // Sin animación: ocultar inmediatamente
+        explorarMenu.setAttribute('hidden', '');
+      } else {
+        // Esperar a que termine la transición CSS (200ms) para poner hidden
+        explorarMenu.style.opacity = '0';
+        explorarMenu.style.transform = 'translateY(-8px)';
+        explorarMenu.style.pointerEvents = 'none';
+        setTimeout(() => {
+          explorarMenu.setAttribute('hidden', '');
+          explorarMenu.style.opacity = '';
+          explorarMenu.style.transform = '';
+          explorarMenu.style.pointerEvents = '';
+        }, 200);
+      }
+
+      if (devolverFoco) {
+        explorarBtn.focus();
+      }
     }
-  });
 
-  // Active nav link según sección visible
+    function estaAbierto() {
+      return explorarBtn.getAttribute('aria-expanded') === 'true';
+    }
+
+    // Toggle al hacer click en EXPLORAR
+    explorarBtn.addEventListener('click', () => {
+      if (estaAbierto()) {
+        cerrarDropdown(false);
+      } else {
+        abrirDropdown();
+      }
+    });
+
+    // Cierre al hacer click en una opción
+    items.forEach((item) => {
+      item.addEventListener('click', () => {
+        cerrarDropdown(false);
+        cerrarMenuMovil();
+      });
+    });
+
+    // Cierre al hacer click fuera
+    document.addEventListener('click', (e) => {
+      if (!explorarWrap || !explorarWrap.contains(e.target)) {
+        if (estaAbierto()) {
+          cerrarDropdown(false);
+        }
+      }
+    });
+
+    // Cierre con ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && estaAbierto()) {
+        cerrarDropdown(true);
+      }
+    });
+
+    // Navegación por teclado: flechas arriba/abajo, Enter, Tab
+    explorarBtn.addEventListener('keydown', (e) => {
+      if ((e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') && !estaAbierto()) {
+        e.preventDefault();
+        abrirDropdown();
+        // Esperar a que el dropdown sea interactivo
+        setTimeout(() => {
+          if (items[0]) items[0].focus();
+        }, 20);
+      }
+    });
+
+    explorarMenu.addEventListener('keydown', (e) => {
+      const focused = document.activeElement;
+      const idx = items.indexOf(focused);
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = items[idx + 1] || items[0];
+        next.focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = items[idx - 1] || items[items.length - 1];
+        prev.focus();
+      } else if (e.key === 'Tab') {
+        // Tab sin shift cierra y sigue el flujo normal
+        cerrarDropdown(false);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        items[0].focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        items[items.length - 1].focus();
+      }
+    });
+
+    // En desktop (≥1025px) el dropdown no debe abrirse dentro del menú móvil
+    // Al redimensionar a desktop, asegurarse de que el dropdown quede cerrado si
+    // el menú móvil estaba abierto
+    window.addEventListener('resize', () => {
+      if (window.matchMedia('(min-width: 1025px)').matches) {
+        // nada: el dropdown desktop funciona normalmente
+      } else {
+        // En móvil, cerrar el dropdown si estuviera abierto
+        if (estaAbierto()) cerrarDropdown(false);
+      }
+    });
+  }
+
+  /* =============================================
+     ACTIVE NAV LINK (scroll observer)
+     — reutiliza los items del dropdown como referencia
+     ============================================= */
   const secciones = document.querySelectorAll('main section[id]');
-  const navLinks = document.querySelectorAll('.nav-enlace');
-  if (secciones.length && navLinks.length) {
+  const dropdownLinks = document.querySelectorAll('.nav-dropdown__item');
+
+  if (secciones.length && dropdownLinks.length) {
     const obsNav = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            navLinks.forEach(a => a.classList.remove('nav-enlace--activo'));
-            const link = document.querySelector(`.nav-enlace[href="#${entry.target.id}"]`);
-            if (link) link.classList.add('nav-enlace--activo');
+            dropdownLinks.forEach((a) => a.removeAttribute('aria-current'));
+            const link = document.querySelector(
+              `.nav-dropdown__item[href="#${entry.target.id}"]`
+            );
+            if (link) link.setAttribute('aria-current', 'true');
           }
         });
       },
       { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
     );
-    secciones.forEach(s => obsNav.observe(s));
+    secciones.forEach((s) => obsNav.observe(s));
   }
 
-  // Scroll-to-top
+  /* =============================================
+     SCROLL-TO-TOP
+     ============================================= */
   const btnArriba = document.getElementById('volver-arriba');
   if (btnArriba) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 400) {
-        btnArriba.removeAttribute('hidden');
-      } else {
-        btnArriba.setAttribute('hidden', '');
-      }
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (window.scrollY > 400) {
+          btnArriba.removeAttribute('hidden');
+        } else {
+          btnArriba.setAttribute('hidden', '');
+        }
+      },
+      { passive: true }
+    );
     btnArriba.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
-
 })();

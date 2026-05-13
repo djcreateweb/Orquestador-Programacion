@@ -1,5 +1,6 @@
 /**
- * Giant Barber Studio V2.1 — galería desde manifest + fallback Unsplash
+ * Giant Barber Studio V3 — galería desde manifest + fallback Unsplash
+ * Cards con overlay: etiqueta superior + título inferior dentro de la imagen
  */
 (function () {
   const FALLBACK_ITEMS = [
@@ -7,51 +8,36 @@
       src: "https://images.unsplash.com/photo-1599351431902-8d2ebb931e25?w=800&h=800&fit=crop&q=80",
       alt: "Estilo barbería 1",
       descripcion: "Ambiente de barbería profesional.",
+      etiqueta: "ESTUDIO",
+      titulo: "El ambiente",
     },
     {
       src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop&q=80",
       alt: "Estilo barbería 2",
       descripcion: "Detalle de trabajo y estilo.",
+      etiqueta: "ESTUDIO",
+      titulo: "Detalle y estilo",
     },
     {
       src: "https://images.unsplash.com/photo-1500636136210-6f4ee915583e?w=800&h=800&fit=crop&q=80",
       alt: "Estilo barbería 3",
       descripcion: "Zona de servicio y acabado.",
+      etiqueta: "ESTUDIO",
+      titulo: "Zona de servicio",
     },
     {
       src: "https://images.unsplash.com/photo-1570158268183-d296b2892211?w=800&h=800&fit=crop&q=80",
       alt: "Estilo barbería 4",
       descripcion: "Espacio pensado para el cliente.",
+      etiqueta: "ESTUDIO",
+      titulo: "Para el cliente",
     },
     {
       src: "https://images.unsplash.com/photo-1502933691298-84fc14542831?w=800&h=800&fit=crop&q=80",
       alt: "Estilo barbería 5",
       descripcion: "",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1599351436436-49f89e552b8c?w=800&h=800&fit=crop&q=80",
-      alt: "Estilo barbería 6",
-      descripcion: "",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1552058544-f8b08422c7f6?w=800&h=800&fit=crop&q=80",
-      alt: "Estilo barbería 7",
-      descripcion: "",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=800&fit=crop&q=80",
-      alt: "Estilo barbería 8",
-      descripcion: "",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=800&fit=crop&q=80",
-      alt: "Estilo barbería 9",
-      descripcion: "",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&h=800&fit=crop&q=80",
-      alt: "Estilo barbería 10",
-      descripcion: "",
+      etiqueta: "ESTUDIO",
+      titulo: "Giant Barber",
     },
   ];
 
@@ -63,6 +49,9 @@
       sizes: obj.sizes || null,
       alt: obj.alt || `Imagen ${i + 1}`,
       descripcion: typeof obj.descripcion === "string" ? obj.descripcion : "",
+      etiqueta: typeof obj.etiqueta === "string" && obj.etiqueta ? obj.etiqueta : "ESTUDIO",
+      titulo: typeof obj.titulo === "string" && obj.titulo ? obj.titulo : "Giant Barber",
+      objectPosition: obj.objectPosition || null,
     };
   }
 
@@ -119,37 +108,64 @@
   function renderGrid() {
     grid.innerHTML = "";
     items.forEach((item, i) => {
-      const card = document.createElement("div");
-      card.className = "galeria-card";
+      /* figure principal */
+      const card = document.createElement("figure");
+      card.className = "galeria-card animar-al-scroll";
       card.setAttribute("role", "listitem");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("data-index", String(i));
+      card.setAttribute("data-anim", ENTRADAS_GALERIA[i % ENTRADAS_GALERIA.length]);
+      card.setAttribute("aria-label", `Abrir imagen: ${item.alt}`);
 
-      const btn = document.createElement("div");
-      btn.className = "galeria-item animar-al-scroll";
-      btn.setAttribute("data-anim", ENTRADAS_GALERIA[i % ENTRADAS_GALERIA.length]);
+      /* picture + img */
+      const picture = document.createElement("picture");
+
+      if (item.srcset) {
+        /* source webp con srcset */
+        const source = document.createElement("source");
+        source.type = "image/webp";
+        source.srcset = item.srcset;
+        if (item.sizes) source.sizes = item.sizes;
+        picture.appendChild(source);
+      }
+
       const imgNodo = document.createElement("img");
+      imgNodo.className = "galeria-card__img";
       imgNodo.src = item.src;
-      if (item.srcset) imgNodo.srcset = item.srcset;
-      if (item.sizes) imgNodo.sizes = item.sizes;
       imgNodo.alt = item.alt || "";
-      imgNodo.width = 675;
-      imgNodo.height = 1200;
+      imgNodo.width = 600;
+      imgNodo.height = 800;
       imgNodo.loading = "lazy";
       imgNodo.decoding = "async";
       if (item.objectPosition) imgNodo.style.objectPosition = item.objectPosition;
-      btn.appendChild(imgNodo);
+      picture.appendChild(imgNodo);
+      card.appendChild(picture);
 
-      card.appendChild(btn);
+      /* etiqueta superior */
+      const etiqueta = document.createElement("span");
+      etiqueta.className = "galeria-card__etiqueta";
+      etiqueta.textContent = item.etiqueta;
+      card.appendChild(etiqueta);
 
-      if (item.descripcion) {
-        const cap = document.createElement("p");
-        cap.className = "galeria-caption";
-        cap.textContent = item.descripcion;
-        card.appendChild(cap);
-      }
+      /* título inferior */
+      const titulo = document.createElement("h3");
+      titulo.className = "galeria-card__titulo";
+      titulo.textContent = item.titulo;
+      card.appendChild(titulo);
+
+      /* click abre lightbox */
+      card.addEventListener("click", () => abrir(i, card));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          abrir(i, card);
+        }
+      });
 
       grid.appendChild(card);
     });
 
+    /* IntersectionObserver para animaciones de entrada */
     if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const obs = new IntersectionObserver(
         (entries) => {

@@ -15,7 +15,7 @@
   }
 
   .encabezado-contenedor.contenedor {
-    grid-template-columns: auto 1fr auto;
+    justify-content: space-between;
     padding-inline: max(0.75rem, env(safe-area-inset-left)) max(0.75rem, env(safe-area-inset-right));
     gap: 0.75rem;
   }
@@ -142,6 +142,33 @@
     border: 1px solid rgba(37,211,102,0.25);
   }
 
+  /* Instagram en pie de menú móvil */
+  .nav-pie__btn--ig {
+    background: linear-gradient(45deg, rgba(245,133,41,0.2), rgba(221,42,123,0.2), rgba(129,52,175,0.2), rgba(81,91,212,0.2));
+    color: #dd88cc;
+    border: 1px solid rgba(221,42,123,0.3);
+  }
+
+  /* Tres botones en el pie: grid 2+1 a 360px, 3 columnas si hay espacio */
+  .nav-pie__acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .nav-pie__btn--ig {
+    grid-column: 1 / -1; /* Ocupa toda la fila si solo caben 2 por fila */
+  }
+
+  @media (min-width: 480px) {
+    .nav-pie__acciones {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .nav-pie__btn--ig {
+      grid-column: auto;
+    }
+  }
+
   .nav-pie__info {
     margin: 0;
     font-family: var(--font-titulo);
@@ -152,10 +179,16 @@
     text-align: center;
   }
 
-  /* Solo Reservar en el header */
+  /* En móvil/tablet: ocultar botones exclusivos desktop */
   .boton-whatsapp-header,
-  .boton-resenas-header {
-    display: none;
+  .btn-instagram--desktop,
+  .boton-reservar-solo-desktop {
+    display: none !important;
+  }
+
+  /* Botón Instagram circular en header móvil */
+  .btn-instagram--movil {
+    display: inline-flex;
   }
 
   .boton-reservar-header {
@@ -168,6 +201,12 @@
 
   .acciones-header {
     justify-self: end;
+    gap: 0.4rem;
+  }
+
+  /* El dropdown EXPLORAR no se muestra en móvil (hay hamburguesa) */
+  .nav-explorar {
+    display: none;
   }
 
   .servicios-grid {

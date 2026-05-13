@@ -16,9 +16,9 @@
 }
 
 .encabezado-contenedor {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: clamp(0.75rem, 2vw, 1.75rem);
   position: relative;
 }
@@ -83,8 +83,18 @@
 /* Nav horizontal solo en pantallas grandes */
 @media (min-width: 1025px) {
   .navegacion {
-    justify-self: center;
     max-width: 100%;
+  }
+
+  /* En desktop: el instagram móvil no existe */
+  .btn-instagram--movil {
+    display: none !important;
+  }
+
+  /* En desktop: mostrar el botón EXPLORAR dentro del nav */
+  .nav-explorar {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -190,6 +200,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.35rem;
   padding: 0.55rem 1rem;
   border-radius: var(--radio-pill);
   text-decoration: none;
@@ -203,12 +214,187 @@
   border: 1px solid rgba(62, 39, 35, 0.18);
   box-shadow: 0 4px 14px rgba(62, 39, 35, 0.12);
   transition: transform var(--transicion), box-shadow var(--transicion), background var(--transicion);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.boton-resenas-header svg {
+  color: #f5a623;
+  flex-shrink: 0;
 }
 
 .boton-resenas-header:hover {
   transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   box-shadow: 0 10px 24px rgba(62, 39, 35, 0.18);
+}
+
+/* =============================================
+   BOTÓN INSTAGRAM
+   ============================================= */
+
+/* Gradiente oficial Instagram */
+.btn-instagram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
+  color: #ffffff;
+  border: none;
+  text-decoration: none;
+  font-family: var(--font-titulo);
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: transform var(--transicion), box-shadow var(--transicion), opacity var(--transicion);
+}
+
+/* Versión desktop: icono + texto, misma altura que WhatsApp/Reservar */
+.btn-instagram--desktop {
+  padding: 0.55rem 1rem;
+  border-radius: var(--radio-pill);
+  box-shadow: 0 4px 14px rgba(131, 58, 180, 0.35);
+}
+
+.btn-instagram--desktop:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(131, 58, 180, 0.45);
+}
+
+/* Versión móvil: solo icono, círculo 44×44px */
+.btn-instagram--movil {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(131, 58, 180, 0.35);
+  /* oculto en desktop, visible en móvil via responsive.css */
+  display: none;
+}
+
+.btn-instagram--movil:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 22px rgba(131, 58, 180, 0.45);
+}
+
+/* =============================================
+   DROPDOWN EXPLORAR
+   ============================================= */
+
+.nav-explorar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Botón EXPLORAR */
+.nav-explorar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-titulo);
+  font-size: clamp(0.62rem, 0.52rem + 0.45vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-negro);
+  background: transparent;
+  border: 1.5px solid rgba(62, 39, 35, 0.2);
+  border-radius: var(--radio);
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--transicion), border-color var(--transicion), background var(--transicion);
+}
+
+.nav-explorar__btn:hover,
+.nav-explorar__btn:focus-visible {
+  color: var(--color-marron-oscuro);
+  border-color: rgba(62, 39, 35, 0.45);
+  background: rgba(62, 39, 35, 0.04);
+}
+
+.nav-explorar__btn[aria-expanded="true"] {
+  color: var(--color-marron-oscuro);
+  border-color: rgba(62, 39, 35, 0.45);
+  background: rgba(62, 39, 35, 0.04);
+}
+
+/* Chevron — rota 180° cuando abierto */
+.nav-explorar__chevron {
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+
+.nav-explorar__btn[aria-expanded="true"] .nav-explorar__chevron {
+  transform: rotate(180deg);
+}
+
+/* Lista dropdown */
+.nav-dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: linear-gradient(160deg, #2a1f1c 0%, var(--color-marron-oscuro) 100%);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  z-index: 9998;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  border: 1px solid rgba(245, 230, 211, 0.1);
+}
+
+/* Estado visible */
+.nav-dropdown:not([hidden]) {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Ítem del dropdown */
+.nav-dropdown__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 20px;
+  font-family: var(--font-titulo);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 230, 211, 0.88);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 150ms ease, background 150ms ease, padding-left 150ms ease;
+}
+
+.nav-dropdown__item:hover,
+.nav-dropdown__item:focus-visible {
+  color: var(--color-crema);
+  background: rgba(245, 230, 211, 0.06);
+  padding-left: 24px;
+  outline: none;
+}
+
+/* prefers-reduced-motion: sin animaciones en dropdown */
+@media (prefers-reduced-motion: reduce) {
+  .nav-dropdown {
+    transition: none;
+  }
+  .nav-explorar__chevron {
+    transition: none;
+  }
+  .nav-dropdown__item {
+    transition: none;
+  }
 }
 
 .hamburguesa {

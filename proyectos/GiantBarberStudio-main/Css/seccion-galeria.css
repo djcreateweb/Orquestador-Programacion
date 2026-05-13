@@ -1,5 +1,6 @@
-/* Galería V2 — ancho real 100% sin scroll horizontal, móvil primero */
+/* Galería V3 — cards con overlay degradado, etiqueta + título dentro de la imagen */
 
+/* ── SECCIÓN ───────────────────────────────── */
 .galeria {
   --g-marron: var(--color-marron-medio);
   --g-marron-suave: rgba(62, 39, 35, 0.12);
@@ -12,6 +13,7 @@
   border-top: 1px solid var(--g-marron-suave);
 }
 
+/* ── HEADER DE SECCIÓN ─────────────────────── */
 .galeria-intro {
   margin-bottom: clamp(1.25rem, 3vw, 2rem);
 }
@@ -31,7 +33,7 @@
   color: rgba(26, 26, 26, 0.68);
 }
 
-/* Contenedor de la malla: nunca empuja más allá del viewport */
+/* ── CONTENEDOR DE LA MALLA ────────────────── */
 .galeria-malla-envoltorio {
   width: 100%;
   max-width: 100%;
@@ -41,41 +43,42 @@
   box-sizing: border-box;
 }
 
+/* ── GRID ──────────────────────────────────── */
 .galeria-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.6rem, 3vw, 1rem);
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
   width: 100%;
-  max-width: min(88rem, 100%);
+  max-width: min(64rem, 100%);
   margin-inline: auto;
   list-style: none;
   padding: 0;
   margin-block: 0;
-  align-items: start;
 }
 
-@media (min-width: 600px) {
+/* 5 cards en grid de 6 cols: fila 1 → 3 cards (2 cols c/u), fila 2 → 2 cards centradas */
+.galeria-card:nth-child(1) { grid-column: 1 / 3; }
+.galeria-card:nth-child(2) { grid-column: 3 / 5; }
+.galeria-card:nth-child(3) { grid-column: 5 / 7; }
+.galeria-card:nth-child(4) { grid-column: 2 / 4; }
+.galeria-card:nth-child(5) { grid-column: 4 / 6; }
+
+@media (max-width: 1023px) {
   .galeria-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(1rem, 2.5vw, 1.25rem);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .galeria-card:nth-child(n) { grid-column: auto; }
+}
+
+@media (max-width: 767px) {
+  .galeria-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 
-@media (min-width: 1024px) {
-  /* Grid de 6 columnas: fila 1 = 3 items (2 cols c/u), fila 2 = 2 items centrados */
-  .galeria-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: clamp(1rem, 1.8vw, 1.35rem);
-  }
-
-  .galeria-card:nth-child(1) { grid-column: 1 / 3; }
-  .galeria-card:nth-child(2) { grid-column: 3 / 5; }
-  .galeria-card:nth-child(3) { grid-column: 5 / 7; }
-  .galeria-card:nth-child(4) { grid-column: 2 / 4; }
-  .galeria-card:nth-child(5) { grid-column: 4 / 6; }
-}
-
-/* Móvil: más aire entre tarjetas y respecto a los bordes */
+/* Móvil: más aire en la sección */
 @media (max-width: 599px) {
   .galeria-intro {
     margin-bottom: clamp(1.6rem, 5.5vw, 2.4rem);
@@ -90,131 +93,125 @@
     padding-right: max(clamp(1.05rem, 5.5vw, 1.6rem), env(safe-area-inset-right));
     padding-bottom: 0.5rem;
   }
-
-  .galeria-grid {
-    gap: clamp(1.45rem, 6vw, 2.15rem);
-    row-gap: clamp(1.55rem, 6.5vw, 2.25rem);
-  }
-
-  .galeria-caption {
-    padding-block: 1.05rem 1.15rem;
-    padding-inline: clamp(1rem, 4vw, 1.15rem);
-  }
 }
 
-/* Tarjeta: imagen a ancho completo + pie de texto claro */
+/* ── CARD ──────────────────────────────────── */
 .galeria-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  width: 100%;
-  max-width: 100%;
+  position: relative;
+  aspect-ratio: 1 / 1;
   border-radius: 14px;
   overflow: hidden;
-  background: var(--color-blanco);
-  border: 1px solid var(--g-marron-suave);
-  box-shadow: var(--g-sombra);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-@media (hover: hover) {
-  .galeria-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 44px rgba(62, 39, 35, 0.12);
-  }
-}
-
-.galeria-item {
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: 100%;
+  isolation: isolate;
+  cursor: pointer;
   margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: #ece8e4;
-  cursor: default;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.galeria-item:focus-visible {
-  outline: 3px solid var(--g-marron);
-  outline-offset: 2px;
-}
-
-.galeria-item img {
+/* ── IMAGEN ────────────────────────────────── */
+.galeria-card__img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  display: block;
-  transition: transform 0.45s ease;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (hover: hover) {
-  .galeria-card:hover .galeria-item img {
-    transform: scale(1.04);
-  }
-}
-
-.galeria-overlay {
+/* ── OVERLAY DEGRADADO ─────────────────────── */
+.galeria-card::before {
+  content: "";
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(30, 22, 20, 0.35);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0)    40%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  transition: opacity 400ms;
 }
 
-.galeria-item:hover .galeria-overlay,
-.galeria-item:focus-visible .galeria-overlay {
-  opacity: 1;
+/* ── ETIQUETA SUPERIOR ─────────────────────── */
+.galeria-card__etiqueta {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-titulo);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-@media (hover: none) {
-  .galeria-item:active .galeria-overlay {
-    opacity: 1;
-  }
-}
-
-.galeria-overlay svg {
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
-}
-
-.galeria-caption {
-  flex: 0 0 auto;
+/* ── TÍTULO INFERIOR ───────────────────────── */
+.galeria-card__titulo {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
   margin: 0;
-  padding: 0.85rem clamp(0.85rem, 2.5vw, 1.1rem) 1rem;
-  font-family: var(--font-cuerpo);
-  font-size: clamp(0.8rem, 0.76rem + 0.25vw, 0.9rem);
-  line-height: 1.5;
-  font-weight: 400;
-  color: rgba(46, 32, 28, 0.88);
-  text-align: left;
-  background: #faf8f6;
-  border-top: 1px solid rgba(62, 39, 35, 0.08);
-  min-height: 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-@media (min-width: 1024px) {
-  .galeria-caption {
-    text-align: center;
-    min-height: 4.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* ── HOVER ─────────────────────────────────── */
+@media (hover: hover) {
+  .galeria-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  }
+
+  .galeria-card:hover .galeria-card__img {
+    transform: scale(1.08);
+  }
+
+  .galeria-card:hover::before {
+    opacity: 0.85;
   }
 }
 
-/* Lightbox: seguro en móvil y zonas de pantalla */
+/* ── FOCO ACCESIBLE ────────────────────────── */
+.galeria-card:focus-visible {
+  outline: 3px solid var(--color-dorado, #c8a97e);
+  outline-offset: 3px;
+}
+
+/* ── REDUCED MOTION ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .galeria-card,
+  .galeria-card__img,
+  .galeria-card::before {
+    transition: none;
+  }
+
+  .galeria-card:hover {
+    transform: none;
+  }
+
+  .galeria-card:hover .galeria-card__img {
+    transform: none;
+  }
+}
+
+/* ── LIGHTBOX ──────────────────────────────── */
 .lightbox {
   display: none;
   position: fixed;
@@ -363,19 +360,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .galeria-card,
-  .galeria-item img,
   .lightbox-contenido {
     transition: none;
     animation: none;
-  }
-
-  .galeria-card:hover {
-    transform: none;
-  }
-
-  .galeria-card:hover .galeria-item img {
-    transform: none;
   }
 
   @keyframes lightbox-zoom {
