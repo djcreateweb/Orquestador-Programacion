@@ -49,6 +49,7 @@
     <link rel="apple-touch-icon" href="Imagenes/Marca/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="Data/site.webmanifest" />
 
+    <link rel="preload" href="https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvUDQZNLo_U2r.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
@@ -100,12 +101,14 @@
           "https://www.instagram.com/giantbarberstudio/",
           "https://www.google.com/maps/place/Giant+Barber+Studio/@37.9754402,-1.1356394,17z/"
         ],
-        "employee": {
-          "@type": "Person",
-          "name": "Antonio Abad Montalbán",
-          "jobTitle": "Maestro barbero",
-          "description": "Más de 5 años de experiencia en cortes clásicos y modernos. Especialista en diseño de barba y afeitado de precisión."
-        },
+        "employee": [
+          {
+            "@type": "Person",
+            "name": "Antonio Abad Montalbán",
+            "jobTitle": "Maestro barbero",
+            "description": "Más de 5 años de experiencia en cortes clásicos y modernos. Especialista en diseño de barba y afeitado de precisión."
+          }
+        ],
         "priceRange": "€€",
         "areaServed": { "@type": "City", "name": "Murcia" },
         "currenciesAccepted": "EUR",
@@ -129,7 +132,14 @@
             "opens": "10:00",
             "closes": "14:00"
           }
-        ]
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "reviewCount": "47",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
       }
     </script>
 
@@ -178,7 +188,6 @@
     <link rel="stylesheet" href="Css/pie-pagina.css" />
     <link rel="stylesheet" href="Css/animaciones.css" />
     <link rel="stylesheet" href="Css/responsive.css" />
-    <link rel="stylesheet" href="Css/pagina-legal.css" />
   </head>
   <body>
     <div
@@ -507,7 +516,7 @@
                   type="image/webp"
                 />
                 <img
-                  src="Imagenes/Galeria/zona-espera-clientes-barberia.jpg"
+                  src="Imagenes/Galeria/zona-espera-clientes-barberia.webp"
                   alt="Trofeos Booksy Barber League y Golden Chair International en Giant Barber Studio"
                   width="675"
                   height="1200"
@@ -586,7 +595,7 @@
                   type="image/webp"
                 />
                 <img
-                  src="Imagenes/Galeria/lavacabezas-sillones-rojos.jpg"
+                  src="Imagenes/Galeria/lavacabezas-sillones-rojos.webp"
                   alt="Copas Barber Battle Valencia y Pimps Barber en Giant Barber Studio"
                   width="675"
                   height="1200"

@@ -6,5 +6,6 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /Docs/
 Disallow: /Imagenes/_Originales/
+Disallow: /node_modules/
 
 Sitemap: https://giantbarberstudio.es/Data/sitemap.xml

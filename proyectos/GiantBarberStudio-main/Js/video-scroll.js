@@ -77,7 +77,7 @@
           }
         };
         img.src = "Videos/frames-transparentes/frame_" +
-          String(idx).padStart(4, "0") + ".png";
+          String(idx).padStart(4, "0") + ".webp";
         imgs[idx - 1] = img;
       })(i);
     }
