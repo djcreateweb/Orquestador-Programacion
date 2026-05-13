@@ -10,3 +10,9 @@ Thumbs.db
 
 # Backup local de imagenes originales (PNGs pesados, no van a produccion)
 Imagenes/_Originales/
+
+# Frames PNG sin usar (el JS carga solo .webp)
+Videos/frames-transparentes/*.png
+
+# Scripts de trabajo Python (no van a produccion)
+Videos/*.py
