@@ -53,7 +53,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
-    <link rel="preload" as="image" href="Imagenes/Marca/entrada-instagram-giant-barber-desktop.webp" fetchpriority="high" />
+    <link rel="preload"
+          as="image"
+          href="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-desktop.webp"
+          imagesrcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-mobile.webp 800w,
+                       Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-tablet.webp 1200w,
+                       Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-desktop.webp 1672w"
+          imagesizes="100vw"
+          type="image/webp"
+          fetchpriority="high">
     <link rel="preload" as="style" href="Css/estilos.css" />
     <link rel="preload" as="style" href="Css/seccion-inicio.css" />
     <link
@@ -362,86 +370,84 @@
         <div class="corte-linea" aria-hidden="true"></div>
 
       <section id="inicio" class="hero" aria-labelledby="hero-titulo-principal">
-        <div class="hero-contenedor contenedor hero-contenedor--duo">
-          <div class="hero-contenido hero-contenido--entrada hero-contenido--magazine">
-            <div class="hero-meta animar-al-scroll" data-anim="blur-in">
-              <span class="hero-chip">Barbería premium</span>
-              <span class="hero-chip hero-chip--ghost">+5 años</span>
-              <span class="hero-chip hero-chip--ghost">Calle Paloma 3</span>
-            </div>
-            <h1 id="hero-titulo-principal" class="hero-titulo animar-al-scroll" data-anim="fade-up">
-              <span class="hero-titulo__linea">Giant Barber</span>
-              <span class="hero-titulo__linea hero-titulo__linea--alt">Studio</span>
+
+        <!-- Fondo cinematográfico -->
+        <picture class="hero__fondo" aria-hidden="true">
+          <source media="(min-width: 1024px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-desktop.webp" type="image/webp">
+          <source media="(min-width: 1024px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-desktop.jpg" type="image/jpeg">
+          <source media="(min-width: 768px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-tablet.webp" type="image/webp">
+          <source media="(min-width: 768px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-tablet.jpg" type="image/jpeg">
+          <source srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-mobile.webp" type="image/webp">
+          <img class="hero__fondo-img"
+               src="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero.jpg"
+               alt="Fachada de Giant Barber Studio en Murcia centro, Calle Paloma 3"
+               width="1672" height="941"
+               loading="eager" fetchpriority="high" decoding="async">
+        </picture>
+        <div class="hero__overlay" aria-hidden="true"></div>
+
+        <!-- Contenido superpuesto: dos columnas laterales, centro libre -->
+        <div class="hero__contenido">
+
+          <!-- Columna izquierda: marca -->
+          <div class="hero__col hero__col--izq">
+            <p class="hero__eyebrow" aria-hidden="false">
+              <span class="hero__eyebrow-linea" aria-hidden="true"></span>
+              <span>BARBERÍA · MURCIA CENTRO</span>
+            </p>
+
+            <h1 id="hero-titulo-principal" class="hero__titulo">
+              <span class="hero__titulo-grande">GIANT BARBER</span>
+              <span class="hero__titulo-sub">STUDIO</span>
             </h1>
-            <p class="hero-lead animar-al-scroll" data-anim="fade-right">
-              <span class="hero-lead__bar" aria-hidden="true"></span>
-              <span class="hero-lead__texto">Cortes de precisión en Murcia</span>
-            </p>
-            <p class="hero-descripcion animar-al-scroll" data-anim="fade-left">
-              Donde la precisión se encuentra con el estilo. Barberos profesionales con más de 5 años de experiencia.
-            </p>
-            <div class="hero-botones animar-al-scroll" data-anim="skew-in">
-              <a href="https://wa.me/34640117415" target="_blank" rel="noopener noreferrer" class="boton-cta-primario" aria-label="Contáctanos por WhatsApp (abre en nueva pestaña)">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
-                </svg>
-                Contáctanos
-              </a>
-              <a href="https://giant-barber-studio.reserva-ya.com/" target="_blank" rel="noopener noreferrer" class="boton-cta-secundario" aria-label="Reservar cita online (abre en nueva pestaña)">
+
+            <p class="hero__subtitulo">Cortes con carácter en el centro de Murcia.</p>
+          </div>
+
+          <!-- Columna derecha: trust + CTAs -->
+          <div class="hero__col hero__col--der">
+            <ul class="hero__trust" role="list" aria-label="Por qué elegirnos">
+              <li class="hero__trust-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>5,0 · 39 reseñas</span>
+              </li>
+              <li class="hero__trust-sep" aria-hidden="true"></li>
+              <li class="hero__trust-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 21h8M12 21v-4M12 17c-4.418 0-8-3.134-8-7V4h16v6c0 3.866-3.582 7-8 7z"/></svg>
+                <span>Premiado</span>
+              </li>
+              <li class="hero__trust-sep" aria-hidden="true"></li>
+              <li class="hero__trust-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 10c0 7-8 12-8 12s-8-5-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>C. Paloma 3</span>
+              </li>
+            </ul>
+
+            <div class="hero__ctas">
+              <a class="hero__cta hero__cta--primario"
+                 href="https://giant-barber-studio.reserva-ya.com/"
+                 target="_blank" rel="noopener noreferrer"
+                 aria-label="Reservar cita en Giant Barber Studio (abre en nueva pestaña)">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 Reservar cita
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
               </a>
-              <a
-                href="https://g.page/r/Cf4gq3v3Ng7dEBM/review"
-                class="boton-cta-secundario boton-cta-secundario--resenas"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Escribir una reseña en Google"
-                >Reseñas</a
-              >
+              <a class="hero__cta hero__cta--secundario"
+                 href="#servicios"
+                 aria-label="Conocer los servicios del estudio">
+                Conoce el estudio
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </a>
             </div>
           </div>
-          <aside class="hero-visual animar-al-scroll" data-anim="fade-left" aria-label="Imagen del trabajo en el estudio">
-            <div class="hero-visual__marco">
-              <picture>
-                <source
-                  media="(min-width: 540px)"
-                  srcset="Imagenes/Marca/entrada-instagram-giant-barber-desktop.webp"
-                  type="image/webp"
-                />
-                <source
-                  media="(min-width: 400px)"
-                  srcset="Imagenes/Marca/entrada-instagram-giant-barber-tablet.webp"
-                  type="image/webp"
-                />
-                <source
-                  srcset="Imagenes/Marca/entrada-instagram-giant-barber-mobile.webp"
-                  type="image/webp"
-                />
-                <img
-                  class="hero-visual__img"
-                  src="Imagenes/Marca/entrada-instagram-giant-barber.webp"
-                  width="675"
-                  height="1200"
-                  alt="Entrada de Giant Barber Studio en Murcia"
-                  loading="eager"
-                  decoding="async"
-                  fetchpriority="high"
-                />
-              </picture>
-              <div class="hero-visual__sombra" aria-hidden="true"></div>
-              <p class="hero-visual__etiqueta">Estilo y precisión en cada corte</p>
-            </div>
-          </aside>
+
         </div>
-        <div class="hero-scroll-indicator" aria-hidden="true">
-          <span class="hero-scroll-indicator__linea"></span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </div>
+
+        <!-- Scroll indicator -->
+        <a class="hero__scroll" href="#servicios" aria-label="Ir a la sección de servicios">
+          <span class="hero__scroll-txt" aria-hidden="true">DESCUBRE MÁS</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+
       </section>
 
       <section id="servicios" class="servicios seccion" aria-labelledby="titulo-servicios titulo-tipos-servicio">
@@ -770,30 +776,65 @@
         </div>
       </section>
 
-      <section id="cta-final" class="seccion-cita" aria-labelledby="titulo-cta">
-        <div class="contenedor seccion-cita__interior animar-al-scroll" data-anim="scale-in">
-          <h2 id="titulo-cta" class="seccion-cita__titulo">¿Listo para tu próximo corte premium?</h2>
-          <p class="seccion-cita__subtitulo">Descubre la diferencia que hace un auténtico barbero profesional.</p>
-          <div class="seccion-cita__botones">
-            <a href="https://giant-barber-studio.reserva-ya.com/" class="boton-cta-primario boton-cta-primario--compacto" target="_blank" rel="noopener noreferrer" aria-label="Reservar cita online ahora (abre en nueva pestaña)"
-              >Reserva ahora</a
-            >
-            <a href="https://wa.me/34640117415" class="boton-cta-secundario boton-cta-secundario--claro" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp (abre en nueva pestaña)">WhatsApp</a>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="pie-pagina" role="contentinfo">
-      <div class="pie-legal animar-al-scroll" data-anim="fade-up">
-        <p>&copy; <span id="pie-anio" class="tabular-nums"></span> Giant Barber Studio · Murcia</p>
-        <nav aria-label="Páginas legales">
-          <ul class="pie-legal__enlaces">
-            <li><a href="Html/aviso-legal.html">Aviso legal</a></li>
-            <li><a href="Html/politica-privacidad.html">Política de privacidad</a></li>
-            <li><a href="Html/cookies.html">Política de cookies</a></li>
-          </ul>
-        </nav>
+      <div class="contenedor">
+        <div class="pie-cuerpo animar-al-scroll" data-anim="fade-up">
+
+          <!-- Marca -->
+          <div class="pie-marca">
+            <p class="pie-marca__nombre">Giant<span> Barber</span> Studio</p>
+            <p class="pie-marca__tagline">Barbería premium en el corazón de Murcia. Más de 5 años elevando el estándar del corte masculino.</p>
+            <div class="pie-social">
+              <a href="https://www.instagram.com/giantbarber?igsh=MWZvbTR0ZHJpcmtlcg==" target="_blank" rel="noopener noreferrer" class="pie-social__enlace" aria-label="Instagram de Giant Barber Studio (abre en nueva pestaña)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+              <a href="https://wa.me/34640117415" target="_blank" rel="noopener noreferrer" class="pie-social__enlace" aria-label="WhatsApp de Giant Barber Studio (abre en nueva pestaña)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Navegación -->
+          <nav class="pie-nav" aria-label="Navegación del pie de página">
+            <p class="pie-col__titulo">Navegar</p>
+            <ul class="pie-nav__lista">
+              <li><a href="#servicios">Servicios</a></li>
+              <li><a href="#equipo">Equipo</a></li>
+              <li><a href="#galeria">Galería</a></li>
+              <li><a href="#resenas">Reseñas</a></li>
+              <li><a href="#contacto">Contacto</a></li>
+            </ul>
+          </nav>
+
+          <!-- Contacto + CTA -->
+          <div class="pie-contacto-col">
+            <p class="pie-col__titulo">Visítanos</p>
+            <address class="pie-address">
+              <p>Calle Paloma 3, 30010 Murcia</p>
+              <p><a href="https://wa.me/34640117415" target="_blank" rel="noopener noreferrer">640 117 415</a></p>
+            </address>
+            <a href="https://giant-barber-studio.reserva-ya.com/" target="_blank" rel="noopener noreferrer" class="pie-cta" aria-label="Reservar cita online en Giant Barber Studio (abre en nueva pestaña)">
+              Reservar cita <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Barra legal -->
+      <div class="pie-legal-barra">
+        <div class="contenedor pie-legal-inner">
+          <p class="pie-legal-copy">&copy; <span id="pie-anio" class="tabular-nums"></span> Giant Barber Studio · Murcia</p>
+          <nav aria-label="Páginas legales">
+            <ul class="pie-legal__enlaces">
+              <li><a href="Html/aviso-legal.html">Aviso legal</a></li>
+              <li><a href="Html/politica-privacidad.html">Política de privacidad</a></li>
+              <li><a href="Html/cookies.html">Política de cookies</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </footer>
 

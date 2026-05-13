@@ -1,1 +1,154 @@
-.equipo{background:linear-gradient(180deg,var(--color-crema) 0%,var(--fondo-banda-3) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.35)}.equipo-header{text-align:center;margin-bottom:clamp(2rem,4vw,3.5rem)}.equipo-contenedor{display:flex;justify-content:center}.barbero-tarjeta{background:var(--color-blanco);border-radius:20px;overflow:hidden;box-shadow:0 8px 28px var(--color-shadow);border:1px solid rgba(141,110,99,0.12);max-width:420px;width:100%;transition:transform var(--transicion),box-shadow var(--transicion)}.barbero-tarjeta:hover{transform:translateY(-8px);box-shadow:0 16px 40px var(--color-shadow-hover)}@media (prefers-reduced-motion:reduce){.barbero-tarjeta:hover{transform:none}}.barbero-imagen{width:100%;background:var(--color-gris-claro)}.barbero-imagen img{width:100%;height:auto;display:block;object-fit:contain;object-position:center center;transition:transform 0.45s ease}.barbero-tarjeta:hover .barbero-imagen img{transform:scale(1.05)}.barbero-info{padding:clamp(1.25rem,3vw,2rem);display:flex;flex-direction:column;gap:0.75rem}.barbero-nombre{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,1.85rem);font-weight:700;color:var(--color-marron-oscuro);margin:0;line-height:1.2}.barbero-especialidad{font-family:var(--font-titulo);font-size:0.72rem;letter-spacing:0.18em;color:var(--color-marron-claro);font-weight:600;margin:0;text-transform:uppercase}.barbero-badge{display:inline-block;font-family:var(--font-titulo);font-size:0.78rem;font-weight:700;letter-spacing:0.06em;color:var(--color-marron-oscuro);background:rgba(141,110,99,0.1);border:1px solid rgba(141,110,99,0.28);border-radius:999px;padding:0.3rem 0.9rem;align-self:flex-start}.barbero-cta{display:inline-flex;align-items:center;justify-content:center;margin-top:0.25rem;padding:0.7rem 1.5rem;background:var(--color-marron-oscuro);color:var(--color-blanco);font-family:var(--font-titulo);font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-decoration:none;border-radius:8px;transition:background var(--transicion),transform var(--transicion);align-self:flex-start}.barbero-cta:hover,.barbero-cta:focus-visible{background:var(--color-marron-claro);transform:translateY(-2px)}@media (prefers-reduced-motion:reduce){.barbero-cta:hover,.barbero-cta:focus-visible{transform:none}}
+.equipo {
+  background: linear-gradient(180deg, #2a1810 0%, #3e2418 100%);
+  border-top: 1px solid rgba(201,169,97,0.15);
+}
+
+.equipo .seccion-label        { color: var(--color-dorado); }
+.equipo .seccion-titulo-grande { color: var(--color-crema); }
+.equipo-header .seccion-descripcion { color: rgba(245,230,211,0.65); }
+
+.equipo-header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.equipo-contenedor {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Tarjeta: imagen full con texto superpuesto ── */
+.barbero-tarjeta {
+  position: relative;
+  max-width: 380px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+  border: none;
+  background: var(--color-marron-oscuro);
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.barbero-tarjeta:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barbero-tarjeta:hover { transform: none; }
+}
+
+/* Overlay degradado sobre la foto */
+.barbero-tarjeta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 30%,
+    rgba(15, 9, 5, 0.72) 68%,
+    rgba(15, 9, 5, 0.96) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Imagen ── */
+.barbero-imagen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.barbero-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.barbero-tarjeta:hover .barbero-imagen img {
+  transform: scale(1.06);
+}
+
+/* ── Info superpuesto ── */
+.barbero-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: none;
+}
+
+.barbero-nombre {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.barbero-especialidad {
+  font-family: var(--font-titulo);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.barbero-badge {
+  display: inline-block;
+  font-family: var(--font-titulo);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-dorado);
+  background: rgba(201, 169, 97, 0.15);
+  border: 1px solid rgba(201, 169, 97, 0.4);
+  border-radius: 999px;
+  padding: 0.28rem 0.85rem;
+  align-self: flex-start;
+}
+
+.barbero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.35rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--color-dorado);
+  color: #130e02;
+  font-family: var(--font-titulo);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-radius: 8px;
+  align-self: flex-start;
+  transition: background var(--transicion), transform var(--transicion);
+}
+
+.barbero-cta:hover,
+.barbero-cta:focus-visible {
+  background: #d4b96e;
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barbero-cta:hover,
+  .barbero-cta:focus-visible { transform: none; }
+}

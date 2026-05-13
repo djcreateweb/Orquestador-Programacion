@@ -4,7 +4,7 @@
 (function () {
   /** Ficha de Google Maps (reseña: botón «Escribir una reseña» en la ficha). */
   const ENLACE_ESCRIBIR_RESEÑA_GOOGLE =
-    "https://www.google.com/maps/place/Giant+Barber+Studio/@37.9754402,-1.1356394,17z/data=!4m8!3m7!1s0xd63818944d18edd:0xdd0e36f77bab20fe!8m2!3d37.9754402!4d-1.1356394!9m1!1b1!16s%2Fg%2F11wj3jy0_q?entry=ttu";
+    "https://g.page/r/Cf4gq3v3Ng7dEBM/review";
 
   function aplicarEnlaceResenaDirecto() {
     const enlace = document.querySelector(".resenas-enlace-reseña");
