@@ -1,0 +1,84 @@
+.cookies-banner {
+  position: fixed;
+  inset: auto max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  z-index: 9999;
+  background: var(--color-marron-oscuro);
+  color: var(--color-crema);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-cuerpo);
+}
+
+.cookies-banner__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cookies-banner__texto {
+  flex: 1 1 60%;
+  font-size: 0.92rem;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.cookies-banner__texto a {
+  color: var(--color-crema);
+  text-decoration: underline;
+}
+
+.cookies-banner__acciones {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.cookies-banner__btn {
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  border: 0;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.cookies-banner__btn--aceptar {
+  background: var(--color-dorado);
+  color: #130e02;
+}
+
+.cookies-banner__btn--aceptar:hover {
+  transform: translateY(-1px);
+  background: #d4b96e;
+}
+
+.cookies-banner__btn--rechazar {
+  background: transparent;
+  color: var(--color-crema);
+  border: 1px solid rgba(224, 224, 224, 0.35);
+}
+
+.cookies-banner__btn--rechazar:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 600px) {
+  .cookies-banner__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cookies-banner__acciones {
+    justify-content: space-between;
+  }
+  .cookies-banner__btn {
+    flex: 1 1 auto;
+  }
+}
