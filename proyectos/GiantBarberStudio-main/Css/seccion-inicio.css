@@ -349,10 +349,10 @@
     justify-content: flex-start;
   }
 
-  /* Sin zoom en móvil — la imagen ya se escala bastante al pasar de 16:9 a portrait */
+  /* Imagen portrait nativa en móvil — sin zoom, centrado perfecto */
   .hero__fondo-img {
     animation: none;
-    object-position: center 30%;
+    object-position: center center;
   }
 
   /* Gradiente: más imagen visible arriba, oscuro solo bajo el texto */
