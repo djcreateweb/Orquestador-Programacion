@@ -5,7 +5,7 @@
 
 .equipo .seccion-label        { color: var(--color-dorado); }
 .equipo .seccion-titulo-grande { color: var(--color-crema); }
-.equipo-header .seccion-descripcion { color: rgba(245,230,211,0.65); }
+.equipo-header .seccion-descripcion { color: rgba(224,224,224,0.65); }
 
 .equipo-header {
   text-align: center;

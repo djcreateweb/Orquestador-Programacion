@@ -9,7 +9,7 @@
 
 .resenas-seccion .seccion-titulo-grande { color: var(--color-crema); }
 .resenas-seccion .seccion-label        { color: var(--color-marron-claro); }
-.resenas-seccion .seccion-descripcion  { color: rgba(245, 230, 211, 0.7); }
+.resenas-seccion .seccion-descripcion  { color: rgba(224, 224, 224, 0.7); }
 
 .resenas-carrusel {
   max-width: 40rem;
@@ -54,7 +54,7 @@
   margin: 0 0 var(--espacio-md);
   font-size: 1.05rem;
   font-style: italic;
-  color: rgba(245, 230, 211, 0.92);
+  color: rgba(224, 224, 224, 0.92);
   line-height: 1.7;
 }
 
@@ -71,7 +71,7 @@
 .resena-slide__fecha {
   margin: 0;
   font-size: 0.85rem;
-  color: rgba(245, 230, 211, 0.5);
+  color: rgba(224, 224, 224, 0.5);
 }
 
 /* ── Controles ── */
@@ -125,7 +125,7 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: rgba(245, 230, 211, 0.3);
+  background: rgba(224, 224, 224, 0.3);
   transition: background var(--transicion), transform var(--transicion);
 }
 

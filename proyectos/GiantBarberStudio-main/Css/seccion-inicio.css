@@ -599,13 +599,13 @@
 }
 
 .boton-cta-secundario--resenas {
-  border-color: rgba(245, 230, 211, 0.6);
-  color: rgba(245, 230, 211, 0.92);
+  border-color: rgba(224, 224, 224, 0.6);
+  color: rgba(224, 224, 224, 0.92);
 }
 
 .boton-cta-secundario--resenas:hover {
-  background: rgba(245, 230, 211, 0.08);
-  border-color: rgba(245, 230, 211, 0.8);
+  background: rgba(224, 224, 224, 0.08);
+  border-color: rgba(224, 224, 224, 0.8);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -62,7 +62,7 @@
 .contacto-panel__resumen {
   font-family: var(--font-cuerpo);
   font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
-  color: rgba(245, 230, 211, 0.6);
+  color: rgba(224, 224, 224, 0.6);
   line-height: 1.5;
   margin: 0;
   max-width: 36rem;
@@ -173,7 +173,7 @@
   font-size: clamp(0.84rem, 0.8rem + 0.15vw, 0.94rem);
   font-weight: 600;
   text-decoration: none;
-  color: rgba(245, 230, 211, 0.88);
+  color: rgba(224, 224, 224, 0.88);
   line-height: 1.4;
   flex: 1 1 0;
   min-width: 0;
@@ -228,7 +228,7 @@
 
 .contacto-mapa__aviso {
   font-size: 0.8rem;
-  color: rgba(245, 230, 211, 0.4);
+  color: rgba(224, 224, 224, 0.4);
   padding: 0.6rem 1rem;
   text-align: center;
   margin: 0;
