@@ -4,17 +4,17 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://giantbarberstudio.es/</loc>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-05-15</lastmod>
     <changefreq>monthly</changefreq>
     <xhtml:link rel="alternate" hreflang="es" href="https://giantbarberstudio.es/"/>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://giantbarberstudio.es/Imagenes/Marca/entrada-instagram-giant-barber-desktop.webp</image:loc>
-      <image:title>Fachada de Giant Barber Studio en Murcia</image:title>
+      <image:title>Fachada de Giant Barber Studio — barbero en el Carmen, Murcia</image:title>
     </image:image>
     <image:image>
       <image:loc>https://giantbarberstudio.es/Imagenes/Galeria/estacion-trabajo-herramientas-barbero.webp</image:loc>
-      <image:title>Interior de Giant Barber Studio Murcia</image:title>
+      <image:title>Interior barbería el Carmen Murcia — Giant Barber Studio</image:title>
     </image:image>
     <image:image>
       <image:loc>https://giantbarberstudio.es/Imagenes/Galeria/interior-barberia-sillones-mural.webp</image:loc>
@@ -34,15 +34,15 @@
     </image:image>
     <image:image>
       <image:loc>https://giantbarberstudio.es/Imagenes/Servicios/servicio-corte-de-pelo-barberia-murcia.jpg</image:loc>
-      <image:title>Servicio de corte de pelo en Giant Barber Studio Murcia</image:title>
+      <image:title>Corte de caballero barbero el Carmen Murcia — Giant Barber Studio</image:title>
     </image:image>
     <image:image>
       <image:loc>https://giantbarberstudio.es/Imagenes/Servicios/servicio-cejas-con-cera-barberia-murcia.jpg</image:loc>
-      <image:title>Servicio de cejas con cera en Giant Barber Studio Murcia</image:title>
+      <image:title>Cejas con cera barbería el Carmen Murcia — Giant Barber Studio</image:title>
     </image:image>
     <image:image>
       <image:loc>https://giantbarberstudio.es/Imagenes/Equipo/barbero-antonio.webp</image:loc>
-      <image:title>Antonio Abad, maestro barbero de Giant Barber Studio Murcia</image:title>
+      <image:title>Antonio Abad, barbero en el Carmen Murcia — Giant Barber Studio</image:title>
     </image:image>
   </url>
 </urlset>

@@ -15,7 +15,7 @@
       duracion: "30 min",
       precio: "12.00 €",
       imagenBase: "servicio-corte-de-pelo-barberia-murcia",
-      altImagen: "Antonio Abad realizando corte de pelo en Giant Barber Studio Murcia",
+      altImagen: "Barbero en el Carmen Murcia — corte de caballero en Giant Barber Studio",
       objectPosition: "center 30%"
     },
     {
@@ -24,7 +24,7 @@
       duracion: "30 min",
       precio: "16.00 €",
       imagenBase: "servicio-corte-y-barba-barberia-murcia",
-      altImagen: "Corte de pelo y arreglo de barba en Giant Barber Studio Murcia",
+      altImagen: "Corte y arreglo de barba — barbero en el Carmen, Murcia",
       objectPosition: "center 30%"
     },
     {
@@ -33,7 +33,7 @@
       duracion: "30 min",
       precio: "5.00 €",
       imagenBase: "servicio-arreglo-de-barba-barberia-murcia",
-      altImagen: "Arreglo y perfilado de barba en Giant Barber Studio Murcia",
+      altImagen: "Arreglo de barba con precisión — barbero por el Carmen Murcia",
       objectPosition: "center 30%"
     },
     {
@@ -42,7 +42,7 @@
       duracion: "30 min",
       precio: "5.00 €",
       imagenBase: "servicio-cejas-con-cera-barberia-murcia",
-      altImagen: "Diseño de cejas con cera en Giant Barber Studio Murcia",
+      altImagen: "Diseño de cejas con cera — barbería en el Carmen Murcia",
       objectPosition: "center 25%"
     },
     {
@@ -51,7 +51,7 @@
       duracion: "30 min",
       precio: "20.00 €",
       imagenBase: "servicio-corte-barba-cejas-barberia-murcia",
-      altImagen: "Pack completo corte, barba y cejas en Giant Barber Studio Murcia",
+      altImagen: "Pack completo corte, barba y cejas — barbero el Carmen Murcia",
       objectPosition: "center 30%"
     },
     {
@@ -60,7 +60,7 @@
       duracion: "30 min",
       precio: "16.00 €",
       imagenBase: "servicio-corte-y-cejas-barberia-murcia",
-      altImagen: "Corte de pelo y cejas en Giant Barber Studio Murcia",
+      altImagen: "Corte de pelo y cejas — barbero en Murcia, Calle Paloma 3",
       objectPosition: "center 30%"
     }
   ];
