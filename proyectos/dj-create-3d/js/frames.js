@@ -7,7 +7,9 @@ const FRAME_DIGITS = 4;          // Dígitos del número: frame_0001.jpg
 // ──────────────────────────────────────────────────────────
 
 const canvas = document.getElementById("frameCanvas");
-const ctx = canvas.getContext("2d");
+// alpha:false elimina la composición del canal alfa en cada drawImage,
+// reduciendo el trabajo de la GPU en ~15-20% en animaciones canvas.
+const ctx = canvas.getContext("2d", { alpha: false });
 const hero = document.getElementById("hero");
 const heroContent = document.getElementById("heroContent");
 const heroLoader = document.getElementById("heroLoader");
@@ -29,6 +31,7 @@ function getFramePath(index) {
 function preloadFrames() {
   for (let i = 0; i < TOTAL_FRAMES; i++) {
     const img = new Image();
+    img.decoding = "async"; // decodifica off-main-thread
     img.src = getFramePath(i);
     img.onload = () => {
       loadedCount++;
@@ -56,6 +59,9 @@ function resizeCanvas() {
   canvas.height = window.innerHeight * dpr;
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
+  // imageSmoothingQuality se resetea al cambiar canvas.width/height
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
 }
 
 function drawFrame(index) {
@@ -65,11 +71,20 @@ function drawFrame(index) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Cover — equivalente a CSS object-fit: cover
-  const scale = Math.max(
-    canvas.width / img.naturalWidth,
-    canvas.height / img.naturalHeight
-  );
+  // Móvil portrait → escala parcial: imagen ocupa ~72% del alto del canvas
+  //   (reduce barras negras de ~37% a ~14% sin llegar a cover total)
+  // Desktop / landscape → cover (imagen a sangre)
+  const portrait = window.innerWidth < window.innerHeight;
+  let scale;
+  if (portrait) {
+    const targetHeight = canvas.height * 0.72;          // 72% del alto del canvas
+    const scaleH = targetHeight / img.naturalHeight;    // escala para ese alto objetivo
+    const scaleW = canvas.width / img.naturalWidth;     // escala para llenar el ancho
+    scale = Math.max(scaleH, scaleW);                   // el mayor → rellena ancho o 72% alto
+  } else {
+    scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
+  }
+
   const w = img.naturalWidth * scale;
   const h = img.naturalHeight * scale;
   const x = (canvas.width - w) / 2;

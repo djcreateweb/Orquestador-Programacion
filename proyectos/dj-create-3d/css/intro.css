@@ -4,9 +4,18 @@
    `dj-loader-` para evitar colisiones con el resto de la app.
    ════════════════════════════════════════════════════════════ */
 
-/* Lock scroll mientras el loader está activo */
-html.dj-loader-active,
-body.dj-loader-active { overflow: hidden; }
+/* Lock scroll mientras el loader está activo.
+   IMPORTANTE: overflow:hidden en <html> rompe position:fixed en iOS/Safari
+   porque convierte el viewport en el containing block de fixed.
+   Solución: overflow:hidden solo en body + height:100% en html para contenerlo,
+   de modo que fixed children del body siguen anclados al viewport real. */
+html.dj-loader-active {
+  height: 100%;
+}
+body.dj-loader-active {
+  overflow: hidden;
+  height: 100%;
+}
 
 #dj-loader-root {
   /* ───── Tokens — paleta editorial navy-ink con contraste ───── */

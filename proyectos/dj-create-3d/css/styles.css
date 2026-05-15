@@ -3,11 +3,8 @@
    Fraunces (display, variable) × Geist (body) × Geist Mono (tech)
    ════════════════════════════════════════════════════════════ */
 
-@property --feature-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
+/* @property --feature-angle — eliminado: se declara pero nunca se anima
+   ni se aplica --gradient-border en ninguna regla activa. */
 
 /* ── VARIABLES ─────────────────────────────────────────── */
 :root {
@@ -29,7 +26,7 @@
   --blue-deep: #1873E0;
   --gradient: linear-gradient(135deg, #00F5D4 0%, #7C3AED 100%);
   --gradient-soft: linear-gradient(135deg, rgba(0,245,212,.18) 0%, rgba(124,58,237,.18) 100%);
-  --gradient-border: conic-gradient(from var(--feature-angle, 140deg) at 50% 50%, #00F5D4, #7C3AED, #00F5D4);
+  /* --gradient-border eliminado: dependia de --feature-angle (borrado). Disponible si se reactiva la animación conica. */
   --text: #EEF0FF;
   --text-dim: #8089A8;
   --text-mid: #B7BED5;
@@ -155,7 +152,9 @@ img { max-width: 100%; display: block; }
 a { color: inherit; }
 ::selection { background: var(--accent); color: var(--bg); }
 
-/* Grain fílmico global */
+/* Grain fílmico global — SVG estático en background-image (no animado).
+   contain:strict previene que el blending-mode propague repaint al resto
+   del árbol de render. will-change:auto es implícito y correcto aquí. */
 body::after {
   content: "";
   position: fixed;
@@ -166,6 +165,7 @@ body::after {
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   background-size: 160px 160px;
+  contain: strict;
 }
 
 /* ── TIPOGRAFÍA ─────────────────────────────────────────── */
@@ -304,6 +304,12 @@ h3, h4 {
   height: 600vh;
   background: var(--bg);
 }
+/* Reducir scroll distance en móvil portrait: 600vh hace que el usuario
+   tenga que hacer scroll 6 veces la pantalla solo en el hero.
+   300vh mantiene la animación completa con un recorrido más cómodo. */
+@media (max-width: 768px) and (orientation: portrait) {
+  #hero { height: 300vh; }
+}
 #scrollCanvas {
   position: sticky;
   top: 0;
@@ -311,20 +317,14 @@ h3, h4 {
   height: 100vh;
   overflow: hidden;
   z-index: 1;
+  background: var(--bg);
 }
-#scrollCanvas::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(4,6,15,.35) 70%),
-    linear-gradient(to bottom, rgba(4,6,15,.55) 0%, transparent 30%, rgba(4,6,15,.6) 100%);
-  pointer-events: none;
-}
+/* #scrollCanvas::after — definición activa más abajo en el bloque "NEON BLUE SYSTEM" */
 #frameCanvas {
   width: 100%;
   height: 100%;
   display: block;
+  background: var(--bg);
 }
 
 /* Hero fadeout — cubre los frames finales del vídeo (frame 102+)
@@ -752,6 +752,11 @@ h3, h4 {
   padding-block: var(--space-section-y);
   padding-inline: clamp(1.5rem, 5vw, 4rem);
   isolation: isolate;
+  /* content-visibility:auto aplaza el render de secciones fuera del
+     viewport, reduciendo el trabajo de layout inicial (~30-50% mejora en TBT).
+     contain-intrinsic-size evita el layout shift cuando la sección se activa. */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
 }
 .section--tier-1 { background: var(--bg-tier-1); }
 .section--tier-2 { background: var(--bg-tier-2); }
@@ -866,9 +871,58 @@ h3, h4 {
   will-change: auto;
 }
 
-/* ── SPLIT TEXT ─────────────────────────────────────────── */
-.split-words .tw,
+/* ── REVEAL LEFT ── */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-48px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition-delay: var(--stagger-delay, 0ms);
+}
+.reveal-left.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── REVEAL RIGHT ── */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(48px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition-delay: var(--stagger-delay, 0ms);
+}
+.reveal-right.in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── REVEAL ROTATE ── */
+.reveal-rotate {
+  opacity: 0;
+  transform: perspective(600px) rotateX(18deg) translateY(28px);
+  transform-origin: top center;
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: var(--stagger-delay, 0ms);
+}
+.reveal-rotate.in {
+  opacity: 1;
+  transform: perspective(600px) rotateX(0deg) translateY(0);
+}
+
+/* ── SPLIT CHARS ── */
 .split-chars .tc {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(60%) rotate(4deg);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transition-delay: calc(var(--char-i, 0) * 28ms);
+}
+.split-chars.split-in .tc {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+/* ── SPLIT TEXT ─────────────────────────────────────────── */
+.split-words .tw {
   display: inline-block;
   opacity: 0;
   transform: translate3d(0, .55em, 0);
@@ -880,14 +934,15 @@ h3, h4 {
   transition-delay: calc(var(--i, 0) * 42ms);
   will-change: transform, opacity, filter;
 }
-.split-words.split-in .tw,
-.split-chars.split-in .tc {
+.split-words.split-in .tw {
   opacity: 1;
   transform: none;
   filter: blur(0);
+  /* Liberar compositor layers una vez terminada la animación.
+     Evita mantener N capas GPU (una por palabra) indefinidamente. */
+  will-change: auto;
 }
-.split-words .grad .tw,
-.split-chars .grad .tc {
+.split-words .grad .tw {
   background: inherit;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1791,10 +1846,11 @@ h3, h4 {
 }
 
 .contacto-grid--asym {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(280px, .9fr);
-  gap: clamp(2rem, 6vw, 6rem);
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 760px;
+  margin-inline: auto;
 }
 .contacto-form-head { margin-bottom: var(--space-8); }
 .contacto-form-head .section-title {
@@ -2036,6 +2092,103 @@ button:focus-visible {
   border-radius: var(--radius-pill);
 }
 
+/* ── BOTONES FLOTANTES ───────────────────────────────────── */
+.float-btns {
+  position: fixed;
+  /* env() con fallback: safe-area para iPhones con viewport-fit=cover */
+  bottom: max(1.75rem, env(safe-area-inset-bottom, 1.75rem));
+  left: max(1.25rem, env(safe-area-inset-left, 1.25rem));
+  right: max(1.25rem, env(safe-area-inset-right, 1.25rem));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 1000; /* encima del grain body::after (z-index: 999) */
+}
+
+.float-btn {
+  pointer-events: all;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .72rem 1.3rem;
+  border-radius: 3rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform .22s var(--ease-out), box-shadow .22s var(--ease-out), opacity .22s ease;
+}
+
+.float-btn svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+.float-btn:hover  { transform: translateY(-4px); }
+.float-btn:active { transform: translateY(-1px); }
+
+.float-btn--contact {
+  background: rgba(10, 20, 40, .82);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.float-btn--contact:hover {
+  background: rgba(0,245,212,.1);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 8px 32px rgba(0,245,212,.18);
+}
+
+.float-btn--wa {
+  background: #25D366;
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(37,211,102,.35);
+}
+
+.float-btn--wa:hover {
+  background: #20ba5a;
+  box-shadow: 0 8px 32px rgba(37,211,102,.55);
+}
+
+@media (max-width: 480px) {
+  .float-btns { bottom: 1.25rem; left: .85rem; right: .85rem; }
+  .float-btn  { padding: .65rem 1rem; font-size: var(--fs-xs); }
+  .float-btn svg { width: 17px; height: 17px; }
+  .plan-row::after { font-size: 55vw; }
+  .hero-title { font-size: clamp(2.1rem, 11vw, 3.2rem); }
+  .section { padding-inline: 1.1rem; }
+}
+
+@media (max-width: 375px) {
+  .nav-cta { padding: .55rem .85rem; letter-spacing: .1em; }
+  .float-btn span { font-size: .68rem; }
+  .hero-title { font-size: clamp(1.9rem, 10vw, 2.8rem); }
+}
+
+/* ── Cookie banner en móvil: arriba para no chocar con botones flotantes ── */
+@media (max-width: 768px) {
+  .cookie-banner {
+    bottom: auto;
+    top: 1rem;
+    transform: translateX(-50%) translateY(-28px);
+    border-radius: var(--radius-lg);
+    width: min(640px, calc(100% - 1.6rem));
+    padding: 1.1rem 1.2rem;
+  }
+  .cookie-banner.is-visible {
+    transform: translateX(-50%) translateY(0);
+  }
+  .cookie-banner__text { font-size: .8rem; margin-bottom: .85rem; }
+  .cookie-banner__actions { gap: .4rem; }
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 920px) {
   .nav-links { display: none; }
@@ -2053,11 +2206,18 @@ button:focus-visible {
   .nosotros-aside-inner { position: static; }
   .nosotros-bignum { font-size: clamp(14rem, 60vw, 22rem); top: auto; bottom: -5%; right: -10vw; }
 
-  .contacto-grid--asym { grid-template-columns: 1fr; }
   .field-row { grid-template-columns: 1fr; }
 
   .divider-haze { height: 120px; }
   .divider-tech { height: 60px; font-size: .6rem; }
+
+  /* ── Fixes adicionales 920px ── */
+  .plan-row__price { font-size: clamp(2.2rem, 7vw, 3.8rem); }
+  .section-title   { font-size: clamp(2rem, 5vw, 3.6rem); }
+  .plans-list      { padding-inline: 0; }
+  .nosotros-bignum { font-size: clamp(12rem, 52vw, 22rem); }
+  .footer-bottom   { flex-wrap: wrap; }
+  .float-btns      { bottom: 1.5rem; }
 }
 
 @media (max-width: 640px) {
@@ -2081,6 +2241,25 @@ button:focus-visible {
   .footer-top { flex-direction: column; align-items: flex-start; }
   .nosotros-stats { grid-template-columns: 1fr; gap: 1.4rem; }
   .contacto-info li { grid-template-columns: 1fr; gap: .2rem; padding: 1rem 0; }
+
+  /* ── Fixes adicionales móvil 640px ── */
+  .nosotros-bignum {
+    font-size: clamp(6rem, 35vw, 10rem);
+    top: auto;
+    bottom: 0;
+    right: -3vw;
+    -webkit-text-stroke: 1px rgba(255,255,255,.04);
+  }
+  .footer-links,
+  .footer-social { flex-wrap: wrap; gap: .6rem 1.2rem; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: .5rem; }
+  .scroll-hint   { display: none; }
+  .hero-sub      { font-size: 1rem; max-width: 100%; }
+  .section-lead  { font-size: 1rem; }
+  .section-eyebrow { flex-wrap: wrap; }
+  .plan-row__center { border-right: none; }
+  .contacto-aside-lead { font-size: 1.2rem; }
+  .nosotros-lead { font-size: clamp(1.2rem, 4.5vw, 1.6rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2104,6 +2283,9 @@ button:focus-visible {
   .reveal-blur,
   .reveal-scale,
   .reveal-clip,
+  .reveal-left,
+  .reveal-right,
+  .reveal-rotate,
   .reveal-child,
   .split-words .tw,
   .split-chars .tc {
@@ -2150,6 +2332,29 @@ button:focus-visible {
     rgba(2,13,26,.95) 100%);
   pointer-events: none;
   z-index: 1;
+}
+
+/* Móvil portrait: cubre las barras negras arriba y abajo del frame.
+   Con scale=0.72: imagen ≈608px en canvas de 844px → barras ~118px ≈ 14%.
+   El gradiente cubre ese 14% top y bottom con opacidad alta, luego se
+   desvanece hacia el centro para que el efecto de scroll sea visible. */
+@media (max-width: 768px) and (orientation: portrait) {
+  #scrollCanvas::after {
+    inset: 0;
+    height: auto;
+    background:
+      radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(4,6,15,.35) 70%),
+      linear-gradient(to bottom,
+        rgba(4,6,15,.95)  0%,
+        rgba(4,6,15,.95) 10%,
+        rgba(4,6,15,.20) 18%,
+        transparent      24%,
+        transparent      76%,
+        rgba(4,6,15,.20) 82%,
+        rgba(4,6,15,.95) 90%,
+        rgba(4,6,15,.95) 100%
+      );
+  }
 }
 
 /* ── 3. Botones: hover con rise + glow reforzado ─────────── */

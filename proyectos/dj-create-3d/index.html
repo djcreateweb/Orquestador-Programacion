@@ -2,14 +2,152 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DJ Create — Tu presencia digital, reinventada</title>
-  <meta name="description" content="Agencia de diseño web 3D e inmersivo en Murcia. Webs cinematográficas que convierten visitantes en clientes.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#020812">
+  <title>Páginas web en Murcia | DJ Create — Agencia de Diseño Web</title>
+  <meta name="description" content="Diseño web profesional en Murcia desde 300€. Páginas a medida, sin plantillas, con animaciones 3D. Autónomos y empresas en Murcia. Presupuesto sin compromiso.">
+  <link rel="canonical" href="https://djcreate.es/">
+  <meta name="robots" content="index, follow">
+
+  <!-- ============================================================
+       SECURITY HEADERS (meta equivalents — segunda capa sobre Nginx)
+       Nginx debe replicar estas directivas a nivel de servidor para
+       maxima efectividad y soporte en navegadores legacy.
+       ============================================================ -->
+
+  <!-- Content Security Policy
+       script-src incluye 'unsafe-inline' porque el loader de intro usa
+       un bloque <script> inline en el body. Para eliminar 'unsafe-inline'
+       en el futuro: extraer ese bloque a js/loader-init.js con un nonce.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none';">
+
+  <!-- Clickjacking: refuerzo explicito (complementa frame-ancestors en CSP) -->
+  <meta http-equiv="X-Frame-Options" content="DENY">
+
+  <!-- Referrer Policy: no filtra la URL completa al navegar a terceros -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Permissions Policy: deshabilita APIs de hardware no usadas -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()">
+
+  <!-- Previene MIME-type sniffing (refuerzo; definitivo a nivel Nginx) -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Páginas web en Murcia | DJ Create — Agencia de Diseño Web">
+  <meta property="og:description" content="Diseño web profesional en Murcia desde 300€. Páginas a medida, sin plantillas, con animaciones 3D. Autónomos y empresas en Murcia.">
+  <meta property="og:image"       content="https://djcreate.es/assets/images/og-djcreate.jpg">
+  <meta property="og:url"         content="https://djcreate.es/">
+  <meta property="og:site_name"   content="DJ Create">
+  <meta property="og:locale"      content="es_ES">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Páginas web en Murcia | DJ Create — Agencia de Diseño Web">
+  <meta name="twitter:description" content="Diseño web profesional en Murcia desde 300€. Páginas a medida, sin plantillas, con animaciones 3D.">
+  <meta name="twitter:image"       content="https://djcreate.es/assets/images/og-djcreate.jpg">
+
+  <!-- Schema.org JSON-LD — LocalBusiness / ProfessionalService -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "name": "DJ Create",
+    "description": "Agencia de diseño web en Murcia especializada en páginas web a medida, experiencias 3D y diseño web profesional para autónomos y empresas.",
+    "url": "https://djcreate.es",
+    "telephone": "+34698447218",
+    "email": "djcreateweb@gmail.com",
+    "image": "https://djcreate.es/assets/images/og-djcreate.jpg",
+    "priceRange": "€€",
+    "currenciesAccepted": "EUR",
+    "paymentAccepted": "Transferencia bancaria, Tarjeta",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Murcia",
+      "addressRegion": "Región de Murcia",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "37.9840",
+      "longitude": "-1.1284"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Murcia"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios de diseño web en Murcia",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Plan Básico — Web one-page",
+            "description": "Página web one-page profesional para autónomos y pequeños negocios en Murcia"
+          },
+          "price": "300",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Plan Avanzado — Web multipágina",
+            "description": "Diseño web multipágina con animaciones, blog y CMS para empresas en Murcia"
+          },
+          "price": "400",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Plan 3D — Web inmersiva",
+            "description": "Experiencia web 3D con scroll cinematográfico y Three.js"
+          },
+          "price": "500",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Plan Tienda Online",
+            "description": "Tienda online completa con pasarela de pago para negocios en Murcia"
+          },
+          "price": "800",
+          "priceCurrency": "EUR"
+        }
+      ]
+    },
+    "sameAs": [
+      "https://www.instagram.com/djcreateweb",
+      "https://www.behance.net/djcreate",
+      "https://www.linkedin.com/company/djcreate"
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Geist+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700&family=Syne:wght@800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Fuentes activas en index.html — Fraunces (display), Geist (body), Geist Mono (tech) -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Geist+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <!-- Fuentes del loader (intro.css) — cargadas juntas en una sola request -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <!-- Precarga del primer frame del canvas — LCP crítico -->
+  <link rel="preload" href="frames/frame_0000.jpg" as="image">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/intro.css">
 </head>
@@ -186,7 +324,7 @@
       <li><a href="#nosotros" data-scroll>Nosotros</a></li>
       <li><a href="#contacto" data-scroll>Contacto</a></li>
     </ul>
-    <a href="#contacto" class="nav-cta" data-scroll>CONTACTO</a>
+    <a href="#contacto" class="nav-cta" data-scroll aria-label="Solicitar presupuesto de diseño web en Murcia">CONTACTO</a>
   </nav>
 
   <!-- HERO — SCROLL DRIVEN -->
@@ -201,13 +339,13 @@
 
     <div class="hero-overlay">
       <div class="hero-content" id="heroContent">
-        <span class="hero-accent" aria-hidden="true"></span>
-        <p class="hero-tag"><span class="hero-tag-mark">●</span> Agencia de diseño web · Murcia</p>
-        <h1 class="hero-title">
-          Diseñamos<br>experiencias<br><span class="grad">que se recuerdan.</span>
+        <span class="hero-accent reveal-rotate" aria-hidden="true"></span>
+        <p class="hero-tag reveal-fade"><span class="hero-tag-mark">●</span> Agencia de diseño web profesional · Murcia</p>
+        <h1 class="hero-title split-chars">
+          Páginas web<br>en Murcia<br><span class="grad">que se recuerdan.</span>
         </h1>
-        <p class="hero-sub">Webs que no se olvidan. Diseñadas a medida, sin plantillas, con obsesión por cada detalle.</p>
-        <div class="hero-btns">
+        <p class="hero-sub reveal-up">Diseño web profesional para autónomos y empresas en Murcia. A medida, sin plantillas, con obsesión por cada detalle.</p>
+        <div class="hero-btns reveal-fade">
           <a href="#portafolio" class="btn-main" data-scroll>Ver proyectos</a>
           <a href="#contacto" class="btn-ghost" data-scroll>Hablemos →</a>
         </div>
@@ -239,16 +377,16 @@
   <!-- SERVICIOS · tier-2 · bento -->
   <section id="servicios" class="section section--tier-2 section-servicios">
     <div class="section-inner">
-      <div class="section-head reveal">
-        <p class="section-eyebrow"><span>01 / Servicios</span></p>
+      <div class="section-head reveal-fade">
+        <p class="section-eyebrow reveal-left"><span>01 / Servicios</span></p>
         <h2 class="section-title split-words has-rule">Planes a medida<br><span class="grad">para cada visión.</span></h2>
-        <p class="section-lead">Desde landing pages que convierten hasta experiencias 3D cinematográficas. Elige el plan que encaje con tu proyecto.</p>
+        <p class="section-lead reveal-up">Desde landing pages que convierten hasta experiencias 3D cinematográficas. Diseño web en Murcia adaptado a cada presupuesto y proyecto.</p>
       </div>
 
       <div class="plans-list" data-reveal-stagger="100">
 
         <!-- 01 Plan Basico -->
-        <article class="plan-row reveal-up" data-num="01">
+        <article class="plan-row reveal-left" data-num="01">
           <div class="plan-row__left">
             <span class="plan-row__num">01</span>
             <div class="plan-row__identity">
@@ -257,7 +395,7 @@
             </div>
           </div>
           <div class="plan-row__center">
-            <p class="plan-row__desc">Web one-page profesional para autónomos y pequeños negocios.</p>
+            <p class="plan-row__desc">Página web one-page profesional para autónomos y pequeños negocios en Murcia.</p>
             <ul class="plan-row__features">
               <li>Diseño one-page responsive</li>
               <li>Hasta 4 secciones</li>
@@ -282,7 +420,7 @@
             </div>
           </div>
           <div class="plan-row__center">
-            <p class="plan-row__desc">Web multipágina con animaciones avanzadas, blog y panel para gestionar contenidos.</p>
+            <p class="plan-row__desc">Web multipágina con animaciones avanzadas, blog y panel para gestionar contenidos. Ideal para empresas en Murcia.</p>
             <ul class="plan-row__features">
               <li>Hasta 6 páginas a medida</li>
               <li>Animaciones GSAP / scroll</li>
@@ -298,7 +436,7 @@
         </article>
 
         <!-- 03 Plan 3D -->
-        <article class="plan-row reveal-up" data-num="03">
+        <article class="plan-row reveal-right" data-num="03">
           <div class="plan-row__left">
             <span class="plan-row__num">03</span>
             <div class="plan-row__identity">
@@ -322,7 +460,7 @@
         </article>
 
         <!-- 04 Plan Tienda -->
-        <article class="plan-row reveal-up" data-num="04">
+        <article class="plan-row reveal-rotate" data-num="04">
           <div class="plan-row__left">
             <span class="plan-row__num">04</span>
             <div class="plan-row__identity">
@@ -331,7 +469,7 @@
             </div>
           </div>
           <div class="plan-row__center">
-            <p class="plan-row__desc">Tienda online completa con pasarela de pago, gestión de productos y envíos.</p>
+            <p class="plan-row__desc">Tienda online completa con pasarela de pago, gestión de productos y envíos. Para negocios de Murcia que quieren vender online.</p>
             <ul class="plan-row__features">
               <li>Catálogo ilimitado</li>
               <li>Stripe / Redsys integrado</li>
@@ -356,10 +494,10 @@
   <!-- PORTAFOLIO · tier-2 · editorial full-bleed -->
   <section id="portafolio" class="section section--tier-2 section-portafolio">
     <div class="section-inner section-inner--bleed">
-      <div class="section-head reveal">
+      <div class="section-head reveal-fade">
         <p class="section-eyebrow"><span>02 / Portafolio</span></p>
         <h2 class="section-title split-words has-rule">Trabajos<br><span class="grad">recientes.</span></h2>
-        <p class="section-lead">Una selección de proyectos donde diseño y código se encuentran.</p>
+        <p class="section-lead reveal-up">Una selección de proyectos donde diseño y código se encuentran.</p>
       </div>
 
       <div class="portfolio-grid portfolio-grid--editorial" data-reveal-stagger="100">
@@ -382,7 +520,7 @@
         ============================================================ -->
 
         <!--
-        <a href="https://tudominio.com" target="_blank" rel="noopener" class="portfolio-card portfolio-card--w4 reveal-blur" data-url="tudominio.com">
+        <a href="https://tudominio.com" target="_blank" rel="noopener noreferrer" class="portfolio-card portfolio-card--w4 reveal-blur" data-url="tudominio.com">
           <div class="portfolio-thumb portfolio-thumb--video">
             <div class="portfolio-bar">
               <span class="portfolio-bar-dots"><i class="dot dot--r"></i><i class="dot dot--y"></i><i class="dot dot--g"></i></span>
@@ -437,7 +575,7 @@
           <div class="portfolio-cta-inner">
             <span class="portfolio-tag">+ proyecto</span>
             <h3 class="portfolio-title">¿El siguiente caso<br><span class="grad">es el tuyo?</span></h3>
-            <p>Cuéntame tu idea → escribimos guion, diseño y código</p>
+            <p>Cuéntame tu idea y creamos tu página web en Murcia: guion, diseño y código desde cero.</p>
           </div>
         </a>
       </div>
@@ -453,7 +591,7 @@
 
     <div class="section-inner">
       <div class="nosotros-grid">
-        <aside class="nosotros-aside reveal">
+        <aside class="nosotros-aside reveal-left">
           <div class="nosotros-aside-inner">
             <p class="section-eyebrow"><span>03 / Nosotros</span></p>
             <h2 class="section-title split-words has-rule">Estudio<br>pequeño,<br><span class="grad">obsesión<br>grande.</span></h2>
@@ -461,31 +599,31 @@
           </div>
         </aside>
 
-        <div class="nosotros-text reveal">
-          <p class="nosotros-lead">Estudio de diseño web en Murcia. Para marcas que no se conforman con plantillas.</p>
+        <div class="nosotros-text reveal-right">
+          <p class="nosotros-lead reveal-fade">Estudio de desarrollo web en Murcia especializado en diseño web profesional para autónomos y empresas que no se conforman con plantillas.</p>
 
-          <ol class="nosotros-manifest">
-            <li>
+          <ol class="nosotros-manifest" data-reveal-stagger="120">
+            <li class="reveal-up">
               <span class="nosotros-manifest__num">01</span>
-              <h3 class="nosotros-manifest__title">Hecho a medida</h3>
-              <p class="nosotros-manifest__desc">Cada web desde cero. Sin plantillas, sin temas comprados.</p>
+              <h3 class="nosotros-manifest__title">Páginas web a medida en Murcia</h3>
+              <p class="nosotros-manifest__desc">Cada web desde cero. Sin plantillas, sin temas comprados. Diseño web personalizado para tu negocio.</p>
             </li>
-            <li>
+            <li class="reveal-up">
               <span class="nosotros-manifest__num">02</span>
               <h3 class="nosotros-manifest__title">Obsesivos con el detalle</h3>
-              <p class="nosotros-manifest__desc">Cada animación, cada transición, cada línea de código.</p>
+              <p class="nosotros-manifest__desc">Cada animación, cada transición, cada línea de código. Porque una agencia web de Murcia debe dar lo mejor.</p>
             </li>
-            <li>
+            <li class="reveal-up">
               <span class="nosotros-manifest__num">03</span>
-              <h3 class="nosotros-manifest__title">Pocos clientes</h3>
-              <p class="nosotros-manifest__desc">Un puñado de proyectos al año. Toda la atención que merecen.</p>
+              <h3 class="nosotros-manifest__title">Pocos clientes, máxima atención</h3>
+              <p class="nosotros-manifest__desc">Un puñado de proyectos al año. Toda la atención personalizada que tu negocio en Murcia merece.</p>
             </li>
           </ol>
 
-          <ul class="nosotros-stats">
-            <li><strong data-counter="100" data-counter-suffix="%">100%</strong><span>diseño a medida</span></li>
-            <li><strong data-counter="5" data-counter-suffix="★">5★</strong><span>satisfacción cliente</span></li>
-            <li><strong>1 a 1</strong><span>atención dedicada</span></li>
+          <ul class="nosotros-stats" data-reveal-stagger="150">
+            <li class="reveal-scale"><strong data-counter="100" data-counter-suffix="%">100%</strong><span>diseño a medida</span></li>
+            <li class="reveal-scale"><strong data-counter="5" data-counter-suffix="★">5★</strong><span>satisfacción cliente</span></li>
+            <li class="reveal-scale"><strong>1 a 1</strong><span>atención dedicada</span></li>
           </ul>
         </div>
       </div>
@@ -499,17 +637,17 @@
   <section id="contacto" class="section section--tier-2 section-contacto">
     <div class="section-inner section-inner--wide">
       <div class="contacto-grid contacto-grid--asym">
-        <form class="contacto-form reveal" id="contactForm" novalidate>
+        <form class="contacto-form reveal-up" id="contactForm" novalidate>
           <header class="contacto-form-head">
             <p class="section-eyebrow"><span>04 / Contacto</span></p>
-            <h2 class="section-title split-words has-rule">¿Tienes un proyecto?<br><span class="grad">Hablemos.</span></h2>
+            <h2 class="section-title split-words has-rule">¿Necesitas una página web en Murcia?<br><span class="grad">Hablemos.</span></h2>
           </header>
 
-          <div class="field">
+          <div class="field reveal-up">
             <label for="name">Nombre</label>
             <input id="name" name="name" type="text" required placeholder=" ">
           </div>
-          <div class="field-row">
+          <div class="field-row reveal-up" data-reveal-stagger="80">
             <div class="field">
               <label for="email">Email</label>
               <input id="email" name="email" type="email" required placeholder=" ">
@@ -525,7 +663,7 @@
               </select>
             </div>
           </div>
-          <div class="field">
+          <div class="field reveal-up">
             <label for="message">Mensaje</label>
             <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
           </div>
@@ -533,23 +671,14 @@
           <p class="form-feedback" id="formFeedback" aria-live="polite"></p>
         </form>
 
-        <aside class="contacto-aside reveal">
-          <p class="contacto-aside-lead">Respondemos en menos de 24h con propuesta inicial sin compromiso.</p>
 
-          <ul class="contacto-info">
-            <li><span>Email</span><a href="mailto:djcreateweb@gmail.com">djcreateweb@gmail.com</a></li>
-            <li><span>WhatsApp</span><a href="tel:+34600000000">+34 600 000 000</a></li>
-            <li><span>Ubicación</span><p>Murcia, ES</p></li>
-            <li><span>Horario</span><p>L–V · 9h–19h</p></li>
-          </ul>
-        </aside>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-top">
+    <div class="footer-top reveal-fade">
       <a href="#hero" class="nav-logo" data-scroll>
         <svg class="nav-logo-mark" viewBox="0 0 22 22" aria-hidden="true">
           <circle cx="11" cy="11" r="8.5" fill="none" stroke="url(#djc-grad)" stroke-width="1.5"/>
@@ -564,17 +693,17 @@
         <li><a href="#contacto" data-scroll>Contacto</a></li>
       </ul>
       <ul class="footer-social">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Behance</a></li>
-        <li><a href="#">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/djcreateweb" target="_blank" rel="noopener noreferrer" aria-label="DJ Create en Instagram">Instagram</a></li>
+        <li><a href="https://www.behance.net/djcreate" target="_blank" rel="noopener noreferrer" aria-label="Portafolio de DJ Create en Behance">Behance</a></li>
+        <li><a href="https://www.linkedin.com/company/djcreate" target="_blank" rel="noopener noreferrer" aria-label="DJ Create agencia web Murcia en LinkedIn">LinkedIn</a></li>
       </ul>
     </div>
-    <div class="footer-bottom">
-      <p>© <span id="year"></span> DJ Create. Hecho con obsesión en Murcia.</p>
+    <div class="footer-bottom reveal-fade">
+      <p>© <span id="year"></span> DJ Create — Agencia de diseño web en Murcia. Páginas web profesionales para autónomos y empresas.</p>
       <p>
         <a href="legal/aviso-legal.html">Aviso legal</a> ·
-        <a href="legal/politica-privacidad.html">Privacidad</a> ·
-        <a href="legal/politica-cookies.html">Cookies</a> ·
+        <a href="legal/politica-privacidad.html">Política de privacidad</a> ·
+        <a href="legal/politica-cookies.html">Política de cookies</a> ·
         <a href="#" data-cookie-open>Configurar cookies</a>
       </p>
     </div>
@@ -645,8 +774,25 @@
       </div>
     </div>
   </div>
-  <script src="js/frames.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/cookies.js"></script>
+  <!-- BOTONES FLOTANTES -->
+  <div class="float-btns" aria-label="Acciones rápidas">
+    <a href="#contacto" class="float-btn float-btn--contact" data-scroll aria-label="Ir al formulario de contacto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span>Contacto</span>
+    </a>
+    <a href="https://wa.me/34698447218" class="float-btn float-btn--wa" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.862L.057 23.428a.75.75 0 0 0 .916.926l5.703-1.453A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.52-5.17-1.426l-.37-.22-3.835.977.997-3.737-.241-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <script src="js/frames.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/cookies.js" defer></script>
 </body>
 </html>

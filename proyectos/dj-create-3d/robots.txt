@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /assets/fonts/
+Disallow: /.gitignore
+
+Sitemap: https://djcreate.es/sitemap.xml

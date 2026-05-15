@@ -59,6 +59,23 @@ if (form) {
       feedback.textContent = 'El email no es válido.';
       return;
     }
+    // Length limits — previene URL overflow en el compose de Gmail (limite ~8 KB URL)
+    // y limita la superficie de abuso del formulario como relay de spam.
+    if (name.length > 100) {
+      feedback.classList.add('error');
+      feedback.textContent = 'El nombre es demasiado largo (máx. 100 caracteres).';
+      return;
+    }
+    if (email.length > 254) {
+      feedback.classList.add('error');
+      feedback.textContent = 'El email es demasiado largo.';
+      return;
+    }
+    if (message.length > 2000) {
+      feedback.classList.add('error');
+      feedback.textContent = 'El mensaje es demasiado largo (máx. 2000 caracteres).';
+      return;
+    }
 
     const plan    = (form.plan?.value || 'No especificado').trim();
     const subject = encodeURIComponent('Consulta web — ' + plan);
@@ -72,7 +89,7 @@ if (form) {
                      '&to=djcreateweb%40gmail.com' +
                      '&su=' + subject +
                      '&body=' + body;
-    window.open(gmailUrl, '_blank', 'noopener');
+    window.open(gmailUrl, '_blank', 'noopener,noreferrer');
 
     feedback.textContent = '¡Abriendo Gmail! Revisa la ventana que acaba de abrirse.';
     form.reset();
@@ -89,7 +106,7 @@ if (form) {
   const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
 
   // ── 1) REVEAL VARIANTS + STAGGER ────────────────────────
-  const variantSel = '.reveal-up, .reveal-fade, .reveal-blur, .reveal-scale, .reveal-clip';
+  const variantSel = '.reveal-up, .reveal-fade, .reveal-blur, .reveal-scale, .reveal-clip, .reveal-left, .reveal-right, .reveal-rotate';
   const variantIO = new IntersectionObserver((entries, io) => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
@@ -160,6 +177,50 @@ if (form) {
     });
   }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
   $$('.split-words').forEach(el => splitIO.observe(el));
+
+  // ── 2b) SPLIT TEXT (caracteres) ─────────────────────
+  function splitChars(el) {
+    if (el.dataset.splitDone === '1') return;
+    const walk = (node) => {
+      const out = document.createDocumentFragment();
+      node.childNodes.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          [...child.textContent].forEach(ch => {
+            if (/\s/.test(ch)) {
+              out.appendChild(document.createTextNode(ch));
+            } else {
+              const s = document.createElement('span');
+              s.className = 'tc';
+              s.textContent = ch;
+              out.appendChild(s);
+            }
+          });
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          if (child.tagName === 'BR') { out.appendChild(child.cloneNode()); return; }
+          const clone = child.cloneNode(false);
+          clone.appendChild(walk(child));
+          out.appendChild(clone);
+        }
+      });
+      return out;
+    };
+    const frag = walk(el);
+    el.innerHTML = '';
+    el.appendChild(frag);
+    let i = 0;
+    $$('.tc', el).forEach(t => t.style.setProperty('--char-i', i++));
+    el.dataset.splitDone = '1';
+  }
+  $$('.split-chars').forEach(splitChars);
+
+  const charIO = new IntersectionObserver((entries, io) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('split-in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+  $$('.split-chars').forEach(el => charIO.observe(el));
 
   // ── 3) CONTADORES NUMÉRICOS ─────────────────────────────
   function setCounterText(el, value) {
@@ -384,7 +445,7 @@ if (form) {
       // Espera al feedback que pone el handler original (lína 41)
       setTimeout(() => {
         if (feedback?.classList.contains('error')) return;
-        if (feedback?.textContent?.startsWith('¡Mensaje')) {
+        if (feedback?.textContent?.startsWith('¡Abriendo')) {
           submitBtn.classList.add('is-success');
           submitBtn.disabled = true;
           setTimeout(() => {
