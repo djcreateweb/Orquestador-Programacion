@@ -218,30 +218,20 @@
     <link rel="stylesheet" href="Css/preloader.css" />
     <link rel="stylesheet" href="Css/encabezado.css" />
     <link rel="stylesheet" href="Css/seccion-inicio.min.css" />
-    <link rel="preload" href="Css/seccion-servicios.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-servicios.css"></noscript>
-    <link rel="preload" href="Css/seccion-equipo.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-equipo.css"></noscript>
-    <link rel="preload" href="Css/seccion-reconocimientos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-reconocimientos.css"></noscript>
-    <link rel="preload" href="Css/seccion-galeria.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-galeria.css"></noscript>
-    <link rel="preload" href="Css/seccion-resenas.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-resenas.css"></noscript>
-    <link rel="preload" href="Css/seccion-horario.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-horario.css"></noscript>
-    <link rel="preload" href="Css/seccion-contacto.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-contacto.css"></noscript>
-    <link rel="preload" href="Css/seccion-cita.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/seccion-cita.css"></noscript>
-    <link rel="preload" href="Css/pie-pagina.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/pie-pagina.css"></noscript>
-    <link rel="preload" href="Css/animaciones.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/animaciones.css"></noscript>
-    <link rel="preload" href="Css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/responsive.css"></noscript>
-    <link rel="preload" href="Css/cookies.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="Css/cookies.css"></noscript>
+    <noscript>
+      <link rel="stylesheet" href="Css/seccion-servicios.css">
+      <link rel="stylesheet" href="Css/seccion-equipo.css">
+      <link rel="stylesheet" href="Css/seccion-reconocimientos.css">
+      <link rel="stylesheet" href="Css/seccion-galeria.css">
+      <link rel="stylesheet" href="Css/seccion-resenas.css">
+      <link rel="stylesheet" href="Css/seccion-horario.css">
+      <link rel="stylesheet" href="Css/seccion-contacto.css">
+      <link rel="stylesheet" href="Css/seccion-cita.css">
+      <link rel="stylesheet" href="Css/pie-pagina.css">
+      <link rel="stylesheet" href="Css/animaciones.css">
+      <link rel="stylesheet" href="Css/responsive.css">
+      <link rel="stylesheet" href="Css/cookies.css">
+    </noscript>
   </head>
   <body>
     <div
@@ -905,7 +895,7 @@
 
     <script src="Js/Vendor/gsap.min.js" defer></script>
     <script src="Js/Vendor/ScrollTrigger.min.js" defer></script>
-    <script src="Js/video-scroll.js" defer></script>
+    <script src="Js/video-scroll.min.js" defer></script>
     <script src="Js/preloader.js" defer></script>
     <script src="Js/consentimiento-cookies.js" defer></script>
     <script src="Js/navegacion.min.js" defer></script>
@@ -964,6 +954,38 @@
       <p class="lightbox-contador" id="lightbox-contador" aria-live="polite"></p>
     </div>
   </div>
+
+    <script>
+(function() {
+  var cssDeferido = [
+    'Css/seccion-servicios.css',
+    'Css/seccion-equipo.css',
+    'Css/seccion-reconocimientos.css',
+    'Css/seccion-galeria.css',
+    'Css/seccion-resenas.css',
+    'Css/seccion-horario.css',
+    'Css/seccion-contacto.css',
+    'Css/seccion-cita.css',
+    'Css/pie-pagina.css',
+    'Css/animaciones.css',
+    'Css/responsive.css',
+    'Css/cookies.css'
+  ];
+  function cargarCSSdeferido() {
+    cssDeferido.forEach(function(href) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    });
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(cargarCSSdeferido, { timeout: 2000 });
+  } else {
+    window.addEventListener('load', cargarCSSdeferido);
+  }
+})();
+    </script>
   </body>
 </html>
 
