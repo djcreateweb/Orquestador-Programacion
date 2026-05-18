@@ -246,10 +246,18 @@
   calcDims();
   dibujar(0);
 
-  precargar(function () {
-    dibujar(0);
-    lanzarAnimacion();
-  });
+  var zonaEl = document.querySelector('.video-scroll-zona');
+  if (zonaEl && 'IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries, o) {
+      if (entries[0].isIntersecting) {
+        o.disconnect();
+        precargar(function () { dibujar(0); lanzarAnimacion(); });
+      }
+    }, { rootMargin: '200px' });
+    obs.observe(zonaEl);
+  } else {
+    precargar(function () { dibujar(0); lanzarAnimacion(); });
+  }
 
   /* Resize: re-posicionar sin re-animar.
    *

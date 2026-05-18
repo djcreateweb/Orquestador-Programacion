@@ -78,7 +78,7 @@
   function pictureSrcset(base, alt, pos) {
     const ruta = "Imagenes/Servicios/";
     return `<picture>
-            <source media="(min-width: 1024px)" srcset="${ruta}${base}-desktop.webp" type="image/webp">
+            <source media="(min-width: 1024px)" srcset="${ruta}${base}-desktop-opt.webp" type="image/webp">
             <source media="(min-width: 768px)" srcset="${ruta}${base}-tablet.webp" type="image/webp">
             <source srcset="${ruta}${base}-mobile.webp" type="image/webp">
             <img class="servicio-card__imagen"

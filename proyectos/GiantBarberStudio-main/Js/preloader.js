@@ -13,7 +13,7 @@
   let closing = false;
   let rafId = 0;
   const tiempoMinimoMs = 500;
-  const tiempoMaximoMs = 6000;
+  const tiempoMaximoMs = 2000;
   const t0 = performance.now();
 
   function render() {

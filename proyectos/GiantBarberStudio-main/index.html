@@ -52,30 +52,27 @@
     <link rel="apple-touch-icon" href="Imagenes/Marca/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="Data/site.webmanifest" />
 
-    <link rel="preload" href="https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvUDQZNLo_U2r.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="Fuentes/playfair-display-v40-latin-400.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
     <link rel="preload"
           as="image"
           href="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-desktop.webp"
-          imagesrcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-mobile.webp 800w,
+          imagesrcset="Imagenes/Hero/hero-mobile-portrait-opt.webp 480w,
+                       Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-mobile.webp 800w,
                        Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-tablet.webp 1200w,
                        Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-desktop.webp 1672w"
           imagesizes="100vw"
           type="image/webp"
           fetchpriority="high">
-    <link rel="preload" as="style" href="Css/estilos.css" />
-    <link rel="preload" as="style" href="Css/seccion-inicio.css" />
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@500;700&family=Playfair+Display:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@500;700&display=swap"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@500;700&family=Playfair+Display:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@500;700&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -186,23 +183,65 @@
       }
     </script>
     <script>if("scrollRestoration"in history){history.scrollRestoration="manual";}window.scrollTo(0,0);</script>
+    <!-- CSS crítico inline: variables, reset, header, hero -->
+    <style>
+      @font-face{font-family:'Playfair Display';src:url('Fuentes/playfair-display-v40-latin-400.woff2') format('woff2');font-display:swap;font-weight:400;font-style:normal}@font-face{font-family:'Playfair Display';src:url('Fuentes/playfair-display-v40-latin-700.woff2') format('woff2');font-display:swap;font-weight:700;font-style:normal}
+      :root{--color-blanco:#ffffff;--color-negro:#1a1a1a;--color-marron-oscuro:#3e2723;--color-marron-medio:#5d4037;--color-marron-claro:#8d6e63;--color-crema:#e0e0e0;--color-gris-oscuro:#2c2c2c;--color-gris-claro:#e8e8e8;--color-gris-muy-claro:#f9f9f9;--color-borde:#d7ccc8;--color-shadow:rgba(62,39,35,0.1);--color-shadow-hover:rgba(62,39,35,0.16);--fondo-banda-1:#faf7f3;--fondo-banda-2:#f0e9e3;--fondo-banda-3:#e8dfd6;--fondo-banda-4:#f2ebe6;--color-cerrado:rgba(93,64,55,0.12);--color-cerrado-texto:#5d4037;--font-display:"Playfair Display",Georgia,serif;--font-titulo:"Montserrat",system-ui,sans-serif;--font-cuerpo:"Lato",system-ui,sans-serif;--espacio-xs:0.5rem;--espacio-sm:1rem;--espacio-md:1.5rem;--espacio-lg:3rem;--radio:12px;--radio-pill:999px;--transicion:0.25s ease;--sombra-suave:0 4px 20px rgba(62,39,35,0.12);--color-dorado:#c9a961;--color-dorado-suave:rgba(201,169,97,0.15);--sombra-media:0 8px 32px rgba(62,39,35,0.15);--sombra-fuerte:0 16px 48px rgba(62,39,35,0.2);--ease-spring:cubic-bezier(0.34,1.56,0.64,1);--ease-smooth:cubic-bezier(0.22,1,0.36,1);--espacio-xl:5rem;--espacio-2xl:8rem}
+      *,*::before,*::after{box-sizing:border-box}
+      html{scroll-behavior:smooth;width:100%;max-width:100%;overflow-x:clip;scrollbar-gutter:stable}
+      @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+      body{margin:0;padding-top:68px;width:100%;max-width:100%;overflow-x:clip;position:relative;font-family:var(--font-cuerpo);font-size:1rem;line-height:1.6;color:var(--color-negro);background:var(--color-blanco)}
+      img{max-width:100%;height:auto;display:block}
+      a{color:var(--color-marron-oscuro)}
+      .contenedor{width:min(100% - 2rem,72rem);margin-inline:auto;padding-inline:1rem}
+      @media(min-width:768px){.contenedor{padding-inline:1.5rem}}
+      .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+      .enlace-skip{position:absolute;left:-9999px;z-index:9999;padding:0.75rem 1rem;background:var(--color-marron-oscuro);color:var(--color-blanco);text-decoration:none;font-family:var(--font-titulo);font-weight:600}
+      .enlace-skip:focus{left:1rem;top:1rem}
+      .encabezado{background:linear-gradient(135deg,var(--color-blanco) 0%,var(--color-crema) 100%);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid rgba(215,204,200,0.5);padding:1.15rem 0;position:fixed;top:0;left:0;right:0;width:100%;z-index:9999;box-shadow:0 2px 16px var(--color-shadow)}
+      .encabezado-contenedor{display:flex;align-items:center;justify-content:center;gap:clamp(0.75rem,2vw,1.75rem);position:relative}
+      .logo{flex-shrink:0}
+      .logo__enlace{display:flex;align-items:center;gap:var(--espacio-sm);text-decoration:none;color:inherit}
+      .logo__imagen{border-radius:var(--radio);object-fit:contain}
+      .logo__titulo-wrap{font-family:var(--font-display);font-size:clamp(1.25rem,1rem+0.8vw,1.6rem);font-weight:700;color:var(--color-marron-oscuro);line-height:1.05;margin:0;letter-spacing:0.06em;text-transform:uppercase}
+      .logo__sub{display:block;font-family:var(--font-titulo);font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:lowercase;color:var(--color-marron-medio);margin-top:0.2rem}
+      .hero{position:relative;width:100%;min-height:calc(100svh - 68px);display:flex;align-items:center;overflow:hidden;background:#0a0907}
+      .hero__fondo{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+      .hero__fondo-img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+      .hero__overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to right,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.55) 45%,rgba(0,0,0,0.15) 75%,rgba(0,0,0,0.40) 100%),linear-gradient(to bottom,rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.00) 35%,rgba(0,0,0,0.55) 100%);pointer-events:none}
+      .hero__contenido{position:relative;z-index:2;width:100%;display:flex;justify-content:space-between;align-items:center;padding:0 calc(var(--tijeras-size,220px) + 12px);background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:none;gap:0;pointer-events:none}
+      @media(max-width:767px){.hero{min-height:calc(100svh - 68px);align-items:center}.hero__contenido,.hero__scroll{display:none!important}}
+      @media(min-width:768px) and (max-width:1023px){.hero{min-height:calc(90svh - 68px)}.hero__contenido,.hero__scroll{display:none!important}}
+    </style>
     <link rel="stylesheet" href="Css/video-scroll.css" />
     <link rel="stylesheet" href="Css/estilos.css" />
     <link rel="stylesheet" href="Css/preloader.css" />
     <link rel="stylesheet" href="Css/encabezado.css" />
-    <link rel="stylesheet" href="Css/seccion-inicio.css" />
-    <link rel="stylesheet" href="Css/seccion-servicios.css" />
-    <link rel="stylesheet" href="Css/seccion-equipo.css" />
-    <link rel="stylesheet" href="Css/seccion-reconocimientos.css" />
-    <link rel="stylesheet" href="Css/seccion-galeria.css" />
-    <link rel="stylesheet" href="Css/seccion-resenas.css" />
-    <link rel="stylesheet" href="Css/seccion-horario.css" />
-    <link rel="stylesheet" href="Css/seccion-contacto.css" />
-    <link rel="stylesheet" href="Css/seccion-cita.css" />
-    <link rel="stylesheet" href="Css/pie-pagina.css" />
-    <link rel="stylesheet" href="Css/animaciones.css" />
-    <link rel="stylesheet" href="Css/responsive.css" />
-    <link rel="stylesheet" href="Css/cookies.css" />
+    <link rel="stylesheet" href="Css/seccion-inicio.min.css" />
+    <link rel="preload" href="Css/seccion-servicios.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-servicios.css"></noscript>
+    <link rel="preload" href="Css/seccion-equipo.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-equipo.css"></noscript>
+    <link rel="preload" href="Css/seccion-reconocimientos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-reconocimientos.css"></noscript>
+    <link rel="preload" href="Css/seccion-galeria.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-galeria.css"></noscript>
+    <link rel="preload" href="Css/seccion-resenas.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-resenas.css"></noscript>
+    <link rel="preload" href="Css/seccion-horario.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-horario.css"></noscript>
+    <link rel="preload" href="Css/seccion-contacto.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-contacto.css"></noscript>
+    <link rel="preload" href="Css/seccion-cita.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/seccion-cita.css"></noscript>
+    <link rel="preload" href="Css/pie-pagina.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/pie-pagina.css"></noscript>
+    <link rel="preload" href="Css/animaciones.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/animaciones.css"></noscript>
+    <link rel="preload" href="Css/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/responsive.css"></noscript>
+    <link rel="preload" href="Css/cookies.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="Css/cookies.css"></noscript>
   </head>
   <body>
     <div
@@ -384,6 +423,7 @@
           <source media="(min-width: 1024px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-desktop.jpg" type="image/jpeg">
           <source media="(min-width: 768px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-tablet.webp" type="image/webp">
           <source media="(min-width: 768px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-tablet.jpg" type="image/jpeg">
+          <source media="(max-width: 480px) and (orientation: portrait)" srcset="Imagenes/Hero/hero-mobile-portrait-opt.webp" type="image/webp">
           <source media="(max-width: 767px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-mobile-portrait.webp" type="image/webp">
           <source media="(max-width: 767px)" srcset="Imagenes/Hero/fachada-giant-barber-studio-murcia-hero-mobile-portrait.jpg" type="image/jpeg">
           <img class="hero__fondo-img"
@@ -493,7 +533,12 @@
           <div class="equipo-contenedor">
             <article class="barbero-tarjeta animar-al-scroll" data-anim="tilt-in">
               <div class="barbero-imagen">
-                <img src="Imagenes/Equipo/barbero-antonio.webp" alt="Antonio Abad Montalbán, maestro barbero en Giant Barber Studio, barbería en el Carmen Murcia" width="1024" height="1024" loading="lazy" decoding="async" />
+                <img src="Imagenes/Equipo/barbero-antonio-medium.webp"
+                     srcset="Imagenes/Equipo/barbero-antonio-medium.webp 512w,
+                             Imagenes/Equipo/barbero-antonio.webp 1024w"
+                     sizes="(max-width: 768px) 464px, 512px"
+                     alt="Antonio Abad Montalbán, maestro barbero en Giant Barber Studio, barbería en el Carmen Murcia"
+                     width="1024" height="1024" loading="lazy" decoding="async" />
               </div>
               <div class="barbero-info">
                 <h3 class="barbero-nombre">Antonio Abad Montalbán</h3>
@@ -521,7 +566,7 @@
               <picture>
                 <source
                   media="(min-width: 540px)"
-                  srcset="Imagenes/Galeria/zona-espera-clientes-barberia-desktop.webp"
+                  srcset="Imagenes/Galeria/zona-espera-clientes-barberia-desktop-opt.webp"
                   type="image/webp"
                 />
                 <source
@@ -600,7 +645,7 @@
               <picture>
                 <source
                   media="(min-width: 540px)"
-                  srcset="Imagenes/Galeria/lavacabezas-sillones-rojos-desktop.webp"
+                  srcset="Imagenes/Galeria/lavacabezas-sillones-rojos-desktop-opt.webp"
                   type="image/webp"
                 />
                 <source
@@ -849,7 +894,7 @@
       <div class="cookies-banner__inner">
         <p id="consentimiento-cookies-titulo" class="cookies-banner__texto">
           Usamos cookies propias y de terceros (Google Maps, Google Fonts) para funcionalidad y mejorar tu experiencia.
-          <a href="Html/cookies.html">Más información</a>.
+          <a href="Html/cookies.html">Más información sobre cookies</a>.
         </p>
         <div class="cookies-banner__acciones">
           <button type="button" class="cookies-banner__btn cookies-banner__btn--rechazar" data-cookies-rechazar>Rechazar</button>
@@ -863,10 +908,10 @@
     <script src="Js/video-scroll.js" defer></script>
     <script src="Js/preloader.js" defer></script>
     <script src="Js/consentimiento-cookies.js" defer></script>
-    <script src="Js/navegacion.js" defer></script>
+    <script src="Js/navegacion.min.js" defer></script>
     <script src="Js/scroll-animaciones.js" defer></script>
     <script src="Js/carrusel-resenas.js" defer></script>
-    <script src="Js/carrusel-galeria.js" defer></script>
+    <script src="Js/carrusel-galeria.min.js" defer></script>
     <script src="Js/principal.js" defer></script>
     <a
       href="https://giant-barber-studio.reserva-ya.com/"

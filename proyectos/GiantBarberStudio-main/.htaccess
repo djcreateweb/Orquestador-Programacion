@@ -52,6 +52,11 @@ Options -Indexes
   ExpiresByType image/png  "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 month"
   ExpiresByType text/css "access plus 1 month"
   ExpiresByType application/javascript "access plus 1 month"
   ExpiresByType application/manifest+json "access plus 1 week"
@@ -79,7 +84,7 @@ Options -Indexes
   </FilesMatch>
 
   # Cache-Control for static assets — 1 year (immutable for versioned assets)
-  <FilesMatch "\.(webp|jpg|jpeg|png|gif|ico|svg)$">
+  <FilesMatch "\.(webp|jpg|jpeg|png|gif|ico|svg|woff|woff2|mp4|webm)$">
     Header always set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
