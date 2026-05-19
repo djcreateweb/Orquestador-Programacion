@@ -770,6 +770,48 @@ h3, h4 {
 .section--tier-1 { background: var(--bg-tier-1); }
 .section--tier-2 { background: var(--bg-tier-2); }
 
+/* ── NUMERACIÓN DE SECCIONES — watermark editorial ──────── */
+.section[data-num]::after {
+  content: attr(data-num);
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(9rem, 22vw, 18rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, .055);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Número "00" dentro del hero-content (aparece con el panel de cierre del hero) */
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-widest);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 .7rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s ease .05s, transform .5s var(--ease-out) .05s;
+}
+.hero-eyebrow span {
+  display: inline-block;
+  padding: .2em .65em;
+  border: 1px solid rgba(0, 245, 212, .3);
+  border-radius: var(--radius-pill);
+  background: rgba(0, 245, 212, .06);
+}
+.hero-content.visible .hero-eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .section-inner {
   max-width: var(--maxw-default);
   margin-inline: auto;
