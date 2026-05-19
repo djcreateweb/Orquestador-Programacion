@@ -774,18 +774,18 @@ h3, h4 {
 .section[data-num]::after {
   content: attr(data-num);
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
   font-family: var(--font-display);
-  font-size: clamp(9rem, 22vw, 18rem);
+  font-size: clamp(7rem, 16vw, 14rem);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.05em;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, .055);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, .06);
   pointer-events: none;
   user-select: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 /* Número "00" dentro del hero-content (aparece con el panel de cierre del hero) */
@@ -2261,6 +2261,14 @@ button:focus-visible {
   }
   .cookie-banner__text { font-size: .8rem; margin-bottom: .85rem; }
   .cookie-banner__actions { gap: .4rem; }
+}
+
+/* ── DESKTOP — correcciones específicas (> 920px) ─────── */
+@media (min-width: 921px) {
+  /* Giant Barber: 4 columnas centradas (no 100% ancho) */
+  .portfolio-grid--editorial .portfolio-card--w6:not(.portfolio-card--cta) {
+    grid-column: 2 / span 4;
+  }
 }
 
 /* ── RESPONSIVE ─────────────────────────────────────────── */
