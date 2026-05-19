@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#020812">
-  <title>Páginas web en Murcia | DJ Create — Agencia de Diseño Web</title>
-  <meta name="description" content="Diseño web profesional en Murcia desde 300€. Páginas a medida, sin plantillas, con animaciones 3D. Autónomos y empresas en Murcia. Presupuesto sin compromiso.">
+  <title>Páginas Web en La Ñora Murcia | DJ Create — Diseño Web Profesional</title>
+  <meta name="description" content="Creación de páginas web en La Ñora y Murcia desde 300€. Diseño web profesional a medida para autónomos y empresas. Sin plantillas. Presupuesto gratis.">
   <link rel="canonical" href="https://djcreate.es/">
+  <link rel="icon" type="image/png" href="assets/images/Logo.png">
+  <link rel="apple-touch-icon" href="assets/images/Logo.png">
   <meta name="robots" content="index, follow">
 
   <!-- ============================================================
@@ -20,10 +22,9 @@
        un bloque <script> inline en el body. Para eliminar 'unsafe-inline'
        en el futuro: extraer ese bloque a js/loader-init.js con un nonce.
   -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; frame-src https://www.google.com; base-uri 'self'; form-action 'none'; object-src 'none';">
 
-  <!-- Clickjacking: refuerzo explicito (complementa frame-ancestors en CSP) -->
-  <meta http-equiv="X-Frame-Options" content="DENY">
+  <!-- frame-ancestors y X-Frame-Options solo funcionan via HTTP header (Nginx) -->
 
   <!-- Referrer Policy: no filtra la URL completa al navegar a terceros -->
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -36,8 +37,8 @@
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website">
-  <meta property="og:title"       content="Páginas web en Murcia | DJ Create — Agencia de Diseño Web">
-  <meta property="og:description" content="Diseño web profesional en Murcia desde 300€. Páginas a medida, sin plantillas, con animaciones 3D. Autónomos y empresas en Murcia.">
+  <meta property="og:title"       content="Páginas Web en La Ñora Murcia | DJ Create — Diseño Web Profesional">
+  <meta property="og:description" content="Creación de páginas web en La Ñora y Murcia desde 300€. Diseño web profesional a medida para autónomos y empresas. Sin plantillas. Presupuesto gratis.">
   <meta property="og:image"       content="https://djcreate.es/assets/images/og-djcreate.jpg">
   <meta property="og:url"         content="https://djcreate.es/">
   <meta property="og:site_name"   content="DJ Create">
@@ -45,99 +46,106 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Páginas web en Murcia | DJ Create — Agencia de Diseño Web">
-  <meta name="twitter:description" content="Diseño web profesional en Murcia desde 300€. Páginas a medida, sin plantillas, con animaciones 3D.">
+  <meta name="twitter:title"       content="Páginas Web en La Ñora Murcia | DJ Create — Diseño Web Profesional">
+  <meta name="twitter:description" content="Creación de páginas web en La Ñora y Murcia desde 300€. Diseño web profesional a medida para autónomos y empresas. Sin plantillas. Presupuesto gratis.">
   <meta name="twitter:image"       content="https://djcreate.es/assets/images/og-djcreate.jpg">
 
-  <!-- Schema.org JSON-LD — LocalBusiness / ProfessionalService -->
+  <!-- Schema.org JSON-LD — LocalBusiness / ProfessionalService + FAQPage -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "ProfessionalService"],
-    "name": "DJ Create",
-    "description": "Agencia de diseño web en Murcia especializada en páginas web a medida, experiencias 3D y diseño web profesional para autónomos y empresas.",
-    "url": "https://djcreate.es",
-    "telephone": "+34698447218",
-    "email": "djcreateweb@gmail.com",
-    "image": "https://djcreate.es/assets/images/og-djcreate.jpg",
-    "priceRange": "€€",
-    "currenciesAccepted": "EUR",
-    "paymentAccepted": "Transferencia bancaria, Tarjeta",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Murcia",
-      "addressRegion": "Región de Murcia",
-      "addressCountry": "ES"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "37.9840",
-      "longitude": "-1.1284"
-    },
-    "areaServed": {
-      "@type": "City",
-      "name": "Murcia"
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "09:00",
-        "closes": "18:00"
-      }
-    ],
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Servicios de diseño web en Murcia",
-      "itemListElement": [
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": ["LocalBusiness", "ProfessionalService"],
+      "name": "DJ Create",
+      "description": "Agencia de diseño web en La Ñora (Murcia) especializada en páginas web a medida, experiencias 3D y diseño web profesional para autónomos y empresas.",
+      "url": "https://djcreate.es",
+      "telephone": "+34698447218",
+      "email": "djcreateweb@gmail.com",
+      "image": "https://djcreate.es/assets/images/og-djcreate.jpg",
+      "priceRange": "€€",
+      "currenciesAccepted": "EUR",
+      "paymentAccepted": "Transferencia bancaria, Tarjeta",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "La Ñora",
+        "addressRegion": "Región de Murcia",
+        "postalCode": "30830",
+        "addressCountry": "ES"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "37.9981",
+        "longitude": "-1.1417"
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Murcia"},
+        {"@type": "City", "name": "La Ñora"},
+        {"@type": "City", "name": "Alcantarilla"},
+        {"@type": "City", "name": "Molina de Segura"},
+        {"@type": "City", "name": "Santomera"}
+      ],
+      "openingHoursSpecification": [
         {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Plan Básico — Web one-page",
-            "description": "Página web one-page profesional para autónomos y pequeños negocios en Murcia"
-          },
-          "price": "300",
-          "priceCurrency": "EUR"
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Plan Avanzado — Web multipágina",
-            "description": "Diseño web multipágina con animaciones, blog y CMS para empresas en Murcia"
-          },
-          "price": "400",
-          "priceCurrency": "EUR"
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Plan 3D — Web inmersiva",
-            "description": "Experiencia web 3D con scroll cinematográfico y Three.js"
-          },
-          "price": "500",
-          "priceCurrency": "EUR"
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Plan Tienda Online",
-            "description": "Tienda online completa con pasarela de pago para negocios en Murcia"
-          },
-          "price": "800",
-          "priceCurrency": "EUR"
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
         }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de diseño web en La Ñora y Murcia",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {"@type": "Service", "name": "Plan Básico — Web one-page en La Ñora", "description": "Página web one-page profesional para autónomos y pequeños negocios en La Ñora y Murcia"},
+            "price": "300", "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {"@type": "Service", "name": "Plan Avanzado — Web multipágina Murcia", "description": "Diseño web multipágina con animaciones, blog y CMS para empresas en Murcia"},
+            "price": "400", "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {"@type": "Service", "name": "Plan 3D — Web inmersiva La Ñora", "description": "Experiencia web 3D con scroll cinematográfico y Three.js para negocios en Murcia"},
+            "price": "500", "priceCurrency": "EUR"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {"@type": "Service", "name": "Plan Tienda Online Murcia", "description": "Tienda online completa con pasarela de pago para negocios en La Ñora y Murcia"},
+            "price": "400", "priceCurrency": "EUR"
+          }
+        ]
+      },
+      "sameAs": [
+        "https://www.instagram.com/djcreateweb",
+        "https://www.behance.net/djcreate",
+        "https://www.linkedin.com/company/djcreate"
       ]
     },
-    "sameAs": [
-      "https://www.instagram.com/djcreateweb",
-      "https://www.behance.net/djcreate",
-      "https://www.linkedin.com/company/djcreate"
-    ]
-  }
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cuánto cuesta una página web en La Ñora?",
+          "acceptedAnswer": {"@type": "Answer", "text": "En DJ Create las páginas web en La Ñora y Murcia empiezan desde 300€ para una web one-page profesional. Los precios varían según el tipo de proyecto: web básica 300€, web avanzada 400€, web con efectos 3D 500€ y tienda online desde 400€."}
+        },
+        {
+          "@type": "Question",
+          "name": "¿Trabajáis con negocios de Murcia y la zona?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Sí, somos un estudio de diseño web ubicado en La Ñora (Murcia) y trabajamos con autónomos y empresas de toda la Región de Murcia: Murcia capital, La Ñora, Alcantarilla, Molina de Segura, Santomera y pedanías."}
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuánto tiempo tarda en hacerse una página web?",
+          "acceptedAnswer": {"@type": "Answer", "text": "El plazo habitual para una página web en Murcia es de 2 a 4 semanas dependiendo de la complejidad. Trabajamos con pocos clientes simultáneamente para garantizar la máxima atención en cada proyecto."}
+        }
+      ]
+    }
+  ]
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -311,16 +319,14 @@
   <!-- NAV FLOTANTE -->
   <nav id="nav" class="nav-pill">
     <a href="#hero" class="nav-logo" data-scroll>
-      <svg class="nav-logo-mark" viewBox="0 0 22 22" aria-hidden="true">
-        <circle cx="11" cy="11" r="8.5" fill="none" stroke="url(#djc-grad)" stroke-width="1.5"/>
-        <circle cx="11" cy="11" r="2.6" fill="url(#djc-grad)"/>
-      </svg>
+      <img src="assets/images/Logo.png" alt="DJ Create logo" class="nav-logo-img">
       DJ Create
     </a>
     <ul class="nav-links">
       <li><a href="#hero" data-scroll>Inicio</a></li>
       <li><a href="#servicios" data-scroll>Servicios</a></li>
       <li><a href="#portafolio" data-scroll>Portafolio</a></li>
+      <li><a href="#cobertura" data-scroll>Zona</a></li>
       <li><a href="#nosotros" data-scroll>Nosotros</a></li>
       <li><a href="#contacto" data-scroll>Contacto</a></li>
     </ul>
@@ -340,11 +346,11 @@
     <div class="hero-overlay">
       <div class="hero-content" id="heroContent">
         <span class="hero-accent reveal-rotate" aria-hidden="true"></span>
-        <p class="hero-tag reveal-fade"><span class="hero-tag-mark">●</span> Agencia de diseño web profesional · Murcia</p>
+        <p class="hero-tag reveal-fade"><span class="hero-tag-mark">●</span> Agencia de diseño web · La Ñora, Murcia</p>
         <h1 class="hero-title split-chars">
-          Páginas web<br>en Murcia<br><span class="grad">que se recuerdan.</span>
+          Páginas web<br>en La Ñora<br><span class="grad">que se recuerdan.</span>
         </h1>
-        <p class="hero-sub reveal-up">Diseño web profesional para autónomos y empresas en Murcia. A medida, sin plantillas, con obsesión por cada detalle.</p>
+        <p class="hero-sub reveal-up">Diseño web profesional en La Ñora y Murcia para autónomos y empresas. A medida, sin plantillas, con obsesión por cada detalle.</p>
         <div class="hero-btns reveal-fade">
           <a href="#portafolio" class="btn-main" data-scroll>Ver proyectos</a>
           <a href="#contacto" class="btn-ghost" data-scroll>Hablemos →</a>
@@ -379,8 +385,8 @@
     <div class="section-inner">
       <div class="section-head reveal-fade">
         <p class="section-eyebrow reveal-left"><span>01 / Servicios</span></p>
-        <h2 class="section-title split-words has-rule">Planes a medida<br><span class="grad">para cada visión.</span></h2>
-        <p class="section-lead reveal-up">Desde landing pages que convierten hasta experiencias 3D cinematográficas. Diseño web en Murcia adaptado a cada presupuesto y proyecto.</p>
+        <h2 class="section-title split-words has-rule">Planes a medida<br><span class="grad">para La Ñora y Murcia.</span></h2>
+        <p class="section-lead reveal-up">Desde landing pages que convierten hasta experiencias 3D cinematográficas. Diseño web en La Ñora y Murcia adaptado a cada presupuesto y proyecto.</p>
       </div>
 
       <div class="plans-list" data-reveal-stagger="100">
@@ -465,7 +471,10 @@
             <span class="plan-row__num">04</span>
             <div class="plan-row__identity">
               <p class="plan-row__name">Plan Tienda</p>
-              <p class="plan-row__price"><span>desde 800</span><em>€</em></p>
+              <div class="plan-row__price-stack">
+                <p class="plan-row__price plan-row__price--compact"><span>400</span><em>€</em><small>solo tienda</small></p>
+                <p class="plan-row__price plan-row__price--compact"><span>800</span><em>€</em><small>pág + tienda</small></p>
+              </div>
             </div>
           </div>
           <div class="plan-row__center">
@@ -498,6 +507,9 @@
         <p class="section-eyebrow"><span>02 / Portafolio</span></p>
         <h2 class="section-title split-words has-rule">Trabajos<br><span class="grad">recientes.</span></h2>
         <p class="section-lead reveal-up">Una selección de proyectos donde diseño y código se encuentran.</p>
+        <div class="reveal-fade" style="margin-top:2rem">
+          <a href="#contacto" class="btn-ghost" data-scroll>Pedir presupuesto →</a>
+        </div>
       </div>
 
       <div class="portfolio-grid portfolio-grid--editorial" data-reveal-stagger="100">
@@ -536,40 +548,21 @@
         </a>
         -->
 
-        <!-- Placeholders elegantes — borrar cuando haya proyectos reales -->
-        <div class="portfolio-card portfolio-card--placeholder portfolio-card--w3 reveal-blur" aria-hidden="true">
-          <div class="portfolio-thumb portfolio-thumb--video">
+        <!-- Giant Barber Studio — caso real -->
+        <a href="https://giantbarberstudio.com/" target="_blank" rel="noopener noreferrer" class="portfolio-card portfolio-card--w4 reveal-blur" data-url="giantbarberstudio.com" style="grid-column: 2 / span 4;">
+          <div class="portfolio-thumb">
             <div class="portfolio-bar">
               <span class="portfolio-bar-dots"><i class="dot dot--r"></i><i class="dot dot--y"></i><i class="dot dot--g"></i></span>
-              <span class="portfolio-bar-url">en-produccion.djcreate.es</span>
+              <span class="portfolio-bar-url">giantbarberstudio.com</span>
             </div>
-            <div class="portfolio-skeleton">
-              <span class="portfolio-skeleton-tag">Próximamente</span>
-            </div>
+            <img src="assets/images/giant-barber-studio.png" alt="Diseño web Giant Barber Studio Murcia — proyecto de DJ Create" loading="lazy" style="width:100%;display:block;aspect-ratio:16/9;object-fit:cover;">
           </div>
           <div class="portfolio-meta">
-            <span class="portfolio-tag">Caso · En producción</span>
-            <h3 class="portfolio-title">Proyecto en preparación</h3>
-            <p class="portfolio-desc">Estoy puliendo este caso antes de mostrarlo. Vuelve pronto.</p>
+            <span class="portfolio-tag">Barbería · Diseño web Murcia</span>
+            <h3 class="portfolio-title">Giant Barber Studio</h3>
+            <p class="portfolio-desc">Web completa para barbería en Murcia. Diseño oscuro y premium con animaciones GSAP y scroll cinematográfico.</p>
           </div>
-        </div>
-
-        <div class="portfolio-card portfolio-card--placeholder portfolio-card--w3 reveal-blur" aria-hidden="true">
-          <div class="portfolio-thumb portfolio-thumb--video">
-            <div class="portfolio-bar">
-              <span class="portfolio-bar-dots"><i class="dot dot--r"></i><i class="dot dot--y"></i><i class="dot dot--g"></i></span>
-              <span class="portfolio-bar-url">caso-de-estudio.djcreate.es</span>
-            </div>
-            <div class="portfolio-skeleton">
-              <span class="portfolio-skeleton-tag">Próximamente</span>
-            </div>
-          </div>
-          <div class="portfolio-meta">
-            <span class="portfolio-tag">Caso · En producción</span>
-            <h3 class="portfolio-title">Caso de estudio en montaje</h3>
-            <p class="portfolio-desc">Editando el vídeo y la documentación. Disponible en breve.</p>
-          </div>
-        </div>
+        </a>
 
         <a href="#contacto" class="portfolio-card portfolio-card--cta portfolio-card--w6 reveal-blur" data-scroll>
           <div class="portfolio-cta-inner">
@@ -582,8 +575,49 @@
     </div>
   </section>
 
-  <!-- DIVIDER portafolio → nosotros -->
-  <div class="section-divider divider-tech" aria-hidden="true"><span>03 — estudio</span></div>
+  <!-- DIVIDER portafolio → cobertura → nosotros -->
+  <div class="section-divider divider-tech" aria-hidden="true"><span>04 — estudio</span></div>
+
+  <!-- COBERTURA LOCAL -->
+  <section id="cobertura" class="section section--tier-2 section-cobertura">
+    <div class="section-inner">
+      <div class="section-head reveal-fade">
+        <p class="section-eyebrow reveal-left"><span>03 / Zona de trabajo</span></p>
+        <h2 class="section-title split-words has-rule">Diseño web en<br><span class="grad">La Ñora y Murcia.</span></h2>
+        <p class="section-lead reveal-up">Estudio ubicado en La Ñora, trabajamos con negocios de toda la Región de Murcia: <strong>Murcia capital, La Ñora, Alcantarilla, Molina de Segura, Santomera</strong> y pedanías. También trabajamos 100% en remoto para clientes de toda España.</p>
+      </div>
+
+      <div class="cobertura-grid reveal-fade">
+        <div class="cobertura-zonas">
+          <h3 class="cobertura-zonas__title">Zonas de cobertura</h3>
+          <ul class="cobertura-zonas__list">
+            <li><span class="cobertura-dot"></span>La Ñora — sede principal</li>
+            <li><span class="cobertura-dot"></span>Murcia capital</li>
+            <li><span class="cobertura-dot"></span>Alcantarilla</li>
+            <li><span class="cobertura-dot"></span>Molina de Segura</li>
+            <li><span class="cobertura-dot"></span>Santomera</li>
+            <li><span class="cobertura-dot"></span>Pedanías de Murcia</li>
+            <li><span class="cobertura-dot cobertura-dot--remote"></span>Toda España (remoto)</li>
+          </ul>
+          <p class="cobertura-nota">¿Tu negocio está en <a href="https://es.wikipedia.org/wiki/La_%C3%91ora" target="_blank" rel="noopener noreferrer">La Ñora</a> o alrededores? Podemos vernos en persona para el briefing inicial.</p>
+        </div>
+
+        <div class="cobertura-map">
+          <iframe
+            title="DJ Create — La Ñora, Murcia"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6256.5!2d-1.1417!3d37.9981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6382b3b3b3b3b3%3A0x0!2sLa+%C3%91ora%2C+Murcia!5e0!3m2!1ses!2ses!4v1716000000000!5m2!1ses!2ses"
+            width="100%"
+            height="320"
+            style="border:0;border-radius:12px;filter:grayscale(1) brightness(0.7) contrast(1.1)"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            aria-label="Mapa de La Ñora, Murcia — sede de DJ Create">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- NOSOTROS · tier-1 · split editorial + 47 gigante -->
   <section id="nosotros" class="section section--tier-1 section-nosotros">
@@ -593,20 +627,20 @@
       <div class="nosotros-grid">
         <aside class="nosotros-aside reveal-left">
           <div class="nosotros-aside-inner">
-            <p class="section-eyebrow"><span>03 / Nosotros</span></p>
+            <p class="section-eyebrow"><span>04 / Nosotros</span></p>
             <h2 class="section-title split-words has-rule">Estudio<br>pequeño,<br><span class="grad">obsesión<br>grande.</span></h2>
             <p class="nosotros-meta">DJ Create<br>Murcia, ES</p>
           </div>
         </aside>
 
         <div class="nosotros-text reveal-right">
-          <p class="nosotros-lead reveal-fade">Estudio de desarrollo web en Murcia especializado en diseño web profesional para autónomos y empresas que no se conforman con plantillas.</p>
+          <p class="nosotros-lead reveal-fade">Estudio de desarrollo web en La Ñora (Murcia) especializado en diseño web profesional para autónomos y empresas que no se conforman con plantillas.</p>
 
           <ol class="nosotros-manifest" data-reveal-stagger="120">
             <li class="reveal-up">
               <span class="nosotros-manifest__num">01</span>
-              <h3 class="nosotros-manifest__title">Páginas web a medida en Murcia</h3>
-              <p class="nosotros-manifest__desc">Cada web desde cero. Sin plantillas, sin temas comprados. Diseño web personalizado para tu negocio.</p>
+              <h3 class="nosotros-manifest__title">Páginas web a medida en La Ñora y Murcia</h3>
+              <p class="nosotros-manifest__desc">Cada web desde cero. Sin plantillas, sin temas comprados. Diseño web personalizado para tu negocio en La Ñora y toda la región de Murcia.</p>
             </li>
             <li class="reveal-up">
               <span class="nosotros-manifest__num">02</span>
@@ -625,6 +659,9 @@
             <li class="reveal-scale"><strong data-counter="5" data-counter-suffix="★">5★</strong><span>satisfacción cliente</span></li>
             <li class="reveal-scale"><strong>1 a 1</strong><span>atención dedicada</span></li>
           </ul>
+          <div class="reveal-fade" style="margin-top:2.5rem">
+            <a href="#contacto" class="btn-ghost" data-scroll>Hablemos de tu proyecto →</a>
+          </div>
         </div>
       </div>
     </div>
@@ -639,8 +676,8 @@
       <div class="contacto-grid contacto-grid--asym">
         <form class="contacto-form reveal-up" id="contactForm" novalidate>
           <header class="contacto-form-head">
-            <p class="section-eyebrow"><span>04 / Contacto</span></p>
-            <h2 class="section-title split-words has-rule">¿Necesitas una página web en Murcia?<br><span class="grad">Hablemos.</span></h2>
+            <p class="section-eyebrow"><span>05 / Contacto</span></p>
+            <h2 class="section-title split-words has-rule">¿Necesitas una página web<br>en La Ñora o Murcia?<br><span class="grad">Hablemos.</span></h2>
           </header>
 
           <div class="field reveal-up">
@@ -678,28 +715,12 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-top reveal-fade">
-      <a href="#hero" class="nav-logo" data-scroll>
-        <svg class="nav-logo-mark" viewBox="0 0 22 22" aria-hidden="true">
-          <circle cx="11" cy="11" r="8.5" fill="none" stroke="url(#djc-grad)" stroke-width="1.5"/>
-          <circle cx="11" cy="11" r="2.6" fill="url(#djc-grad)"/>
-        </svg>
+    <div class="footer-bottom footer-bottom--centered reveal-fade">
+      <a href="#hero" class="nav-logo footer-logo" data-scroll>
+        <img src="assets/images/Logo.png" alt="DJ Create logo" class="nav-logo-img nav-logo-img--lg">
         DJ Create
       </a>
-      <ul class="footer-links">
-        <li><a href="#servicios" data-scroll>Servicios</a></li>
-        <li><a href="#portafolio" data-scroll>Portafolio</a></li>
-        <li><a href="#nosotros" data-scroll>Nosotros</a></li>
-        <li><a href="#contacto" data-scroll>Contacto</a></li>
-      </ul>
-      <ul class="footer-social">
-        <li><a href="https://www.instagram.com/djcreateweb" target="_blank" rel="noopener noreferrer" aria-label="DJ Create en Instagram">Instagram</a></li>
-        <li><a href="https://www.behance.net/djcreate" target="_blank" rel="noopener noreferrer" aria-label="Portafolio de DJ Create en Behance">Behance</a></li>
-        <li><a href="https://www.linkedin.com/company/djcreate" target="_blank" rel="noopener noreferrer" aria-label="DJ Create agencia web Murcia en LinkedIn">LinkedIn</a></li>
-      </ul>
-    </div>
-    <div class="footer-bottom reveal-fade">
-      <p>© <span id="year"></span> DJ Create — Agencia de diseño web en Murcia. Páginas web profesionales para autónomos y empresas.</p>
+      <p>© <span id="year"></span> DJ Create · La Ñora, Murcia</p>
       <p>
         <a href="legal/aviso-legal.html">Aviso legal</a> ·
         <a href="legal/politica-privacidad.html">Política de privacidad</a> ·
