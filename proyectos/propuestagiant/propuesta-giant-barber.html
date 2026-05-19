@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Redes Sociales · Giant Barber Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #0D0A07;
+  --ink-s:      #1C1208;
+  --ink-l:      #2E2015;
+  --ink-ll:     #3E2F1E;
+  --gold:       #C8923A;
+  --gold-l:     #E8C07A;
+  --gold-d:     #9A6E25;
+  --gold-pale:  rgba(200,146,58,.08);
+  --cream:      #FAF6F0;
+  --cream-d:    #F0E8DC;
+  --warm:       #FFFDF9;
+  --muted:      #9A8470;
+  --muted-l:    rgba(250,246,240,.42);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Jost', sans-serif;
+  --pad-x: clamp(1.2rem, 5vw, 4rem);
+  --pad-y: clamp(2.8rem, 7vw, 5rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink-s);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(14px, 3.8vw, 16px);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── COVER ─────────────────────────── */
+.cover {
+  min-height: 100svh;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.8rem, 6vw, 3.5rem) var(--pad-x);
+  position: relative;
+  overflow: hidden;
+  gap: 2rem;
+}
+.cover::before {
+  content:''; position:absolute; top:-80px; right:-80px;
+  width:clamp(200px,55vw,460px); height:clamp(200px,55vw,460px);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,146,58,.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cover::after {
+  content:''; position:absolute; bottom:-80px; left:-60px;
+  width:clamp(140px,40vw,340px); height:clamp(140px,40vw,340px);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,146,58,.10) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cover-rule {
+  position:absolute; top:0; left:var(--pad-x); right:var(--pad-x);
+  height:1px; background:rgba(200,146,58,.2);
+}
+.cover-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:.5rem; }
+.cover-brand { font-family:var(--serif); font-size:clamp(.88rem,3vw,1.1rem); color:rgba(250,246,240,.4); letter-spacing:.06em; }
+.cover-label { font-size:clamp(.6rem,2vw,.7rem); font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-l); opacity:.75; text-align:right; line-height:1.9; }
+.cover-main { position:relative; z-index:1; }
+.cover-eyebrow {
+  font-size:clamp(.6rem,2vw,.7rem); font-weight:500; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:1rem; display:flex; align-items:center; gap:.8rem;
+}
+.cover-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--gold); flex-shrink:0; }
+.cover-title { font-family:var(--serif); font-size:clamp(3rem,16vw,7rem); font-weight:300; line-height:1.0; color:var(--warm); margin-bottom:.15em; }
+.cover-title em { font-style:italic; color:var(--gold-l); display:block; }
+.cover-subtitle { font-family:var(--serif); font-size:clamp(1rem,4vw,1.5rem); font-weight:300; color:rgba(250,246,240,.42); margin-top:.4rem; }
+.cover-tagline { margin-top:1.8rem; font-size:clamp(.8rem,3vw,.88rem); color:rgba(250,246,240,.38); line-height:1.85; max-width:400px; }
+.cover-bottom { display:grid; grid-template-columns:1fr 1fr; gap:1rem; position:relative; z-index:1; border-top:1px solid rgba(200,146,58,.18); padding-top:1.4rem; }
+.cover-meta { font-size:clamp(.68rem,2.5vw,.76rem); color:rgba(250,246,240,.3); line-height:2; }
+.cover-meta strong { font-weight:500; color:rgba(250,246,240,.5); }
+.cover-meta-right { text-align:right; }
+.cover-deco {
+  font-family:var(--serif); font-size:clamp(6rem,28vw,14rem); font-weight:300; font-style:italic;
+  color:rgba(200,146,58,.05); line-height:1; user-select:none; pointer-events:none;
+  position:absolute; bottom:3rem; right:var(--pad-x);
+}
+
+/* ── PAGES ─────────────────────────── */
+.page { max-width:860px; margin:0 auto; padding:var(--pad-y) var(--pad-x); }
+.page + .page { border-top:1px solid rgba(13,10,7,.07); }
+
+/* ── TYPE ──────────────────────────── */
+.section-num { font-size:clamp(.6rem,2vw,.68rem); font-weight:600; letter-spacing:.28em; text-transform:uppercase; color:var(--gold-d); margin-bottom:.5rem; }
+.section-title { font-family:var(--serif); font-size:clamp(1.9rem,7vw,3rem); font-weight:400; line-height:1.12; color:var(--ink); margin-bottom:1.2rem; }
+.section-title em { font-style:italic; color:var(--gold); }
+.section-intro { font-size:clamp(.88rem,3vw,1rem); color:var(--ink-l); line-height:1.85; margin-bottom:2.2rem; }
+.divider { width:40px; height:1px; background:var(--gold); margin:1.8rem 0; }
+
+/* ── HIGHLIGHT ─────────────────────── */
+.highlight {
+  background:var(--ink-s); color:var(--warm);
+  padding:clamp(1.4rem,5vw,2.5rem) clamp(1.2rem,5vw,3rem);
+  border-radius:3px; margin:2rem 0; position:relative; overflow:hidden;
+}
+.highlight::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background:var(--gold); }
+.highlight-label { font-size:.65rem; font-weight:600; letter-spacing:.26em; text-transform:uppercase; color:var(--gold-l); margin-bottom:.7rem; }
+.highlight p { font-size:clamp(.86rem,3vw,1.05rem); color:rgba(250,246,240,.82); line-height:1.85; }
+.highlight strong { color:var(--warm); font-weight:500; }
+
+/* ── PILLARS ───────────────────────── */
+.pillars { display:flex; flex-direction:column; gap:1.5rem; margin:1.8rem 0; }
+.pillar {
+  background:var(--warm); border:1px solid rgba(13,10,7,.09);
+  border-radius:4px; overflow:hidden; display:grid;
+  grid-template-columns:4px 1fr;
+}
+.pillar-bar { background:var(--gold); }
+.pillar-body { padding:clamp(1.2rem,4vw,2rem); }
+.pillar-num { font-family:var(--serif); font-size:clamp(2.5rem,8vw,4rem); font-weight:300; font-style:italic; color:rgba(200,146,58,.15); line-height:1; float:right; margin-left:.8rem; }
+.pillar-tag { font-size:.6rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:.5rem; }
+.pillar h3 { font-family:var(--serif); font-size:clamp(1.15rem,4vw,1.5rem); font-weight:400; color:var(--ink); margin-bottom:.5rem; line-height:1.2; }
+.pillar p { font-size:clamp(.78rem,2.8vw,.88rem); color:var(--muted); line-height:1.7; }
+.pillar-list { list-style:none; display:flex; flex-direction:column; gap:.35rem; margin-top:.9rem; }
+.pillar-list li { font-size:clamp(.78rem,2.8vw,.86rem); color:var(--ink-l); display:flex; align-items:flex-start; gap:.55rem; line-height:1.5; }
+.pillar-list li::before { content:'—'; color:var(--gold); font-size:.75rem; margin-top:.12rem; flex-shrink:0; }
+.badge { display:inline-block; background:var(--ink-s); color:var(--gold-l); font-size:.56rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:.22rem .65rem; border-radius:20px; margin-left:.55rem; vertical-align:middle; white-space:nowrap; }
+
+/* ── WHAT GRID ─────────────────────── */
+.what-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(13,10,7,.07); border:1px solid rgba(13,10,7,.07); margin:1.8rem 0; }
+.what-item { background:var(--cream); padding:clamp(1.1rem,4vw,2rem); position:relative; }
+.what-item::before {
+  content:attr(data-num); font-family:var(--serif); font-size:clamp(2rem,7vw,3.5rem); font-weight:300;
+  font-style:italic; color:rgba(200,146,58,.12); position:absolute; top:.8rem; right:1rem; line-height:1;
+}
+.what-item h4 { font-family:var(--serif); font-size:clamp(.95rem,3.5vw,1.2rem); font-weight:500; margin-bottom:.4rem; color:var(--ink); padding-right:2rem; }
+.what-item p { font-size:clamp(.78rem,2.8vw,.88rem); color:var(--muted); line-height:1.65; }
+
+/* ── FLOW ──────────────────────────── */
+.flow { display:flex; flex-direction:column; gap:0; margin:2rem 0; position:relative; }
+.flow::before { content:''; position:absolute; left:21px; top:22px; bottom:22px; width:1px; background:rgba(200,146,58,.25); }
+.flow-item { display:flex; gap:1.2rem; align-items:flex-start; padding:1rem 0; position:relative; z-index:1; }
+.flow-dot { width:44px; height:44px; border-radius:50%; border:1px solid rgba(200,146,58,.4); background:var(--cream); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:var(--serif); font-size:1.1rem; font-weight:400; font-style:italic; color:var(--gold); }
+.flow-dot.active { background:var(--ink-s); border-color:var(--gold); color:var(--gold-l); }
+.flow-content h4 { font-size:clamp(.82rem,3vw,.92rem); font-weight:600; color:var(--ink); margin-bottom:.2rem; margin-top:.6rem; }
+.flow-content p { font-size:clamp(.76rem,2.8vw,.84rem); color:var(--muted); line-height:1.6; }
+
+/* ── PRICE ─────────────────────────── */
+.price-card {
+  background:var(--ink); color:var(--warm);
+  padding:clamp(2rem,6vw,3.5rem) clamp(1.5rem,5vw,3rem);
+  border-radius:4px; margin:2rem 0; position:relative; overflow:hidden;
+  border:1px solid rgba(200,146,58,.2);
+}
+.price-card::before { content:''; position:absolute; top:-60px; right:-60px; width:280px; height:280px; border-radius:50%; background:radial-gradient(circle,rgba(200,146,58,.12) 0%,transparent 70%); }
+.price-label { font-size:.65rem; font-weight:600; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:.8rem; }
+.price-amount { font-family:var(--serif); font-size:clamp(4rem,18vw,7rem); font-weight:300; line-height:1; color:var(--warm); }
+.price-amount sup { font-size:clamp(1.3rem,5vw,2rem); font-weight:400; vertical-align:super; color:var(--gold-l); }
+.price-amount sub { font-size:clamp(.9rem,3vw,1.1rem); font-weight:400; vertical-align:baseline; color:rgba(250,246,240,.45); font-family:var(--sans); letter-spacing:.04em; }
+.price-desc { font-size:clamp(.8rem,3vw,.92rem); color:rgba(250,246,240,.48); margin-top:.6rem; line-height:1.7; }
+.price-includes { display:grid; grid-template-columns:1fr 1fr; gap:.5rem .8rem; margin-top:1.8rem; padding-top:1.6rem; border-top:1px solid rgba(200,146,58,.2); }
+.price-includes-item { font-size:clamp(.74rem,2.5vw,.82rem); color:rgba(250,246,240,.7); display:flex; gap:.5rem; line-height:1.5; }
+.price-includes-item::before { content:'✓'; color:var(--gold); font-size:.72rem; flex-shrink:0; margin-top:.15rem; }
+.price-note { font-size:.7rem; color:rgba(250,246,240,.3); font-style:italic; margin-top:1.5rem; }
+
+/* ── PRICE TABLE ───────────────────── */
+.price-table { width:100%; border-collapse:collapse; margin:1.8rem 0; }
+.price-table tr { border-bottom:1px solid rgba(13,10,7,.07); }
+.price-table tr:last-child { border-bottom:none; border-top:2px solid var(--ink-s); }
+.price-table td { padding:.85rem 0; font-size:clamp(.8rem,3vw,.92rem); vertical-align:top; }
+.price-table td:last-child { text-align:right; font-weight:500; font-family:var(--serif); font-size:clamp(.95rem,3.5vw,1.15rem); color:var(--ink); white-space:nowrap; padding-left:.8rem; }
+.price-table .label { color:var(--muted); font-size:clamp(.72rem,2.5vw,.8rem); }
+.price-table .total td { padding-top:1rem; }
+.price-table .total td:last-child { font-size:clamp(1.3rem,5vw,1.6rem); color:var(--gold-d); }
+
+/* ── COMPARISON ────────────────────── */
+.comparison { background:var(--warm); border:1px solid rgba(13,10,7,.09); border-radius:3px; overflow:hidden; margin:1.8rem 0; }
+.comparison-header { background:var(--cream-d); display:grid; grid-template-columns:1fr 60px 80px; padding:.7rem 1rem; font-size:clamp(.58rem,2vw,.68rem); font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); gap:.4rem; }
+.comparison-header span:not(:first-child) { text-align:center; }
+.comparison-row { display:grid; grid-template-columns:1fr 60px 80px; padding:.72rem 1rem; border-top:1px solid rgba(13,10,7,.06); font-size:clamp(.76rem,2.8vw,.86rem); align-items:center; gap:.4rem; }
+.comparison-row:nth-child(even) { background:rgba(250,246,240,.6); }
+.check-col { text-align:center; }
+.check-yes { color:#5A7A4A; }
+.check-no { color:rgba(13,10,7,.18); }
+.col-them { color:var(--muted); font-size:.76rem; }
+.col-us { color:var(--gold-d); font-weight:500; font-size:.76rem; }
+
+/* ── WHY GRID ──────────────────────── */
+.why-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.8rem 0; }
+.why-item { padding:clamp(1rem,4vw,1.8rem); border-left:2px solid var(--cream-d); background:var(--warm); }
+.why-item.accent { border-left-color:var(--gold); }
+.why-item h4 { font-family:var(--serif); font-size:clamp(.98rem,3.5vw,1.1rem); font-weight:500; margin-bottom:.4rem; color:var(--ink); }
+.why-item p { font-size:clamp(.76rem,2.8vw,.84rem); color:var(--muted); line-height:1.65; }
+
+/* ── STEPS ─────────────────────────── */
+.steps-list { display:flex; flex-direction:column; gap:1rem; margin:1.8rem 0; }
+.step-item { display:flex; gap:1.1rem; align-items:flex-start; padding:clamp(1rem,4vw,1.5rem); background:var(--warm); border-radius:3px; }
+.step-num { font-family:var(--serif); font-size:clamp(1.4rem,6vw,1.8rem); font-weight:300; font-style:italic; color:var(--gold); line-height:1; flex-shrink:0; min-width:1.6rem; }
+.step-item h4 { font-size:clamp(.82rem,3vw,.9rem); font-weight:600; color:var(--ink); margin-bottom:.2rem; }
+.step-item p { font-size:clamp(.76rem,2.8vw,.83rem); color:var(--muted); line-height:1.6; }
+
+/* ── PAYMENT STEPS ─────────────────── */
+.payment-steps { display:flex; gap:0; margin:2rem 0; position:relative; }
+.payment-steps::before { content:''; position:absolute; top:22px; left:22px; right:22px; height:2px; background:rgba(13,10,7,.07); }
+.payment-step { flex:1; text-align:center; position:relative; z-index:1; }
+.step-circle { width:44px; height:44px; border-radius:50%; background:var(--cream-d); border:2px solid rgba(13,10,7,.1); display:flex; align-items:center; justify-content:center; margin:0 auto .8rem; font-family:var(--serif); font-size:1.15rem; font-weight:500; color:var(--muted); }
+.step-circle.active { background:var(--gold); border-color:var(--gold); color:var(--warm); }
+.step-label { font-size:clamp(.68rem,2.5vw,.76rem); font-weight:500; color:var(--ink); margin-bottom:.15rem; }
+.step-desc { font-size:clamp(.62rem,2vw,.72rem); color:var(--muted); line-height:1.5; }
+
+/* ── QUOTE ─────────────────────────── */
+.quote-block { border-left:3px solid var(--gold); padding:1.2rem clamp(1rem,4vw,2rem); margin:2rem 0; background:var(--warm); }
+.quote-block p { font-family:var(--serif); font-size:clamp(1.05rem,4vw,1.35rem); font-weight:300; font-style:italic; color:var(--ink); line-height:1.55; margin-bottom:.6rem; }
+.quote-block cite { font-size:.75rem; color:var(--muted); font-style:normal; font-weight:500; }
+
+/* ── ACUERDO ───────────────────────── */
+.acuerdo { background:var(--warm); border:1px solid rgba(13,10,7,.09); border-radius:4px; padding:clamp(1.5rem,5vw,2.5rem); margin:2rem 0; }
+.acuerdo-title { font-family:var(--serif); font-size:clamp(1rem,3.5vw,1.25rem); font-weight:500; color:var(--ink); margin-bottom:1.2rem; padding-bottom:.8rem; border-bottom:1px solid rgba(13,10,7,.08); }
+.acuerdo-list { list-style:none; display:flex; flex-direction:column; gap:.7rem; }
+.acuerdo-list li { font-size:clamp(.78rem,2.8vw,.86rem); color:var(--ink-l); display:flex; gap:.7rem; line-height:1.6; }
+.acuerdo-list li span.n { font-family:var(--serif); font-size:1rem; font-style:italic; color:var(--gold); flex-shrink:0; min-width:1.2rem; }
+.acuerdo-sign { margin-top:2rem; padding-top:1.5rem; border-top:1px solid rgba(13,10,7,.07); display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+.sign-block label { font-size:.65rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:2.5rem; }
+.sign-line { height:1px; background:rgba(13,10,7,.15); }
+.sign-name { font-size:.7rem; color:var(--muted); margin-top:.35rem; }
+
+/* ── FOOTER ────────────────────────── */
+.doc-footer { background:var(--ink); color:var(--warm); padding:clamp(1.8rem,6vw,3rem) var(--pad-x); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1.5rem; }
+.footer-brand { font-family:var(--serif); font-size:clamp(1.15rem,4vw,1.4rem); }
+.footer-brand em { font-style:italic; color:var(--gold-l); }
+.footer-sub { font-size:.72rem; color:rgba(250,246,240,.3); margin-top:.2rem; letter-spacing:.04em; }
+.footer-info { font-size:clamp(.72rem,2.5vw,.78rem); color:rgba(250,246,240,.38); line-height:2; text-align:right; }
+.footer-info a { color:var(--gold-l); text-decoration:none; }
+
+/* ── STICKY CTA ────────────────────── */
+.sticky-cta { display:none; position:fixed; bottom:0; left:0; right:0; background:var(--gold); color:var(--ink); text-align:center; padding:1rem 1.5rem; font-size:.88rem; font-weight:600; letter-spacing:.04em; z-index:100; box-shadow:0 -4px 20px rgba(200,146,58,.4); }
+.sticky-cta a { color:inherit; text-decoration:none; }
+
+/* ══ RESPONSIVE ══════════════════════ */
+@media (max-width: 599px) {
+  .cover-bottom { grid-template-columns:1fr; gap:.6rem; }
+  .cover-meta-right { text-align:left; }
+  .cover-deco { display:none; }
+  .what-grid { grid-template-columns:1fr; }
+  .why-grid { grid-template-columns:1fr; }
+  .price-includes { grid-template-columns:1fr; }
+  .comparison-header,.comparison-row { grid-template-columns:1fr 50px 64px; padding:.65rem .8rem; }
+  .footer-info { text-align:left; }
+  .sticky-cta { display:block; }
+  .doc-footer { padding-bottom:4.5rem; }
+  .acuerdo-sign { grid-template-columns:1fr; gap:1.5rem; }
+}
+
+@media (min-width: 600px) {
+  .pillars { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+  .pillars .pillar:last-child:nth-child(odd) { grid-column:1/-1; }
+}
+.option-label {
+  display: inline-block;
+  background: var(--ink-s);
+  color: var(--gold-l);
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: .25rem .8rem;
+  border-radius: 20px;
+  margin-bottom: .7rem;
+}
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="cover-rule"></div>
+  <div class="cover-top">
+    <div class="cover-brand">DJ Create · Marketing Digital</div>
+    <div class="cover-label">Propuesta RRSS<br>Mayo 2025</div>
+  </div>
+  <div class="cover-main">
+    <div class="cover-eyebrow">Propuesta redes sociales para</div>
+    <h1 class="cover-title">Giant<br><em>Barber</em></h1>
+    <p class="cover-subtitle">Studio · El Carmen, Murcia</p>
+    <p class="cover-tagline">Gestión profesional de Instagram pensada para llenar la agenda de Antonio — con contenido real, constante y a la altura de un barbero premiado.</p>
+    <div class="cover-deco">G</div>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-meta">
+      <strong>Preparado por:</strong> DJ Create<br>
+      <strong>Web:</strong> djcreateweb.com<br>
+      <strong>Email:</strong> djcreateweb@gmail.com
+    </div>
+    <div class="cover-meta cover-meta-right">
+      <strong>Para:</strong> Antonio Abad · Giant Barber Studio<br>
+      <strong>Dirección:</strong> C. Paloma 3, El Carmen, Murcia<br>
+      <strong>Válida hasta:</strong> 30 días desde emisión
+    </div>
+  </div>
+</div>
+
+<!-- 00 -->
+<div class="page">
+  <div class="section-num">00 · Lo que ya está hecho</div>
+  <h2 class="section-title">La web de Giant Barber<br>ya está <em>online</em></h2>
+  <p class="section-intro">Antes de hablar de redes sociales, hay que reconocer lo que ya existe: DJ Create diseñó y desarrolló la web oficial de Giant Barber Studio — un proyecto completado y entregado.</p>
+
+  <div class="highlight">
+    <div class="highlight-label">Plan Avanzado · Completado</div>
+    <p><strong>giantbarberstudio.com</strong> ya está funcionando. El proyecto se cerró en dos pagos: <strong>100€ en mayo</strong> y <strong>100€ en junio</strong>. Un sitio hecho a la altura de un barbero premiado — no una plantilla, sino una identidad digital completa.</p>
+  </div>
+
+  <div class="what-grid">
+    <div class="what-item" data-num="✓">
+      <h4>Diseño UI/UX personalizado</h4>
+      <p>Identidad cinematográfica oscura — paleta, tipografía y atmósfera diseñadas específicamente para Giant Barber Studio.</p>
+    </div>
+    <div class="what-item" data-num="✓">
+      <h4>Animación de tijeras</h4>
+      <p>Canvas 2D + GSAP + 40 frames WebP. Una animación de entrada única, construida frame a frame.</p>
+    </div>
+    <div class="what-item" data-num="✓">
+      <h4>Hero con vídeo</h4>
+      <p>Sección de inicio con vídeo de fondo y presentación de marca. Primera impresión de alto impacto.</p>
+    </div>
+    <div class="what-item" data-num="✓">
+      <h4>Servicios con precios</h4>
+      <p>Carta completa de servicios con precios visibles. El cliente sabe qué esperar antes de reservar.</p>
+    </div>
+    <div class="what-item" data-num="✓">
+      <h4>Sección equipo</h4>
+      <p>Antonio Abad con sus premios: Booksy Barber League, Golden Chair International, Barber Battle Valencia 2ª posición, Pimps Barber.</p>
+    </div>
+    <div class="what-item" data-num="✓">
+      <h4>Galería + reseñas</h4>
+      <p>Galería de fotos del local y sección de reseñas con enlace directo a Google. La prueba social visible desde la web.</p>
+    </div>
+    <div class="what-item" data-num="✓">
+      <h4>Formulario de reservas</h4>
+      <p>Integración con reserva-ya.com. El cliente puede reservar directamente desde la web, sin llamar.</p>
+    </div>
+    <div class="what-item" data-num="✓">
+      <h4>SEO 100 · Accesibilidad 100</h4>
+      <p>Puntuación perfecta en Lighthouse. Schema.org HairSalon JSON-LD, Playfair Display self-hosted, sitemap enviado a Google Search Console, pretty link /puntuar para QR de reseñas.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <p style="font-size:.85rem; color:var(--muted); line-height:1.8">Responsive en móvil, tablet y escritorio. Esta propuesta de redes sociales es el <strong style="color:var(--ink)">siguiente paso natural</strong> — la web ya está ahí para convertir las visitas que lleguen desde Instagram.</p>
+</div>
+
+<!-- 01 -->
+<div class="page">
+  <div class="section-num">01 · El punto de partida</div>
+  <h2 class="section-title">La oportunidad<br>que hay en <em>redes</em></h2>
+  <p class="section-intro">Antonio tiene premios, técnica y una reputación que habla por sí sola. El perfil de Instagram existe, pero no trabaja a la altura de lo que hay detrás. Eso es precisamente lo que se puede cambiar.</p>
+
+  <div class="highlight">
+    <div class="highlight-label">La realidad del perfil ahora</div>
+    <p>@giantbarber tiene perfil creado pero <strong>sin publicaciones</strong>. @giantbarberstudio acumula seguidores comprados que no generan reservas. <strong>Cada semana sin contenido es una semana en la que otro barbero de Murcia ocupa ese espacio.</strong> Instagram es hoy el escaparate número uno para una barbería — más que Google, más que el boca a boca.</p>
+  </div>
+
+  <div class="what-grid">
+    <div class="what-item" data-num="1">
+      <h4>Reservas directas desde IG</h4>
+      <p>Un perfil activo con contenido de calidad convierte visualizaciones en citas. Es el canal más directo para clientes nuevos en Murcia.</p>
+    </div>
+    <div class="what-item" data-num="2">
+      <h4>Posicionar a Antonio como referente</h4>
+      <p>Los premios ya están. Falta mostrarlos. Un barbero con presencia digital premium cobra más y llena más rápido.</p>
+    </div>
+    <div class="what-item" data-num="3">
+      <h4>Reels que llegan a gente nueva</h4>
+      <p>El formato vídeo es el único que Instagram distribuye orgánicamente fuera de los seguidores actuales. Sin invertir en publicidad.</p>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <p>"Un barbero con 5 estrellas y premios nacionales merece un Instagram que lo demuestre."</p>
+    <cite>— DJ Create</cite>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="page">
+  <div class="section-num">02 · El servicio</div>
+  <h2 class="section-title">Qué incluye<br>cada <em>mes</em></h2>
+  <p class="section-intro">El servicio incluye siempre el Pilar 01. Para el contenido en vídeo, Antonio elige una de las dos opciones según cómo prefiera trabajar — ambas tienen el mismo precio.</p>
+
+  <div class="pillars">
+
+    <div class="pillar">
+      <div class="pillar-bar"></div>
+      <div class="pillar-body">
+        <div class="pillar-num">✦</div>
+        <div class="pillar-tag">Pilar 01 · Diseño gráfico · Incluido siempre</div>
+        <h3>Carteles y piezas<br>bajo demanda</h3>
+        <p>DJ Create diseña carteles y piezas gráficas para Instagram con la identidad visual de Giant Barber Studio. Se publican cuando Antonio lo solicite — sin cadencia fija impuesta. DJ Create no diseña ni publica nada si Antonio no lo pide.</p>
+        <ul class="pillar-list">
+          <li>Antonio decide cuándo y qué publicar</li>
+          <li>DJ Create diseña, sube y publica al solicitarlo</li>
+          <li>Adaptados a formato Stories y Feed</li>
+          <li>Identidad visual consistente (paleta oscura, tipografía premium)</li>
+          <li>Textos y copy incluidos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-bar"></div>
+      <div class="pillar-body">
+        <div class="pillar-num"></div>
+        <div class="option-label">Opción A — Elige esta o la B</div>
+        <div class="pillar-tag">Pilar 02 · Reels mensuales</div>
+        <h3>DJ Create va a grabar<br>una mañana al mes</h3>
+        <p>Una vez al mes, DJ Create se desplaza a Giant Barber Studio y graba durante toda la mañana todos los reels posibles. DJ Create los edita y los va publicando organizados a lo largo del mes. Antonio solo necesita estar ese día.</p>
+        <ul class="pillar-list">
+          <li>Planificación previa de ideas y guiones</li>
+          <li>Grabación en local (mañana completa, 1 vez al mes)</li>
+          <li>Edición y montaje íntegro por DJ Create</li>
+          <li>Publicación organizada durante el mes</li>
+          <li>DJ Create se desplaza — Antonio no hace nada más</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-bar"></div>
+      <div class="pillar-body">
+        <div class="pillar-num"></div>
+        <div class="option-label">Opción B — Elige esta o la A</div>
+        <div class="pillar-tag">Pilar 03 · Edición de vídeos</div>
+        <h3>Antonio graba, DJ Create<br>edita y sube desde casa</h3>
+        <p>Antonio graba sus vídeos de cortes con el móvil cuando quiera y se los manda a DJ Create por WhatsApp. DJ Create los edita y los sube directamente. Sin visitas a la barbería, sin coordinación de agenda. DJ Create edita un máximo de 4 vídeos al mes. Cada uno se publica una vez por semana y se repite en el perfil para maximizar su alcance.</p>
+        <ul class="pillar-list">
+          <li>Antonio graba con el móvil cuando quiera</li>
+          <li>Envía los vídeos por WhatsApp a DJ Create</li>
+          <li>DJ Create edita y sube desde casa</li>
+          <li>Sin desplazamientos ni coordinación de fechas</li>
+          <li>Antonio no edita nada — solo graba y envía</li>
+          <li>Máximo 4 vídeos editados al mes</li>
+          <li>Cada vídeo se sube 1 vez por semana y se repite para mejorar el alcance</li>
+        </ul>
+        <div style="margin-top:1.1rem; padding:.9rem 1rem .9rem 1.3rem; border-left:3px solid var(--gold); background:var(--gold-pale); border-radius:0 3px 3px 0;">
+          <p style="font-size:.6rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-d); margin-bottom:.4rem;">Por qué tiene más sentido</p>
+          <p style="font-size:.8rem; color:var(--ink-l); line-height:1.65;">Con la Opción A, Antonio tendría que cuadrar que varios clientes vengan el mismo día — no puedes grabar 10 reels con la misma persona. Con la Opción B, Antonio graba a cada cliente cuando viene de forma natural y nos manda el material. Sin coordinación forzada, sin llenar la agenda de un día concreto.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="highlight">
+    <div class="highlight-label">Cómo funciona la elección</div>
+    <p>El Pilar 01 siempre está incluido. Para el vídeo, Antonio elige: <strong>Opción A</strong> si prefiere que DJ Create vaya a grabar a la barbería una mañana al mes, o <strong>Opción B</strong> si prefiere grabar él mismo los cortes con el móvil y que DJ Create los edite y suba desde casa. Mismo precio en ambos casos. Para la mayoría de barberías la <strong>Opción B encaja mejor</strong>: Antonio graba a cada cliente cuando viene de forma natural, sin tener que coordinar que varios modelos coincidan el mismo día para llenar una sesión de grabación.</p>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="page">
+  <div class="section-num">03 · El flujo de trabajo</div>
+  <h2 class="section-title">Cómo funciona<br><em>cada opción</em></h2>
+  <p class="section-intro">El flujo cambia según la opción elegida. En ambos casos DJ Create se encarga de editar y publicar el contenido de vídeo.</p>
+
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-dot active">→</div>
+      <div class="flow-content">
+        <h4>Antonio solicita un cartel (siempre igual)</h4>
+        <p>Cuando Antonio quiere publicar una pieza gráfica lo dice por WhatsApp. DJ Create lo diseña, prepara y sube. Funciona igual en la Opción A y en la B.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-dot active">A</div>
+      <div class="flow-content">
+        <h4>Opción A — Sesión de grabación mensual</h4>
+        <p>DJ Create va a la barbería una mañana al mes, graba todos los reels posibles, los edita y los publica organizados durante el mes.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-dot active">B</div>
+      <div class="flow-content">
+        <h4>Opción B — Antonio graba, DJ Create edita</h4>
+        <p>Antonio graba sus cortes con el móvil cuando quiera y los manda por WhatsApp. DJ Create los edita y los sube desde casa. Sin visitas, sin coordinación de agenda.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-dot">↗</div>
+      <div class="flow-content">
+        <h4>Sin solapamientos</h4>
+        <p>Las dos opciones de vídeo son excluyentes. Se elige una al firmar el acuerdo. Si en algún momento Antonio quiere cambiar de opción, se acuerda para el siguiente mes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="why-grid" style="margin-top:2rem">
+    <div class="why-item accent">
+      <h4>Mismo precio, dos formas de trabajar</h4>
+      <p>Da igual la opción elegida — 150€/mes. La diferencia es quién se desplaza y cómo se genera el material de vídeo.</p>
+    </div>
+    <div class="why-item accent">
+      <h4>DJ Create edita siempre</h4>
+      <p>En las dos opciones, DJ Create se encarga de la edición y la subida del contenido de vídeo. Antonio no toca nada de eso.</p>
+    </div>
+    <div class="why-item">
+      <h4>Antonio manda en los carteles</h4>
+      <p>Las piezas gráficas se diseñan y publican cuando Antonio las pide. Sin calendarios impuestos, sin presiones.</p>
+    </div>
+    <div class="why-item">
+      <h4>Comunicación directa</h4>
+      <p>Todo por WhatsApp. Sin reuniones, sin formularios. Respuesta en el día en horario laboral.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="page">
+  <div class="section-num">04 · La inversión</div>
+  <h2 class="section-title">Un precio fijo,<br>sin <em>sorpresas</em></h2>
+  <p class="section-intro">Pilar 01 más la opción de vídeo que Antonio elija — todo por la misma cuota mensual fija.</p>
+
+  <div class="price-card">
+    <div class="price-label">Tarifa mensual todo incluido</div>
+    <div class="price-amount"><sup>€</sup>150<sub>/mes</sub></div>
+    <p class="price-desc">Sin permanencia. Sin costes de setup. El precio es el mismo elijas la Opción A o la Opción B.</p>
+    <div class="price-includes">
+      <div class="price-includes-item">Carteles y piezas gráficas bajo demanda</div>
+      <div class="price-includes-item">Opción A: sesión mensual de grabación en local</div>
+      <div class="price-includes-item">Opción B: edición de hasta 4 vídeos al mes + publicación semanal</div>
+      <div class="price-includes-item">Edición y subida del contenido de vídeo elegido</div>
+      <div class="price-includes-item">Copy y textos para todas las piezas gráficas</div>
+      <div class="price-includes-item">Comunicación directa por WhatsApp</div>
+      <div class="price-includes-item">Sin permanencia · Sin costes ocultos</div>
+    </div>
+    <p class="price-note">* Sin IVA. Pago mensual por Bizum, transferencia o efectivo. Aviso de 15 días para cancelar.</p>
+  </div>
+
+  <table class="price-table">
+    <tr><td><strong>Diseño gráfico bajo demanda</strong><br><span class="label">Carteles y piezas cuando Antonio lo solicite</span></td><td>incluido</td></tr>
+    <tr><td><strong>Opción A · Sesión mensual en barbería</strong><br><span class="label">DJ Create graba, edita y sube — 1 mañana al mes</span></td><td>incluido</td></tr>
+    <tr><td><strong>Opción B · Edición de vídeos en remoto</strong><br><span class="label">Hasta 4 vídeos/mes editados · 1 subida semanal por vídeo</span></td><td>incluido</td></tr>
+    <tr class="total"><td><strong>Total mensual (Opción A o B)</strong><br><span class="label">Una sola opción de vídeo · Sin permanencia</span></td><td><strong>150 €</strong></td></tr>
+  </table>
+
+  <div class="highlight">
+    <div class="highlight-label">Para verlo en perspectiva</div>
+    <p><strong>150€ es el precio de 9 cortes.</strong> Si el contenido trae aunque sea 3 o 4 clientes nuevos al mes que no hubieran llegado de otra forma, el servicio ya se paga. Y la agenda de un barbero premiado no debería tener huecos.</p>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="page">
+  <div class="section-num">05 · Por qué DJ Create</div>
+  <h2 class="section-title">No es una gestora<br>de contenido <em>genérica</em></h2>
+  <p class="section-intro">Hay muchas opciones para gestionar redes sociales. La diferencia está en si el resultado refleja de verdad quién es el negocio.</p>
+
+  <div class="comparison">
+    <div class="comparison-header">
+      <span>Qué se ofrece</span><span>Otros</span><span>DJ Create</span>
+    </div>
+    <div class="comparison-row"><span>Contenido específico para barbería</span><span class="check-col check-no">✗</span><span class="check-col check-yes col-us">✓</span></div>
+    <div class="comparison-row"><span>Diseño con identidad real del negocio</span><span class="check-col col-them">A veces</span><span class="check-col check-yes col-us">✓</span></div>
+    <div class="comparison-row"><span>Diseño gráfico bajo demanda</span><span class="check-col check-no">✗</span><span class="check-col check-yes col-us">✓</span></div>
+    <div class="comparison-row"><span>Grabación en local (Opción A)</span><span class="check-col check-no">✗</span><span class="check-col check-yes col-us">✓ A</span></div>
+    <div class="comparison-row"><span>Edición de vídeos en remoto (Opción B)</span><span class="check-col check-no">✗</span><span class="check-col check-yes col-us">✓ B</span></div>
+    <div class="comparison-row"><span>Trato directo sin intermediarios</span><span class="check-col check-no">✗</span><span class="check-col check-yes col-us">✓</span></div>
+    <div class="comparison-row"><span>Sin permanencia</span><span class="check-col check-no">✗</span><span class="check-col check-yes col-us">✓</span></div>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-item accent"><h4>Conocemos el sector</h4><p>No es la primera barbería con la que trabajamos. Sabemos qué tipo de contenido convierte y qué pasa desapercibido.</p></div>
+    <div class="why-item accent"><h4>Ya conocemos Giant Barber</h4><p>Hicimos la web. Conocemos la identidad visual, los precios, los premios y el tono de la marca. Sin curva de aprendizaje.</p></div>
+    <div class="why-item"><h4>Precio honesto</h4><p>Lo que se presupuesta es lo que se paga. Sin costes ocultos, sin "extras" que se añaden después.</p></div>
+    <div class="why-item"><h4>Murcia, no Madrid</h4><p>Somos locales. Estamos a 10 minutos de la barbería. La sesión de grabación mensual no es un problema logístico.</p></div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="page">
+  <div class="section-num">06 · Cómo arrancamos</div>
+  <h2 class="section-title">En marcha en<br><em>una semana</em></h2>
+  <p class="section-intro">El proceso es sencillo. En pocos días @giantbarber ya tiene los primeros reels publicados y los carteles listos para cuando Antonio los solicite.</p>
+
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div><h4>Confirmar la propuesta</h4><p>Se firma el acuerdo y se abona el primer mes (150€). A partir de ese momento, el proyecto está en marcha.</p></div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div><h4>Acceso al perfil</h4><p>Antonio facilita acceso a @giantbarber (o el perfil que se decida usar). DJ Create configura la cuenta para publicación programada.</p></div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div><h4>Primera sesión de grabación</h4><p>Esa misma semana, mañana de grabación en Giant Barber Studio. Se prepara el material para los primeros 10–14 días de contenido.</p></div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div><h4>Arranca la publicación</h4><p>Se publican los primeros reels grabados en la sesión inicial. Los carteles se diseñan y publican en cuanto Antonio los solicite por WhatsApp.</p></div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div><h4>Revisión al mes</h4><p>Al cierre del primer mes, valoramos juntos cómo ha ido. Sin compromiso a partir del segundo mes.</p></div>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:2.5rem">
+    <div class="highlight-label">Para arrancar hoy</div>
+    <p>Esta propuesta tiene validez de <strong>30 días</strong>. Disponibles por <strong>WhatsApp (640 117 415)</strong> para cualquier duda. No hay compromiso hasta que se confirma por escrito.</p>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="page">
+  <div class="section-num">07 · Acuerdo de servicio</div>
+  <h2 class="section-title">Condiciones<br><em>claras</em></h2>
+  <p class="section-intro">Sin letra pequeña. Lo que se acuerda es lo que se cumple — por las dos partes.</p>
+
+  <div class="acuerdo">
+    <div class="acuerdo-title">Términos del servicio — Giant Barber Studio × DJ Create</div>
+    <ul class="acuerdo-list">
+      <li><span class="n">1</span><span><strong>Objeto.</strong> DJ Create se compromete a: (a) diseñar y publicar carteles y piezas gráficas cuando Antonio lo solicite; (b) según la opción elegida al firmar: Opción A — realizar una sesión mensual de grabación de reels en Giant Barber Studio, editarlos y publicarlos; Opción B — editar y publicar los vídeos de cortes que Antonio grabe con su móvil y envíe por WhatsApp. DJ Create editará un máximo de 4 vídeos por mes. Cada vídeo se publicará una vez por semana y se repetirá en el perfil para maximizar su alcance. Solo se activa una de las dos opciones.</span></li>
+      <li><span class="n">2</span><span><strong>Duración.</strong> El servicio es mensual y renovable. No existe permanencia mínima. Para cancelar, basta con avisar con 15 días de antelación antes del siguiente ciclo de facturación.</span></li>
+      <li><span class="n">3</span><span><strong>Precio.</strong> 150€/mes (sin IVA). Pago al inicio de cada mes por Bizum, transferencia bancaria o efectivo. El primer mes se abona al confirmar este acuerdo.</span></li>
+      <li><span class="n">4</span><span><strong>Acceso.</strong> El cliente facilita acceso al perfil de Instagram a gestionar. DJ Create no realizará cambios en la cuenta más allá de los relativos a la publicación de contenido.</span></li>
+      <li><span class="n">5</span><span><strong>Sesión de grabación.</strong> Aplicable solo si se ha elegido la Opción A. Una mañana al mes en Giant Barber Studio, en día y hora acordados con al menos 3 días de antelación. Si no es posible ese mes por causa justificada, se recupera el mes siguiente. En la Opción B no hay desplazamientos — Antonio envía los vídeos por WhatsApp cuando quiera.</span></li>
+      <li><span class="n">6</span><span><strong>Elección de opción.</strong> Al firmar este acuerdo, Antonio indica expresamente si contrata la Opción A (sesión mensual en barbería) o la Opción B (edición en remoto de vídeos propios). El cambio de opción puede solicitarse con 15 días de antelación al siguiente ciclo.</span></li>
+      <li><span class="n">7</span><span><strong>Aprobación de contenido.</strong> El cliente puede revisar y rechazar cualquier pieza antes de su publicación. DJ Create enviará previamente los contenidos que lo requieran con tiempo suficiente para revisión.</span></li>
+      <li><span class="n">8</span><span><strong>Propiedad.</strong> El material gráfico creado por DJ Create para esta cuenta es propiedad de Giant Barber Studio una vez abonado el mes correspondiente. Los vídeos grabados en sesión son propiedad del cliente.</span></li>
+      <li><span class="n">9</span><span><strong>Resultados.</strong> DJ Create garantiza la producción y publicación del volumen de contenido acordado. Los resultados en redes sociales (seguidores, reservas, visibilidad) dependen de múltiples factores externos y no pueden garantizarse.</span></li>
+      <li><span class="n">10</span><span><strong>Comunicación.</strong> Canal principal: WhatsApp. Tiempo de respuesta máximo 24h en días laborables. Respuesta en el día en horario laboral.</span></li>
+    </ul>
+
+    <div style="margin:1.5rem 0 0; padding:1rem 1.2rem; border:1px solid rgba(200,146,58,.3); border-radius:3px; background:var(--gold-pale);">
+      <p style="font-size:.65rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-d); margin-bottom:.6rem;">Opción de vídeo elegida</p>
+      <div style="display:flex; gap:2rem; font-size:.82rem; color:var(--ink-l);">
+        <label style="display:flex; align-items:center; gap:.5rem; cursor:pointer;">
+          <input type="checkbox" style="accent-color:var(--gold); width:15px; height:15px;"> Opción A — Sesión mensual en barbería
+        </label>
+        <label style="display:flex; align-items:center; gap:.5rem; cursor:pointer;">
+          <input type="checkbox" style="accent-color:var(--gold); width:15px; height:15px;"> Opción B — Edición en remoto de vídeos propios
+        </label>
+      </div>
+    </div>
+
+    <div class="acuerdo-sign">
+      <div class="sign-block">
+        <label>DJ Create · Proveedor</label>
+        <div class="sign-line"></div>
+        <div class="sign-name">David · djcreateweb@gmail.com</div>
+      </div>
+      <div class="sign-block">
+        <label>Giant Barber Studio · Cliente</label>
+        <div class="sign-line"></div>
+        <div class="sign-name">Antonio Abad · 640 117 415</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:.7rem; color:var(--muted); font-style:italic; margin-top:.8rem">Fecha: _________________ &nbsp;&nbsp; Lugar: Murcia</p>
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div>
+    <div class="footer-brand">DJ <em>Create</em></div>
+    <div class="footer-sub">Marketing Digital · Diseño Web</div>
+  </div>
+  <div class="footer-info">
+    djcreateweb.com &nbsp;·&nbsp; djcreateweb@gmail.com<br>
+    <a href="https://wa.me/34640117415">Giant Barber Studio · 640 117 415</a><br>
+    <a href="#">Propuesta Redes Sociales · Mayo 2025</a>
+  </div>
+</div>
+
+<div class="sticky-cta">
+  <a href="https://wa.me/34640117415">💬 &nbsp;Confirmar propuesta por WhatsApp</a>
+</div>
+
+</body>
+</html>
