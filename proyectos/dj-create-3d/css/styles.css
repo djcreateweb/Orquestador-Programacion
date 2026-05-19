@@ -2388,17 +2388,25 @@ button:focus-visible {
 }
 
 /* ── 4. Gradiente hero → primera sección ──────────────────── */
+/* Gradiente superior — fusiona el inicio del canvas con el fondo */
+#scrollCanvas::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 200px;
+  background: linear-gradient(to bottom, var(--bg) 0%, rgba(2,8,18,0) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
 #scrollCanvas::after {
   content: "";
   position: absolute;
   inset: auto 0 0;
-  height: 28vh;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(2,8,18,.55) 55%,
-    rgba(2,13,26,.95) 100%);
+  height: 300px;
+  background: linear-gradient(to top, var(--bg) 0%, rgba(2,8,18,0) 100%);
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
 }
 
 /* Móvil portrait: cubre las barras negras arriba y abajo del frame.
@@ -2406,21 +2414,13 @@ button:focus-visible {
    El gradiente cubre ese 14% top y bottom con opacidad alta, luego se
    desvanece hacia el centro para que el efecto de scroll sea visible. */
 @media (max-width: 768px) and (orientation: portrait) {
+  #scrollCanvas::before {
+    height: 120px;
+  }
   #scrollCanvas::after {
-    inset: 0;
-    height: auto;
-    background:
-      radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(4,6,15,.35) 70%),
-      linear-gradient(to bottom,
-        rgba(4,6,15,.95)  0%,
-        rgba(4,6,15,.95) 10%,
-        rgba(4,6,15,.20) 18%,
-        transparent      24%,
-        transparent      76%,
-        rgba(4,6,15,.20) 82%,
-        rgba(4,6,15,.95) 90%,
-        rgba(4,6,15,.95) 100%
-      );
+    height: 180px;
+    inset: auto 0 0;
+    background: linear-gradient(to top, var(--bg) 0%, rgba(2,8,18,0) 100%);
   }
 }
 
