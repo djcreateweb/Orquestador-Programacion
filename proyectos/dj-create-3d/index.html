@@ -623,17 +623,37 @@
         </div>
 
         <div class="cobertura-map">
-          <iframe
-            title="DJ Create — La Ñora, Murcia"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6256.5!2d-1.1417!3d37.9981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6382b3b3b3b3b3%3A0x0!2sLa+%C3%91ora%2C+Murcia!5e0!3m2!1ses!2ses!4v1716000000000!5m2!1ses!2ses"
-            width="100%"
-            height="320"
-            style="border:0;border-radius:12px;filter:grayscale(1) brightness(0.7) contrast(1.1)"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            aria-label="Mapa de La Ñora, Murcia — sede de DJ Create">
-          </iframe>
+          <div class="map-wrapper reveal-blur">
+            <iframe
+              title="DJ Create — La Ñora, Murcia"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6256.5!2d-1.1417!3d37.9981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6382b3b3b3b3b3%3A0x0!2sLa+%C3%91ora%2C+Murcia!5e0!3m2!1ses!2ses!4v1716000000000!5m2!1ses!2ses"
+              width="100%"
+              height="340"
+              style="border:0;display:block"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              aria-label="Mapa de La Ñora, Murcia — sede de DJ Create">
+            </iframe>
+            <!-- Overlay decorativo -->
+            <div class="map-overlay" aria-hidden="true">
+              <div class="map-pin">
+                <span class="map-pin__dot"></span>
+                <span class="map-pin__ring"></span>
+                <span class="map-pin__ring map-pin__ring--2"></span>
+              </div>
+              <div class="map-label">
+                <span class="map-label__icon">◎</span>
+                <span>La Ñora, Murcia</span>
+              </div>
+              <div class="map-coords">37.9981° N · 1.1417° W</div>
+            </div>
+            <!-- Esquinas decorativas -->
+            <span class="map-corner map-corner--tl" aria-hidden="true"></span>
+            <span class="map-corner map-corner--tr" aria-hidden="true"></span>
+            <span class="map-corner map-corner--bl" aria-hidden="true"></span>
+            <span class="map-corner map-corner--br" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
     </div>
