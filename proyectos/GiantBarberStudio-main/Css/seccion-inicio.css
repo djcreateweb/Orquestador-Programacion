@@ -282,6 +282,58 @@
   text-transform: uppercase;
 }
 
+/* ── Crédito web (esquina inferior derecha) ─────────── */
+.hero__credito {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.35);
+  transition: color 0.3s ease;
+}
+
+.hero__credito::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.hero__credito-logo {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  opacity: 0.55;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.hero__credito-txt {
+  font-family: var(--font-titulo);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.hero__credito:hover {
+  color: #C9A84C;
+}
+
+.hero__credito:hover .hero__credito-logo {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .hero__credito { display: none; }
+}
+
 /* ── Keyframes ─────────────────────────────────────── */
 @keyframes hero-zoom-out {
   from { transform: scale(1.05); }
