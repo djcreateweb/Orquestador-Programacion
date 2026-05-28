@@ -39,8 +39,18 @@ function enviar(){
         header('Location: index.php?controlador=contacto&action=home&err=mensaje'); exit();
     }
 
+    // Reject CR/LF in any value that reaches a mail header (defense-in-depth;
+    // $asunto is already whitelisted and $email passed FILTER_VALIDATE_EMAIL,
+    // but $nombre is free text and must be checked explicitly).
+    foreach ([$nombre, $email] as $campo) {
+        if (preg_match('/[\r\n]/', $campo)) {
+            header('Location: index.php?controlador=contacto&action=home&err=invalid'); exit();
+        }
+    }
+
     $para = 'djcreateweb@gmail.com';
-    $asunto_email = 'ValoSense - ' . $asunto;
+    // RFC 2047 encoding prevents header injection via the subject line.
+    $asunto_email = '=?UTF-8?B?' . base64_encode('ValoSense - ' . $asunto) . '?=';
     $cuerpo = "Nombre: {$nombre}\n"
             . "Email: {$email}\n"
             . "Asunto: {$asunto}\n\n"
