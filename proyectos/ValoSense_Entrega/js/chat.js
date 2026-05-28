@@ -1,13 +1,7 @@
 window.addEventListener('load', iniciar);
 
-// constante de intervalo de refresco en milisegundos
-let INTERVALO_REFRESCO = 3000;
-
 // id del amigo de la conversación activa
 let amigoActualId = 0;
-
-// timer del refresco automático
-let timerRefresco = null;
 
 function iniciar() {
     let mensajesEl = document.getElementById('chat-messages');
@@ -49,14 +43,6 @@ function iniciar() {
 
     // muestra fecha y hora en los mensajes sin timestamp
     formatearTimestamps();
-
-    // activa el refresco periódico de la barra de no leídos
-    if (amigoActualId > 0) {
-        timerRefresco = setInterval(actualizarNoLeidos, INTERVALO_REFRESCO);
-    }
-
-    // pausa el refresco si la pestaña no es visible
-    document.addEventListener('visibilitychange', controlarRefresco);
 
     // marca la conversación activa en el menú lateral
     marcarConversacionActiva();
@@ -125,37 +111,6 @@ function formatearTimestamps() {
             let h = String(hoy.getHours()).padStart(2, '0');
             let m = String(hoy.getMinutes()).padStart(2, '0');
             tiempos[i].textContent = h + ':' + m;
-        }
-    }
-}
-
-function actualizarNoLeidos() {
-    // lee el contador de no leídos del sessionStorage
-    let clave = 'vsUnread_' + amigoActualId;
-    let noLeidos = parseInt(sessionStorage.getItem(clave)) || 0;
-
-    let badge = document.getElementById('nav-chat-badge');
-    if (!badge) return;
-
-    if (noLeidos > 0) {
-        badge.textContent = String(noLeidos);
-        badge.classList.remove('is-hidden');
-    } else {
-        badge.classList.add('is-hidden');
-    }
-}
-
-function controlarRefresco() {
-    if (document.hidden) {
-        // para el refresco cuando la pestaña no está visible
-        if (timerRefresco) {
-            clearInterval(timerRefresco);
-            timerRefresco = null;
-        }
-    } else {
-        // reactiva el refresco al volver a la pestaña
-        if (!timerRefresco && amigoActualId > 0) {
-            timerRefresco = setInterval(actualizarNoLeidos, INTERVALO_REFRESCO);
         }
     }
 }

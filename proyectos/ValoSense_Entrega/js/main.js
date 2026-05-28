@@ -10,7 +10,6 @@ function iniciar() {
     activarConfirmaciones();
     ocultarImagenesRotas();
     ocultarMensajesAuto();
-    iniciarBarrasProgreso();
     aplicarProteccionScrollFormularios();
     restaurarScrollGuardado();
     mostrarNotificacionGuardada();
@@ -260,7 +259,7 @@ function ocultarMensajesAuto() {
 
 // guarda scroll en formularios que recargan
 function aplicarProteccionScrollFormularios() {
-    let ids = ['contacto-form', 'form-presencia', 'form-datos', 'form-password', 'form-riot-visibilidad'];
+    let ids = ['contacto-form', 'form-presencia', 'form-datos', 'form-password'];
     for (let i = 0; i < ids.length; i++) {
         let form = document.getElementById(ids[i]);
         if (form) {
@@ -306,13 +305,3 @@ function mostrarNotificacionGuardada() {
     mostrarNotificacion(texto);
 }
 
-// aplica ancho de barras de progreso
-function iniciarBarrasProgreso() {
-    let barras = document.querySelectorAll('.progress-bar-fill[data-progress]');
-    for (let i = 0; i < barras.length; i++) {
-        let valor = parseInt(barras[i].getAttribute('data-progress')) || 0;
-        if (valor < 0) valor = 0;
-        if (valor > 100) valor = 100;
-        barras[i].style.width = valor + '%';
-    }
-}

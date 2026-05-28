@@ -32,8 +32,6 @@
     <section class="results-section">
         <div class="container">
 
-            <?php if (isset($message)) echo "<p>$message</p>"; ?>
-
             <?php if (empty($array)): ?>
                 <div class="empty-state">
                     <div class="empty-icon" aria-hidden="true">◎</div>

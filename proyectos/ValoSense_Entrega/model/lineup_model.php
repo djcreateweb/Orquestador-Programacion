@@ -90,10 +90,6 @@ class Lineup_model {
         }
     }
 
-    public function get_mapas(){
-        return ['Ascent','Bind','Breeze','Fracture','Haven','Icebox','Lotus','Pearl','Split','Sunset','Abyss','Corrode'];
-    }
-
     // obtiene lineups de un agente en un mapa y lado
     public function get_por_agente_mapa($agente_id, $mapa, $lado) {
         try {

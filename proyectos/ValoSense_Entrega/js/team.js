@@ -61,13 +61,3 @@ function restaurarScrollTeam() {
         window.scrollTo(0, parseInt(posicion, 10));
     }
 }
-
-function irAResultados() {
-    let seccion = document.getElementById('recommendation-result');
-    if (!seccion) {
-        seccion = document.querySelector('.recommendation-result');
-    }
-    if (seccion) {
-        seccion.scrollIntoView({ behavior: 'smooth' });
-    }
-}

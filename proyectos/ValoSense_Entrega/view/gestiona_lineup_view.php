@@ -41,8 +41,6 @@ function youtube_embed($url){
     <section class="results-section">
         <div class="container">
 
-            <?php if (isset($message)) echo "<p>$message</p>"; ?>
-
             <!-- pendientes de aprobación -->
             <div class="results-bar">
                 <h2 class="section-title results-title">

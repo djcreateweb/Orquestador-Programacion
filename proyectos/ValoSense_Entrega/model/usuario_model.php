@@ -85,26 +85,6 @@ class Usuario_model {
         }
     }
 
-    // alias de get_por_id
-    public function get_by_id($id){
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT id, username, email, rango, region, es_admin,
-                        tipo_usuario, perfil_completo,
-                        riot_id, riot_tag, riot_region, riot_id_visible,
-                        creado_en, ultima_actividad, estado_presencia
-                   FROM usuario WHERE id = ? LIMIT 1"
-            );
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $registro = $stmt->get_result()->fetch_assoc();
-            $stmt->close();
-            return $registro ?: [];
-        } catch (mysqli_sql_exception $e) {
-            return [];
-        }
-    }
-
     public function get_por_username($username){
         try {
             $stmt = $this->db->prepare(
@@ -166,20 +146,6 @@ class Usuario_model {
     }
 
     // actualiza visibilidad del riot id
-    public function actualizar_visibilidad_riot($id, $visible){
-        try {
-            $stmt = $this->db->prepare(
-                "UPDATE usuario SET riot_id_visible = ? WHERE id = ?"
-            );
-            $stmt->bind_param("ii", $visible, $id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
     // cambia contraseña verificando la actual
     public function cambiar_password($id, $actual, $nueva){
         try {

@@ -34,8 +34,6 @@ let puntoDestino = null;
 // lineups de prueba desactivados
 let lineupsDemo = [];
 
-let defaultVideo = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
-
 // CAMBIO: const maps -> let maps
 // RAZON: patron profesora, no se usa const
 let maps = [
@@ -140,8 +138,6 @@ function iniciar() {
             renderizarTablaLineups();
         });
     }
-
-    activarListaLineups();
 
     // conecta botones del editor
     let btnEditor = document.getElementById('toggleEditorMode');
@@ -500,14 +496,6 @@ function limpiarLineaPrevia() {
     }
 }
 
-// CAMBIO: markAbilityActive -> marcarHabilidadActiva, forEach -> for
-function marcarHabilidadActiva(nombre) {
-    let cards = document.querySelectorAll('.ability-card');
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].classList.toggle('active', cards[i].dataset.ability === nombre);
-    }
-}
-
 function buscarIconoHabilidad(nombre) {
     if (!estado.selectedAgent) return '';
     let nombreLimpio = limpiarTexto(nombre);
@@ -771,33 +759,6 @@ function limpiarBorrador() {
         output.classList.remove('visible');
     }
     if (campos) campos.style.display = 'none';
-}
-
-// activa los botones ver de la lista de lineups
-function activarListaLineups() {
-    let items = document.querySelectorAll('.lineup-lista-item');
-    for (let i = 0; i < items.length; i++) {
-        let item = items[i];
-        let btnVer = item.querySelector('.btn-ver-lineup');
-        if (!btnVer) continue;
-        btnVer.addEventListener('click', function() {
-            let lp = {
-                inicio_x: parseFloat(item.dataset.inicioX),
-                inicio_y: parseFloat(item.dataset.inicioY),
-                destino_x: parseFloat(item.dataset.destinoX),
-                destino_y: parseFloat(item.dataset.destinoY),
-                habilidad: item.dataset.habilidad,
-                titulo: item.dataset.titulo,
-                video_url: item.dataset.video
-            };
-            limpiarLineaPrevia();
-            mostrarLineaPrevia(lp, estado.selectedAgent);
-            // marcar item activo
-            let todos = document.querySelectorAll('.lineup-lista-item');
-            for (let j = 0; j < todos.length; j++) todos[j].classList.remove('activo');
-            item.classList.add('activo');
-        });
-    }
 }
 
 // envia el lineup al servidor para guardarlo en la bd

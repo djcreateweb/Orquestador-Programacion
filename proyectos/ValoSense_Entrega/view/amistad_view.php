@@ -33,8 +33,6 @@
     <section class="results-section">
         <div class="container">
 
-            <?php if (isset($message)) echo "<p>$message</p>"; ?>
-
             <!-- invitar por username -->
             <section class="results-section invitar-form-section">
                 <div class="invitar-form-wrap">

@@ -2380,12 +2380,6 @@ section {
     }
 }
 
-/* Pronto (próximamente) — reemplaza el inline style="font-size:1.8rem" */
-.pronto-title {
-    font-size: 1.8rem;
-    margin: var(--sp-3) 0;
-}
-
 /* Enlace inline en subtítulo del hero */
 .hero-inline-link {
     color: var(--red-primary);
@@ -2637,49 +2631,6 @@ abbr[title] {
     background: #7BFFC8;
     border-color: #7BFFC8;
     box-shadow: 0 0 18px rgba(76, 255, 181, 0.35);
-}
-
-/* 3) Vincular Riot · ámbar + rojo (conexión */
-.main-content form.search-form[action*="action=vincular"],
-.vincular-section .search-form {
-    --section-accent: #FFB547;
-    --section-bar: linear-gradient(90deg, transparent, #FFB547 25%, var(--red-primary) 75%, transparent);
-    border-left: 3px solid #FFB547;
-}
-.main-content form.search-form[action*="action=vincular"] .filter-label::before,
-.vincular-section .filter-label::before {
-    content: "▸ ";
-    color: #FFB547;
-    font-weight: 700;
-}
-.main-content form.search-form[action*="action=vincular"] .form-input:focus,
-.vincular-section .form-input:focus {
-    border-color: #FFB547;
-    box-shadow: 0 0 0 3px rgba(255, 181, 71, 0.2);
-}
-
-/* 4) Training · cian + rojo (técnica / */
-.routine-section .lineup-form {
-    --section-accent: var(--cyan-accent);
-    --section-bar: linear-gradient(90deg, transparent, var(--cyan-accent) 25%, var(--red-primary) 75%, transparent);
-    border-left: 3px solid var(--cyan-accent);
-}
-.routine-section .filter-label::before {
-    content: "▸ ";
-    color: var(--cyan-accent);
-    font-weight: 700;
-}
-.routine-section .filter-select:focus,
-.routine-section .form-input:focus {
-    border-color: var(--cyan-accent);
-    box-shadow: 0 0 0 3px rgba(0, 224, 255, 0.2);
-}
-.routine-section .btn-primary {
-    position: relative;
-    box-shadow: 0 0 0 0 transparent;
-}
-.routine-section .btn-primary:hover {
-    box-shadow: 0 0 22px rgba(0, 224, 255, 0.3);
 }
 
 /* 5) Enviar lineup · rojo + ámbar (combate */
@@ -3500,76 +3451,6 @@ button:focus-visible,
     50%      { transform: translateY(-5px); }
 }
 
-/* Expanded progress on training routines (completado) */
-.routine-card.is-done {
-    border-color: rgba(76,255,181,0.4);
-    box-shadow: 0 0 18px rgba(76,255,181,0.15);
-}
-.routine-card.is-done .routine-card-title::after {
-    content: " ✓";
-    color: var(--success);
-}
-
-/* Done checkbox bonito (training) */
-.routine-done-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    margin-top: var(--sp-3);
-    padding: 6px 10px;
-    background: transparent;
-    border: 1px solid var(--border-default);
-    border-radius: var(--radius-xs);
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    cursor: pointer;
-    transition: all var(--dur-fast);
-}
-.routine-done-toggle:hover { color: var(--success); border-color: rgba(76,255,181,0.4); }
-.routine-card.is-done .routine-done-toggle {
-    color: var(--success);
-    border-color: rgba(76,255,181,0.5);
-    background: rgba(76,255,181,0.08);
-}
-
-/* Pronto view mejorada */
-.pronto-wrap {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--sp-12) var(--sp-4);
-}
-.pronto-card {
-    max-width: 540px;
-    padding: var(--sp-8);
-    background: var(--bg-dark);
-    border: 1px solid var(--border-default);
-    border-radius: var(--radius-xs);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-.pronto-card::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(135deg, var(--red-primary), transparent, var(--cyan-accent));
-    opacity: 0.3;
-    z-index: -1;
-    animation: borderFlow 8s linear infinite;
-    background-size: 200% 200%;
-}
-.pronto-icon {
-    font-size: 3rem;
-    color: var(--red-primary);
-    animation: float 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 16px rgba(255,70,85,0.4));
-}
-
 /* Mobile: reducir reveal intensity para no marearse */
 @media (max-width: 600px) {
     .reveal { transform: translateY(10px); }
@@ -3579,76 +3460,8 @@ button:focus-visible,
 /* Movimiento reducido para el usuario */
 @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal-zoom { opacity: 1 !important; transform: none !important; }
-    .vs-toast, .empty-icon, .pronto-icon, .pronto-card::before { animation: none !important; }
+    .vs-toast, .empty-icon { animation: none !important; }
     .btn-primary::after, .btn-secondary::after { display: none; }
-}
-
-/* Training & Team — compactación de texto largo */
-
-/* Tarjeta de rutina: descripción recortada a 4 líneas */
-.routine-card {
-    padding: var(--sp-4) var(--sp-5);
-    gap: var(--sp-3);
-}
-.routine-card-title {
-    font-size: 1rem;
-    line-height: 1.3;
-    margin: var(--sp-1) 0;
-}
-.routine-card-desc {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    position: relative;
-    font-size: 0.85rem;
-    line-height: 1.55;
-    color: var(--text-secondary);
-    max-height: 5.5em;
-    transition: max-height 0.35s var(--ease-out);
-    cursor: pointer;
-}
-.routine-card-desc::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 1.8em;
-    background: linear-gradient(180deg, transparent, var(--bg-dark) 90%);
-    pointer-events: none;
-    transition: opacity var(--dur-fast);
-}
-.routine-card-desc.is-expanded {
-    -webkit-line-clamp: unset;
-    max-height: 60em;
-    overflow: visible;
-}
-.routine-card-desc.is-expanded::after { opacity: 0; }
-
-/* Botón Ver más / menos para rutinas (lo */
-.routine-toggle-more {
-    background: transparent;
-    border: 0;
-    color: var(--red-primary);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 2px 0;
-    margin-top: 2px;
-    cursor: pointer;
-    align-self: flex-start;
-}
-.routine-toggle-more:hover { text-decoration: underline; }
-
-/* Iframe de rutina: no mayor de 220px para */
-.routine-card .lineup-thumb {
-    max-height: 220px;
-    aspect-ratio: 16 / 9;
-}
-
-/* Grid más compacto */
-.routine-grid {
-    gap: var(--sp-4);
 }
 
 /* Team: slot-hint compacto, expande al hover/click */
@@ -5432,123 +5245,6 @@ body.vs-modal-open { overflow: hidden; }
         font-size: 0.92rem;
     }
 }
-
-/* ============================================================
-   Cursor personalizado · mira de Valorant
-   La clase html.vs-has-crosshair la añade crosshair.js solo cuando
-   activa el crosshair; así en móvil/reduced-motion el cursor
-   nativo sigue vivo. Los campos editables conservan el caret.
-   ============================================================ */
-html.vs-has-crosshair,
-html.vs-has-crosshair body,
-html.vs-has-crosshair * {
-    cursor: none !important;
-}
-html.vs-has-crosshair input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),
-html.vs-has-crosshair textarea,
-html.vs-has-crosshair select,
-html.vs-has-crosshair [contenteditable="true"] {
-    cursor: text !important;
-}
-
-#vs-crosshair {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 0;
-    height: 0;
-    transform: translate(var(--cx, -100px), var(--cy, -100px));
-    pointer-events: none;
-    z-index: 99999;
-    color: var(--red-primary, #ff4655);
-    transition:
-        color var(--dur-fast, 0.15s) var(--ease-out, ease-out),
-        opacity var(--dur-fast, 0.15s) var(--ease-out, ease-out);
-    will-change: transform;
-}
-
-#vs-crosshair.is-hot {
-    color: #ffffff;
-}
-
-#vs-crosshair.is-hidden {
-    opacity: 0;
-}
-
-/* 4 líneas del crosshair */
-.vs-ch-line {
-    position: absolute;
-    background: currentColor;
-    box-shadow: 0 0 4px currentColor;
-    transition: background var(--dur-fast, 0.15s) var(--ease-out, ease-out);
-}
-.vs-ch-top,
-.vs-ch-bottom {
-    width: 1.5px;
-    height: 5px;
-    left: -0.75px;
-}
-.vs-ch-left,
-.vs-ch-right {
-    height: 1.5px;
-    width: 5px;
-    top: -0.75px;
-}
-.vs-ch-top    { top:  -9px; }
-.vs-ch-bottom { top:   4px; }
-.vs-ch-left   { left: -9px; }
-.vs-ch-right  { left:  4px; }
-
-/* Punto central */
-.vs-ch-dot {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    left: -1px;
-    top: -1px;
-    background: currentColor;
-    border-radius: 50%;
-    box-shadow: 0 0 3px currentColor;
-}
-
-/* Crece sobre elementos interactivos */
-#vs-crosshair.is-hot .vs-ch-top    { top:    -12px; height: 7px; }
-#vs-crosshair.is-hot .vs-ch-bottom { top:      5px; height: 7px; }
-#vs-crosshair.is-hot .vs-ch-left   { left:  -12px; width:  7px; }
-#vs-crosshair.is-hot .vs-ch-right  { left:    5px; width:  7px; }
-
-/* Retroceso al pulsar (kick) */
-@keyframes vs-kick-top {
-    0%   { transform: translateY(0); }
-    40%  { transform: translateY(-5px); }
-    100% { transform: translateY(0); }
-}
-@keyframes vs-kick-bottom {
-    0%   { transform: translateY(0); }
-    40%  { transform: translateY(5px); }
-    100% { transform: translateY(0); }
-}
-@keyframes vs-kick-left {
-    0%   { transform: translateX(0); }
-    40%  { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-}
-@keyframes vs-kick-right {
-    0%   { transform: translateX(0); }
-    40%  { transform: translateX(5px); }
-    100% { transform: translateX(0); }
-}
-@keyframes vs-kick-dot {
-    0%   { transform: scale(1); opacity: 1; }
-    30%  { transform: scale(1.6); opacity: 0.9; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-#vs-crosshair.is-firing .vs-ch-top    { animation: vs-kick-top    260ms cubic-bezier(.3,.8,.3,1); }
-#vs-crosshair.is-firing .vs-ch-bottom { animation: vs-kick-bottom 260ms cubic-bezier(.3,.8,.3,1); }
-#vs-crosshair.is-firing .vs-ch-left   { animation: vs-kick-left   260ms cubic-bezier(.3,.8,.3,1); }
-#vs-crosshair.is-firing .vs-ch-right  { animation: vs-kick-right  260ms cubic-bezier(.3,.8,.3,1); }
-#vs-crosshair.is-firing .vs-ch-dot    { animation: vs-kick-dot    260ms cubic-bezier(.3,.8,.3,1); }
 
 /* ============================================================
    Hero-orbs canvas

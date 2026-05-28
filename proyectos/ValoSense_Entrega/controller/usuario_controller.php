@@ -92,7 +92,7 @@ function ajustes(){
     }
     require_once("model/usuario_model.php");
     $model = new Usuario_model();
-    $user = $model->get_by_id($_SESSION["usuario"]["id"]);
+    $user = $model->get_por_id($_SESSION["usuario"]["id"]);
     $amigos = $model->get_amigos($_SESSION["usuario"]["id"]);
     $rangos = [
         'Sin clasificar',
