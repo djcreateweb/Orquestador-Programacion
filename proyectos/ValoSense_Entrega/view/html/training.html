@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rutinas de aim personalizadas según tu rango y recomendaciones de composición por mapa. Entrena como un profesional de Valorant.">
+    <title>Entrenamiento | ValoSense</title>
+    <link rel="icon" type="image/png" href="../../imagenes/favicon.svg">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/training.css">
+</head>
+<body class="dark-bg">
+
+    <!-- Enlace de salto al contenido -->
+    <a href="#main" class="skip-link">Saltar al contenido</a>
+
+    <!-- Cabecera con logo y menú -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="../../index.php" class="navbar-logo">
+                <img src="../../imagenes/logo.png" alt="ValoSense" width="32" height="32">
+                <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
+            </a>
+            <button class="navbar-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="navbar-menu" id="navbar-menu" aria-label="Menú principal">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="../../index.php" class="nav-link">Inicio</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=matchmaker&action=home" class="nav-link">Encontrar equipo</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=lineup&action=home" class="nav-link">Lineups</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=training&action=home" class="nav-link nav-link-active">Entrenamiento</a></li>
+                    <!-- Si hay sesión -->
+                    <li class="nav-item"><a href="../../index.php?controlador=usuario&action=desconectar" class="nav-link nav-link-red">Cerrar sesión</a></li>
+                    <!-- Si no hay sesión -->
+                    <li class="nav-item"><a href="../../index.php?controlador=usuario&action=home" class="btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sección principal de la página -->
+    <main class="main-content" id="main">
+
+        <!-- Migas de pan -->
+        <nav class="breadcrumb" aria-label="Migas de pan">
+            <div class="container">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item"><a href="../../index.php">Inicio</a></li>
+                    <li class="breadcrumb-item breadcrumb-current" aria-current="page">Entrenamiento</li>
+                </ol>
+            </div>
+        </nav>
+
+        <!-- Hero con progreso del usuario -->
+        <section class="training-hero hero">
+            <div class="container hero-content">
+                <span class="eyebrow">// TRAINING · MÓDULO 03</span>
+                <h1 class="hero-title">Entrena tu <span class="text-red">aim</span> como un pro</h1>
+                <p class="hero-subtitle">Rutinas diarias según tu rango actual. Mejora tu precisión, control de retroceso y tiempos de reacción.</p>
+
+                <!-- Panel de progreso del jugador -->
+                <div class="user-progress">
+                    <div class="progress-item">
+                        <span class="progress-label">Rango actual</span>
+                        <span class="rank-badge">Gold 2</span>
+                    </div>
+                    <div class="progress-item">
+                        <span class="progress-label">Racha actual</span>
+                        <span class="progress-value">7 días</span>
+                    </div>
+                    <div class="progress-item">
+                        <span class="progress-label">Rutinas completadas</span>
+                        <span class="progress-value">34</span>
+                    </div>
+                    <div class="progress-item">
+                        <span class="progress-label">Progreso semanal</span>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="7">
+                            <div class="progress-bar-fill"></div>
+                            <span class="progress-bar-value">5 / 7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rutina de entrenamiento del día -->
+        <section class="routine-section">
+            <div class="container">
+                <header class="section-head section-head-row">
+                    <div>
+                        <span class="eyebrow">// RUTINA</span>
+                        <h2 class="section-title">Tu plan de <span class="text-red">hoy</span></h2>
+                        <p class="section-subtitle">Adaptado para tu rango Gold 2 &mdash; Duración estimada 30 min</p>
+                    </div>
+                    <form action="" method="post">
+                        <button class="btn-primary btn-generate" type="submit" name="generar">Generar nueva rutina</button>
+                    </form>
+                </header>
+
+                <!-- Ejercicios ordenados de la rutina -->
+                <ol class="routine-grid">
+
+                    <li class="routine-card">
+                        <header class="routine-card-header">
+                            <span class="routine-number">01</span>
+                            <span class="routine-type routine-type-warmup">Warm-up</span>
+                        </header>
+                        <h3 class="routine-card-title">Gridshot Easy</h3>
+                        <p class="routine-card-desc">Calentamiento de muñeca con objetivos estáticos en Aim Labs o Kovaak.</p>
+                        <!-- Datos técnicos del ejercicio -->
+                        <dl class="routine-stats">
+                            <div>
+                                <dt>Duración</dt>
+                                <dd>5 min</dd>
+                            </div>
+                            <div>
+                                <dt>Intensidad</dt>
+                                <dd>Baja</dd>
+                            </div>
+                            <div>
+                                <dt>Objetivo</dt>
+                                <dd>Precisión</dd>
+                            </div>
+                        </dl>
+                    </li>
+
+                    <li class="routine-card">
+                        <header class="routine-card-header">
+                            <span class="routine-number">02</span>
+                            <span class="routine-type routine-type-flick">Flicking</span>
+                        </header>
+                        <h3 class="routine-card-title">Valorant Aim Training</h3>
+                        <p class="routine-card-desc">Modo práctica del juego con bots a distancia media. 3 series.</p>
+                        <dl class="routine-stats">
+                            <div>
+                                <dt>Duración</dt>
+                                <dd>10 min</dd>
+                            </div>
+                            <div>
+                                <dt>Intensidad</dt>
+                                <dd>Media</dd>
+                            </div>
+                            <div>
+                                <dt>Objetivo</dt>
+                                <dd>Flicks</dd>
+                            </div>
+                        </dl>
+                    </li>
+
+                    <li class="routine-card">
+                        <header class="routine-card-header">
+                            <span class="routine-number">03</span>
+                            <span class="routine-type routine-type-tracking">Tracking</span>
+                        </header>
+                        <h3 class="routine-card-title">Spray control Vandal</h3>
+                        <p class="routine-card-desc">Control del patrón de disparo continuo a 15m con pared de práctica.</p>
+                        <dl class="routine-stats">
+                            <div>
+                                <dt>Duración</dt>
+                                <dd>8 min</dd>
+                            </div>
+                            <div>
+                                <dt>Intensidad</dt>
+                                <dd>Alta</dd>
+                            </div>
+                            <div>
+                                <dt>Objetivo</dt>
+                                <dd>Recoil</dd>
+                            </div>
+                        </dl>
+                    </li>
+
+                    <li class="routine-card">
+                        <header class="routine-card-header">
+                            <span class="routine-number">04</span>
+                            <span class="routine-type routine-type-deathmatch">Deathmatch</span>
+                        </header>
+                        <h3 class="routine-card-title">3 partidas Deathmatch</h3>
+                        <p class="routine-card-desc">Aplicación real. Objetivo: top 3 en al menos 2 partidas.</p>
+                        <dl class="routine-stats">
+                            <div>
+                                <dt>Duración</dt>
+                                <dd>7 min</dd>
+                            </div>
+                            <div>
+                                <dt>Intensidad</dt>
+                                <dd>Alta</dd>
+                            </div>
+                            <div>
+                                <dt>Objetivo</dt>
+                                <dd>Aplicación</dd>
+                            </div>
+                        </dl>
+                    </li>
+
+                </ol>
+
+                <!-- Consejos del asistente -->
+                <aside class="bot-response" aria-labelledby="bot-routine-title">
+                    <div class="bot-response-header">
+                        <span class="bot-icon" aria-hidden="true">VS</span>
+                        <h3 class="bot-title" id="bot-routine-title">Consejos del coach</h3>
+                    </div>
+                    <div class="bot-response-body" id="routine-output">
+                        <!-- PHP pone $respuesta_bot aquí -->
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- Recomendador de composición por mapa -->
+        <section class="tactics-section">
+            <div class="container">
+                <header class="section-head">
+                    <span class="eyebrow">// TÁCTICA</span>
+                    <h2 class="section-title">Composición por <span class="text-red">mapa</span></h2>
+                    <p class="section-subtitle">Selecciona el mapa y tus agentes para ver qué composición necesita tu equipo.</p>
+                </header>
+
+                <!-- Paso 1: selector de mapa -->
+                <div class="step-block">
+                    <div class="step-block-header">
+                        <span class="step-pill">Paso 1</span>
+                        <h3 class="subsection-label">Elige el mapa</h3>
+                    </div>
+
+                    <!-- Imágenes de cada mapa disponible -->
+                    <div class="map-grid">
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Ascent">
+                            <img src="../../imagenes/mapas/Ascent.png" alt="Mapa Ascent" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Ascent</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Bind">
+                            <img src="../../imagenes/mapas/Bind.png" alt="Mapa Bind" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Bind</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Breeze">
+                            <img src="../../imagenes/mapas/Breeze.png" alt="Mapa Breeze" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Breeze</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Haven">
+                            <img src="../../imagenes/mapas/Haven.png" alt="Mapa Haven" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Haven</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Icebox">
+                            <img src="../../imagenes/mapas/Icebox.png" alt="Mapa Icebox" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Icebox</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Lotus">
+                            <img src="../../imagenes/mapas/Lotus.png" alt="Mapa Lotus" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Lotus</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Pearl">
+                            <img src="../../imagenes/mapas/Pearl.png" alt="Mapa Pearl" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Pearl</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Split">
+                            <img src="../../imagenes/mapas/Split.png" alt="Mapa Split" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Split</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Sunset">
+                            <img src="../../imagenes/mapas/Sunset.png" alt="Mapa Sunset" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Sunset</span>
+                        </a>
+                        <a class="map-btn" href="../../index.php?controlador=team&action=home&mapa=Abyss">
+                            <img src="../../imagenes/mapas/Abyss.png" alt="Mapa Abyss" class="map-img" width="200" height="112">
+                            <span class="map-overlay" aria-hidden="true"></span>
+                            <span class="map-name">Abyss</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Paso 2: selector de agentes por rol -->
+                <div class="step-block">
+                    <div class="step-block-header">
+                        <span class="step-pill">Paso 2</span>
+                        <h3 class="subsection-label">Selecciona tus agentes (hasta 5)</h3>
+                    </div>
+
+                    <!-- Botones de filtro por rol -->
+                    <div class="role-filter" role="group" aria-label="Filtrar por rol">
+                        <button type="button" class="role-btn role-btn-active">Todos</button>
+                        <button type="button" class="role-btn">Duelist</button>
+                        <button type="button" class="role-btn">Controller</button>
+                        <button type="button" class="role-btn">Sentinel</button>
+                        <button type="button" class="role-btn">Initiator</button>
+                    </div>
+
+                    <!-- Imagen del agente seleccionado -->
+                    <div class="agent-grid" id="agent-grid">
+                        <button class="agent-btn" data-agent="Jett" type="button">
+                            <img src="../../imagenes/agentes/Jett.png" alt="Jett" class="agent-img" width="64" height="64">
+                            <span class="agent-name">Jett</span>
+                            <span class="agent-rol">Duelist</span>
+                        </button>
+                        <button class="agent-btn" data-agent="Viper" type="button">
+                            <img src="../../imagenes/agentes/Viper.png" alt="Viper" class="agent-img" width="64" height="64">
+                            <span class="agent-name">Viper</span>
+                            <span class="agent-rol">Controller</span>
+                        </button>
+                        <button class="agent-btn" data-agent="Sova" type="button">
+                            <img src="../../imagenes/agentes/Sova.png" alt="Sova" class="agent-img" width="64" height="64">
+                            <span class="agent-name">Sova</span>
+                            <span class="agent-rol">Initiator</span>
+                        </button>
+                        <button class="agent-btn" data-agent="Killjoy" type="button">
+                            <img src="../../imagenes/agentes/Killjoy.png" alt="Killjoy" class="agent-img" width="64" height="64">
+                            <span class="agent-name">Killjoy</span>
+                            <span class="agent-rol">Sentinel</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 3: envío del formulario -->
+                <div class="step-block">
+                    <div class="step-block-header">
+                        <span class="step-pill">Paso 3</span>
+                        <h3 class="subsection-label">Obtén la recomendación</h3>
+                    </div>
+                    <form action="index.php?controlador=team&action=home" method="get" id="comp-form">
+                        <input type="hidden" name="controlador" value="team">
+                        <input type="hidden" name="action" value="home">
+                        <input type="hidden" name="mapa_sel" id="mapa_sel" value="">
+                        <input type="hidden" name="agentes_sel" id="agentes_sel" value="">
+                        <button class="btn-primary btn-large" type="submit" name="composicion">
+                            Ver recomendación de composición
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Historial de rutinas anteriores -->
+        <section class="history-section">
+            <div class="container">
+                <header class="section-head section-head-row">
+                    <div>
+                        <span class="eyebrow">// REGISTRO</span>
+                        <h2 class="section-title">Mis rutinas <span class="text-red">anteriores</span></h2>
+                    </div>
+                    <a href="#" class="link-arrow">Ver historial completo →</a>
+                </header>
+
+                <!-- Lista de sesiones de entrenamiento -->
+                <ul class="history-list">
+                    <li>
+                        <article class="history-item">
+                            <div class="history-item-info">
+                                <span class="history-rank rank-badge">Gold 2</span>
+                                <time class="history-date" datetime="2026-04-15">15 abril 2026</time>
+                                <span class="history-duration">30 min</span>
+                                <span class="history-status history-status-done">Completada</span>
+                            </div>
+                            <button class="btn-secondary btn-small" type="button">Ver rutina</button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="history-item">
+                            <div class="history-item-info">
+                                <span class="history-rank rank-badge">Gold 1</span>
+                                <time class="history-date" datetime="2026-04-14">14 abril 2026</time>
+                                <span class="history-duration">25 min</span>
+                                <span class="history-status history-status-done">Completada</span>
+                            </div>
+                            <button class="btn-secondary btn-small" type="button">Ver rutina</button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="history-item">
+                            <div class="history-item-info">
+                                <span class="history-rank rank-badge">Gold 1</span>
+                                <time class="history-date" datetime="2026-04-13">13 abril 2026</time>
+                                <span class="history-duration">30 min</span>
+                                <span class="history-status history-status-partial">Parcial</span>
+                            </div>
+                            <button class="btn-secondary btn-small" type="button">Ver rutina</button>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página con navegación -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+
+                <!-- Columna de marca -->
+                <div class="footer-col footer-col-brand">
+                    <a href="../../index.php" class="navbar-logo">
+                        <img src="../../imagenes/logo.png" alt="ValoSense" width="32" height="32">
+                        <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
+                    </a>
+                    <p class="footer-brand-desc">Matchmaking inteligente y entrenamiento táctico para jugadores de Valorant.</p>
+                </div>
+
+                <!-- Columna de producto -->
+                <nav class="footer-col" aria-label="Producto">
+                    <h3 class="footer-col-title">Producto</h3>
+                    <ul class="footer-links">
+                        <li><a href="../../index.php?controlador=matchmaker&action=home">Encontrar equipo</a></li>
+                        <li><a href="../../index.php?controlador=lineup&action=home">Lineups</a></li>
+                        <li><a href="../../index.php?controlador=training&action=home">Entrenamiento</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Columna legal -->
+                <nav class="footer-col" aria-label="Legal">
+                    <h3 class="footer-col-title">Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="../../index.php?controlador=legal&action=terminos">Términos de uso</a></li>
+                        <li><a href="../../index.php?controlador=legal&action=privacidad">Privacidad</a></li>
+                        <li><a href="../../index.php?controlador=legal&action=cookies">Cookies</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-text">ValoSense &copy; 2025 &mdash; Proyecto TFG DAW</p>
+                <p class="footer-sub">No afiliado con Riot Games. Valorant es marca registrada de Riot Games, Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/training.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1734 @@
+/* training.css — Estilos de la vista de entrenamiento */
+
+/* 1. HERO DE ENTRENAMIENTO */
+
+/* Extiende el hero base con más espacio vertical */
+.training-hero {
+    padding-bottom: var(--sp-16);
+}
+
+.training-hero .hero-subtitle {
+    margin-bottom: var(--sp-10);
+}
+
+/* 2. PANEL DE PROGRESO DEL USUARIO */
+
+/* Panel horizontal con 4 métricas personales del jugador */
+.user-progress {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
+    margin-top: var(--sp-6);
+    padding: var(--sp-5);
+    background: rgba(18, 20, 24, 0.65);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(6px);
+    position: relative;
+    z-index: 1;
+}
+
+@media (min-width: 520px) {
+    .user-progress {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 960px) {
+    .user-progress {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--sp-5);
+    }
+}
+
+/* Cada métrica individual (tarjeta interna) */
+.progress-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xs);
+    min-height: 88px;
+    justify-content: center;
+    transition: border-color var(--dur-fast) var(--ease-out),
+                transform var(--dur-fast) var(--ease-out);
+}
+
+.progress-item:hover {
+    border-color: var(--border-red);
+    transform: translateY(-2px);
+}
+
+/* Etiqueta superior en mono mayúsculas atenuado */
+.progress-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* Valor grande en fuente display */
+.progress-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text-primary);
+}
+
+.progress-unit {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: var(--sp-1);
+}
+
+/* Item ocupa dos columnas en móvil */
+.progress-item-bar {
+    gap: var(--sp-3);
+}
+
+/* Barra de progreso — pista horizontal con fill */
+.progress-bar {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background: var(--bg-deep);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    height: 100%;
+    background: linear-gradient(90deg,
+                var(--red-deep) 0%,
+                var(--red-primary) 60%,
+                var(--red-glow) 100%);
+    box-shadow: 0 0 8px rgba(255, 70, 85, 0.55);
+    animation: progressGlow 2.4s ease-in-out infinite;
+    width: 0%;
+    transition: width var(--dur-slow) var(--ease-out);
+}
+
+@keyframes progressGlow {
+    0%, 100% { box-shadow: 0 0 6px rgba(255, 70, 85, 0.45); }
+    50%      { box-shadow: 0 0 14px rgba(255, 70, 85, 0.75); }
+}
+
+/* El ancho lo asigna js/main.js inline según data-progress */
+
+/* Texto sobre la barra (5 / 7) */
+.progress-bar-value {
+    position: absolute;
+    right: var(--sp-2);
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-primary);
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+}
+
+/* 2b. FORMULARIO DE VIDEOS (extensión del form de */
+
+/* Fila de checkboxes de categoría */
+.video-checks-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-2);
+}
+
+/* Cada opción checkbox + etiqueta */
+.filter-check {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    transition: color var(--dur-fast) var(--ease-out);
+}
+
+.filter-check:hover {
+    color: var(--text-primary);
+}
+
+.filter-check input[type="checkbox"] {
+    accent-color: var(--red-primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Checkboxes ocupan toda la fila */
+.filter-group-checks {
+    grid-column: 1 / -1;
+}
+
+/* 3. SECCIÓN RUTINA Y GRID */
+
+.routine-section {
+    padding: var(--sp-16) 0;
+}
+
+/* Formulario alineado con la cabecera */
+.btn-generate {
+    white-space: nowrap;
+}
+
+/* Grid responsive de tarjetas de ejercicio */
+.routine-grid {
+    list-style: none;
+    padding: 0;
+    margin: var(--sp-8) 0 var(--sp-10);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--sp-5);
+}
+
+/* 4. TARJETAS DE RUTINA */
+
+.routine-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding: var(--sp-6);
+    background: var(--bg-medium);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    transition: transform var(--dur-med) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+    opacity: 0;
+    transform: translateY(12px);
+    animation: cardEnter var(--dur-slow) var(--ease-out) forwards;
+}
+
+/* Animación escalonada de entrada por posición */
+.routine-card:nth-child(1) { animation-delay: 0.05s; }
+.routine-card:nth-child(2) { animation-delay: 0.15s; }
+.routine-card:nth-child(3) { animation-delay: 0.25s; }
+.routine-card:nth-child(4) { animation-delay: 0.35s; }
+.routine-card:nth-child(5) { animation-delay: 0.45s; }
+.routine-card:nth-child(6) { animation-delay: 0.55s; }
+
+@keyframes cardEnter {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.routine-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-red);
+    box-shadow: var(--shadow-2), var(--shadow-red);
+}
+
+/* Cabecera con número y tipo de ejercicio */
+.routine-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--sp-3);
+}
+
+.routine-number {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--red-primary);
+    line-height: 1;
+    text-shadow: 0 0 12px rgba(255, 70, 85, 0.4);
+}
+
+/* Píldora con el tipo de ejercicio */
+.routine-type {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 1px solid currentColor;
+    border-radius: var(--radius-pill);
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* Variantes cromáticas según tipo */
+.routine-type-warmup     { color: var(--cyan-accent); }
+.routine-type-flick      { color: var(--red-primary); }
+.routine-type-tracking   { color: var(--warning); }
+.routine-type-deathmatch { color: var(--success); }
+
+.routine-card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: var(--sp-1) 0 0;
+    line-height: 1.2;
+}
+
+.routine-card-desc {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
+}
+
+/* Lista de estadísticas (duración, intensidad, objetivo) */
+.routine-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-2);
+    margin: var(--sp-3) 0 0;
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.routine-stats > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.routine-stats dt {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.routine-stats dd {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* 5. SECCIÓN TÁCTICA Y STEP-BLOCKS */
+
+.tactics-section {
+    padding: var(--sp-16) 0;
+    background: linear-gradient(180deg,
+                var(--bg-deep) 0%,
+                var(--bg-dark) 100%);
+}
+
+/* Cada paso (mapa, agentes, equipo) */
+.step-block {
+    margin-top: var(--sp-10);
+}
+
+.step-block-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-5);
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Píldora numérica "Paso N" en rojo */
+.step-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--red-primary);
+    background: rgba(255, 70, 85, 0.08);
+    border: 1px solid var(--border-red);
+    border-radius: var(--radius-pill);
+}
+
+.subsection-label {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* 6. SELECTOR DE MAPAS */
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--sp-4);
+}
+
+/* Botón de mapa con imagen de fondo */
+.map-btn {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    background: var(--bg-dark);
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0;
+    min-height: 44px;
+    transition: transform var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+}
+
+.map-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) brightness(0.8);
+    transition: filter var(--dur-med) var(--ease-out),
+                transform var(--dur-med) var(--ease-out);
+}
+
+/* Velo degradado para que resalte el nombre */
+.map-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+                transparent 40%,
+                rgba(0, 0, 0, 0.85) 100%);
+    pointer-events: none;
+}
+
+.map-name {
+    position: absolute;
+    left: var(--sp-4);
+    bottom: var(--sp-3);
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.map-btn:hover {
+    transform: scale(1.03);
+    border-color: var(--border-red);
+    box-shadow: var(--shadow-red);
+}
+
+.map-btn:hover .map-img {
+    filter: saturate(1.1) brightness(0.95);
+    transform: scale(1.05);
+}
+
+.map-btn.is-selected,
+.map-btn[aria-pressed="true"] {
+    border: 2px solid var(--red-primary);
+    box-shadow: var(--shadow-red-strong);
+}
+
+/* 7. SELECTOR DE AGENTES */
+
+/* Fila de botones filtro por rol */
+.role-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-5);
+}
+
+.role-btn {
+    padding: 8px 16px;
+    min-height: 36px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: color var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                background-color var(--dur-fast) var(--ease-out);
+}
+
+.role-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+}
+
+.role-btn-active,
+.role-btn[aria-selected="true"] {
+    color: var(--text-primary);
+    background: var(--red-primary);
+    border-color: var(--red-primary);
+    box-shadow: 0 0 10px rgba(255, 70, 85, 0.35);
+}
+
+/* Rejilla de agentes */
+.agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--sp-4);
+}
+
+/* Tarjeta individual de agente */
+.agent-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-3) var(--sp-4);
+    background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-medium) 100%);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+    transition: transform var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+}
+
+/* Barra de acento superior al seleccionar */
+.agent-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--red-primary);
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+/* Marco con fondo radial de imagen */
+.agent-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    background:
+        radial-gradient(circle at 50% 35%, rgba(255, 70, 85, 0.18), transparent 60%),
+        var(--bg-void);
+    image-rendering: auto;
+    transition: transform var(--dur-med) var(--ease-out);
+}
+
+.agent-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    margin-top: var(--sp-1);
+}
+
+/* Etiqueta de rol con variantes cromáticas */
+.agent-rol {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.agent-rol-duelist    { color: var(--role-duelist); }
+.agent-rol-controller { color: var(--role-controller); }
+.agent-rol-sentinel   { color: var(--role-sentinel); }
+.agent-rol-initiator  { color: var(--role-initiator); }
+
+/* Barra lateral por rol en tarjeta */
+.agent-btn[data-rol="Duelist"]    { border-left: 3px solid var(--role-duelist); }
+.agent-btn[data-rol="Initiator"]  { border-left: 3px solid var(--role-initiator); }
+.agent-btn[data-rol="Controller"] { border-left: 3px solid var(--role-controller); }
+.agent-btn[data-rol="Sentinel"]   { border-left: 3px solid var(--role-sentinel); }
+
+/* Bloque de recomendación coloreado por rol faltante */
+.rec-block-rol-duelist    { border-top: 2px solid var(--role-duelist);    background: linear-gradient(180deg, rgba(255,70,85,0.05), transparent 60%); }
+.rec-block-rol-initiator  { border-top: 2px solid var(--role-initiator);  background: linear-gradient(180deg, rgba(255,181,71,0.05), transparent 60%); }
+.rec-block-rol-controller { border-top: 2px solid var(--role-controller); background: linear-gradient(180deg, rgba(181,87,255,0.05), transparent 60%); }
+.rec-block-rol-sentinel   { border-top: 2px solid var(--role-sentinel);   background: linear-gradient(180deg, rgba(0,224,255,0.05),  transparent 60%); }
+
+/* Chip coloreado en el título "Te falta {Rol}" */
+.rec-rol-chip {
+    display: inline-block;
+    padding: 2px 10px;
+    margin: 0 4px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    border: 1px solid currentColor;
+    background: rgba(255,255,255,0.04);
+    vertical-align: middle;
+    line-height: 1.2;
+}
+.rec-count-small {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-left: 4px;
+}
+
+/* Cabecera narrativa del bloque de recomendación */
+.rec-block-head {
+    margin-bottom: var(--sp-4);
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--border-subtle);
+}
+.rec-block-head .eyebrow {
+    display: block;
+    margin-bottom: var(--sp-2);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.rec-block-head .rec-block-title {
+    margin: 0 0 var(--sp-3);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+.rec-block-intro {
+    margin: 0 0 var(--sp-3);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 680px;
+}
+.rec-block-hint {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* Bloque flex con chip especial */
+.rec-block-flex {
+    border-top: 2px solid var(--cyan-accent);
+    background: linear-gradient(180deg, rgba(0,224,255,0.04), transparent 60%);
+}
+.rec-rol-chip-flex {
+    color: var(--cyan-accent);
+    background: rgba(0,224,255,0.1);
+    border: 1px solid rgba(0,224,255,0.5);
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+/* Team rating (aparece con 5 seleccionados) */
+.team-rating-block {
+    border-top: 2px solid var(--success);
+    background: linear-gradient(180deg, rgba(76,255,181,0.06), transparent 60%);
+}
+.team-rating-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sp-6);
+    align-items: center;
+    margin: var(--sp-4) 0;
+}
+.team-rating-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-4) var(--sp-5);
+    background: var(--bg-dark);
+    border: 2px solid var(--text-muted);
+    border-radius: var(--radius-sm);
+    min-width: 120px;
+}
+.team-rating-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+.team-rating-big {
+    font-family: var(--font-display);
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 4px 0;
+}
+.team-rating-avg {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+}
+.team-rating-s { border-color: var(--success); color: var(--success); box-shadow: 0 0 18px rgba(76,255,181,0.25); }
+.team-rating-s .team-rating-big { color: var(--success); }
+.team-rating-a { border-color: var(--warning); color: var(--warning); }
+.team-rating-a .team-rating-big { color: var(--warning); }
+.team-rating-b { border-color: var(--text-muted); color: var(--text-secondary); }
+.team-rating-b .team-rating-big { color: var(--text-secondary); }
+.team-rating-c { border-color: var(--red-primary); color: var(--red-primary); }
+.team-rating-c .team-rating-big { color: var(--red-primary); }
+
+.team-rating-roles {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--sp-2);
+}
+.team-rating-role {
+    padding: var(--sp-3);
+    background: var(--bg-dark);
+    border: 1px solid var(--border-default);
+    border-left-width: 3px;
+    border-radius: var(--radius-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    text-align: center;
+}
+.team-rating-role.role-duelist    { border-left-color: var(--role-duelist); }
+.team-rating-role.role-initiator  { border-left-color: var(--role-initiator); }
+.team-rating-role.role-controller { border-left-color: var(--role-controller); }
+.team-rating-role.role-sentinel   { border-left-color: var(--role-sentinel); }
+.team-rating-role.is-off { opacity: 0.55; }
+.team-rating-role-count {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.team-rating-role.is-ok .team-rating-role-count { color: var(--success); }
+.team-rating-role.is-off .team-rating-role-count { color: var(--red-primary); }
+.team-rating-role-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+.team-rating-msg {
+    margin: var(--sp-3) 0 0;
+    padding: var(--sp-3);
+    font-size: 0.9rem;
+    border-radius: var(--radius-xs);
+}
+.team-rating-msg.is-ok { background: rgba(76,255,181,0.08); border: 1px solid rgba(76,255,181,0.4); color: var(--success); }
+.team-rating-msg.is-off { background: rgba(255,70,85,0.08); border: 1px solid rgba(255,70,85,0.4); color: var(--red-primary); }
+@media (max-width: 600px) {
+    .team-rating-grid { grid-template-columns: 1fr; }
+}
+
+/* Filas de roles faltantes: una por rol, con */
+.rec-role-rows {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+}
+.rec-role-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--sp-5);
+    align-items: start;
+    padding: var(--sp-4);
+    background: var(--bg-dark);
+    border: 1px solid var(--border-default);
+    border-left: 3px solid var(--text-dim);
+    border-radius: var(--radius-xs);
+}
+.rec-role-row.role-duelist    { border-left-color: var(--role-duelist);    background: linear-gradient(90deg, rgba(255,70,85,0.06), transparent 40%); }
+.rec-role-row.role-initiator  { border-left-color: var(--role-initiator);  background: linear-gradient(90deg, rgba(255,181,71,0.06), transparent 40%); }
+.rec-role-row.role-controller { border-left-color: var(--role-controller); background: linear-gradient(90deg, rgba(181,87,255,0.06), transparent 40%); }
+.rec-role-row.role-sentinel   { border-left-color: var(--role-sentinel);   background: linear-gradient(90deg, rgba(0,224,255,0.06), transparent 40%); }
+
+.rec-role-label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding-right: var(--sp-4);
+    border-right: 1px solid var(--border-subtle);
+}
+.rec-role-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.rec-role-desc {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+
+/* Horizontal scrollable grid de agentes dentro de la */
+.rec-role-agents {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--sp-2);
+}
+
+/* Responsive: apila label arriba y agentes debajo */
+@media (max-width: 720px) {
+    .rec-role-row {
+        grid-template-columns: 1fr;
+        gap: var(--sp-3);
+    }
+    .rec-role-label {
+        border-right: 0;
+        border-bottom: 1px solid var(--border-subtle);
+        padding-right: 0;
+        padding-bottom: var(--sp-3);
+    }
+}
+
+.agent-btn:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-red);
+    box-shadow: var(--shadow-2), 0 0 0 1px var(--border-red) inset;
+}
+
+.agent-btn:hover::before {
+    opacity: 0.6;
+}
+
+.agent-btn:hover .agent-img {
+    transform: scale(1.04);
+}
+
+.agent-btn.is-selected,
+.agent-btn[aria-pressed="true"] {
+    border-color: var(--red-primary);
+    box-shadow: var(--shadow-red-strong);
+    background: linear-gradient(180deg, rgba(255, 70, 85, 0.12) 0%, var(--bg-medium) 100%);
+}
+
+.agent-btn.is-selected::before,
+.agent-btn[aria-pressed="true"]::before {
+    opacity: 1;
+}
+
+/* 8. EQUIPO SELECCIONADO (SLOTS) */
+
+.team-count {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: var(--sp-2);
+}
+
+.selected-agents {
+    margin-bottom: var(--sp-6);
+}
+
+.selected-agents-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-4);
+}
+
+/* Cada hueco de equipo (hay 5) */
+.agent-slot {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-1);
+    width: 80px;
+    height: 100px;
+    background: var(--bg-dark);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* Estado vacío: borde discontinuo */
+.agent-slot-empty {
+    border: 1px dashed var(--border-default);
+    color: var(--text-muted);
+}
+
+.slot-index {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    line-height: 1;
+}
+
+.slot-hint {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* Estado lleno: borde sólido rojo y sombra */
+.agent-slot-filled {
+    border: 1px solid var(--red-primary);
+    box-shadow: var(--shadow-red);
+}
+
+.agent-slot-filled img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Texto auxiliar bajo los slots */
+.empty-hint {
+    padding: var(--sp-3);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-align: center;
+    border: 1px dashed var(--border-subtle);
+    border-radius: var(--radius-sm);
+    margin: 0;
+}
+
+/* 9. FORMULARIO DE COMPOSICIÓN (CTA FINAL) */
+
+.comp-form {
+    margin-top: var(--sp-5);
+    display: flex;
+    justify-content: center;
+}
+
+/* 10. RESULTADO DE LA RECOMENDACIÓN */
+
+.recommendation-result {
+    position: relative;
+    margin-top: var(--sp-10);
+    background: var(--bg-medium);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+/* Cabecera con foto de mapa + información */
+.rec-map-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding: var(--sp-6);
+    background: linear-gradient(135deg,
+                var(--bg-elevated) 0%,
+                var(--bg-medium) 100%);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+@media (min-width: 768px) {
+    .rec-map-header {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--sp-6);
+    }
+}
+
+.rec-map-photo {
+    width: 100%;
+    max-width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-default);
+    background: var(--bg-dark);
+}
+
+@media (min-width: 768px) {
+    .rec-map-photo {
+        width: 120px;
+        height: 120px;
+        flex-shrink: 0;
+    }
+}
+
+.rec-map-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    flex: 1;
+}
+
+.rec-map-name {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+    line-height: 1;
+}
+
+.rec-map-desc {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Badge de valoración (óptima, parcial, etc.) */
+.rec-valoracion {
+    align-self: flex-start;
+    padding: 4px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: var(--radius-pill);
+    border: 1px solid currentColor;
+    background: rgba(0, 0, 0, 0.35);
+    margin-top: var(--sp-1);
+}
+
+.badge-optima {
+    color: var(--success);
+    box-shadow: 0 0 10px rgba(76, 255, 181, 0.25);
+}
+
+/* Cuerpo con el contenido textual */
+.rec-body {
+    padding: var(--sp-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+}
+
+.rec-texto {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Bloque dentro del resultado (estrategia, zonas...) */
+.rec-block {
+    padding-left: var(--sp-4);
+    border-left: 3px solid var(--red-primary);
+}
+
+.rec-block-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 var(--sp-3);
+}
+
+.rec-block p {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Rejilla de miniaturas de agentes recomendados */
+.rec-agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: var(--sp-2);
+}
+
+.rec-agents-grid img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-default);
+    background: var(--bg-dark);
+    transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.rec-agents-grid img:hover {
+    transform: scale(1.05);
+    border-color: var(--border-red);
+}
+
+/* 11. HISTORIAL DE RUTINAS */
+
+.history-section {
+    padding: var(--sp-16) 0;
+}
+
+.history-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--sp-6) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+}
+
+/* Tarjeta horizontal por rutina pasada */
+.history-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding: var(--sp-4) var(--sp-5);
+    background: var(--bg-medium);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--dur-fast) var(--ease-out),
+                transform var(--dur-fast) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+    .history-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}
+
+.history-item:hover {
+    border-color: var(--border-red);
+    transform: translateX(2px);
+}
+
+/* Grupo de información dentro de cada item */
+.history-item-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+}
+
+.history-date {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.history-duration {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+/* Estado completado / parcial */
+.history-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid currentColor;
+    border-radius: var(--radius-pill);
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.history-status-done    { color: var(--success); }
+.history-status-partial { color: var(--warning); }
+
+/* Detalle oculto por defecto */
+.history-routine.hidden {
+    display: none;
+}
+
+.history-routine:not(.hidden) {
+    flex-basis: 100%;
+    margin-top: var(--sp-3);
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    animation: routineReveal var(--dur-med) var(--ease-out);
+}
+
+@keyframes routineReveal {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 12. ACCESIBILIDAD Y FOCUS */
+
+/* Foco visible para todos los controles */
+.map-btn:focus-visible,
+.agent-btn:focus-visible,
+.role-btn:focus-visible,
+.btn-generate:focus-visible,
+.btn-recommend:focus-visible,
+.history-item button:focus-visible,
+.progress-item:focus-visible {
+    outline: 2px solid var(--cyan-accent);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-cyan);
+}
+
+/* Reduce movimiento para usuarios que lo prefieren */
+@media (prefers-reduced-motion: reduce) {
+    .routine-card,
+    .progress-bar-fill,
+    .history-routine:not(.hidden) {
+        animation: none;
+    }
+    .routine-card {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* 13. AJUSTES RESPONSIVE FINOS */
+
+@media (max-width: 520px) {
+    .routine-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .rec-map-name {
+        font-size: 1.5rem;
+    }
+    .progress-value {
+        font-size: 1.625rem;
+    }
+    .agent-slot {
+        width: 68px;
+        height: 88px;
+    }
+    .slot-index {
+        font-size: 1.375rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .training-hero {
+        padding-bottom: var(--sp-20);
+    }
+    .routine-section,
+    .tactics-section,
+    .history-section {
+        padding: var(--sp-20) 0;
+    }
+}
+
+/* Rank badge dentro de cada tarjeta de recomendación */
+
+.rec-rank {
+    position: absolute;
+    top: var(--sp-2);
+    left: var(--sp-2);
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Tarjetas de recomendación: más compactas que el selector */
+
+.rec-block .agent-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 200px));
+    justify-content: start;
+    gap: var(--sp-4);
+}
+
+.rec-block .agent-btn {
+    min-height: 0;
+    padding: var(--sp-3);
+    cursor: default;
+    align-items: stretch;
+    text-align: left;
+}
+
+.rec-block .agent-btn::before {
+    display: none;
+}
+
+.rec-block .agent-btn:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--border-default);
+}
+
+.rec-block .agent-btn:hover::before {
+    opacity: 0;
+}
+
+.rec-block .agent-btn:hover .agent-img {
+    filter: none;
+    transform: none;
+}
+
+.rec-block .agent-img {
+    max-width: 96px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto var(--sp-1);
+}
+
+.rec-block .agent-name {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.rec-block .agent-rol {
+    text-align: center;
+    font-size: 0.62rem;
+    margin-bottom: var(--sp-2);
+}
+
+/* Descripción dentro de cada tarjeta de recomendación */
+.rec-block .slot-hint {
+    display: block;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    font-style: normal;
+    padding: var(--sp-2) 0 0 var(--sp-2);
+    margin-top: auto;
+    border-top: 1px solid var(--border-subtle);
+    border-left: 2px solid var(--red-primary);
+    padding-left: var(--sp-2);
+}
+
+/* 5. VIDEO CARD — FIX IFRAME 16:9 */
+
+/* Thumb con relación de aspecto limpia */
+.video-card .lineup-thumb {
+    margin: calc(var(--sp-6) * -1) calc(var(--sp-6) * -1) 0;
+    aspect-ratio: 16 / 9;
+    width: auto;
+    overflow: hidden;
+    background: var(--bg-deep);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Iframe: object-fit no funciona, así que lo anulamos */
+.video-card .lineup-thumb-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+    object-fit: unset;
+    transition: opacity var(--dur-med) var(--ease-out);
+}
+
+/* Neutralizar el scale(1.04) del hover heredado de lineup.css */
+.video-card:hover .lineup-thumb-img {
+    transform: none;
+    opacity: 1;
+}
+
+/* Caso "solo una tarjeta de video": evitar que */
+#videos-grid:has(> .video-card:only-child) {
+    grid-template-columns: minmax(0, 520px);
+    justify-content: center;
+}
+
+/* Fallback para navegadores sin soporte de :has() */
+.video-card:only-child {
+    max-width: 520px;
+    margin-inline: auto;
+}
+
+/* Dropdown colapsable de categorías (multi-select) */
+
+.cat-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.cat-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    width: 100%;
+    min-height: 44px;
+    padding: 10px var(--sp-3);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out),
+                background var(--dur-fast) var(--ease-out);
+}
+
+.cat-dropdown-toggle:hover {
+    border-color: var(--border-red, var(--red-primary));
+}
+
+.cat-dropdown-toggle:focus,
+.cat-dropdown-toggle:focus-visible {
+    outline: none;
+    border-color: var(--red-primary);
+    box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.15);
+    background: var(--bg-medium);
+}
+
+.cat-dropdown-summary {
+    flex: 1;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cat-dropdown-caret {
+    color: var(--red-primary);
+    font-size: 0.85rem;
+    transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.cat-dropdown.is-open .cat-dropdown-caret {
+    transform: rotate(180deg);
+}
+
+/* Panel: por defecto visible (fallback sin JS) */
+.cat-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    max-height: 320px;
+    overflow-y: auto;
+    padding: var(--sp-2);
+    background: var(--bg-medium);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cat-dropdown.is-js-ready .cat-dropdown-panel {
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity var(--dur-fast) var(--ease-out),
+                transform var(--dur-fast) var(--ease-out);
+}
+
+.cat-dropdown.is-js-ready.is-open .cat-dropdown-panel {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.cat-dropdown-option {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: 8px 12px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: background var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+}
+
+.cat-dropdown-option:hover {
+    background: rgba(255, 70, 85, 0.06);
+    color: var(--text-primary);
+}
+
+/* Input accesible pero visualmente oculto */
+.cat-dropdown-option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+}
+
+/* Pseudo-checkbox */
+.cat-dropdown-check {
+    position: relative;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border-default);
+    border-radius: var(--radius-xs);
+    background: transparent;
+    transition: background var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out);
+}
+
+.cat-dropdown-option input[type="checkbox"]:checked + .cat-dropdown-check {
+    background: var(--red-primary);
+    border-color: var(--red-primary);
+}
+
+.cat-dropdown-option input[type="checkbox"]:checked + .cat-dropdown-check::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 5px;
+    height: 9px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+}
+
+.cat-dropdown-option input[type="checkbox"]:focus-visible + .cat-dropdown-check {
+    outline: 2px solid var(--red-primary);
+    outline-offset: 2px;
+}
+
+.cat-dropdown-label {
+    font-size: 0.92rem;
+    color: inherit;
+}
+
+/* Respeto de preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .cat-dropdown-caret,
+    .cat-dropdown.is-js-ready .cat-dropdown-panel,
+    .cat-dropdown-toggle,
+    .cat-dropdown-check {
+        transition: none;
+    }
+}
+
+/* AGENT CHIP (team_view): reutiliza .lineup-agent-chip de lineup.css */
+
+/* Cursor pointer: en lineups el chip es <a> */
+.lineup-agent-chip.agent-btn {
+    cursor: pointer;
+}
+
+/* Estado seleccionado (JS añade .is-selected al .agent-btn) */
+.lineup-agent-chip.is-selected {
+    border-color: var(--red-primary);
+    background: linear-gradient(180deg, rgba(255, 70, 85, 0.12), var(--bg-dark));
+    box-shadow: var(--shadow-red-strong);
+}
+.lineup-agent-chip.is-selected::before { opacity: 1; }
+
+/* Deshabilitado (cuando ya hay 5 marcados, el JS */
+.lineup-agent-chip.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Rank badge (#1, #2, ...) para las recomendaciones */
+.lineup-agent-chip .rank-badge {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--red-primary);
+    letter-spacing: 0.04em;
+    z-index: 1;
+}
+
+/* Cuando el <label> del selector de composición combina */
+.lineup-agent-chip.agent-btn {
+    align-items: center;
+    flex-direction: column;
+    padding: var(--sp-3) var(--sp-2) var(--sp-2);
+    gap: 6px;
+    text-align: center;
+    background: var(--bg-dark);
+}
+.lineup-agent-chip.agent-btn .lineup-agent-chip-img {
+    margin-inline: auto;
+}
+
+/* Refinamiento visual del buscador de "Videos para tu */
+
+#videos-form {
+    max-width: 920px;
+    margin-inline: auto;
+    padding: var(--sp-6);
+    background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    position: relative;
+    overflow: visible;
+    transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+/* Acento superior en degradado rojo -> cian */
+#videos-form::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent, var(--red-primary) 30%,
+        var(--cyan-accent) 70%, transparent);
+    opacity: 0.9;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+#videos-form:hover {
+    border-color: var(--border-default);
+}
+
+#videos-form .lineup-filters {
+    gap: var(--sp-4);
+    align-items: end;
+}
+
+/* Labels más consistentes */
+#videos-form .filter-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--sp-2);
+    display: inline-block;
+}
+
+/* Select de rango con anillo de foco y */
+#videos-form .filter-select {
+    transition: border-color var(--dur-fast) var(--ease-out),
+                box-shadow   var(--dur-fast) var(--ease-out);
+}
+#videos-form .filter-select:hover {
+    border-color: var(--border-red);
+}
+#videos-form .filter-select:focus {
+    outline: none;
+    border-color: var(--red-primary);
+    box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.18);
+}
+
+/* Dropdown de categorías — hover, open y focus */
+#videos-form .cat-dropdown-toggle {
+    transition: border-color var(--dur-fast) var(--ease-out),
+                background   var(--dur-fast) var(--ease-out),
+                box-shadow   var(--dur-fast) var(--ease-out);
+}
+#videos-form .cat-dropdown-toggle:hover,
+#videos-form .cat-dropdown.is-open .cat-dropdown-toggle {
+    border-color: var(--border-red);
+    background: rgba(255, 70, 85, 0.06);
+}
+#videos-form .cat-dropdown-toggle:focus-visible {
+    outline: none;
+    border-color: var(--red-primary);
+    box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.18);
+}
+
+#videos-form .cat-dropdown-panel {
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+}
+
+/* Check animación al marcar una categoría */
+#videos-form .cat-dropdown-option {
+    transition: background var(--dur-fast) var(--ease-out);
+}
+#videos-form .cat-dropdown-option:hover {
+    background: rgba(255, 70, 85, 0.06);
+}
+
+/* Actions con separador e icono de búsqueda en */
+#videos-form .filter-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sp-3);
+    margin-top: var(--sp-3);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--border-subtle);
+}
+
+#videos-form .filter-actions .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding-inline: var(--sp-5);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+}
+
+/* Icono lupa generado con mask SVG (sin tocar */
+#videos-form .filter-actions .btn-primary::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>") no-repeat center / contain;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>") no-repeat center / contain;
+}
+
+/* Hover del botón: glow rojo sutil + desplazamiento */
+#videos-form .filter-actions .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(255, 70, 85, 0.35),
+                0 0 0 1px var(--red-primary) inset;
+}
+#videos-form .filter-actions .btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Pill con contador de categorías */
+#videos-form::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 70, 85, 0.25), transparent);
+    opacity: 0.6;
+}
+
+@media (max-width: 640px) {
+    #videos-form { padding: var(--sp-4); }
+    #videos-form .filter-actions { justify-content: stretch; }
+    #videos-form .filter-actions .btn-primary { width: 100%; justify-content: center; }
+}

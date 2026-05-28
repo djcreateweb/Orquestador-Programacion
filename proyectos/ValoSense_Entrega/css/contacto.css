@@ -1,0 +1,227 @@
+/* contacto.css — Estilos de la página de contacto */
+
+.contacto-section {
+    padding: var(--sp-12) 0 var(--sp-20);
+}
+
+.contacto-wrap {
+    width: min(1100px, 100% - 2 * var(--sp-4));
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+}
+
+/* Flash banners */
+.contacto-flash {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    background: var(--bg-dark);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+.contacto-flash strong { display: block; font-family: var(--font-display); color: var(--text-primary); }
+.contacto-flash span   { color: var(--text-secondary); }
+.contacto-flash-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.contacto-flash--ok  { border-color: rgba(76, 255, 181, 0.45); box-shadow: 0 0 20px rgba(76,255,181,0.12); }
+.contacto-flash--ok  .contacto-flash-icon { color: var(--success); background: rgba(76, 255, 181, 0.15); border: 1px solid rgba(76, 255, 181, 0.55); }
+.contacto-flash--err { border-color: var(--border-red); box-shadow: 0 0 20px rgba(255,70,85,0.14); }
+.contacto-flash--err .contacto-flash-icon { color: var(--red-primary); background: rgba(255, 70, 85, 0.15); border: 1px solid var(--border-red); }
+
+/* Layout grid principal */
+.contacto-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+}
+
+@media (min-width: 880px) {
+    .contacto-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    }
+}
+
+/* Card base */
+.contacto-card {
+    position: relative;
+    background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--sp-6);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    transition: border-color var(--dur-fast) var(--ease-out);
+}
+.contacto-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--red-primary) 30%, var(--cyan-accent) 70%, transparent);
+    opacity: 0.85;
+}
+.contacto-card:hover { border-color: var(--border-default); }
+
+.contacto-card-head {
+    margin-bottom: var(--sp-4);
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--border-subtle);
+}
+.contacto-card-title {
+    margin: var(--sp-1) 0 var(--sp-2);
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+}
+.contacto-card-sub {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Form */
+.contacto-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+}
+
+.contacto-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+}
+
+@media (max-width: 520px) {
+    .contacto-form-row { grid-template-columns: 1fr; }
+}
+
+.contacto-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+}
+.contacto-form .filter-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+}
+
+.contacto-form .form-input:focus,
+.contacto-form .filter-select:focus {
+    outline: none;
+    border-color: var(--red-primary);
+    box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.18);
+}
+
+.contacto-form-hint {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+}
+
+.contacto-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sp-3);
+    margin-top: var(--sp-1);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.contacto-form-actions .btn-enviar {
+    min-width: 190px;
+}
+
+/* Card lateral: email directo */
+.contacto-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+}
+
+.contacto-email-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin: var(--sp-2) 0 var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--bg-dark);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: border-color var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out),
+                box-shadow var(--dur-fast) var(--ease-out);
+    word-break: break-all;
+}
+.contacto-email-link:hover {
+    border-color: var(--red-primary);
+    color: var(--red-primary);
+    box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.12);
+}
+.contacto-email-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 224, 255, 0.12);
+    color: var(--cyan-accent);
+    border: 1px solid rgba(0, 224, 255, 0.45);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.contacto-info-note {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+}
+
+/* CTA Enviar lineup */
+.contacto-card--lineup {
+    /* Acento extra: borde izquierdo rojo vivo */
+    border-left: 3px solid var(--red-primary);
+}
+.contacto-cta-lineup {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: var(--sp-3) 0;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+    .contacto-card { padding: var(--sp-4); }
+    .contacto-form-actions { justify-content: stretch; }
+    .contacto-form-actions .btn-primary,
+    .contacto-form-actions .btn-enviar { width: 100%; }
+}

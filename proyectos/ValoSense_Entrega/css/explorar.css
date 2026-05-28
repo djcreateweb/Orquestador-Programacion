@@ -1,0 +1,425 @@
+/* explorar.css — Estilos de la página Explorar */
+
+/* Hero variante contenida de la página */
+.hero-explorar {
+    padding-block: var(--sp-20) var(--sp-12);
+}
+
+.hero-explorar .hero-title {
+    max-width: 24ch;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.08;
+}
+
+.hero-explorar .hero-subtitle {
+    max-width: 60ch;
+    font-size: 1.1rem;
+}
+
+/* TOC — índice superior con 4 números navegables */
+.explorar-toc {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: var(--z-sticky);
+    background: linear-gradient(180deg, var(--bg-deep), rgba(15, 15, 35, 0.95));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-block: 1px solid var(--border-subtle);
+    padding-block: var(--sp-3);
+}
+
+.explorar-toc-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.explorar-toc-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+        color var(--dur-fast) var(--ease-out),
+        border-color var(--dur-fast) var(--ease-out),
+        background var(--dur-fast) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+
+.explorar-toc-link:hover,
+.explorar-toc-link:focus-visible {
+    color: var(--text-primary);
+    border-color: var(--border-red);
+    background: rgba(255, 70, 85, 0.05);
+    transform: translateY(-1px);
+}
+
+.explorar-toc-link.is-active {
+    color: var(--text-primary);
+    border-color: var(--red-primary);
+    background: rgba(255, 70, 85, 0.1);
+    box-shadow: inset 0 0 0 1px var(--border-red);
+}
+
+.explorar-toc-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 6px;
+    background: rgba(255, 70, 85, 0.15);
+    color: var(--red-glow);
+    border-radius: var(--radius-xs);
+    letter-spacing: 0.08em;
+}
+
+.explorar-toc-link.is-active .explorar-toc-num {
+    background: var(--red-primary);
+    color: var(--text-primary);
+}
+
+.explorar-toc-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* TOOL SECTION — una sección por herramienta */
+.tool-section {
+    position: relative;
+    padding-block: var(--sp-16);
+    border-top: 1px solid var(--border-subtle);
+    overflow: hidden;
+    scroll-margin-top: calc(var(--nav-h) + 64px);
+    transition:
+        background var(--dur-slow) var(--ease-out),
+        box-shadow var(--dur-slow) var(--ease-out);
+}
+
+.tool-section:first-of-type {
+    border-top: none;
+}
+
+/* Fondos alternos entre secciones */
+.tool-section:nth-of-type(even) {
+    background: linear-gradient(180deg, var(--bg-deep), var(--bg-dark));
+}
+
+/* Glow ambiental sutil detrás de cada sección */
+.tool-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(255, 70, 85, 0.04), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.tool-section > .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Resaltado breve al navegar a sección */
+.tool-section.is-highlighted {
+    background:
+        linear-gradient(180deg, rgba(255, 70, 85, 0.06), transparent 60%),
+        var(--bg-deep);
+    box-shadow: inset 4px 0 0 var(--red-primary);
+    animation: tool-pulse 1.8s var(--ease-out);
+}
+
+@keyframes tool-pulse {
+    0%   { box-shadow: inset 4px 0 0 var(--red-primary), 0 0 0 0 rgba(255, 70, 85, 0.25); }
+    40%  { box-shadow: inset 4px 0 0 var(--red-primary), 0 0 40px 0 rgba(255, 70, 85, 0.18); }
+    100% { box-shadow: inset 4px 0 0 var(--red-primary), 0 0 0 0 rgba(255, 70, 85, 0); }
+}
+
+/* Cabecera de sección: número grande + título */
+.tool-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-6);
+    margin-bottom: var(--sp-10);
+}
+
+.tool-section-number {
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+
+    /* Número outline estilo HUD */
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--red-primary);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 70, 85, 0.15) 0%,
+        rgba(255, 70, 85, 0.02) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.tool-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+    margin-top: var(--sp-2);
+    margin-bottom: var(--sp-2);
+}
+
+.tool-section-subtitle {
+    max-width: 64ch;
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Grid de dos columnas de contenido */
+.tool-section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-10);
+    margin-bottom: var(--sp-10);
+}
+
+.tool-section-col {
+    position: relative;
+    padding: var(--sp-6);
+    background: linear-gradient(160deg, var(--bg-medium), var(--bg-dark));
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: border-color var(--dur-med) var(--ease-out);
+}
+
+/* Acento superior con gradiente */
+.tool-section-col::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--red-primary), transparent);
+    opacity: 0.5;
+    transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.tool-section-col:hover {
+    border-color: var(--border-red);
+}
+
+.tool-section-col:hover::before {
+    opacity: 1;
+}
+
+.tool-col-title {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--sp-5);
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px dashed var(--border-default);
+}
+
+/* Listas de bullets y pasos */
+.tool-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+}
+
+.tool-bullets li {
+    position: relative;
+    padding-left: var(--sp-6);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.tool-bullets li::before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--red-primary);
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.tool-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    counter-reset: tool-step;
+}
+
+.tool-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-4);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.tool-step-num {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 70, 85, 0.1);
+    border: 1px solid var(--border-red);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--red-glow);
+    letter-spacing: 0.04em;
+}
+
+.tool-step-text {
+    padding-top: var(--sp-1);
+}
+
+/* Footer de cada sección */
+.tool-section-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-5);
+    padding: var(--sp-5) var(--sp-6);
+    background: var(--bg-glass);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+}
+
+.tool-access-note {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.tool-access-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 224, 255, 0.1);
+    border: 1px solid var(--border-cyan);
+    border-radius: var(--radius-xs);
+    color: var(--cyan-accent);
+    font-size: 0.95rem;
+}
+
+/* Estado bloqueado en tono rojo */
+.tool-access-note.tool-locked {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.tool-access-note.tool-locked .tool-access-icon {
+    background: rgba(255, 70, 85, 0.12);
+    border-color: var(--border-red);
+    color: var(--red-glow);
+}
+
+/* Grupo de botones del footer */
+.tool-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+}
+
+/* Responsive — mobile first a partir de 900px */
+@media (max-width: 900px) {
+    /* TOC en dos columnas sin sticky */
+    .explorar-toc {
+        position: static;
+    }
+    .explorar-toc-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Header de sección apilado */
+    .tool-section-header {
+        flex-direction: column;
+        gap: var(--sp-4);
+    }
+    .tool-section-number {
+        font-size: 3.5rem;
+    }
+
+    /* Grid a una columna */
+    .tool-section-grid {
+        grid-template-columns: 1fr;
+        gap: var(--sp-5);
+    }
+
+    /* Footer apilado */
+    .tool-section-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tool-actions {
+        width: 100%;
+    }
+    .tool-actions .btn-primary,
+    .tool-actions .btn-ghost {
+        flex: 1;
+    }
+}
+
+@media (max-width: 540px) {
+    .hero-explorar {
+        padding-block: var(--sp-12) var(--sp-8);
+    }
+
+    .explorar-toc-list {
+        grid-template-columns: 1fr;
+    }
+
+    .tool-section {
+        padding-block: var(--sp-10);
+    }
+
+    .tool-col-title {
+        font-size: 0.75rem;
+    }
+}

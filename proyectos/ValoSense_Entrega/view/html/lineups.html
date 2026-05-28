@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Biblioteca curada de lineups de Valorant filtrados por agente, mapa y tipo. Aprende jugadas que realmente marcan diferencia.">
+    <title>Lineups | ValoSense</title>
+    <link rel="icon" type="image/png" href="../../imagenes/favicon.svg">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/lineup.css">
+</head>
+<body class="dark-bg">
+
+    <!-- Enlace de salto al contenido -->
+    <a href="#main" class="skip-link">Saltar al contenido</a>
+
+    <!-- Cabecera con logo y menú -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="../../index.php" class="navbar-logo">
+                <img src="../../imagenes/logo.png" alt="ValoSense" width="32" height="32">
+                <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
+            </a>
+            <button class="navbar-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="navbar-menu" id="navbar-menu" aria-label="Menú principal">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="../../index.php" class="nav-link">Inicio</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=matchmaker&action=home" class="nav-link">Encontrar equipo</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=lineup&action=home" class="nav-link nav-link-active">Lineups</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=training&action=home" class="nav-link">Entrenamiento</a></li>
+                    <!-- Si hay sesión -->
+                    <li class="nav-item"><a href="../../index.php?controlador=usuario&action=desconectar" class="nav-link nav-link-red">Cerrar sesión</a></li>
+                    <!-- Si no hay sesión -->
+                    <li class="nav-item"><a href="../../index.php?controlador=usuario&action=home" class="btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sección principal de la página -->
+    <main class="main-content" id="main">
+
+        <!-- Migas de pan -->
+        <nav class="breadcrumb" aria-label="Migas de pan">
+            <div class="container">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item"><a href="../../index.php">Inicio</a></li>
+                    <li class="breadcrumb-item breadcrumb-current" aria-current="page">Lineups</li>
+                </ol>
+            </div>
+        </nav>
+
+        <!-- Hero con título y estadísticas -->
+        <section class="hero hero-lineups">
+            <div class="container hero-content">
+                <span class="eyebrow">// LIBRARY · MÓDULO 02</span>
+                <h1 class="hero-title">Biblioteca de <span class="text-red">lineups</span></h1>
+                <p class="hero-subtitle">Smokes, flashes y mollies verificados por la comunidad. Filtra por agente, mapa y tipo.</p>
+
+                <!-- Estadísticas de la biblioteca -->
+                <ul class="hero-stats">
+                    <li class="hero-stat">
+                        <span class="hero-stat-value">1.847</span>
+                        <span class="hero-stat-label">Lineups totales</span>
+                    </li>
+                    <li class="hero-stat">
+                        <span class="hero-stat-value">11</span>
+                        <span class="hero-stat-label">Mapas</span>
+                    </li>
+                    <li class="hero-stat">
+                        <span class="hero-stat-value">23</span>
+                        <span class="hero-stat-label">Agentes</span>
+                    </li>
+                    <li class="hero-stat">
+                        <span class="hero-stat-value">92%</span>
+                        <span class="hero-stat-label">Verificados</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Formulario de búsqueda de lineups -->
+        <section class="lineup-search">
+            <div class="container">
+                <header class="section-head">
+                    <span class="eyebrow">// CONSULTA</span>
+                    <h2 class="section-title">Encuentra el <span class="text-red">lineup</span> perfecto</h2>
+                </header>
+
+                <form class="lineup-form" action="" method="post">
+                    <fieldset>
+                        <legend>Filtros de lineups</legend>
+
+                        <div class="lineup-filters">
+
+                            <div class="filter-group">
+                                <label class="filter-label" for="lineup-agente">Agente</label>
+                                <select class="filter-select" id="lineup-agente" name="agente_id">
+                                    <option value="">Todos los agentes</option>
+                                    <!-- PHP rellena con foreach -->
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label" for="lineup-mapa">Mapa</label>
+                                <select class="filter-select" id="lineup-mapa" name="mapa">
+                                    <option value="">Todos los mapas</option>
+                                    <option value="Ascent">Ascent</option>
+                                    <option value="Bind">Bind</option>
+                                    <option value="Breeze">Breeze</option>
+                                    <option value="Fracture">Fracture</option>
+                                    <option value="Haven">Haven</option>
+                                    <option value="Icebox">Icebox</option>
+                                    <option value="Lotus">Lotus</option>
+                                    <option value="Pearl">Pearl</option>
+                                    <option value="Split">Split</option>
+                                    <option value="Sunset">Sunset</option>
+                                    <option value="Abyss">Abyss</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label" for="lineup-tipo">Tipo</label>
+                                <select class="filter-select" id="lineup-tipo" name="tipo">
+                                    <option value="">Cualquier tipo</option>
+                                    <option value="smoke">Smoke</option>
+                                    <option value="flash">Flash</option>
+                                    <option value="molly">Molly</option>
+                                    <option value="recon">Recon</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label" for="lineup-lado">Lado</label>
+                                <select class="filter-select" id="lineup-lado" name="lado">
+                                    <option value="">Ambos</option>
+                                    <option value="atk">Ataque</option>
+                                    <option value="def">Defensa</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label" for="lineup-dificultad">Dificultad</label>
+                                <select class="filter-select" id="lineup-dificultad" name="dificultad">
+                                    <option value="">Cualquiera</option>
+                                    <option value="easy">Fácil</option>
+                                    <option value="medium">Media</option>
+                                    <option value="hard">Difícil</option>
+                                    <option value="pro">Pro</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label" for="lineup-sitio">Sitio</label>
+                                <select class="filter-select" id="lineup-sitio" name="sitio">
+                                    <option value="">Todos los sitios</option>
+                                    <option value="A">Sitio A</option>
+                                    <option value="B">Sitio B</option>
+                                    <option value="C">Sitio C</option>
+                                    <option value="mid">Mid</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-actions">
+                                <button class="btn-secondary" type="reset">Limpiar</button>
+                                <button class="btn-primary" type="submit" name="buscar">Ver lineups</button>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </section>
+
+        <!-- Acceso rápido por mapa -->
+        <section class="map-quick-access">
+            <div class="container">
+                <header class="section-head section-head-row">
+                    <div>
+                        <span class="eyebrow">// ACCESO RÁPIDO</span>
+                        <h2 class="section-title">Explora por <span class="text-red">mapa</span></h2>
+                    </div>
+                    <a href="#" class="link-arrow">Ver todos los mapas →</a>
+                </header>
+
+                <!-- Lista de mapas disponibles -->
+                <ul class="map-chips">
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Ascent</span><span class="map-chip-count">184</span></a></li>
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Bind</span><span class="map-chip-count">167</span></a></li>
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Haven</span><span class="map-chip-count">201</span></a></li>
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Split</span><span class="map-chip-count">158</span></a></li>
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Sunset</span><span class="map-chip-count">112</span></a></li>
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Lotus</span><span class="map-chip-count">143</span></a></li>
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Pearl</span><span class="map-chip-count">98</span></a></li>
+                    <li><a href="#" class="map-chip"><span class="map-chip-name">Icebox</span><span class="map-chip-count">121</span></a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tarjetas de resultados -->
+        <section class="lineups-results">
+            <div class="container">
+
+                <!-- Barra de resultados y orden -->
+                <div class="results-bar">
+                    <h2 class="section-title results-title">
+                        Resultados <span class="results-count">184</span>
+                    </h2>
+                    <div class="results-tools">
+                        <label class="sort-label" for="lineup-sort">Ordenar por</label>
+                        <select class="filter-select sort-select" id="lineup-sort" name="sort">
+                            <option value="popular">Más populares</option>
+                            <option value="recent">Más recientes</option>
+                            <option value="easy">Más fáciles</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="lineups-grid">
+
+                    <!-- Tarjeta de cada lineup -->
+                    <article class="lineup-card">
+
+                        <!-- Imagen de previsualización del lineup -->
+                        <figure class="lineup-thumb">
+                            <img src="../../imagenes/mapas/Ascent.png"
+                                 alt="Lineup de Viper en Ascent — smoke a A main"
+                                 class="lineup-thumb-img"
+                                 width="320" height="180">
+                            <figcaption class="lineup-duration">0:42</figcaption>
+                        </figure>
+
+                        <div class="lineup-card-body">
+                            <div class="lineup-card-top">
+                                <span class="lineup-agent-tag">Viper</span>
+                                <span class="lineup-map-tag">Ascent</span>
+                                <span class="lineup-type-tag">Smoke</span>
+                                <span class="lineup-side-tag">ATK</span>
+                            </div>
+
+                            <h3 class="lineup-title">Smoke desde spawn a A main</h3>
+                            <p class="lineup-desc">Bloquea la entrada principal del sitio A desde el spawn del ataque. Línea de tiro fija, sin salto.</p>
+
+                            <!-- Ruta del lineup -->
+                            <dl class="lineup-route">
+                                <div class="lineup-route-step">
+                                    <dt>Desde</dt>
+                                    <dd>Spawn ATK</dd>
+                                </div>
+                                <div class="lineup-route-step">
+                                    <dt>Hacia</dt>
+                                    <dd>A Main</dd>
+                                </div>
+                            </dl>
+
+                            <footer class="lineup-card-footer">
+                                <ul class="lineup-stats">
+                                    <li>12.4K vistas</li>
+                                    <li>2.1K guardados</li>
+                                </ul>
+                                <div class="lineup-actions">
+                                    <a href="#" class="btn-primary btn-small" target="_blank" rel="noopener noreferrer">Ver video</a>
+                                </div>
+                            </footer>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- Paginación -->
+                <nav class="pagination" aria-label="Paginación de lineups">
+                    <button type="button" class="pagination-btn" disabled aria-label="Página anterior">←</button>
+                    <ol class="pagination-list">
+                        <li><button type="button" class="pagination-num pagination-num-active" aria-current="page">1</button></li>
+                        <li><button type="button" class="pagination-num">2</button></li>
+                        <li><button type="button" class="pagination-num">3</button></li>
+                    </ol>
+                    <button type="button" class="pagination-btn" aria-label="Página siguiente">→</button>
+                </nav>
+
+            </div>
+        </section>
+
+        <!-- Llamada a subir lineup propio -->
+        <section class="cta-banner">
+            <div class="container cta-banner-inner">
+                <div class="cta-banner-text">
+                    <h2 class="cta-banner-title">¿Tienes un lineup secreto?</h2>
+                    <p class="cta-banner-desc">Súbelo a la biblioteca y ayuda a otros jugadores a mejorar su juego táctico.</p>
+                </div>
+                <div class="cta-banner-actions">
+                    <a href="../../index.php?controlador=lineup&action=enviar" class="btn-primary btn-large">Enviar lineup</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página con navegación -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+
+                <!-- Columna de marca -->
+                <div class="footer-col footer-col-brand">
+                    <a href="../../index.php" class="navbar-logo">
+                        <img src="../../imagenes/logo.png" alt="ValoSense" width="32" height="32">
+                        <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
+                    </a>
+                    <p class="footer-brand-desc">Matchmaking inteligente y entrenamiento táctico para jugadores de Valorant.</p>
+                </div>
+
+                <!-- Columna de producto -->
+                <nav class="footer-col" aria-label="Producto">
+                    <h3 class="footer-col-title">Producto</h3>
+                    <ul class="footer-links">
+                        <li><a href="../../index.php?controlador=matchmaker&action=home">Encontrar equipo</a></li>
+                        <li><a href="../../index.php?controlador=lineup&action=home">Lineups</a></li>
+                        <li><a href="../../index.php?controlador=training&action=home">Entrenamiento</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Columna legal -->
+                <nav class="footer-col" aria-label="Legal">
+                    <h3 class="footer-col-title">Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="../../index.php?controlador=legal&action=terminos">Términos de uso</a></li>
+                        <li><a href="../../index.php?controlador=legal&action=privacidad">Privacidad</a></li>
+                        <li><a href="../../index.php?controlador=legal&action=cookies">Cookies</a></li>
+                        <li><a href="../../index.php?controlador=legal&action=aviso">Aviso legal</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-text">ValoSense &copy; 2025 &mdash; Proyecto TFG DAW</p>
+                <p class="footer-sub">No afiliado con Riot Games. Valorant es marca registrada de Riot Games, Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/lineup.js"></script>
+
+</body>
+</html>

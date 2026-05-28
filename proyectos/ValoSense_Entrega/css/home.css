@@ -1,0 +1,386 @@
+/* home.css — Estilos de la landing pública */
+
+/* Hero de la landing — variante más protagonista */
+.hero-home {
+    padding-block: var(--sp-24) var(--sp-20);
+}
+
+.hero-home .hero-title {
+    max-width: 22ch;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.05;
+}
+
+.hero-home .hero-title br {
+    display: block;
+}
+
+.hero-home .hero-subtitle {
+    max-width: 60ch;
+    font-size: 1.15rem;
+}
+
+/* Features — rejilla de cuatro módulos */
+
+.features-section {
+    padding-block: var(--sp-16);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--sp-5);
+}
+
+.feature-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding: var(--sp-6) var(--sp-5);
+    background: linear-gradient(160deg, var(--bg-medium), var(--bg-dark));
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: transform var(--dur-med) var(--ease-out),
+                border-color var(--dur-med) var(--ease-out),
+                box-shadow var(--dur-med) var(--ease-out);
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red-primary), transparent);
+    opacity: 0.6;
+    transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.feature-card:hover,
+.feature-card:focus-within {
+    transform: translateY(-3px);
+    border-color: var(--red-primary);
+    box-shadow: var(--shadow-red);
+}
+
+.feature-card:hover::before,
+.feature-card:focus-within::before {
+    opacity: 1;
+}
+
+/* Color de acento por módulo */
+.feature-card-matchmaker::before {
+    background: linear-gradient(90deg, var(--red-primary), transparent);
+}
+.feature-card-lineup::before {
+    background: linear-gradient(90deg, var(--cyan-accent), transparent);
+}
+.feature-card-training::before {
+    background: linear-gradient(90deg, var(--warning), transparent);
+}
+.feature-card-team::before {
+    background: linear-gradient(90deg, var(--success), transparent);
+}
+
+.feature-title {
+    margin-top: var(--sp-1);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+}
+
+.feature-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.feature-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin-top: var(--sp-3);
+    padding-top: var(--sp-3);
+    border-top: 1px dashed var(--border-default);
+    color: var(--red-primary);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color var(--dur-fast) var(--ease-out);
+}
+
+.feature-cta-arrow {
+    display: inline-block;
+    transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.feature-card:hover .feature-cta,
+.feature-card:focus-within .feature-cta {
+    color: var(--red-glow);
+}
+
+.feature-card:hover .feature-cta-arrow,
+.feature-card:focus-within .feature-cta-arrow {
+    transform: translateX(4px);
+}
+
+/* Cada módulo colorea su CTA */
+.feature-card-lineup .feature-cta { color: var(--cyan-accent); }
+.feature-card-training .feature-cta { color: var(--warning); }
+.feature-card-team .feature-cta { color: var(--success); }
+
+/* Sección de pasos con conector horizontal */
+
+.how-section {
+    position: relative;
+    padding-block: var(--sp-20) var(--sp-16);
+    border-top: 1px solid var(--border-subtle);
+    overflow: hidden;
+}
+
+/* Glow ambiental de fondo */
+.how-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255, 70, 85, 0.06), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.how-section > .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Cabecera centrada en esta sección */
+.how-section .section-head {
+    text-align: center;
+    margin-bottom: var(--sp-12);
+}
+
+.how-section .section-head .eyebrow {
+    border-left: none;
+    padding: 4px 14px;
+    border: 1px solid var(--border-red);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 70, 85, 0.05);
+}
+
+/* Grid de pasos */
+.how-section .steps-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-6);
+    counter-reset: step;
+    position: relative;
+}
+
+/* Línea conectora horizontal que atraviesa las 3 tarjetas */
+.how-section .steps-list::before {
+    content: "";
+    position: absolute;
+    top: 56px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-image: linear-gradient(
+        to right,
+        transparent 0,
+        var(--border-red) 10%,
+        var(--border-red) 90%,
+        transparent 100%
+    );
+    background-size: 12px 2px;
+    background-repeat: repeat-x;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Tarjeta de paso */
+.how-section .step-card {
+    position: relative;
+    padding: var(--sp-8) var(--sp-6) var(--sp-7);
+    background: linear-gradient(
+        180deg,
+        var(--bg-medium) 0%,
+        var(--bg-dark) 100%
+    );
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    transition:
+        transform var(--dur-med) var(--ease-out),
+        border-color var(--dur-med) var(--ease-out),
+        box-shadow var(--dur-med) var(--ease-out);
+    overflow: hidden;
+    isolation: isolate;
+    z-index: 1;
+}
+
+/* Acento rojo superior */
+.how-section .step-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--red-primary) 30%,
+        var(--red-glow) 50%,
+        var(--red-primary) 70%,
+        transparent
+    );
+    transform: scaleX(0.35);
+    transform-origin: left center;
+    transition: transform var(--dur-slow) var(--ease-out);
+}
+
+/* Esquinas tácticas decorativas */
+.how-section .step-card::after {
+    content: "";
+    position: absolute;
+    bottom: var(--sp-3);
+    right: var(--sp-3);
+    width: 18px;
+    height: 18px;
+    border-right: 2px solid var(--red-primary);
+    border-bottom: 2px solid var(--red-primary);
+    opacity: 0.4;
+    transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.how-section .step-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-red);
+    box-shadow:
+        var(--shadow-3),
+        0 0 0 1px var(--border-red),
+        0 12px 36px rgba(255, 70, 85, 0.18);
+}
+
+.how-section .step-card:hover::before {
+    transform: scaleX(1);
+}
+
+.how-section .step-card:hover::after {
+    opacity: 1;
+}
+
+/* Número grande outline estilo HUD */
+.how-section .step-number {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: var(--sp-4);
+    letter-spacing: 0.02em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--red-primary);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 70, 85, 0.12) 0%,
+        rgba(255, 70, 85, 0.02) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition:
+        color var(--dur-med) var(--ease-out),
+        text-shadow var(--dur-med) var(--ease-out),
+        transform var(--dur-med) var(--ease-out);
+}
+
+.how-section .step-card:hover .step-number {
+    color: var(--red-primary);
+    text-shadow:
+        0 0 24px rgba(255, 70, 85, 0.6),
+        0 0 4px rgba(255, 70, 85, 0.4);
+    transform: translateX(4px);
+}
+
+/* Título y descripción */
+.how-section .step-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--sp-2);
+    letter-spacing: 0.02em;
+    position: relative;
+}
+
+.how-section .step-title::after {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 2px;
+    margin-top: var(--sp-2);
+    background: var(--red-primary);
+    opacity: 0.6;
+    transition:
+        width var(--dur-med) var(--ease-out),
+        opacity var(--dur-med) var(--ease-out);
+}
+
+.how-section .step-card:hover .step-title::after {
+    width: 56px;
+    opacity: 1;
+}
+
+.how-section .step-desc {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .hero-home {
+        padding-block: var(--sp-16) var(--sp-12);
+    }
+
+    .hero-home .hero-title br {
+        display: none;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Cómo empezar: apilar en columna y ocultar conector */
+    .how-section {
+        padding-block: var(--sp-12) var(--sp-10);
+    }
+
+    .how-section .steps-list {
+        grid-template-columns: 1fr;
+        gap: var(--sp-4);
+    }
+
+    .how-section .steps-list::before {
+        display: none;
+    }
+
+    .how-section .step-number {
+        font-size: 3.5rem;
+    }
+}

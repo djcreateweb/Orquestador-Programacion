@@ -1,0 +1,108 @@
+<?php
+// INSTRUCCION: reemplaza el contenido completo de view/lineup_view.php con este
+// CAMBIO: se elimina el HTML standalone anterior
+// RAZON: la vista ahora sigue el patron de la profesora:
+//   - require_once menu al principio
+//   - sin session_start ni logica de negocio
+//   - $lineups viene del controlador y se pasa al JS como JSON
+
+require_once("view/menu.php"); ?>
+
+<!-- contenedor principal del apartado lineups -->
+<div class="app">
+    <aside class="sidebar">
+        <div class="map-selector" id="mapSelector">
+            <!-- boton que muestra el mapa activo y abre el dropdown -->
+            <button class="map-hero" id="mapHero" type="button">
+                <h1 id="heroTitle">Abyss</h1>
+                <div class="hero-check">▼</div>
+            </button>
+            <!-- dropdown con grid de mapas -->
+            <div class="maps-dropdown" id="mapsDropdown">
+                <div class="maps-grid" id="mapsGrid">
+                    <div class="loading">Cargando mapas...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="side-content">
+            <!-- tabs ataque defensa -->
+            <div class="tabs">
+                <button class="tab active" type="button" data-side="Ataque">Ataque</button>
+                <button class="tab" type="button" data-side="Defensa">Defensa</button>
+                <div class="separator"></div>
+                <div class="star">☆</div>
+            </div>
+
+            <h2 class="section-title agent-title">Selecciona un agente</h2>
+            <!-- grid de agentes, se rellena por JS -->
+            <div class="agents-grid" id="agentsGrid">
+                <div class="loading">Cargando agentes...</div>
+            </div>
+
+            <section class="abilities-panel">
+                <h2 class="section-title">Personaje seleccionado</h2>
+                <!-- caja del agente seleccionado actualmente -->
+                <div class="selected-agent-box" id="selectedAgentBox">
+                    <img id="selectedAgentImage" src="" alt="Agente seleccionado">
+                    <div>
+                        <h3 id="selectedAgentName">Selecciona agente</h3>
+                        <p id="selectedAgentRole">Habilidades del personaje</p>
+                    </div>
+                    <button class="back-agents" id="backAgents" type="button">Atrás</button>
+                </div>
+                <h2 class="section-title">Habilidades</h2>
+                <!-- grid de habilidades, se rellena por JS -->
+                <div class="abilities-grid" id="abilitiesGrid"></div>
+            </section>
+        </div>
+    </aside>
+
+    <main class="main">
+        <section class="lineup-board">
+            <!-- caja del minimapa con pines de lineup encima -->
+            <div class="map-image-box" id="mapBox">
+                <div class="map-rotator" id="mapRotator">
+                    <img id="mapImage" src="" alt="Mapa seleccionado">
+                    <!-- capa donde JS pinta los pines y lineas de lineup -->
+                    <div class="lineup-layer" id="lineupLayer">
+                        <svg class="lineup-lines" id="lineupLines"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- panel derecho con info del mapa -->
+            <aside class="map-info">
+                <h2 id="mapName">Selecciona un mapa</h2>
+                <p id="mapText">Elige un mapa y un agente para ver los lineups disponibles.</p>
+                <p><strong>Lado:</strong> <span id="sideText">Ataque</span></p>
+                <p><strong>Agente:</strong> <span id="agentText">Sin seleccionar</span></p>
+                <div class="pill-row">
+                    <span class="pill">Mapas</span>
+                    <span class="pill">Agentes</span>
+                    <span class="pill">Lineups</span>
+                </div>
+            </aside>
+        </section>
+    </main>
+</div>
+
+<!-- modal de video de youtube -->
+<div class="video-modal" id="videoModal">
+    <div class="video-box">
+        <div class="video-header">
+            <h3 id="videoTitle">Lineup</h3>
+            <button class="close-video" id="closeVideo" type="button">×</button>
+        </div>
+        <iframe id="videoFrame" src="" title="Video del lineup" allowfullscreen></iframe>
+    </div>
+</div>
+
+<?php
+// CAMBIO: los lineups del controlador se pasan al JS como JSON
+// RAZON: el JS filtra por mapa/lado/agente en cliente sin recargar la pagina
+// $lineups viene de $model->get_todos_aprobados() en lineup_controller.php
+?>
+<script>
+window.lineupData = <?php echo json_encode($lineups ?? array()); ?>;
+</script>

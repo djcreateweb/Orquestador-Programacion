@@ -1,0 +1,900 @@
+/* matchmaker.css — Estilos específicos del módulo Matchmaker */
+
+/* 1. SECCIÓN "CÓMO FUNCIONA" — 3 pasos */
+
+.how-section {
+    padding: var(--sp-16) 0;
+    position: relative;
+}
+
+/* Cuadrícula de pasos del proceso */
+.steps-list {
+    list-style: none;
+    margin: var(--sp-10) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--sp-6);
+    grid-template-columns: 1fr;
+    counter-reset: step;
+}
+
+/* Tarjeta individual de paso con esquinas tácticas */
+.step-card {
+    position: relative;
+    padding: var(--sp-8) var(--sp-6);
+    background: var(--bg-medium);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    transition:
+        transform var(--dur-med) var(--ease-out),
+        border-color var(--dur-med) var(--ease-out),
+        box-shadow var(--dur-med) var(--ease-out);
+    overflow: hidden;
+}
+
+/* Línea roja superior decorativa */
+.step-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 2px;
+    background: var(--red-primary);
+    transition: width var(--dur-med) var(--ease-out);
+}
+
+.step-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-red);
+    box-shadow: var(--shadow-red);
+}
+
+.step-card:hover::before {
+    width: 96px;
+}
+
+/* Número grande tipo HUD */
+.step-number {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--red-primary);
+    letter-spacing: 0.02em;
+    margin-bottom: var(--sp-3);
+    text-shadow: 0 0 24px rgba(255, 70, 85, 0.35);
+}
+
+.step-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--sp-2);
+    letter-spacing: 0.01em;
+}
+
+.step-desc {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* 2. Sección de búsqueda de jugadores */
+
+.search-section {
+    padding: var(--sp-12) 0;
+}
+
+.matchmaker-aviso {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-5);
+    padding: var(--sp-5);
+    background:
+        linear-gradient(135deg, rgba(255, 70, 85, 0.13), rgba(0, 224, 255, 0.04)),
+        var(--bg-medium);
+    border: 1px solid rgba(255, 70, 85, 0.35);
+    border-left: 3px solid var(--red-primary);
+    border-radius: var(--radius-xs);
+    box-shadow: 0 18px 34px -28px rgba(0, 0, 0, 0.8);
+}
+
+.matchmaker-aviso-body {
+    min-width: 0;
+}
+
+.matchmaker-aviso-kicker {
+    display: block;
+    margin-bottom: var(--sp-2);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red-primary);
+}
+
+.matchmaker-aviso h3 {
+    margin: 0 0 var(--sp-2);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
+.matchmaker-aviso p {
+    margin: 0;
+    max-width: 58ch;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.search-section .btn-search:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+@media (max-width: 720px) {
+    .matchmaker-aviso {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .matchmaker-aviso .btn-primary {
+        justify-content: center;
+    }
+}
+
+/* Buscador matchmaker · versión con color y HUD */
+.search-section .search-form {
+    position: relative;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(255,70,85,0.10), transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(0,224,255,0.08), transparent 45%),
+        linear-gradient(180deg, var(--bg-medium), var(--bg-deep));
+    border: 1px solid var(--border-default);
+    border-left: 3px solid var(--red-primary);
+    padding: var(--sp-7) var(--sp-6) var(--sp-6);
+    overflow: hidden;
+}
+
+/* Barra decorativa estática arriba del buscador (colores fijos) */
+.search-section .search-form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        var(--cyan-accent) 20%,
+        var(--red-primary) 50%,
+        var(--cyan-accent) 80%,
+        transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Esquinas HUD en las 4 esquinas del formulario */
+.search-section .search-form::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    pointer-events: none;
+    background:
+        linear-gradient(var(--cyan-accent), var(--cyan-accent)) left top    / 14px 1px no-repeat,
+        linear-gradient(var(--cyan-accent), var(--cyan-accent)) left top    / 1px 14px no-repeat,
+        linear-gradient(var(--red-primary),  var(--red-primary))  right top    / 14px 1px no-repeat,
+        linear-gradient(var(--red-primary),  var(--red-primary))  right top    / 1px 14px no-repeat,
+        linear-gradient(var(--red-primary),  var(--red-primary))  left bottom  / 14px 1px no-repeat,
+        linear-gradient(var(--red-primary),  var(--red-primary))  left bottom  / 1px 14px no-repeat,
+        linear-gradient(var(--cyan-accent), var(--cyan-accent)) right bottom / 14px 1px no-repeat,
+        linear-gradient(var(--cyan-accent), var(--cyan-accent)) right bottom / 1px 14px no-repeat;
+    opacity: 0.5;
+    transition: opacity var(--dur-med);
+    z-index: 1;
+}
+.search-section .search-form:focus-within::after {
+    opacity: 1;
+}
+
+/* Cada filter-group con pequeño icono antes del label */
+.search-section .filter-group {
+    position: relative;
+    padding: 0 0 0 var(--sp-4);
+    z-index: 2;
+}
+.search-section .filter-group::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    border-radius: 2px;
+    opacity: 0.45;
+    transition: opacity var(--dur-fast), box-shadow var(--dur-fast);
+}
+.search-section .filter-group:nth-child(1)::before { background: var(--red-primary); }
+.search-section .filter-group:nth-child(2)::before { background: var(--cyan-accent); }
+.search-section .filter-group:nth-child(3)::before { background: #FFB447; }
+
+.search-section .filter-group:focus-within::before {
+    opacity: 1;
+}
+.search-section .filter-group:nth-child(1):focus-within::before { box-shadow: 0 0 10px var(--red-primary); }
+.search-section .filter-group:nth-child(2):focus-within::before { box-shadow: 0 0 10px var(--cyan-accent); }
+.search-section .filter-group:nth-child(3):focus-within::before { box-shadow: 0 0 10px #FFB447; }
+
+/* Labels con bullet ▸ coloreado según grupo */
+.search-section .filter-group .filter-label::before {
+    content: "▸ ";
+    font-family: var(--font-mono);
+    font-weight: 700;
+    margin-right: 2px;
+}
+.search-section .filter-group:nth-child(1) .filter-label::before { color: var(--red-primary); }
+.search-section .filter-group:nth-child(2) .filter-label::before { color: var(--cyan-accent); }
+.search-section .filter-group:nth-child(3) .filter-label::before { color: #FFB447; }
+
+.search-section .filter-group .filter-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+/* Los selects con más presencia */
+.search-section .filter-select {
+    background-color: var(--bg-void);
+    font-weight: 600;
+}
+.search-section .filter-select:hover {
+    border-color: var(--red-primary);
+    background-color: var(--bg-dark);
+}
+
+/* Acciones: el botón Buscar es el protagonista */
+.search-section .filter-actions {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: var(--sp-4);
+    align-items: center;
+    z-index: 2;
+}
+.search-section .btn-search {
+    position: relative;
+    overflow: hidden;
+    padding-inline: var(--sp-6);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.search-section .btn-search::before {
+    content: "◎ ";
+    margin-right: 4px;
+    color: var(--cyan-accent);
+    text-shadow: 0 0 6px var(--cyan-accent);
+}
+/* Shimmer que cruza el botón en hover */
+.search-section .btn-search::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(110deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.18) 50%,
+        transparent 100%);
+    transform: skewX(-18deg);
+    transition: left 600ms var(--ease-out);
+    pointer-events: none;
+}
+.search-section .btn-search:hover::after {
+    left: 120%;
+}
+
+/* Foco del formulario con halo rojo */
+.search-section .search-form:focus-within .btn-search {
+    box-shadow: 0 0 0 4px rgba(255, 70, 85, 0.28), 0 6px 18px rgba(255, 70, 85, 0.25);
+}
+
+/* Chips de filtros activos */
+.active-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+    margin-top: var(--sp-6);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.active-filters-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* 3. Sección de resultados y rejilla */
+
+.results-section {
+    padding: var(--sp-10) 0 var(--sp-16);
+}
+
+/* Barra superior con contador y herramientas de ordenación */
+.results-bar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--sp-8);
+    padding-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.results-title {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Badge con el número de resultados */
+.results-count {
+    display: inline-block;
+    margin-left: var(--sp-2);
+    padding: 2px var(--sp-3);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--red-primary);
+    background: rgba(255, 70, 85, 0.1);
+    border: 1px solid var(--border-red);
+    border-radius: var(--radius-xs);
+}
+
+.results-tools {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+}
+
+.sort-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.sort-select {
+    min-width: 160px;
+}
+
+/* Conmutador de vista cuadrícula/lista */
+.view-toggle {
+    display: inline-flex;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+}
+
+.view-btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 var(--sp-3);
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.view-btn + .view-btn {
+    border-left: 1px solid var(--border-default);
+}
+
+.view-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+}
+
+.view-btn-active {
+    color: var(--red-primary);
+    background: rgba(255, 70, 85, 0.08);
+}
+
+.view-btn:focus-visible {
+    outline: 2px solid var(--cyan-accent);
+    outline-offset: -2px;
+}
+
+/* Rejilla auto-fit de tarjetas de jugador */
+.players-grid {
+    display: grid;
+    gap: var(--sp-5);
+    grid-template-columns: 1fr;
+}
+
+/* 4. TARJETA DE JUGADOR */
+
+.player-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+    padding: var(--sp-6);
+    background:
+        linear-gradient(180deg, rgba(255,70,85,0.04) 0%, transparent 40%),
+        linear-gradient(180deg, var(--bg-medium), var(--bg-deep));
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;   /* mantiene la barra decorativa dentro */
+    transition:
+        transform var(--dur-med) var(--ease-out),
+        border-color var(--dur-med) var(--ease-out),
+        box-shadow var(--dur-med) var(--ease-out);
+}
+
+/* Barra decorativa superior de tarjeta */
+.player-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent,
+        var(--cyan-accent) 15%,
+        var(--red-primary) 50%,
+        var(--cyan-accent) 85%,
+        transparent);
+    opacity: 0.45;
+    transition: opacity var(--dur-med) var(--ease-out);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.player-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--red-primary);
+    box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 70, 85, 0.35),
+        0 0 30px rgba(255, 70, 85, 0.18),
+        inset 0 0 60px rgba(0, 224, 255, 0.05);
+}
+
+.player-card:hover::before {
+    opacity: 1;
+}
+
+/* Desplazamiento de las esquinas al hacer hover */
+.player-card:hover .corner-tl { transform: translate(-2px, -2px); }
+.player-card:hover .corner-tr { transform: translate(2px, -2px); }
+.player-card:hover .corner-bl { transform: translate(-2px, 2px); }
+.player-card:hover .corner-br { transform: translate(2px, 2px); }
+
+/* Cabecera de la tarjeta */
+.player-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+}
+
+.player-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Avatar monograma con gradiente rojo */
+.player-avatar {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--red-primary), var(--red-deep));
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    border-radius: var(--radius-xs);
+    box-shadow: 0 2px 8px rgba(255, 70, 85, 0.25);
+}
+
+/* Estado definido en styles.css */
+
+.player-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.player-name {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.25;
+}
+
+.player-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.player-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin-top: 2px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.player-region {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--cyan-accent);
+}
+
+.player-sep {
+    color: var(--text-dim);
+}
+
+.player-lang {
+    color: var(--text-muted);
+}
+
+/* Bloque de rango a la derecha */
+.player-rank {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.rank-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.rank-name {
+    display: inline-block;
+    padding: 3px 8px;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-xs);
+    background: rgba(255, 255, 255, 0.04);
+    transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.player-card:hover .rank-name {
+    border-color: var(--red-primary);
+    box-shadow: 0 0 12px rgba(255, 70, 85, 0.3);
+}
+
+.rank-rr {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+/* Rejilla de estadísticas (4 columnas) */
+.player-stats {
+    list-style: none;
+    margin: 0;
+    padding: var(--sp-4) 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-2);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.player-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+}
+
+.player-stat-value {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    letter-spacing: 0.01em;
+}
+
+.player-stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* Cuerpo de la tarjeta: agentes y estilo */
+.player-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+}
+
+.player-agents-label {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.player-agents,
+.player-playstyle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-2);
+}
+
+/* Etiqueta base de agente */
+.agent-tag {
+    display: inline-block;
+    padding: 4px var(--sp-3);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-default);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+    transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.agent-tag:hover {
+    transform: translateY(-1px);
+}
+
+/* Variantes de color por rol */
+.agent-tag-duelist {
+    color: var(--red-primary);
+    border-color: rgba(255, 70, 85, 0.4);
+    background: rgba(255, 70, 85, 0.08);
+}
+
+.agent-tag-controller {
+    color: var(--role-controller);
+    border-color: rgba(181, 87, 255, 0.4);
+    background: rgba(181, 87, 255, 0.08);
+}
+
+.agent-tag-sentinel {
+    color: var(--cyan-accent);
+    border-color: rgba(0, 224, 255, 0.4);
+    background: rgba(0, 224, 255, 0.08);
+}
+
+.agent-tag-initiator {
+    color: var(--warning);
+    border-color: rgba(255, 181, 71, 0.4);
+    background: rgba(255, 181, 71, 0.08);
+}
+
+/* Etiqueta sobria para estilo de juego */
+.style-tag {
+    display: inline-block;
+    padding: 3px var(--sp-3);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    border: 1px dashed var(--border-default);
+    border-radius: var(--radius-xs);
+    background: transparent;
+}
+
+/* Pie de la tarjeta: disponibilidad + acciones */
+.player-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    justify-content: space-between;
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.player-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.schedule-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.schedule-value {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.player-actions {
+    display: flex;
+    align-items: center;      /* misma línea base para botones y status */
+    gap: var(--sp-2);
+    flex-wrap: wrap;
+}
+
+.player-actions > * {
+    min-height: 44px;
+}
+
+/* Los <span class="amistad-status"> eran inline → no respetan */
+.player-actions .amistad-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+}
+
+/* Formulario inline con altura del grupo */
+.player-actions .inline-form {
+    display: inline-flex;
+    align-items: stretch;
+}
+.player-actions .inline-form > button {
+    min-height: 44px;
+}
+
+/* 5. ESTADO VACÍO — cuando no hay resultados */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--sp-16) var(--sp-6);
+    border: 1px dashed var(--border-default);
+    border-radius: var(--radius-sm);
+    background: var(--bg-medium);
+}
+
+.empty-state.hidden {
+    display: none;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    color: var(--text-dim);
+    margin-bottom: var(--sp-4);
+    line-height: 1;
+}
+
+.empty-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--text-primary);
+    margin: 0 0 var(--sp-2);
+}
+
+.empty-desc {
+    font-family: var(--font-body);
+    color: var(--text-secondary);
+    margin: 0 0 var(--sp-5);
+    max-width: 420px;
+}
+
+/* 6. ACCESIBILIDAD — estados de foco visibles */
+
+.step-card:focus-visible,
+.player-card:focus-visible {
+    outline: 2px solid var(--cyan-accent);
+    outline-offset: 2px;
+}
+
+/* 7. RESPONSIVE — breakpoints 520 / 768 / */
+
+/* Móvil con tarjeta en fila */
+@media (min-width: 520px) {
+    .player-card-footer {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .results-bar {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* Tablet con rejilla de jugadores */
+@media (min-width: 768px) {
+    .steps-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .players-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    .step-card {
+        padding: var(--sp-10) var(--sp-8);
+    }
+
+    .step-number {
+        font-size: 3.5rem;
+    }
+}
+
+/* Desktop: tres pasos en fila */
+@media (min-width: 960px) {
+    .steps-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--sp-8);
+    }
+
+    .how-section {
+        padding: var(--sp-20) 0;
+    }
+
+    .results-section {
+        padding: var(--sp-12) 0 var(--sp-24);
+    }
+}
+
+/* RANGOS — estilos específicos del matchmaker */
+
+.rank-name[class*="rank-"] {
+    color: var(--rank-color);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--rank-color) 45%, transparent);
+    font-weight: 700;
+}
+
+/* Chip de filtro con color de rango */
+.chip.chip-rank {
+    color: var(--rank-color);
+    border-color: color-mix(in srgb, var(--rank-color) 55%, var(--border-default));
+    background: color-mix(in srgb, var(--rank-color) 14%, var(--bg-dark));
+    font-weight: 700;
+}
+

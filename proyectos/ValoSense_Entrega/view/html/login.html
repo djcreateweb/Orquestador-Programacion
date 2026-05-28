@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Inicia sesión o crea tu cuenta en ValoSense para acceder al matchmaking, lineups y rutinas de entrenamiento personalizadas.">
+    <title>Acceso | ValoSense</title>
+    <link rel="icon" type="image/png" href="../../imagenes/favicon.svg">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/auth.css">
+</head>
+<body class="dark-bg">
+
+    <!-- Enlace de salto al contenido -->
+    <a href="#main" class="skip-link">Saltar al contenido</a>
+
+    <!-- Cabecera con logo y menú -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="../../index.php" class="navbar-logo">
+                <img src="../../imagenes/logo.png" alt="ValoSense" width="32" height="32">
+                <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
+            </a>
+            <nav class="navbar-menu" id="navbar-menu" aria-label="Menú principal">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="../../index.php" class="nav-link">Inicio</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=lineup&action=home" class="nav-link">Lineups</a></li>
+                    <li class="nav-item"><a href="../../index.php?controlador=usuario&action=home" class="btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido principal en dos columnas -->
+    <main class="main-content auth-page" id="main">
+        <div class="auth-layout">
+
+            <!-- Panel visual con características del sitio -->
+            <aside class="auth-visual" aria-hidden="true">
+                <div class="auth-visual-content">
+                    <span class="eyebrow">// ACCESS · MÓDULO 00</span>
+                    <h2 class="auth-visual-title">Tu próximo <span class="text-red">rango</span> empieza aquí</h2>
+                    <p class="auth-visual-desc">Únete y desbloquea matchmaking inteligente, lineups verificados y rutinas personalizadas.</p>
+
+                    <!-- Características de la plataforma -->
+                    <ul class="auth-features">
+                        <li class="auth-feature">
+                            <span class="auth-feature-icon">◈</span>
+                            <div>
+                                <h3 class="auth-feature-title">Matchmaking por rango</h3>
+                                <p class="auth-feature-desc">Encuentra dúos, tríos o stacks completos de tu nivel.</p>
+                            </div>
+                        </li>
+                        <li class="auth-feature">
+                            <span class="auth-feature-icon">◆</span>
+                            <div>
+                                <h3 class="auth-feature-title">Biblioteca de lineups</h3>
+                                <p class="auth-feature-desc">Jugadas curadas en todos los mapas del pool competitivo.</p>
+                            </div>
+                        </li>
+                        <li class="auth-feature">
+                            <span class="auth-feature-icon">◉</span>
+                            <div>
+                                <h3 class="auth-feature-title">Rutinas de entrenamiento</h3>
+                                <p class="auth-feature-desc">Ejercicios de aim y táctica adaptados a tu rango actual.</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Tira de estadísticas de la plataforma -->
+                    <ul class="auth-social-proof">
+                        <li>
+                            <span class="auth-proof-value">12K+</span>
+                            <span class="auth-proof-label">Jugadores</span>
+                        </li>
+                        <li>
+                            <span class="auth-proof-value">1.8K</span>
+                            <span class="auth-proof-label">Lineups</span>
+                        </li>
+                        <li>
+                            <span class="auth-proof-value">4.8★</span>
+                            <span class="auth-proof-label">Valoración</span>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Columna con formularios de acceso -->
+            <section class="auth-container" aria-labelledby="auth-heading">
+
+                <header class="auth-header">
+                    <span class="eyebrow">// AUTENTICACIÓN</span>
+                    <h1 class="auth-heading" id="auth-heading">Accede a tu cuenta</h1>
+                    <p class="auth-sub">Inicia sesión o crea una nueva cuenta para continuar.</p>
+                </header>
+
+                <!-- Pestañas para cambiar de formulario -->
+                <div class="auth-tabs" role="tablist" aria-label="Seleccionar formulario">
+                    <button class="auth-tab active" data-tab="login" role="tab" aria-selected="true" aria-controls="tab-login" type="button">
+                        Iniciar sesión
+                    </button>
+                    <button class="auth-tab" data-tab="registro" role="tab" aria-selected="false" aria-controls="tab-registro" type="button">
+                        Registrarse
+                    </button>
+                </div>
+
+                <!-- Panel de login -->
+                <div class="auth-form-wrapper" id="tab-login" role="tabpanel">
+                    <form class="auth-form" action="index.php?controlador=usuario&action=login" method="post">
+                        <fieldset>
+                            <legend>Iniciar sesión</legend>
+
+                            <div class="form-group">
+                                <label class="form-label" for="nombre">Usuario</label>
+                                <input class="form-input" type="text" id="nombre" name="nombre"
+                                       required autocomplete="username"
+                                       placeholder="Tu nombre de invocador"
+                                       maxlength="30">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="pswd">Contraseña</label>
+                                <input class="form-input" type="password" id="pswd" name="pswd"
+                                       required autocomplete="current-password"
+                                       placeholder="••••••••"
+                                       minlength="8">
+                            </div>
+
+                            <label class="form-check">
+                                <input type="checkbox" name="recordar" value="1">
+                                <span>Mantener la sesión abierta</span>
+                            </label>
+
+                            <div class="filter-actions">
+                                <button class="btn-primary btn-full" type="submit" name="login" value="1">Entrar</button>
+                            </div>
+
+                        </fieldset>
+
+                        <p class="auth-message"><!-- $message --></p>
+
+                        <p class="auth-swap">
+                            ¿No tienes cuenta? <a href="#" data-swap-tab="registro">Regístrate gratis</a>
+                        </p>
+                    </form>
+                </div>
+
+                <!-- Panel de registro -->
+                <div class="auth-form-wrapper hidden" id="tab-registro" role="tabpanel">
+                    <form class="auth-form" action="index.php?controlador=usuario&action=registro" method="post">
+                        <fieldset>
+                            <legend>Crear cuenta</legend>
+
+                            <div class="form-group">
+                                <label class="form-label" for="reg-user">Nombre de usuario</label>
+                                <input class="form-input" type="text" id="reg-user" name="nombre"
+                                       required autocomplete="username"
+                                       placeholder="Tu nombre de invocador"
+                                       minlength="3" maxlength="30">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="reg-email">Email</label>
+                                <input class="form-input" type="email" id="reg-email" name="email"
+                                       required autocomplete="email"
+                                       placeholder="tu@email.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="reg-pass">Contraseña</label>
+                                <input class="form-input" type="password" id="reg-pass" name="pswd"
+                                       required autocomplete="new-password"
+                                       placeholder="Mínimo 8 caracteres"
+                                       minlength="8">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="reg-rango">Tu rango</label>
+                                <select class="form-input" id="reg-rango" name="rango" required>
+                                    <option value="" disabled selected>Selecciona tu rango</option>
+                                    <option value="Iron">Iron</option>
+                                    <option value="Bronze">Bronze</option>
+                                    <option value="Silver">Silver</option>
+                                    <option value="Gold">Gold</option>
+                                    <option value="Platinum">Platinum</option>
+                                    <option value="Diamond">Diamond</option>
+                                    <option value="Ascendant">Ascendant</option>
+                                    <option value="Immortal">Immortal</option>
+                                    <option value="Radiant">Radiant</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="reg-region">Región</label>
+                                <select class="form-input" id="reg-region" name="region" required>
+                                    <option value="EU">EU — Europa</option>
+                                    <option value="NA">NA — Norteamérica</option>
+                                    <option value="LATAM">LATAM</option>
+                                    <option value="BR">BR — Brasil</option>
+                                    <option value="AP">AP — Asia Pacífico</option>
+                                    <option value="KR">KR — Corea</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="reg-rol">Rol principal</label>
+                                <select class="form-input" id="reg-rol" name="rol_principal">
+                                    <option value="">Sin preferencia</option>
+                                    <option value="Duelist">Duelist</option>
+                                    <option value="Controller">Controller</option>
+                                    <option value="Sentinel">Sentinel</option>
+                                    <option value="Initiator">Initiator</option>
+                                </select>
+                            </div>
+
+                            <label class="form-check">
+                                <input type="checkbox" name="terminos" value="1" required>
+                                <span>Acepto los <a href="../../index.php?controlador=legal&action=terminos">términos de uso</a> y la <a href="../../index.php?controlador=legal&action=privacidad">política de privacidad</a>.</span>
+                            </label>
+
+                            <div class="filter-actions">
+                                <button class="btn-primary btn-full" type="submit" name="registrar" value="1">Crear cuenta</button>
+                            </div>
+
+                        </fieldset>
+
+                        <p class="auth-message"><!-- $message --></p>
+
+                        <p class="auth-swap">
+                            ¿Ya tienes cuenta? <a href="#" data-swap-tab="login">Inicia sesión</a>
+                        </p>
+                    </form>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- Pie compacto de la zona de acceso -->
+    <footer class="footer footer-compact">
+        <div class="container">
+            <div class="footer-bottom">
+                <p class="footer-text">ValoSense &copy; 2025 &mdash; Proyecto TFG DAW</p>
+                <ul class="footer-mini-links">
+                    <li><a href="../../index.php?controlador=legal&action=terminos">Términos</a></li>
+                    <li><a href="../../index.php?controlador=legal&action=privacidad">Privacidad</a></li>
+                    <li><a href="../../index.php?controlador=legal&action=cookies">Cookies</a></li>
+                </ul>
+                <p class="footer-sub">No afiliado con Riot Games.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/auth.js"></script>
+
+</body>
+</html>

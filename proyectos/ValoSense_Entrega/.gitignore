@@ -1,0 +1,45 @@
+# ============================================
+# .gitignore — ValorantSense (PHP puro sin framework)
+# ============================================
+
+# ── Variables de entorno ──
+.env
+.env.local
+.env.*.local
+
+# ── IDE / Editores ──
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Sistema operativo ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ──
+*.log
+/logs/
+
+# ── Uploads de usuarios (generados en runtime) ──
+/imagenes/usuarios/
+/uploads/
+
+# ── Cache / temporales ──
+/cache/
+*.cache
+*.tmp
+
+# ── Composer (si se añade en el futuro) ──
+/vendor/
+composer.lock
+
+# ── Node (si se añade en el futuro) ──
+/node_modules/
+/dist/
+
+# NOTA: config.php contiene RIOT_API_KEY — clave de desarrollo HDEV-*
+# Se incluye en el repositorio porque es un proyecto academico.
+# En produccion real se moveria a una variable de entorno.

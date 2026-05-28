@@ -1,0 +1,492 @@
+/* ============================================================
+   team.css — Estilos de la vista de composición por mapa
+   ============================================================ */
+
+/* ----- Sección principal ----- */
+.tactics-section {
+    padding: 2.5rem 0 4rem;
+}
+
+/* ----- Bloque de paso ----- */
+.step-block {
+    margin-bottom: 2.5rem;
+}
+
+.step-block-header {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 1.25rem;
+}
+
+.step-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: .2rem .65rem;
+    border-radius: 4px;
+    background: var(--red-primary, #FF4655);
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.subsection-label {
+    font-family: var(--font-display, 'Rajdhani', sans-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary, #E8E8F0);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/* ----- Grid de mapas ----- */
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+}
+
+.map-btn {
+    position: relative;
+    display: block;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,.06);
+    transition: border-color .18s, transform .18s, box-shadow .18s;
+}
+
+.map-btn:hover,
+.map-btn:focus-visible {
+    border-color: var(--red-primary, #FF4655);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(255, 70, 85, .25);
+    outline: none;
+}
+
+.map-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.map-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(7,7,15,.85) 0%, rgba(7,7,15,.2) 60%);
+    transition: background .18s;
+}
+
+.map-btn:hover .map-overlay,
+.map-btn:focus-visible .map-overlay {
+    background: linear-gradient(to top, rgba(255,70,85,.45) 0%, rgba(7,7,15,.1) 60%);
+}
+
+.map-name {
+    position: absolute;
+    bottom: .5rem;
+    left: .75rem;
+    right: .75rem;
+    font-family: var(--font-display, 'Rajdhani', sans-serif);
+    font-size: .95rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 6px rgba(0,0,0,.7);
+}
+
+/* ----- Pills de roles ----- */
+.role-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+}
+
+.role-pill {
+    padding: .3rem .8rem;
+    border-radius: 20px;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,.12);
+    background: var(--bg-elevated, #1E2A4A);
+    color: var(--text-muted, #8888AA);
+    transition: background .18s, color .18s, border-color .18s;
+}
+
+.role-pill.is-covered {
+    background: rgba(76, 255, 181, .12);
+    border-color: var(--success, #4CFFB5);
+    color: var(--success, #4CFFB5);
+}
+
+/* ----- Lista de agentes en fila ----- */
+.lineup-agents-row-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ----- Chip de agente ----- */
+.lineup-agent-chip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .3rem;
+    padding: .6rem .5rem .5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: var(--bg-elevated, #1E2A4A);
+    cursor: pointer;
+    user-select: none;
+    transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+    min-width: 72px;
+    text-align: center;
+}
+
+.lineup-agent-chip-img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
+
+.lineup-agent-chip-name {
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--text-primary, #E8E8F0);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 72px;
+}
+
+.lineup-agent-chip-rol {
+    font-size: .62rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-muted, #8888AA);
+}
+
+/* Colores por rol */
+.lineup-agent-chip.role-duelist   { border-color: rgba(255, 70, 85, .2); }
+.lineup-agent-chip.role-initiator { border-color: rgba(255, 181, 71, .2); }
+.lineup-agent-chip.role-controller{ border-color: rgba(181, 87, 255, .2); }
+.lineup-agent-chip.role-sentinel  { border-color: rgba(76, 255, 181, .2); }
+
+.lineup-agent-chip.role-duelist    .lineup-agent-chip-rol { color: var(--red-primary, #FF4655); }
+.lineup-agent-chip.role-initiator  .lineup-agent-chip-rol { color: var(--warning, #FFB547); }
+.lineup-agent-chip.role-controller .lineup-agent-chip-rol { color: var(--role-controller, #B557FF); }
+.lineup-agent-chip.role-sentinel   .lineup-agent-chip-rol { color: var(--success, #4CFFB5); }
+
+/* Estado: agente seleccionado por el usuario */
+.lineup-agent-chip.agent-btn:hover,
+.lineup-agent-chip.agent-btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+    outline: none;
+}
+
+.lineup-agent-chip.is-selected {
+    border-color: var(--red-primary, #FF4655) !important;
+    background: rgba(255, 70, 85, .1);
+    box-shadow: 0 0 12px rgba(255, 70, 85, .3);
+}
+
+/* Estado: agente activo en el resultado */
+.lineup-agent-chip.is-active {
+    border-color: var(--cyan-accent, #00E0FF) !important;
+    background: rgba(0, 224, 255, .07);
+    box-shadow: 0 0 10px rgba(0, 224, 255, .2);
+}
+
+/* ----- Mensaje de estado del formulario ----- */
+.comp-status {
+    font-size: .85rem;
+    color: var(--text-muted, #8888AA);
+    margin: 1rem 0 1.5rem;
+    min-height: 1.4em;
+}
+
+/* ----- Bloque de resultado de recomendación ----- */
+.recommendation-result {
+    position: relative;
+    margin-top: 2.5rem;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px;
+    background: var(--bg-dark, #14142B);
+    overflow: hidden;
+}
+
+.rec-map-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    background: var(--bg-deep, #0F0F23);
+}
+
+.rec-map-info {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.rec-map-name {
+    font-family: var(--font-display, 'Rajdhani', sans-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary, #E8E8F0);
+    margin: 0;
+    letter-spacing: .03em;
+}
+
+.rec-body {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+/* ----- Bloque de sección de recomendación ----- */
+.rec-block {
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 8px;
+    background: var(--bg-medium, #16213E);
+    overflow: hidden;
+}
+
+.rec-block-head {
+    padding: 1rem 1.25rem .75rem;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    background: rgba(0,0,0,.15);
+}
+
+.rec-block-title {
+    font-family: var(--font-display, 'Rajdhani', sans-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary, #E8E8F0);
+    margin: .25rem 0 .2rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.rec-block-intro {
+    font-size: .82rem;
+    color: var(--text-muted, #8888AA);
+    margin: .15rem 0 0;
+}
+
+.rec-block-hint {
+    font-size: .8rem;
+    color: var(--text-muted, #8888AA);
+    margin: .4rem 0 0;
+}
+
+.rec-block .lineup-agents-row-list {
+    padding: 1rem 1.25rem;
+}
+
+/* Colores de borde por rol en bloques de recomendación */
+.rec-block-rol-duelist    { border-color: rgba(255, 70, 85, .3); }
+.rec-block-rol-initiator  { border-color: rgba(255, 181, 71, .3); }
+.rec-block-rol-controller { border-color: rgba(181, 87, 255, .3); }
+.rec-block-rol-sentinel   { border-color: rgba(76, 255, 181, .3); }
+
+/* ----- Chip de rol en el título ----- */
+.rec-rol-chip {
+    display: inline-block;
+    padding: .1rem .4rem;
+    border-radius: 3px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+/* Colores eyebrow y chip por rol */
+.agent-rol-duelist    { color: var(--red-primary, #FF4655); }
+.agent-rol-initiator  { color: var(--warning, #FFB547); }
+.agent-rol-controller { color: var(--role-controller, #B557FF); }
+.agent-rol-sentinel   { color: var(--success, #4CFFB5); }
+
+.rec-rol-chip.agent-rol-duelist    { background: rgba(255, 70, 85, .15); color: var(--red-primary, #FF4655); }
+.rec-rol-chip.agent-rol-initiator  { background: rgba(255, 181, 71, .15); color: var(--warning, #FFB547); }
+.rec-rol-chip.agent-rol-controller { background: rgba(181, 87, 255, .15); color: var(--role-controller, #B557FF); }
+.rec-rol-chip.agent-rol-sentinel   { background: rgba(76, 255, 181, .15); color: var(--success, #4CFFB5); }
+
+.rec-occurrence {
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--text-muted, #8888AA);
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+/* ----- Hint vacío ----- */
+.empty-hint {
+    font-size: .85rem;
+    color: var(--text-muted, #8888AA);
+    font-style: italic;
+    padding: .75rem 1.25rem;
+    margin: 0;
+}
+
+/* ----- Team Rating ----- */
+.team-rating-block {
+    border-color: rgba(0, 224, 255, .2);
+}
+
+.team-rating-grid {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1rem 1.25rem;
+    flex-wrap: wrap;
+}
+
+.team-rating-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .2rem;
+    min-width: 80px;
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    background: var(--bg-dark, #14142B);
+    border: 2px solid rgba(255,255,255,.1);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.team-rating-score.team-rating-s { border-color: var(--cyan-accent, #00E0FF); box-shadow: 0 0 16px rgba(0,224,255,.25); }
+.team-rating-score.team-rating-a { border-color: var(--success, #4CFFB5); box-shadow: 0 0 16px rgba(76,255,181,.2); }
+.team-rating-score.team-rating-b { border-color: var(--warning, #FFB547); box-shadow: 0 0 16px rgba(255,181,71,.2); }
+.team-rating-score.team-rating-c { border-color: var(--red-primary, #FF4655); box-shadow: 0 0 12px rgba(255,70,85,.2); }
+
+.team-rating-label {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted, #8888AA);
+}
+
+.team-rating-big {
+    font-family: var(--font-display, 'Rajdhani', sans-serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text-primary, #E8E8F0);
+}
+
+.team-rating-score.team-rating-s .team-rating-big { color: var(--cyan-accent, #00E0FF); }
+.team-rating-score.team-rating-a .team-rating-big { color: var(--success, #4CFFB5); }
+.team-rating-score.team-rating-b .team-rating-big { color: var(--warning, #FFB547); }
+.team-rating-score.team-rating-c .team-rating-big { color: var(--red-primary, #FF4655); }
+
+.team-rating-avg {
+    font-size: .72rem;
+    color: var(--text-muted, #8888AA);
+}
+
+.team-rating-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.team-rating-role {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .15rem;
+    padding: .4rem .6rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: var(--bg-dark, #14142B);
+    min-width: 64px;
+    text-align: center;
+}
+
+.team-rating-role.is-ok { border-color: rgba(76, 255, 181, .3); background: rgba(76,255,181,.05); }
+.team-rating-role.is-off { border-color: rgba(255, 70, 85, .3); background: rgba(255,70,85,.05); }
+
+.team-rating-role-count {
+    font-family: var(--font-display, 'Rajdhani', sans-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text-primary, #E8E8F0);
+}
+
+.team-rating-role.is-ok  .team-rating-role-count { color: var(--success, #4CFFB5); }
+.team-rating-role.is-off .team-rating-role-count { color: var(--red-primary, #FF4655); }
+
+.team-rating-role-label {
+    font-size: .63rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted, #8888AA);
+}
+
+.team-rating-msg {
+    padding: .75rem 1.25rem;
+    font-size: .85rem;
+    border-top: 1px solid rgba(255,255,255,.06);
+    margin: 0;
+}
+
+.team-rating-msg.is-ok  { color: var(--success, #4CFFB5); }
+.team-rating-msg.is-off { color: var(--warning, #FFB547); }
+
+/* ----- Estados globales is-ok / is-off fuera del rating ----- */
+.is-ok  { color: var(--success, #4CFFB5); }
+.is-off { color: var(--red-primary, #FF4655); }
+
+/* ----- Responsive ----- */
+@media (max-width: 768px) {
+    .map-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+
+    .rec-map-header,
+    .rec-body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .team-rating-grid {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
