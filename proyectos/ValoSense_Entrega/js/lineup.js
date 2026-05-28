@@ -31,37 +31,8 @@ let habilidadEditorActual = null;
 let puntoInicio = null;
 let puntoDestino = null;
 
-// lineups de prueba para ver sin base de datos
-let lineupsDemo = [
-    {
-        id: 1,
-        mapa: 'Ascent',
-        lado: 'Ataque',
-        agente: 'Brimstone',
-        habilidad: 'Incendiario',
-        titulo: 'Incendiario para B default',
-        descripcion: 'Lineup de prueba para B.',
-        video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        inicio_x: 28.40,
-        inicio_y: 76.20,
-        destino_x: 35.10,
-        destino_y: 22.80
-    },
-    {
-        id: 2,
-        mapa: 'Ascent',
-        lado: 'Ataque',
-        agente: 'Brimstone',
-        habilidad: 'Cortina de humo',
-        titulo: 'Humo en A main',
-        descripcion: 'Ciega A main para entrar.',
-        video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        inicio_x: 22.00,
-        inicio_y: 72.00,
-        destino_x: 48.00,
-        destino_y: 28.00
-    }
-];
+// lineups de prueba desactivados
+let lineupsDemo = [];
 
 let defaultVideo = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
 
@@ -163,6 +134,7 @@ function iniciar() {
             if (sideText) sideText.textContent = estado.selectedSide;
             actualizarImagenMapa();
             renderizarLineups();
+            renderizarTablaLineups();
         });
     }
 
@@ -247,6 +219,7 @@ function seleccionarMapa(mapa) {
 
     actualizarImagenMapa();
     renderizarLineups();
+    renderizarTablaLineups();
 
     // CAMBIO: forEach -> for
     let cards = document.querySelectorAll('.map-card');
@@ -317,6 +290,101 @@ function renderizarLineups() {
 
         layer.appendChild(punto);
     }
+}
+
+// pinta tabla de lineups del agente
+function renderizarTablaLineups() {
+    let cuerpo = document.getElementById('lineupTablaBody');
+    if (!cuerpo) return;
+    cuerpo.innerHTML = '';
+
+    if (!estado.selectedAgent || !estado.selectedMap) {
+        cuerpo.innerHTML = '<tr><td colspan="5">Selecciona un agente.</td></tr>';
+        return;
+    }
+
+    let filtrados = obtenerLineupsFiltrados();
+    if (filtrados.length === 0) {
+        cuerpo.innerHTML = '<tr><td colspan="5">No hay lineups creados para este agente.</td></tr>';
+        return;
+    }
+
+    for (let i = 0; i < filtrados.length; i++) {
+        let lp = filtrados[i];
+        let fila = document.createElement('tr');
+        fila.className = 'lineup-tabla-fila';
+        fila.dataset.id = lp.id;
+
+        let acciones = '<button class="btn-ver-lineup" type="button">Ver</button>';
+        if (window.esAdminLineup) {
+            acciones += '<form method="post" action="index.php?controlador=lineup&action=eliminar">'
+                + '<input type="hidden" name="id" value="' + lp.id + '">'
+                + '<input type="hidden" name="mapa" value="' + lp.mapa + '">'
+                + '<input type="hidden" name="lado" value="' + lp.lado + '">'
+                + '<input type="hidden" name="agente_id" value="' + (estado.selectedAgent.dbId || '') + '">'
+                + '<button type="submit" class="btn-eliminar-lineup">Eliminar</button>'
+                + '</form>';
+        }
+
+        fila.innerHTML = '<td>' + (i + 1) + '</td>'
+            + '<td>' + lp.habilidad + '</td>'
+            + '<td>' + lp.mapa + '</td>'
+            + '<td>' + lp.lado + '</td>'
+            + '<td class="lineup-tabla-acciones">' + acciones + '</td>';
+
+        let btnVer = fila.querySelector('.btn-ver-lineup');
+        btnVer.addEventListener('click', function() {
+            seleccionarMapaDeLineup(lp.mapa);
+            seleccionarLadoDeLineup(lp.lado);
+            renderizarLineups();
+            limpiarLineaPrevia();
+            mostrarLineaPrevia(lp, estado.selectedAgent);
+            let filas = document.querySelectorAll('.lineup-tabla-fila');
+            for (let j = 0; j < filas.length; j++) filas[j].classList.remove('activo');
+            let nuevaFila = document.querySelector('.lineup-tabla-fila[data-id="' + lp.id + '"]');
+            if (nuevaFila) nuevaFila.classList.add('activo');
+        });
+
+        cuerpo.appendChild(fila);
+    }
+}
+
+// filtra lineups actuales
+function obtenerLineupsFiltrados() {
+    let filtrados = [];
+    let todos = lineupData || [];
+    for (let i = 0; i < todos.length; i++) {
+        let lp = todos[i];
+        let nombreAgente = lp.agente || lp.agente_nombre || '';
+        if (lp.mapa === estado.selectedMap.displayName
+            && lp.lado === estado.selectedSide
+            && nombreAgente === estado.selectedAgent.displayName) {
+            filtrados.push(lp);
+        }
+    }
+    return filtrados;
+}
+
+// selecciona mapa desde la tabla
+function seleccionarMapaDeLineup(nombre) {
+    for (let i = 0; i < maps.length; i++) {
+        if (maps[i].displayName === nombre) {
+            seleccionarMapa(maps[i]);
+            return;
+        }
+    }
+}
+
+// selecciona lado desde la tabla
+function seleccionarLadoDeLineup(lado) {
+    estado.selectedSide = lado;
+    let sideText = document.getElementById('sideText');
+    if (sideText) sideText.textContent = estado.selectedSide;
+    let tabs = document.querySelectorAll('.tab');
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.toggle('active', tabs[i].dataset.side === lado);
+    }
+    actualizarImagenMapa();
 }
 
 // CAMBIO: showLineupPreview -> mostrarLineaPrevia, template -> concat
@@ -416,6 +484,7 @@ function seleccionarAgente(agente, btn, abrirHabilidades) {
 
     renderizarHabilidades(agente);
     renderizarLineups();
+    renderizarTablaLineups();
 
     if (abrirHabilidades) {
         let sideContent = document.querySelector('.side-content');

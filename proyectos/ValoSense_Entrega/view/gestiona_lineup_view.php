@@ -24,7 +24,7 @@ function youtube_embed($url){
         <div class="container hero-content">
             <span class="eyebrow">// ADMIN · MODERACIÓN</span>
             <h1 class="hero-title">Moderación de <span class="text-red">lineups</span></h1>
-            <p class="hero-subtitle">Aprueba o rechaza los envíos pendientes de la comunidad.</p>
+            <p class="hero-subtitle">Aprueba o rechaza solo los envíos hechos por usuarios.</p>
             <ul class="hero-stats">
                 <li class="hero-stat">
                     <span class="hero-stat-value"><?php echo count($pendientes); ?></span>
@@ -32,7 +32,7 @@ function youtube_embed($url){
                 </li>
                 <li class="hero-stat">
                     <span class="hero-stat-value"><?php echo count($aprobados); ?></span>
-                    <span class="hero-stat-label">Publicados</span>
+                    <span class="hero-stat-label">Enviados por usuarios</span>
                 </li>
             </ul>
         </div>
@@ -90,10 +90,10 @@ function youtube_embed($url){
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <!-- publicados -->
+            <!-- enviados publicados -->
             <div class="results-bar spaced-top-xl">
                 <h2 class="section-title results-title">
-                    Publicados
+                    Enviados por usuarios
                     <span class="badge badge--muted"><?php echo count($aprobados); ?></span>
                 </h2>
             </div>
@@ -101,8 +101,8 @@ function youtube_embed($url){
             <?php if (empty($aprobados)): ?>
                 <div class="empty-state">
                     <div class="empty-icon" aria-hidden="true">◎</div>
-                    <h3 class="empty-title">Sin lineups publicados</h3>
-                    <p class="empty-desc">Aún no se ha aprobado ningún lineup.</p>
+                    <h3 class="empty-title">Sin envíos publicados</h3>
+                    <p class="empty-desc">Aún no se ha aprobado ningún lineup enviado por usuarios.</p>
                 </div>
             <?php else: ?>
                 <div class="admin-wrapper">

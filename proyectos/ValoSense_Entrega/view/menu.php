@@ -83,12 +83,15 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
                     <?php if ($es_admin): ?>
                         <li class="nav-item">
                             <a href="index.php?controlador=lineup&amp;action=home"
-                               class="nav-link nav-link-red<?php echo $c_actual === 'lineup' ? ' nav-link-active' : ''; ?>">
+                               class="nav-link nav-link-red<?php echo ($c_actual === 'lineup' && ($_GET['action'] ?? '') !== 'gestionar') ? ' nav-link-active' : ''; ?>">
                                 Editor lineup
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?controlador=lineup&amp;action=gestionar" class="nav-link nav-link-red">Moderar</a>
+                            <a href="index.php?controlador=lineup&amp;action=gestionar"
+                               class="nav-link nav-link-red<?php echo ($c_actual === 'lineup' && ($_GET['action'] ?? '') === 'gestionar') ? ' nav-link-active' : ''; ?>">
+                                Moderar Videos
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a href="index.php?controlador=usuario&amp;action=gestionar" class="nav-link nav-link-red">Usuarios</a>

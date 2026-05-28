@@ -102,7 +102,7 @@ function gestionar(){
         exit();
     }
     $pendientes = $model->get_pendientes();
-    $aprobados = $model->get_aprobados();
+    $aprobados = $model->get_aprobados_usuarios();
     require_once("view/gestiona_lineup_view.php");
 }
 ?>

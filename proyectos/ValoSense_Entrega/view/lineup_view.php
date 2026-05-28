@@ -54,43 +54,30 @@ require_once("view/menu.php"); ?>
                 <h2 class="section-title">Habilidades</h2>
                 <!-- grid de habilidades, se rellena por JS -->
                 <div class="abilities-grid" id="abilitiesGrid"></div>
-            </section>
 
-            <!-- lineups guardados del agente seleccionado -->
-            <?php if (!empty($lineups_agente)): ?>
-            <section class="lineup-lista-panel">
-                <h2 class="section-title">Lineups guardados</h2>
-                <div class="lineup-lista" id="lineupLista">
-                    <?php foreach ($lineups_agente as $lp): ?>
-                    <div class="lineup-lista-item"
-                        data-inicio-x="<?= $lp['inicio_x'] ?>"
-                        data-inicio-y="<?= $lp['inicio_y'] ?>"
-                        data-destino-x="<?= $lp['destino_x'] ?>"
-                        data-destino-y="<?= $lp['destino_y'] ?>"
-                        data-habilidad="<?= htmlspecialchars($lp['habilidad']) ?>"
-                        data-titulo="<?= htmlspecialchars($lp['titulo']) ?>"
-                        data-video="<?= htmlspecialchars($lp['video_url']) ?>">
-                        <div class="lineup-lista-info">
-                            <span class="lineup-lista-titulo"><?= htmlspecialchars($lp['titulo']) ?></span>
-                            <span class="lineup-lista-hab"><?= htmlspecialchars($lp['habilidad']) ?></span>
-                        </div>
-                        <div class="lineup-lista-acciones">
-                            <button class="btn-ver-lineup" type="button">Ver</button>
-                            <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1): ?>
-                            <form method="post" action="index.php?controlador=lineup&action=eliminar" style="display:inline">
-                                <input type="hidden" name="id" value="<?= $lp['id'] ?>">
-                                <input type="hidden" name="mapa" value="<?= htmlspecialchars($mapa_sel) ?>">
-                                <input type="hidden" name="lado" value="<?= htmlspecialchars($lado_sel) ?>">
-                                <input type="hidden" name="agente_id" value="<?= $agente_id ?>">
-                                <button type="submit" class="btn-eliminar-lineup">Eliminar</button>
-                            </form>
-                            <?php endif; ?>
-                        </div>
+                <!-- tabla de lineups del agente -->
+                <section class="lineup-tabla-panel">
+                    <h2 class="section-title">Lineups creados</h2>
+                    <div class="lineup-tabla-wrap">
+                        <table class="lineup-tabla">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Habilidad</th>
+                                    <th>Mapa</th>
+                                    <th>Lado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lineupTablaBody">
+                                <tr>
+                                    <td colspan="5">Selecciona un agente.</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <?php endforeach; ?>
-                </div>
+                </section>
             </section>
-            <?php endif; ?>
         </div>
     </aside>
 
@@ -169,6 +156,7 @@ require_once("view/menu.php"); ?>
 ?>
 <script>
 window.lineupData = <?php echo json_encode($lineups ?? array()); ?>;
+window.esAdminLineup = <?php echo (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1) ? 'true' : 'false'; ?>;
 window.agentesIds = <?php
     $ids = array();
     if (!empty($agentes)) {

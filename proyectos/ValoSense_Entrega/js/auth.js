@@ -32,6 +32,12 @@ function iniciar() {
         campos[i].addEventListener('blur', desenfocarCampo);
     }
 
+    // limpia aviso legal
+    let checks = document.querySelectorAll('#acepta_terminos, #acepta_cookies');
+    for (let i = 0; i < checks.length; i++) {
+        checks[i].addEventListener('change', limpiarErrorLegal);
+    }
+
     // precarga el último usuario guardado
     let ultimoUsuario = localStorage.getItem('vsUltimoUsuario');
     let inputNombre = document.getElementById('nombre');
@@ -77,6 +83,8 @@ function activarTab(nombre) {
 function validarLogin(e) {
     let nombre = document.getElementById('nombre').value.trim();
     let pswd = document.getElementById('pswd').value;
+    let terminos = document.getElementById('acepta_terminos');
+    let cookies = document.getElementById('acepta_cookies');
 
     // expresión regular para campos vacíos
     let regexVacio = /^\s*$/;
@@ -87,14 +95,47 @@ function validarLogin(e) {
         return;
     }
 
+    if (terminos && !terminos.checked) {
+        e.preventDefault();
+        mostrarErrorLegal('Acepta los términos y condiciones para continuar');
+        terminos.focus();
+        return;
+    }
+
+    if (cookies && !cookies.checked) {
+        e.preventDefault();
+        mostrarErrorLegal('Acepta el uso de cookies para continuar');
+        cookies.focus();
+        return;
+    }
+
+    limpiarErrorLegal();
+
     // guarda último usuario en localStorage
     localStorage.setItem('vsUltimoUsuario', nombre);
 }
 
+function mostrarErrorLegal(texto) {
+    let aviso = document.getElementById('avisoLoginLegal');
+    if (!aviso) return;
+    aviso.textContent = texto;
+    aviso.classList.add('visible');
+}
+
+function limpiarErrorLegal() {
+    let aviso = document.getElementById('avisoLoginLegal');
+    if (!aviso) return;
+    aviso.textContent = '';
+    aviso.classList.remove('visible');
+}
+
 function validarRegistro(e) {
-    let nombre = document.getElementById('reg-user').value.trim();
-    let email = document.getElementById('reg-email').value.trim();
-    let pswd = document.getElementById('reg-pass').value;
+    let inputNombre = document.getElementById('reg-user') || document.getElementById('nombre_reg');
+    let inputEmail = document.getElementById('reg-email') || document.getElementById('email_reg');
+    let inputPswd = document.getElementById('reg-pass') || document.getElementById('pswd_reg');
+    let nombre = inputNombre.value.trim();
+    let email = inputEmail.value.trim();
+    let pswd = inputPswd.value;
 
     // expresión regular para email
     let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -129,7 +170,11 @@ function mostrarError(panelId, texto) {
         // crea el párrafo si no existe
         msgEl = document.createElement('p');
         msgEl.className = 'auth-message';
-        panel.querySelector('fieldset').appendChild(msgEl);
+        let form = panel.querySelector('form');
+        let boton = panel.querySelector('button[type="submit"]');
+        if (form && boton) {
+            form.insertBefore(msgEl, boton);
+        }
     }
 
     msgEl.innerHTML = texto;

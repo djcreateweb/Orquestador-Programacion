@@ -968,3 +968,109 @@ body::before {
     color: #ffffff;
 }
 
+/* tabla de lineups del agente */
+.lineup-tabla-panel {
+    margin-top: 22px;
+    padding-bottom: 24px;
+}
+
+.lineup-tabla-wrap {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(204,34,51,0.22);
+    border-radius: 7px;
+    background: #151a22;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+}
+
+.lineup-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.lineup-tabla th {
+    padding: 8px 6px;
+    background: #1f242d;
+    color: #d9dde5;
+    font-size: 9px;
+    font-weight: 900;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.lineup-tabla td {
+    padding: 9px 6px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    color: #d7d7d7;
+    font-size: 10px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lineup-tabla th:nth-child(1),
+.lineup-tabla td:nth-child(1) {
+    width: 26px;
+    text-align: center;
+}
+
+.lineup-tabla th:nth-child(2),
+.lineup-tabla td:nth-child(2) {
+    width: 34%;
+}
+
+.lineup-tabla th:nth-child(3),
+.lineup-tabla td:nth-child(3) {
+    width: 20%;
+}
+
+.lineup-tabla th:nth-child(4),
+.lineup-tabla td:nth-child(4) {
+    width: 18%;
+}
+
+.lineup-tabla th:nth-child(5),
+.lineup-tabla td:nth-child(5) {
+    width: 74px;
+}
+
+.lineup-tabla-fila.activo td {
+    background: rgba(204,34,51,0.12);
+}
+
+.lineup-tabla-acciones {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.lineup-tabla-acciones form {
+    margin: 0;
+}
+
+.lineup-tabla .btn-ver-lineup,
+.lineup-tabla .btn-eliminar-lineup {
+    width: 31px;
+    height: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 0;
+}
+
+.lineup-tabla .btn-ver-lineup::before {
+    content: "Ver";
+    font-size: 10px;
+}
+
+.lineup-tabla .btn-eliminar-lineup::before {
+    content: "X";
+    font-size: 12px;
+}
+

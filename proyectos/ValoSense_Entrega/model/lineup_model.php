@@ -67,6 +67,27 @@ class Lineup_model {
         }
     }
 
+    // obtiene aprobados enviados por usuarios
+    public function get_aprobados_usuarios(){
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
+                        a.nombre AS agente, a.rol, u.username AS autor
+                   FROM lineup l
+                   JOIN agente a ON a.id = l.agente_id
+                   JOIN usuario u ON u.id = l.usuario_id
+                  WHERE l.aprobado = 1 AND u.es_admin = 0
+                  ORDER BY l.creado_en DESC"
+            );
+            $stmt->execute();
+            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            return $registros ?: [];
+        } catch (mysqli_sql_exception $e) {
+            return [];
+        }
+    }
+
     // obtiene lineups pendientes de revisión
     public function get_pendientes(){
         try {
@@ -75,8 +96,8 @@ class Lineup_model {
                         a.nombre AS agente, u.username AS autor
                    FROM lineup l
                    JOIN agente a ON a.id = l.agente_id
-                   LEFT JOIN usuario u ON u.id = l.usuario_id
-                  WHERE l.aprobado = 0
+                   JOIN usuario u ON u.id = l.usuario_id
+                  WHERE l.aprobado = 0 AND u.es_admin = 0
                   ORDER BY l.creado_en ASC"
             );
             $stmt->execute();
@@ -211,11 +232,12 @@ class Lineup_model {
             $stmt = $this->db->prepare(
                 "SELECT l.id, l.agente_id, l.mapa, l.lado, l.habilidad,
                         l.inicio_x, l.inicio_y, l.destino_x, l.destino_y,
-                        l.titulo, l.descripcion, l.video_url,
+                        l.titulo, l.descripcion, l.video_url, l.creado_en,
                         a.nombre as agente_nombre
                    FROM lineup l
                    JOIN agente a ON l.agente_id = a.id
-                  WHERE l.aprobado = 1 AND l.inicio_x IS NOT NULL"
+                  WHERE l.aprobado = 1 AND l.inicio_x IS NOT NULL
+                  ORDER BY l.creado_en ASC, l.id ASC"
             );
             $stmt->execute();
             $this->datos = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

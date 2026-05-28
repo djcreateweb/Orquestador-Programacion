@@ -78,7 +78,7 @@
 .feature-card-lineup::before {
     background: linear-gradient(90deg, var(--cyan-accent), transparent);
 }
-.feature-card-training::before {
+.feature-card-chat::before {
     background: linear-gradient(90deg, var(--warning), transparent);
 }
 .feature-card-team::before {
@@ -134,7 +134,7 @@
 
 /* Cada módulo colorea su CTA */
 .feature-card-lineup .feature-cta { color: var(--cyan-accent); }
-.feature-card-training .feature-cta { color: var(--warning); }
+.feature-card-chat .feature-cta { color: var(--warning); }
 .feature-card-team .feature-cta { color: var(--success); }
 
 /* Sección de pasos con conector horizontal */
