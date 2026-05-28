@@ -53,6 +53,9 @@ let maps = [
     { displayName: 'Sunset',   folder: 'sunset',   splash: 'imagenes/mapas/Sunset.png' }
 ];
 
+// mapas visibles en rotacion
+let mapasVisibles = ['Ascent','Abyss','Breeze','Corrode','Haven','Pearl','Split'];
+
 // CAMBIO: const agents -> let agents
 // CAMBIO: createAgent -> crearAgente (nombre en español)
 let agents = [
@@ -91,7 +94,7 @@ function iniciar() {
 
     renderizarMapas();
     renderizarAgentes();
-    seleccionarMapa(maps[0]);
+    seleccionarMapa(obtenerPrimerMapaVisible());
 
     let primerAgente = document.querySelector('.agent-card');
     seleccionarAgente(agents[0], primerAgente, false);
@@ -171,6 +174,7 @@ function renderizarMapas() {
     let mapSelector = document.getElementById('mapSelector');
     for (let i = 0; i < maps.length; i++) {
         let mapa = maps[i];
+        if (!mapaVisible(mapa.displayName)) continue;
         let btn = document.createElement('button');
         btn.className = 'map-card';
         btn.type = 'button';
@@ -183,6 +187,20 @@ function renderizarMapas() {
         });
         grid.appendChild(btn);
     }
+}
+
+function mapaVisible(nombre) {
+    for (let i = 0; i < mapasVisibles.length; i++) {
+        if (mapasVisibles[i] === nombre) return true;
+    }
+    return false;
+}
+
+function obtenerPrimerMapaVisible() {
+    for (let i = 0; i < maps.length; i++) {
+        if (mapaVisible(maps[i].displayName)) return maps[i];
+    }
+    return maps[0];
 }
 
 // CAMBIO: renderAgents -> renderizarAgentes, forEach -> for, template -> concat
@@ -315,24 +333,31 @@ function renderizarTablaLineups() {
         fila.className = 'lineup-tabla-fila';
         fila.dataset.id = lp.id;
 
-        let acciones = '<button class="btn-ver-lineup" type="button">Ver</button>';
-        if (window.esAdminLineup) {
-            acciones += '<form method="post" action="index.php?controlador=lineup&action=eliminar">'
-                + '<input type="hidden" name="id" value="' + lp.id + '">'
-                + '<input type="hidden" name="mapa" value="' + lp.mapa + '">'
-                + '<input type="hidden" name="lado" value="' + lp.lado + '">'
-                + '<input type="hidden" name="agente_id" value="' + (estado.selectedAgent.dbId || '') + '">'
-                + '<button type="submit" class="btn-eliminar-lineup">Eliminar</button>'
-                + '</form>';
-        }
+        // celdas con textContent para evitar XSS
+        let tdNum = document.createElement('td');
+        tdNum.textContent = i + 1;
+        fila.appendChild(tdNum);
 
-        fila.innerHTML = '<td>' + (i + 1) + '</td>'
-            + '<td>' + lp.habilidad + '</td>'
-            + '<td>' + lp.mapa + '</td>'
-            + '<td>' + lp.lado + '</td>'
-            + '<td class="lineup-tabla-acciones">' + acciones + '</td>';
+        let tdHab = document.createElement('td');
+        tdHab.textContent = lp.habilidad;
+        fila.appendChild(tdHab);
 
-        let btnVer = fila.querySelector('.btn-ver-lineup');
+        let tdMapa = document.createElement('td');
+        tdMapa.textContent = lp.mapa;
+        fila.appendChild(tdMapa);
+
+        let tdLado = document.createElement('td');
+        tdLado.textContent = lp.lado;
+        fila.appendChild(tdLado);
+
+        // celda de acciones construida con DOM
+        let tdAcciones = document.createElement('td');
+        tdAcciones.className = 'lineup-tabla-acciones';
+
+        let btnVer = document.createElement('button');
+        btnVer.className = 'btn-ver-lineup';
+        btnVer.type = 'button';
+        btnVer.textContent = 'Ver';
         btnVer.addEventListener('click', function() {
             seleccionarMapaDeLineup(lp.mapa);
             seleccionarLadoDeLineup(lp.lado);
@@ -341,10 +366,49 @@ function renderizarTablaLineups() {
             mostrarLineaPrevia(lp, estado.selectedAgent);
             let filas = document.querySelectorAll('.lineup-tabla-fila');
             for (let j = 0; j < filas.length; j++) filas[j].classList.remove('activo');
-            let nuevaFila = document.querySelector('.lineup-tabla-fila[data-id="' + lp.id + '"]');
-            if (nuevaFila) nuevaFila.classList.add('activo');
+            fila.classList.add('activo');
         });
+        tdAcciones.appendChild(btnVer);
 
+        if (window.esAdminLineup) {
+            let form = document.createElement('form');
+            form.method = 'post';
+            form.action = 'index.php?controlador=lineup&action=eliminar';
+
+            let inId = document.createElement('input');
+            inId.type = 'hidden';
+            inId.name = 'id';
+            inId.value = lp.id;
+            form.appendChild(inId);
+
+            let inMapa = document.createElement('input');
+            inMapa.type = 'hidden';
+            inMapa.name = 'mapa';
+            inMapa.value = lp.mapa;
+            form.appendChild(inMapa);
+
+            let inLado = document.createElement('input');
+            inLado.type = 'hidden';
+            inLado.name = 'lado';
+            inLado.value = lp.lado;
+            form.appendChild(inLado);
+
+            let inAgente = document.createElement('input');
+            inAgente.type = 'hidden';
+            inAgente.name = 'agente_id';
+            inAgente.value = estado.selectedAgent.dbId || '';
+            form.appendChild(inAgente);
+
+            let btnElim = document.createElement('button');
+            btnElim.type = 'submit';
+            btnElim.className = 'btn-eliminar-lineup';
+            btnElim.textContent = 'Eliminar';
+            form.appendChild(btnElim);
+
+            tdAcciones.appendChild(form);
+        }
+
+        fila.appendChild(tdAcciones);
         cuerpo.appendChild(fila);
     }
 }

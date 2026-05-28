@@ -8,7 +8,15 @@ class Team_model {
     }
 
     public function get_mapas(){
-        return ['Ascent','Bind','Breeze','Fracture','Haven','Icebox','Lotus','Pearl','Split','Sunset','Abyss'];
+        $todos = ['Ascent','Bind','Breeze','Fracture','Haven','Icebox','Lotus','Pearl','Split','Sunset','Abyss','Corrode'];
+        $visibles = ['Ascent','Abyss','Breeze','Corrode','Haven','Pearl','Split'];
+        $mapas = [];
+        for ($i = 0; $i < count($todos); $i++) {
+            if (in_array($todos[$i], $visibles, true)) {
+                $mapas[] = $todos[$i];
+            }
+        }
+        return $mapas;
     }
 
     public function get_agentes_con_meta($mapa){
