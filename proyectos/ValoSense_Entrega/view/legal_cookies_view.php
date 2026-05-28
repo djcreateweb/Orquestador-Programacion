@@ -102,7 +102,7 @@
                 <p>
                     La Plataforma <strong>no utiliza cookies analíticas ni publicitarias</strong> de terceros. No se
                     emplean Google Analytics, píxeles sociales ni sistemas de tracking similares. El chat, el
-                    matchmaker y las rutinas funcionan sin instrumentación externa.
+                    matchmaker y el chat funcionan sin instrumentación externa.
                 </p>
 
                 <p>

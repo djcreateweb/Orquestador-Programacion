@@ -50,7 +50,7 @@
                 <p>
                     ValoSense es un proyecto académico desarrollado en el marco de un Trabajo de Fin de Grado cuyo objetivo
                     es ofrecer a la comunidad de jugadores del videojuego Valorant un conjunto de herramientas: matchmaking
-                    entre jugadores del mismo rango, biblioteca de lineups verificados, rutinas de entrenamiento y un
+                    entre jugadores del mismo rango, biblioteca de lineups verificados, chat con amigos y un
                     recomendador de composición de equipo. Los presentes Términos tienen por objeto regular las condiciones
                     de uso de dichas funcionalidades.
                 </p>
@@ -65,8 +65,8 @@
 
                 <h2 id="t3">3. Registro y cuenta de usuario</h2>
                 <p>
-                    El uso de determinadas funcionalidades (matchmaking, envío de lineups, chat entre amigos, guardado
-                    de rutinas) requiere el alta de una cuenta. El Usuario se compromete a:
+                    El uso de determinadas funcionalidades (matchmaking, envío de lineups, chat entre amigos)
+                    requiere el alta de una cuenta. El Usuario se compromete a:
                 </p>
                 <ul>
                     <li>Proporcionar información veraz y mantenerla actualizada.</li>

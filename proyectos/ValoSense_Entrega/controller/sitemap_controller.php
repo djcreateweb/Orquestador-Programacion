@@ -19,7 +19,6 @@ function xml(){
         'index.php',
         'index.php?controlador=explorar&action=home',
         'index.php?controlador=lineup&action=home',
-        'index.php?controlador=training&action=home',
         'index.php?controlador=team&action=home',
         'index.php?controlador=usuario&action=home',
     ];

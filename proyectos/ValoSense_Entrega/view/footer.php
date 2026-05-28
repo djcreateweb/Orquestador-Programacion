@@ -8,7 +8,7 @@
                     <img src="imagenes/logo.svg" alt="ValoSense" width="32" height="32">
                     <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
                 </a>
-                <p class="footer-brand-desc">Matchmaking inteligente y entrenamiento táctico para jugadores competitivos de Valorant.</p>
+                <p class="footer-brand-desc">Matchmaking inteligente y chat con tu equipo para jugadores competitivos de Valorant.</p>
                 <ul class="footer-social" aria-label="Redes sociales">
                     <li>
                         <a href="#" aria-label="Discord" title="Discord">
@@ -46,7 +46,7 @@
                 <ul class="footer-links">
                     <li><a href="index.php?controlador=matchmaker&amp;action=home">Encontrar equipo</a></li>
                     <li><a href="index.php?controlador=lineup&amp;action=home">Lineups</a></li>
-                    <li><a href="index.php?controlador=training&amp;action=home">Entrenamiento</a></li>
+                    <li><a href="index.php?controlador=chat&amp;action=home">Chat</a></li>
                     <li><a href="index.php?controlador=team&amp;action=home">Composición</a></li>
                 </ul>
             </nav>

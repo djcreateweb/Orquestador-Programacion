@@ -58,8 +58,8 @@
                 <h2 id="a2">2. Objeto</h2>
                 <p>
                     La Plataforma pone a disposición de los Usuarios herramientas gratuitas relacionadas con
-                    el videojuego Valorant (matchmaking entre jugadores, biblioteca de lineups, rutinas de
-                    entrenamiento, recomendador de composición y chat entre amigos). Los contenidos se
+                    el videojuego Valorant (matchmaking entre jugadores, biblioteca de lineups,
+                    recomendador de composición y chat entre amigos). Los contenidos se
                     facilitan con fines informativos, divulgativos y educativos.
                 </p>
 
@@ -100,7 +100,7 @@
                 <p>
                     La titularidad de la Plataforma se esfuerza en que los contenidos sean precisos y
                     actualizados, pero no garantiza su completitud ni su exactitud. La información relativa
-                    a estrategias, lineups y rutinas se publica con fines orientativos y no constituye
+                    a estrategias y lineups se publica con fines orientativos y no constituye
                     asesoramiento profesional ni garantía de resultados en el juego.
                 </p>
                 <p>

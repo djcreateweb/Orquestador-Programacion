@@ -15,7 +15,7 @@
             <span class="eyebrow">// PRÓXIMAMENTE</span>
             <h1 class="hero-title pronto-title">Próximamente en ValoSense</h1>
             <p class="hero-subtitle">
-                <?php echo htmlspecialchars($pronto_mensaje ?? 'Esta sección aún está en desarrollo. Mientras tanto, tienes el matchmaker, los lineups y las rutinas de entrenamiento ya funcionando.'); ?>
+                <?php echo htmlspecialchars($pronto_mensaje ?? 'Esta sección aún está en desarrollo. Mientras tanto, tienes el matchmaker, los lineups y el chat ya funcionando.'); ?>
             </p>
             <div class="spaced-actions">
                 <?php if(isset($_SESSION["usuario"])): ?>

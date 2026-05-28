@@ -58,7 +58,7 @@
                 <ul>
                     <li><strong>Datos de registro:</strong> nombre de usuario, correo electrónico, contraseña cifrada, rango y región en Valorant.</li>
                     <li><strong>Datos opcionales de perfil:</strong> Riot ID, tag, región de Riot y visibilidad de los mismos, agentes favoritos, estado de presencia.</li>
-                    <li><strong>Datos de uso:</strong> lineups enviados, mensajes enviados a tus amigos, invitaciones de amistad, rutinas de entrenamiento consultadas.</li>
+                    <li><strong>Datos de uso:</strong> lineups enviados, mensajes enviados a tus amigos, invitaciones de amistad.</li>
                     <li><strong>Datos técnicos:</strong> identificador de sesión, preferencias de interfaz, timestamps de última actividad.</li>
                 </ul>
                 <p>
@@ -71,7 +71,7 @@
                     <li>Permitir el acceso y uso de las funcionalidades que requieren cuenta.</li>
                     <li>Ofrecer matchmaking entre usuarios del mismo rango, región y rol.</li>
                     <li>Gestionar invitaciones de amistad, mensajes privados y moderación de lineups.</li>
-                    <li>Facilitar rutinas de entrenamiento adaptadas al rango del Usuario.</li>
+                    <li>Facilitar herramientas de juego adaptadas al rango del Usuario.</li>
                     <li>Atender consultas y ejercer los derechos reconocidos en la normativa.</li>
                     <li>Prevenir usos fraudulentos y proteger la seguridad de la Plataforma.</li>
                 </ul>
