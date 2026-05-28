@@ -369,7 +369,7 @@ function renderizarTablaLineups() {
         if (window.esAdminLineup) {
             let form = document.createElement('form');
             form.method = 'post';
-            form.action = 'index.php?controlador=lineup&action=eliminar';
+            form.action = 'index.php?controlador=admin&action=eliminar_lineup';
 
             let inId = document.createElement('input');
             inId.type = 'hidden';
@@ -783,7 +783,7 @@ function guardarLineupBD() {
     // construir el form y enviarlo por POST
     let form = document.createElement('form');
     form.method = 'post';
-    form.action = 'index.php?controlador=lineup&action=guardar';
+    form.action = 'index.php?controlador=admin&action=guardar_lineup';
 
     let campos = {
         mapa: estado.selectedMap.displayName,

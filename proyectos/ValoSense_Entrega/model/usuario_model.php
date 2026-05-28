@@ -50,22 +50,6 @@ class Usuario_model {
         }
     }
 
-    // obtiene usuarios para el panel admin
-    public function get_usuarios(){
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT id, username, email, rango, region, es_admin, creado_en
-                   FROM usuario ORDER BY creado_en DESC"
-            );
-            $stmt->execute();
-            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
-            return $registros ?: [];
-        } catch (mysqli_sql_exception $e) {
-            return [];
-        }
-    }
-
     public function get_por_id($id){
         try {
             $stmt = $this->db->prepare(
@@ -98,18 +82,6 @@ class Usuario_model {
             return $registro ?: [];
         } catch (mysqli_sql_exception $e) {
             return [];
-        }
-    }
-
-    public function borrar($id){
-        try {
-            $stmt = $this->db->prepare("DELETE FROM usuario WHERE id = ?");
-            $stmt->bind_param("i", $id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
         }
     }
 
@@ -191,11 +163,6 @@ class Usuario_model {
         } catch (mysqli_sql_exception $e) {
             return false;
         }
-    }
-
-    // stats desactivadas, la api fue retirada
-    public function get_stats($usuario_id) {
-        return null;
     }
 
     // obtiene amigos aceptados

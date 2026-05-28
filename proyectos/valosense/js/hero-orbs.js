@@ -212,15 +212,12 @@
             for (var i = 0; i < orbs.length; i++) {
                 var o = orbs[i];
 
-                if (!PREFERS_REDUCED) {
-                    o.x += o.vx * dt;
-                    o.y += o.vy * dt;
-                    // Rebote en los bordes del hero
-                    if (o.x - o.r < 0)       { o.x = o.r;     o.vx = -o.vx; }
-                    else if (o.x + o.r > W)  { o.x = W - o.r; o.vx = -o.vx; }
-                    if (o.y - o.r < 0)       { o.y = o.r;     o.vy = -o.vy; }
-                    else if (o.y + o.r > H)  { o.y = H - o.r; o.vy = -o.vy; }
-                }
+                o.x += o.vx * dt;
+                o.y += o.vy * dt;
+                if (o.x - o.r < 0)       { o.x = o.r;     o.vx = -o.vx; }
+                else if (o.x + o.r > W)  { o.x = W - o.r; o.vx = -o.vx; }
+                if (o.y - o.r < 0)       { o.y = o.r;     o.vy = -o.vy; }
+                else if (o.y + o.r > H)  { o.y = H - o.r; o.vy = -o.vy; }
 
                 // Dibujo: halo suave + núcleo
                 var g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r * 2.4);

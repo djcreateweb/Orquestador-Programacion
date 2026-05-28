@@ -39,6 +39,17 @@ function enviar(){
         header('Location: index.php?controlador=contacto&action=home&err=mensaje'); exit();
     }
 
+    $para = 'djcreateweb@gmail.com';
+    $asunto_email = 'ValoSense - ' . $asunto;
+    $cuerpo = "Nombre: {$nombre}\n"
+            . "Email: {$email}\n"
+            . "Asunto: {$asunto}\n\n"
+            . $mensaje;
+    $headers = "From: ValoSense <no-reply@valosense.local>\r\n";
+    $headers .= "Reply-To: {$email}\r\n";
+
+    @mail($para, $asunto_email, $cuerpo, $headers);
+
     // Guardamos en un log local para TFG (sin SMTP configurado).
     // Cada línea es un registro JSON con timestamp e IP.
     $fila = [

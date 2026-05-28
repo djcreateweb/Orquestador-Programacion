@@ -127,9 +127,9 @@
                             <h2 class="contacto-card-title">Prefieres el correo</h2>
                             <p class="contacto-card-sub">Si quieres escribirme a mi email personal:</p>
                         </header>
-                        <a class="contacto-email-link" href="mailto:Valosense@gmail.com?subject=ValoSense%20%E2%80%94%20Mejora%2Fpromo">
+                        <a class="contacto-email-link" href="mailto:djcreateweb@gmail.com?subject=ValoSense%20%E2%80%94%20Mejora%2Fpromo">
                             <span class="contacto-email-icon" aria-hidden="true">@</span>
-                            <span class="contacto-email-text">Valosense@gmail.com</span>
+                            <span class="contacto-email-text">djcreateweb@gmail.com</span>
                         </a>
                         <p class="contacto-info-note">Respuesta habitual en menos de 48 horas.</p>
                     </article>

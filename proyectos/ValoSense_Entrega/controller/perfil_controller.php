@@ -26,7 +26,6 @@ function ver(){
     $estado = $resultado['estado'];
     $rel_id = $resultado['amistad_id'];
     $favoritos = $matchmaker_model->get_agentes_by_usuario($id);
-    $stats = $usuario_model->get_stats($id);
     require_once("view/perfil_view.php");
 }
 ?>

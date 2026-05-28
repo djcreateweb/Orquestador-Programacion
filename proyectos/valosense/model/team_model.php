@@ -106,6 +106,7 @@ class Team_model {
         // rol (el usuario eligirá 2 distintos de esa lista).
         $secciones = [];
         $ocurrencia_por_rol = [];
+        $slot_inicial = $total_sel + 1;
         foreach($slots as $idx => $slot){
             $rol = $slot['rol'];
             $ocurrencia_por_rol[$rol] = ($ocurrencia_por_rol[$rol] ?? 0) + 1;
@@ -113,7 +114,7 @@ class Team_model {
             $secciones[] = [
                 'rol'         => $rol,
                 'occurrence'  => $ocurrencia_por_rol[$rol], // 1, 2, 3…
-                'slot_num'    => $idx + 1,
+                'slot_num'    => $slot_inicial + $idx,
                 'opciones'    => $opciones,
             ];
         }

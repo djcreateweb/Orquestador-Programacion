@@ -5,6 +5,7 @@ function home(){
         header('Location: index.php?controlador=matchmaker&action=home');
         exit();
     }
+    $seccion_usuario = "auth";
     $message = "";
     require_once("view/usuario_view.php");
 }
@@ -13,6 +14,7 @@ function login(){
     session_start();
     require_once("model/usuario_model.php");
     $model = new Usuario_model();
+    $seccion_usuario = "auth";
     $message = "";
     if (isset($_POST["login"])) {
         // comprobar que acepta terminos y cookies
@@ -42,6 +44,7 @@ function registro(){
     session_start();
     require_once("model/usuario_model.php");
     $model = new Usuario_model();
+    $seccion_usuario = "auth";
     $message = "";
     if (isset($_POST["registrar"])) {
         $user = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
@@ -61,28 +64,6 @@ function registro(){
     }
     require_once("view/usuario_view.php");
 }
-
-function gestionar(){
-    session_start();
-    if (!isset($_SESSION["usuario"]) || empty($_SESSION["usuario"]["es_admin"])) {
-        header('Location: index.php?controlador=matchmaker&action=home');
-        exit();
-    }
-    require_once("model/usuario_model.php");
-    $model = new Usuario_model();
-    $message = "";
-    if (isset($_POST["borrar"])) {
-        $id = isset($_POST["id"]) ? $_POST["id"] : "";
-        if ($id != "" && $id != $_SESSION["usuario"]["id"]) {
-            $model->borrar($id);
-        }
-        header('Location: index.php?controlador=usuario&action=gestionar');
-        exit();
-    }
-    $array = $model->get_usuarios();
-    require_once("view/gestiona_usuario_view.php");
-}
-
 
 function ajustes(){
     session_start();
@@ -123,8 +104,9 @@ function ajustes(){
         'Radiant',
     ];
     $regiones = ['EU', 'NA', 'LATAM', 'BR', 'AP', 'KR'];
+    $seccion_usuario = "ajustes";
     $message = "";
-    require_once("view/ajustes_view.php");
+    require_once("view/usuario_view.php");
 }
 
 function cambiar_presencia(){
@@ -237,6 +219,7 @@ function completar_perfil(){
     }
     require_once("model/usuario_model.php");
     $model = new Usuario_model();
+    $seccion_usuario = "completar";
     $message = "";
     if (isset($_POST["guardar_perfil"])) {
         $id = $_SESSION["usuario"]["id"];
@@ -262,6 +245,6 @@ function completar_perfil(){
             }
         }
     }
-    require_once("view/completar_perfil_view.php");
+    require_once("view/usuario_view.php");
 }
 ?>

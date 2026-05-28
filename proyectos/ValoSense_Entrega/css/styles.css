@@ -4766,45 +4766,6 @@ body.vs-modal-open { overflow: hidden; }
 .perfil-section { padding: var(--sp-8) 0; border-bottom: 1px solid var(--border-subtle); }
 .perfil-section:last-of-type { border-bottom: 0; }
 
-.perfil-stats-grid {
-    list-style: none;
-    padding: 0;
-    margin: var(--sp-5) 0 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: var(--sp-3);
-}
-.perfil-stat-card {
-    padding: var(--sp-4);
-    background: var(--bg-dark);
-    border: 1px solid var(--border-default);
-    border-radius: var(--radius-xs);
-    text-align: center;
-    transition: transform var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-fast);
-}
-.perfil-stat-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--border-red);
-    box-shadow: 0 0 18px rgba(255,70,85,0.18);
-}
-.perfil-stat-card strong {
-    display: block;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--red-primary);
-    letter-spacing: 0.03em;
-}
-.perfil-stat-card span {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    color: var(--text-muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-top: 4px;
-}
-
 .perfil-details {
     margin: var(--sp-5) 0 0;
     display: grid;

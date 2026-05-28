@@ -332,28 +332,47 @@
 /* ---------- Composer ---------- */
 .chat-composer {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
     gap: var(--sp-2);
     padding: var(--sp-3) var(--sp-4);
     background: var(--bg-dark);
     border-top: 1px solid var(--border-subtle);
     align-items: center;
 }
-.chat-composer-type {
-    background: var(--bg-deep);
-    color: var(--text-secondary);
+.chat-composer-detected {
+    min-width: 9.5rem;
+    justify-self: end;
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--border-default);
-    padding: 8px 10px;
-    border-radius: var(--radius-xs);
     font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
-    cursor: pointer;
+    font-size: 0.62rem;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
-.chat-composer-type:focus {
-    outline: none;
-    border-color: var(--red-primary);
-    box-shadow: 0 0 0 2px rgba(255,70,85,0.2);
+.chat-composer-detected[hidden] {
+    display: none;
+}
+.chat-composer-detected.is-valorant_code {
+    color: var(--red-primary);
+    border-color: rgba(255,70,85,0.45);
+    background: rgba(255,70,85,0.12);
+}
+.chat-composer-detected.is-discord_link {
+    color: #A5ADFA;
+    border-color: rgba(88,101,242,0.5);
+    background: rgba(88,101,242,0.15);
+}
+.chat-composer-detected.is-discord_id {
+    color: var(--cyan-accent);
+    border-color: rgba(0,224,255,0.45);
+    background: rgba(0,224,255,0.12);
+}
+.chat-composer-detected.is-riot_id {
+    color: #FFB446;
+    border-color: rgba(255,180,70,0.5);
+    background: rgba(255,180,70,0.12);
 }
 .chat-composer-input {
     background: var(--bg-deep);
@@ -400,6 +419,12 @@
     .chat-panel {
         border-radius: var(--radius-xs);
         margin-top: var(--sp-3);
+    }
+    .chat-composer {
+        grid-template-columns: 1fr;
+    }
+    .chat-composer-detected {
+        justify-self: start;
     }
     .chat-msg { max-width: 92%; }
 }

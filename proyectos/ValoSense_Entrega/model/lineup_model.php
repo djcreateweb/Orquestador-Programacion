@@ -9,74 +9,6 @@ class Lineup_model {
         $this->datos = [];
     }
 
-    // obtiene lineups aprobados con filtros
-    // obtiene aprobados enviados por usuarios
-    public function get_aprobados_usuarios(){
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
-                        a.nombre AS agente, a.rol, u.username AS autor
-                   FROM lineup l
-                   JOIN agente a ON a.id = l.agente_id
-                   JOIN usuario u ON u.id = l.usuario_id
-                  WHERE l.aprobado = 1 AND u.es_admin = 0
-                  ORDER BY l.creado_en DESC"
-            );
-            $stmt->execute();
-            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
-            return $registros ?: [];
-        } catch (mysqli_sql_exception $e) {
-            return [];
-        }
-    }
-
-    // obtiene lineups pendientes de revisión
-    public function get_pendientes(){
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
-                        a.nombre AS agente, u.username AS autor
-                   FROM lineup l
-                   JOIN agente a ON a.id = l.agente_id
-                   JOIN usuario u ON u.id = l.usuario_id
-                  WHERE l.aprobado = 0 AND u.es_admin = 0
-                  ORDER BY l.creado_en ASC"
-            );
-            $stmt->execute();
-            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
-            return $registros ?: [];
-        } catch (mysqli_sql_exception $e) {
-            return [];
-        }
-    }
-
-    // aprueba un lineup
-    public function aprobar($id){
-        try {
-            $stmt = $this->db->prepare("UPDATE lineup SET aprobado = 1 WHERE id = ?");
-            $stmt->bind_param("i", $id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
-    public function borrar($id){
-        try {
-            $stmt = $this->db->prepare("DELETE FROM lineup WHERE id = ?");
-            $stmt->bind_param("i", $id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
     // devuelve agentes para el filtro
     public function get_agentes(){
         try {
@@ -107,45 +39,6 @@ class Lineup_model {
             return $this->datos;
         } catch (mysqli_sql_exception $e) {
             return array();
-        }
-    }
-
-    // elimina un lineup por id
-    public function eliminar_lineup($id) {
-        try {
-            $stmt = $this->db->prepare("DELETE FROM lineup WHERE id = ?");
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $this->datos = $stmt->affected_rows > 0;
-            $stmt->close();
-            return $this->datos;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
-    // guarda un lineup nuevo aprobado directo desde el admin
-    public function guardar_lineup($usuario_id, $agente_id, $mapa, $lado, $habilidad,
-        $inicio_x, $inicio_y, $destino_x, $destino_y, $titulo, $descripcion, $video_url) {
-        try {
-            $stmt = $this->db->prepare(
-                "INSERT INTO lineup (usuario_id, agente_id, mapa, lado, habilidad,
-                 inicio_x, inicio_y, destino_x, destino_y,
-                 titulo, descripcion, video_url, aprobado)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)"
-            );
-            $stmt->bind_param(
-                "iisssddddsss",
-                $usuario_id, $agente_id, $mapa, $lado, $habilidad,
-                $inicio_x, $inicio_y, $destino_x, $destino_y,
-                $titulo, $descripcion, $video_url
-            );
-            $stmt->execute();
-            $this->datos = $stmt->affected_rows > 0;
-            $stmt->close();
-            return $this->datos;
-        } catch (mysqli_sql_exception $e) {
-            return false;
         }
     }
 

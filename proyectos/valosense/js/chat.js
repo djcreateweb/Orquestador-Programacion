@@ -14,9 +14,51 @@
         const msgsEl = document.getElementById('chat-messages');
         const friendsList = document.getElementById('chat-friends');
         const composer = document.getElementById('chat-composer');
+        const composerInput = composer ? composer.querySelector('input[name="contenido"]') : null;
+        const detectedBadge = composer ? composer.querySelector('.chat-composer-detected') : null;
+
+        const typeLabels = {
+            'valorant_code': 'Código Valorant',
+            'riot_id':       'Riot ID · Valorant',
+            'discord_link':  'Discord · servidor',
+            'discord_id':    'Discord · ID'
+        };
+
+        function detectMessageType(content) {
+            const c = String(content || '').trim();
+            if (!c) return 'text';
+            if (/^(https?:\/\/)?(www\.)?(discord\.gg|discord(app)?\.com)\/[A-Za-z0-9_\-/?=&.]+$/i.test(c)) {
+                return 'discord_link';
+            }
+            if (/^\d{17,19}$/.test(c)) return 'discord_id';
+            if (/^[A-Za-z0-9 _.\-]{3,16}#[A-Za-z0-9]{2,5}$/u.test(c)) return 'riot_id';
+            if (/^#[A-Za-z0-9]{4,12}$/.test(c)) return 'valorant_code';
+            if (/^code:\s*[A-Za-z0-9]{4,12}$/i.test(c)) return 'valorant_code';
+            if (/^[A-Z0-9]{5,8}$/.test(c) && /[A-Z]/.test(c) && /\d/.test(c)) return 'valorant_code';
+            return 'text';
+        }
+
+        function updateDetectedBadge() {
+            if (!composerInput || !detectedBadge) return;
+            const type = detectMessageType(composerInput.value);
+            detectedBadge.className = 'chat-composer-detected';
+            if (!typeLabels[type]) {
+                detectedBadge.hidden = true;
+                detectedBadge.textContent = '';
+                return;
+            }
+            detectedBadge.hidden = false;
+            detectedBadge.classList.add('is-' + type);
+            detectedBadge.textContent = typeLabels[type];
+        }
 
         // Auto-scroll al fondo al entrar
         if (msgsEl) msgsEl.scrollTop = msgsEl.scrollHeight;
+
+        if (composerInput) {
+            composerInput.addEventListener('input', updateDetectedBadge);
+            updateDetectedBadge();
+        }
 
         // Enviar mensaje sin recargar página (si hay composer activo)
         if (composer) {
@@ -36,6 +78,7 @@
                     });
                     if (resp.ok) {
                         composer.querySelector('input[name="contenido"]').value = '';
+                        updateDetectedBadge();
                         // Tras enviar, pedir poll inmediato para mostrar el nuevo msg
                         await pollOnce();
                     }

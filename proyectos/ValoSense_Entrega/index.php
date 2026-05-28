@@ -22,6 +22,7 @@
         'legal'      => 'contacto.css',
         'sitemap'    => 'contacto.css',
         'usuario'    => 'auth.css',
+        'admin'      => 'lineup.css',
     ];
 
     $js_map = [

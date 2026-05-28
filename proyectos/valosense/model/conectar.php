@@ -8,7 +8,7 @@ class Conectar {
             $user     = 'root';
             $pass     = '';
             $database = 'valosense';
-            $port     = 3307;
+            $port     = 3306;
             $db = new mysqli($host, $user, $pass, $database, $port);
             $db->set_charset('utf8mb4');
             return $db;

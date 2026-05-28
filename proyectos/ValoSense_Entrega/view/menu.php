@@ -88,13 +88,16 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?controlador=lineup&amp;action=gestionar"
-                               class="nav-link nav-link-red<?php echo ($c_actual === 'lineup' && ($_GET['action'] ?? '') === 'gestionar') ? ' nav-link-active' : ''; ?>">
+                            <a href="index.php?controlador=admin&amp;action=lineups"
+                               class="nav-link nav-link-red<?php echo ($c_actual === 'admin' && ($_GET['action'] ?? '') === 'lineups') ? ' nav-link-active' : ''; ?>">
                                 Moderar Videos
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?controlador=usuario&amp;action=gestionar" class="nav-link nav-link-red">Usuarios</a>
+                            <a href="index.php?controlador=admin&amp;action=usuarios"
+                               class="nav-link nav-link-red<?php echo ($c_actual === 'admin' && (($_GET['action'] ?? '') === 'usuarios' || ($_GET['action'] ?? '') === 'home')) ? ' nav-link-active' : ''; ?>">
+                                Usuarios
+                            </a>
                         </li>
                     <?php endif; ?>
 

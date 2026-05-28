@@ -161,18 +161,13 @@ $me_id = (int)$_SESSION['usuario']['id'];
                     <?php echo csrf_field(); ?>
                     <input type="hidden" name="target_id" value="<?php echo (int)$amigo_actual['usuario_id']; ?>">
 
-                    <select name="tipo" class="chat-composer-type" title="Tipo de mensaje">
-                        <option value="auto">Auto</option>
-                        <option value="text">Texto</option>
-                        <option value="valorant_code">Código Valorant</option>
-                        <option value="riot_id">Riot ID</option>
-                        <option value="discord_link">Servidor Discord</option>
-                        <option value="discord_id">Discord ID</option>
-                    </select>
+                    <input type="hidden" name="tipo" value="auto">
 
                     <input type="text" name="contenido" class="chat-composer-input"
                            placeholder="Mensaje, Nombre#TAG, #CODIGO o discord.gg/…"
                            maxlength="2000" autocomplete="off" required>
+
+                    <span class="chat-composer-detected" aria-live="polite" hidden></span>
 
                     <button type="submit" class="btn-primary chat-composer-send">Enviar</button>
                 </form>

@@ -8,7 +8,6 @@ $rangos_validos = ['iron','bronze','silver','gold','platinum','diamond','ascenda
 $partes_rango = explode(' ', strtolower(trim($rango_raw)));
 $rango_base = $partes_rango[0];
 $rango_class = in_array($rango_base, $rangos_validos) ? 'rank-' . $rango_base : '';
-$wr_val = isset($stats['wr']) ? max(0, min(100, (int)$stats['wr'])) : 0;
 // determina si el visitante puede ver el riot id
 $puede_ver_riot = ($estado === 'yo_mismo' || ($estado === 'amigo' && !empty($perfil['riot_id_visible'])));
 ?>
@@ -140,61 +139,6 @@ $puede_ver_riot = ($estado === 'yo_mismo' || ($estado === 'amigo' && !empty($per
                     <?php endif; ?>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- estadísticas de valorant -->
-    <section class="perfil-section <?php echo htmlspecialchars($rango_class); ?>">
-        <div class="container">
-            <header class="section-head">
-                <span class="eyebrow">// ESTADÍSTICAS · VALORANT</span>
-                <h2 class="section-title">Rendimiento en <span class="text-red">partidas</span></h2>
-                <p class="section-subtitle">
-                    <?php if (!empty($stats)): ?>
-                        Basado en las últimas <?php echo $stats['partidas']; ?> partidas competitivas.
-                    <?php elseif (empty($perfil['riot_id'])): ?>
-                        <?php echo $estado === 'yo_mismo' ? 'Vincula tu cuenta de Riot para ver stats reales.' : 'Este jugador todavía no ha vinculado su cuenta de Riot.'; ?>
-                    <?php else: ?>
-                        No se han podido cargar las estadísticas en este momento.
-                    <?php endif; ?>
-                </p>
-            </header>
-
-            <?php if (!empty($stats)): ?>
-                <ul class="perfil-stats-grid perfil-stats-grid--live">
-                    <li class="perfil-stat-card" data-stat-kind="combat">
-                        <div class="perfil-stat-head">
-                            <span class="perfil-stat-icon" aria-hidden="true">K/D</span>
-                            <span class="perfil-stat-label">Ratio</span>
-                        </div>
-                        <strong class="perfil-stat-value"><?php echo $stats['kd']; ?></strong>
-                    </li>
-                    <li class="perfil-stat-card has-bar" data-stat-kind="combat">
-                        <div class="perfil-stat-head">
-                            <span class="perfil-stat-icon" aria-hidden="true">%</span>
-                            <span class="perfil-stat-label">Winrate</span>
-                        </div>
-                        <strong class="perfil-stat-value"><?php echo $wr_val; ?><span class="unit">%</span></strong>
-                        <div class="perfil-stat-bar" aria-hidden="true">
-                            <div class="perfil-stat-bar-fill" style="width: <?php echo $wr_val; ?>%"></div>
-                        </div>
-                    </li>
-                    <li class="perfil-stat-card" data-stat-kind="precision">
-                        <div class="perfil-stat-head">
-                            <span class="perfil-stat-icon" aria-hidden="true">HS</span>
-                            <span class="perfil-stat-label">Headshot</span>
-                        </div>
-                        <strong class="perfil-stat-value"><?php echo (int)$stats['hs']; ?><span class="unit">%</span></strong>
-                    </li>
-                    <li class="perfil-stat-card" data-stat-kind="volume">
-                        <div class="perfil-stat-head">
-                            <span class="perfil-stat-icon" aria-hidden="true">#</span>
-                            <span class="perfil-stat-label">Partidas</span>
-                        </div>
-                        <strong class="perfil-stat-value"><?php echo (int)$stats['partidas']; ?></strong>
-                    </li>
-                </ul>
-            <?php endif; ?>
         </div>
     </section>
 

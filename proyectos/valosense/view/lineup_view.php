@@ -205,9 +205,8 @@
                                 $activo = (string)($agente_actual_id ?? '') === (string)$a['id'];
                             ?>
                                 <li>
-                                    <a href="index.php?controlador=lineup&amp;action=home&amp;agente_id=<?php echo (int)$a['id']; ?><?php echo $qs_mapa; ?>"
-                                       class="lineup-agent-chip role-<?php echo htmlspecialchars($rol_lc); ?><?php echo $activo ? ' is-active' : ''; ?>"
-                                       data-keep-scroll>
+                                    <a href="index.php?controlador=lineup&amp;action=home&amp;agente_id=<?php echo (int)$a['id']; ?><?php echo $qs_mapa; ?>#resultados"
+                                       class="lineup-agent-chip role-<?php echo htmlspecialchars($rol_lc); ?><?php echo $activo ? ' is-active' : ''; ?>">
                                         <img src="imagenes/agentes/<?php echo htmlspecialchars($a['nombre']); ?>.png"
                                              alt="<?php echo htmlspecialchars($a['nombre']); ?>"
                                              class="lineup-agent-chip-img" loading="lazy">
