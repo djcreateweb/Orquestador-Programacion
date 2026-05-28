@@ -83,15 +83,6 @@ function gestionar(){
     require_once("view/gestiona_usuario_view.php");
 }
 
-function vincular(){
-    session_start();
-    if (!isset($_SESSION["usuario"])) {
-        header('Location: index.php?controlador=usuario&action=home');
-        exit();
-    }
-    header('Location: index.php?controlador=usuario&action=completar_perfil');
-    exit();
-}
 
 function ajustes(){
     session_start();
@@ -203,23 +194,6 @@ function editar_datos(){
         $_SESSION["usuario"]["rango"] = $rango;
         $_SESSION["usuario"]["region"] = $region;
         $_SESSION["usuario"]["perfil_completo"] = $perfil_completo;
-    }
-    header('Location: index.php?controlador=usuario&action=ajustes');
-    exit();
-}
-
-function cambiar_visibilidad_riot(){
-    session_start();
-    if (!isset($_SESSION["usuario"])) {
-        header('Location: index.php?controlador=usuario&action=home');
-        exit();
-    }
-    require_once("model/usuario_model.php");
-    $model = new Usuario_model();
-    $visible = isset($_POST["riot_id_visible"]) ? 1 : 0;
-    $ok = $model->actualizar_visibilidad_riot($_SESSION["usuario"]["id"], $visible);
-    if ($ok) {
-        $_SESSION["usuario"]["riot_id_visible"] = $visible;
     }
     header('Location: index.php?controlador=usuario&action=ajustes');
     exit();

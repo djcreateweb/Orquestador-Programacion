@@ -131,30 +131,6 @@ INSERT INTO `amistad` VALUES (2,19,20,'pendiente','2026-04-18 22:08:05',NULL),(3
 /*!40000 ALTER TABLE `amistad` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `cache_consulta`
---
-
-DROP TABLE IF EXISTS `cache_consulta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cache_consulta` (
-  `clave` varchar(128) NOT NULL,
-  `datos` text NOT NULL,
-  `creado_en` datetime NOT NULL DEFAULT current_timestamp(),
-  `expira_en` datetime NOT NULL,
-  PRIMARY KEY (`clave`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cache_consulta`
---
-
-LOCK TABLES `cache_consulta` WRITE;
-/*!40000 ALTER TABLE `cache_consulta` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cache_consulta` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `lineup`
@@ -224,59 +200,6 @@ INSERT INTO `mensaje` VALUES (8,6,20,'buena esa clutch del otro d?a','text',1,'2
 /*!40000 ALTER TABLE `mensaje` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `riot_stats`
---
-
-DROP TABLE IF EXISTS `riot_stats`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `riot_stats` (
-  `puuid` varchar(120) NOT NULL,
-  `stats_json` text NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`puuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `riot_stats`
---
-
-LOCK TABLES `riot_stats` WRITE;
-/*!40000 ALTER TABLE `riot_stats` DISABLE KEYS */;
-/*!40000 ALTER TABLE `riot_stats` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `solicitud_equipo`
---
-
-DROP TABLE IF EXISTS `solicitud_equipo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `solicitud_equipo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` int(11) NOT NULL,
-  `rango_min` enum('Iron','Bronze','Silver','Gold','Platinum','Diamond','Ascendant','Immortal','Radiant') NOT NULL,
-  `rango_max` enum('Iron','Bronze','Silver','Gold','Platinum','Diamond','Ascendant','Immortal','Radiant') NOT NULL,
-  `mensaje` varchar(255) DEFAULT NULL,
-  `activa` tinyint(1) NOT NULL DEFAULT 1,
-  `creado_en` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `FK_so_usuario` (`usuario_id`),
-  CONSTRAINT `FK_so_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `solicitud_equipo`
---
-
-LOCK TABLES `solicitud_equipo` WRITE;
-/*!40000 ALTER TABLE `solicitud_equipo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `solicitud_equipo` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `usuario`

@@ -103,30 +103,5 @@ class Matchmaker_model {
         }
     }
 
-    public function insertar_agente_favorito($usuario_id, $agente_id){
-        try {
-            $stmt = $this->db->prepare(
-                "INSERT INTO agente_favorito (usuario_id, agente_id) VALUES (?, ?)"
-            );
-            $stmt->bind_param("ii", $usuario_id, $agente_id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
-    public function borrar_agente_favorito($id){
-        try {
-            $stmt = $this->db->prepare("DELETE FROM agente_favorito WHERE id = ?");
-            $stmt->bind_param("i", $id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
 }
 ?>

@@ -236,7 +236,7 @@ $puede_ver_riot = ($estado === 'yo_mismo' || ($estado === 'amigo' && !empty($per
                     <div class="riot-card-empty-wrap">
                         <div class="riot-card-empty-body">
                             <p class="riot-card-empty">Todavía no has vinculado tu cuenta de Valorant.</p>
-                            <a class="btn-primary btn-small" href="index.php?controlador=usuario&amp;action=vincular">Vincular cuenta</a>
+                            <a class="btn-primary btn-small" href="index.php?controlador=usuario&amp;action=completar_perfil">Vincular cuenta</a>
                         </div>
                     </div>
 

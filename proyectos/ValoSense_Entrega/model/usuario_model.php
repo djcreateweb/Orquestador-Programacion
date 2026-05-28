@@ -150,38 +150,6 @@ class Usuario_model {
     }
 
     // vincula el riot id al usuario sin validación de api
-    public function vincular_riot($id, $riot_id, $riot_tag, $riot_region){
-        try {
-            $stmt = $this->db->prepare(
-                "UPDATE usuario
-                    SET riot_id = ?, riot_tag = ?, riot_region = ?, perfil_completo = 'si'
-                  WHERE id = ?"
-            );
-            $stmt->bind_param("sssi", $riot_id, $riot_tag, $riot_region, $id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
-    public function desvincular_riot($id){
-        try {
-            $stmt = $this->db->prepare(
-                "UPDATE usuario SET riot_id = NULL, riot_tag = NULL,
-                        riot_region = NULL, perfil_completo = 'no'
-                  WHERE id = ?"
-            );
-            $stmt->bind_param("i", $id);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
     // actualiza estado de presencia
     public function actualizar_estado_presencia($id, $estado){
         try {
@@ -207,21 +175,6 @@ class Usuario_model {
             $ok = $stmt->execute();
             $stmt->close();
             return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
-        }
-    }
-
-    // registra última actividad
-    public function ping($id){
-        try {
-            $stmt = $this->db->prepare(
-                "UPDATE usuario SET ultima_actividad = NOW() WHERE id = ?"
-            );
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $stmt->close();
-            return true;
         } catch (mysqli_sql_exception $e) {
             return false;
         }
@@ -316,22 +269,5 @@ class Usuario_model {
         }
     }
 
-    // ranking con perfiles completos
-    public function get_ranking(){
-        try {
-            $stmt = $this->db->prepare(
-                "SELECT id, username, rango, rango_rr, region
-                   FROM usuario
-                  WHERE perfil_completo = 'si'
-                  ORDER BY rango_rr DESC"
-            );
-            $stmt->execute();
-            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
-            return $registros ?: [];
-        } catch (mysqli_sql_exception $e) {
-            return [];
-        }
-    }
 }
 ?>

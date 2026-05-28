@@ -18,7 +18,6 @@
         'lineup'     => 'lineup.css',
         'matchmaker' => 'matchmaker.css',
         'perfil'     => 'perfil.css',
-        'training'   => 'training.css',
         'team'       => 'team.css',
         'legal'      => 'contacto.css',
         'sitemap'    => 'contacto.css',
@@ -31,7 +30,6 @@
         'explorar'   => 'explorar.js',
         'lineup'     => 'lineup.js',
         'matchmaker' => 'matchmaker.js',
-        'training'   => 'training.js',
         'team'       => 'team.js',
         'usuario'    => 'auth.js',
     ];

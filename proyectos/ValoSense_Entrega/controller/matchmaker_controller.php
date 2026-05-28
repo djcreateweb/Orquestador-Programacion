@@ -40,13 +40,4 @@ function home(){
     require_once("view/matchmaker_view.php");
 }
 
-function gestionar(){
-    session_start();
-    if (!isset($_SESSION["usuario"])) {
-        header('Location: index.php?controlador=usuario&action=home');
-        exit();
-    }
-    header('Location: index.php?controlador=matchmaker&action=home');
-    exit();
-}
 ?>

@@ -32,7 +32,7 @@
                 <p class="auth-message"><?= htmlspecialchars($message) ?></p>
             <?php endif; ?>
 
-            <form class="search-form" action="" method="get" onsubmit="return enviarLineupGmail()">
+            <form class="search-form" action="#" method="get" onsubmit="enviarLineupGmail(); return false;">
 
                 <div class="filter-group form-span-full">
                     <label class="filter-label" for="titulo">Título</label>

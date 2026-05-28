@@ -10,63 +10,6 @@ class Lineup_model {
     }
 
     // obtiene lineups aprobados con filtros
-    public function get_aprobados($agente_id = "", $mapa = ""){
-        try {
-            if ($agente_id != "" && $mapa != "") {
-                $stmt = $this->db->prepare(
-                    "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
-                            a.nombre AS agente, a.rol, u.username AS autor
-                       FROM lineup l
-                       JOIN agente a ON a.id = l.agente_id
-                       LEFT JOIN usuario u ON u.id = l.usuario_id
-                      WHERE l.aprobado = 1 AND l.agente_id = ? AND l.mapa = ?
-                      ORDER BY l.creado_en DESC"
-                );
-                $stmt->bind_param("is", $agente_id, $mapa);
-            } elseif ($agente_id != "") {
-                $stmt = $this->db->prepare(
-                    "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
-                            a.nombre AS agente, a.rol, u.username AS autor
-                       FROM lineup l
-                       JOIN agente a ON a.id = l.agente_id
-                       LEFT JOIN usuario u ON u.id = l.usuario_id
-                      WHERE l.aprobado = 1 AND l.agente_id = ?
-                      ORDER BY l.creado_en DESC"
-                );
-                $stmt->bind_param("i", $agente_id);
-            } elseif ($mapa != "") {
-                $stmt = $this->db->prepare(
-                    "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
-                            a.nombre AS agente, a.rol, u.username AS autor
-                       FROM lineup l
-                       JOIN agente a ON a.id = l.agente_id
-                       LEFT JOIN usuario u ON u.id = l.usuario_id
-                      WHERE l.aprobado = 1 AND l.mapa = ?
-                      ORDER BY l.creado_en DESC"
-                );
-                $stmt->bind_param("s", $mapa);
-            } else {
-                // sin filtros muestra selección reducida
-                $stmt = $this->db->prepare(
-                    "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
-                            a.nombre AS agente, a.rol, u.username AS autor
-                       FROM lineup l
-                       JOIN agente a ON a.id = l.agente_id
-                       LEFT JOIN usuario u ON u.id = l.usuario_id
-                      WHERE l.aprobado = 1
-                      ORDER BY l.creado_en DESC
-                      LIMIT 6"
-                );
-            }
-            $stmt->execute();
-            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
-            return $registros ?: [];
-        } catch (mysqli_sql_exception $e) {
-            return [];
-        }
-    }
-
     // obtiene aprobados enviados por usuarios
     public function get_aprobados_usuarios(){
         try {
@@ -106,22 +49,6 @@ class Lineup_model {
             return $registros ?: [];
         } catch (mysqli_sql_exception $e) {
             return [];
-        }
-    }
-
-    // inserta lineup pendiente de aprobación
-    public function insertar_pendiente($usuario_id, $agente_id, $mapa, $titulo, $descripcion, $video_url){
-        try {
-            $stmt = $this->db->prepare(
-                "INSERT INTO lineup (usuario_id, agente_id, mapa, titulo, descripcion, video_url, aprobado)
-                 VALUES (?, ?, ?, ?, ?, ?, 0)"
-            );
-            $stmt->bind_param("iissss", $usuario_id, $agente_id, $mapa, $titulo, $descripcion, $video_url);
-            $ok = $stmt->execute();
-            $stmt->close();
-            return $ok;
-        } catch (mysqli_sql_exception $e) {
-            return false;
         }
     }
 
