@@ -367,6 +367,17 @@ function renderizarTablaLineups() {
         tdAcciones.appendChild(btnVer);
 
         if (window.esAdminLineup) {
+            let btnVideo = document.createElement('button');
+            btnVideo.type = 'button';
+            btnVideo.className = 'btn-editar-video';
+            btnVideo.textContent = lp.video_url ? 'Editar video' : 'Añadir video';
+            (function(lineup, btn, fila) {
+                btn.addEventListener('click', function() {
+                    abrirEditorVideo(lineup, fila, btn);
+                });
+            })(lp, btnVideo, fila);
+            tdAcciones.appendChild(btnVideo);
+
             let form = document.createElement('form');
             form.method = 'post';
             form.action = 'index.php?controlador=admin&action=eliminar_lineup';
@@ -761,7 +772,7 @@ function limpiarBorrador() {
     if (campos) campos.style.display = 'none';
 }
 
-// envia el lineup al servidor para guardarlo en la bd
+// envia el lineup al servidor via fetch para no recargar la pagina
 function guardarLineupBD() {
     if (!puntoInicio || !puntoDestino) {
         mostrarAvisoEditor('Marca los dos puntos en el mapa primero');
@@ -771,56 +782,127 @@ function guardarLineupBD() {
         mostrarAvisoEditor('Selecciona mapa, agente y habilidad');
         return;
     }
+    ocultarAvisoEditor();
+
     let videoUrl = document.getElementById('editorVideoUrl');
     let videoVal = videoUrl ? videoUrl.value.trim() : '';
-    if (!videoVal) {
-        mostrarAvisoEditor('Añade la URL de YouTube');
-        return;
-    }
-    ocultarAvisoEditor();
     let tituloVal = estado.selectedAgent.displayName + ' - ' + habilidadEditorActual.displayName + ' en ' + estado.selectedMap.displayName;
 
-    // construir el form y enviarlo por POST
-    let form = document.createElement('form');
-    form.method = 'post';
-    form.action = 'index.php?controlador=admin&action=guardar_lineup';
+    let formData = new FormData();
+    formData.append('ajax', '1');
+    formData.append('mapa', estado.selectedMap.displayName);
+    formData.append('lado', estado.selectedSide);
+    formData.append('agente_id', estado.selectedAgent.dbId || '');
+    formData.append('habilidad', habilidadEditorActual.displayName);
+    formData.append('inicio_x', puntoInicio.x);
+    formData.append('inicio_y', puntoInicio.y);
+    formData.append('destino_x', puntoDestino.x);
+    formData.append('destino_y', puntoDestino.y);
+    formData.append('titulo', tituloVal);
+    formData.append('descripcion', '');
+    formData.append('video_url', videoVal);
 
-    let campos = {
-        mapa: estado.selectedMap.displayName,
-        lado: estado.selectedSide,
-        agente_id: estado.selectedAgent.dbId || '',
-        habilidad: habilidadEditorActual.displayName,
-        inicio_x: puntoInicio.x,
-        inicio_y: puntoInicio.y,
-        destino_x: puntoDestino.x,
-        destino_y: puntoDestino.y,
-        titulo: tituloVal,
-        descripcion: '',
-        video_url: videoVal
-    };
-
-    for (let clave in campos) {
-        let input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = clave;
-        input.value = campos[clave];
-        form.appendChild(input);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
+    fetch('index.php?controlador=admin&action=guardar_lineup', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        if (data.ok) {
+            let nuevo = data.lineup;
+            nuevo.agente = estado.selectedAgent.displayName;
+            nuevo.agente_nombre = estado.selectedAgent.displayName;
+            lineupData.push(nuevo);
+            limpiarBorrador();
+            renderizarLineups();
+            renderizarTablaLineups();
+            mostrarExitoEditor('Lineup guardado');
+        } else {
+            mostrarAvisoEditor('Error al guardar el lineup');
+        }
+    })
+    .catch(function() {
+        mostrarAvisoEditor('Error de conexion al guardar');
+    });
 }
 
 function mostrarAvisoEditor(texto) {
     let aviso = document.getElementById('editorAviso');
     if (!aviso) return;
     aviso.textContent = texto;
+    aviso.classList.remove('exito');
     aviso.classList.add('visible');
+}
+
+function mostrarExitoEditor(texto) {
+    let aviso = document.getElementById('editorAviso');
+    if (!aviso) return;
+    aviso.textContent = texto;
+    aviso.classList.add('visible', 'exito');
+    setTimeout(function() {
+        aviso.textContent = '';
+        aviso.classList.remove('visible', 'exito');
+    }, 3000);
 }
 
 function ocultarAvisoEditor() {
     let aviso = document.getElementById('editorAviso');
     if (!aviso) return;
     aviso.textContent = '';
-    aviso.classList.remove('visible');
+    aviso.classList.remove('visible', 'exito');
+}
+
+// abre un input inline en la fila de la tabla para editar el video de un lineup
+function abrirEditorVideo(lp, fila, btn) {
+    let existente = fila.querySelector('.inline-video-form');
+    if (existente) {
+        existente.remove();
+        return;
+    }
+    let tdAcciones = fila.querySelector('.lineup-tabla-acciones');
+
+    let contenedor = document.createElement('div');
+    contenedor.className = 'inline-video-form';
+
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'inline-video-input';
+    input.placeholder = 'https://www.youtube.com/watch?v=...';
+    input.value = lp.video_url || '';
+    contenedor.appendChild(input);
+
+    let btnGuardar = document.createElement('button');
+    btnGuardar.type = 'button';
+    btnGuardar.className = 'btn-guardar-video';
+    btnGuardar.textContent = 'Guardar';
+    btnGuardar.addEventListener('click', function() {
+        let url = input.value.trim();
+        let fd = new FormData();
+        fd.append('id', lp.id);
+        fd.append('video_url', url);
+        fetch('index.php?controlador=admin&action=editar_video_lineup', {
+            method: 'POST',
+            body: fd
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.ok) {
+                lp.video_url = url;
+                btn.textContent = url ? 'Editar video' : 'Añadir video';
+                for (let i = 0; i < lineupData.length; i++) {
+                    if (lineupData[i].id == lp.id) { lineupData[i].video_url = url; break; }
+                }
+                contenedor.remove();
+            } else {
+                mostrarAvisoEditor('Error al guardar el video');
+            }
+        })
+        .catch(function() {
+            mostrarAvisoEditor('Error de conexion');
+        });
+    });
+    contenedor.appendChild(btnGuardar);
+
+    tdAcciones.appendChild(contenedor);
+    input.focus();
 }

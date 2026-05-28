@@ -1074,3 +1074,61 @@ body::before {
     font-size: 12px;
 }
 
+.lineup-tabla .btn-editar-video {
+    height: 28px;
+    padding: 0 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    background: rgba(255,200,0,0.12);
+    color: #ffc800;
+    border: 1px solid rgba(255,200,0,0.3);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.lineup-tabla .btn-editar-video:hover {
+    background: rgba(255,200,0,0.22);
+}
+
+.inline-video-form {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    margin-top: 4px;
+    width: 100%;
+}
+
+.inline-video-input {
+    flex: 1;
+    min-width: 0;
+    height: 26px;
+    padding: 0 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 11px;
+}
+
+.btn-guardar-video {
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    background: rgba(204,34,51,0.2);
+    color: #CC2233;
+    border: 1px solid rgba(204,34,51,0.4);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-guardar-video:hover {
+    background: rgba(204,34,51,0.35);
+}
+
+.editor-aviso.exito {
+    color: #4caf50;
+    border-color: rgba(76,175,80,0.3);
+    background: rgba(76,175,80,0.08);
+}
+

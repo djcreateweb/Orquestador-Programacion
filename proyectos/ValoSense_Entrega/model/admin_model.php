@@ -128,6 +128,19 @@ class Admin_model {
                 $titulo, $descripcion, $video_url
             );
             $ok = $stmt->execute();
+            $id = $ok ? $this->db->insert_id : false;
+            $stmt->close();
+            return $id;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
+    public function actualizar_video_lineup($id, $video_url) {
+        try {
+            $stmt = $this->db->prepare("UPDATE lineup SET video_url = ? WHERE id = ?");
+            $stmt->bind_param("si", $video_url, $id);
+            $ok = $stmt->execute();
             $stmt->close();
             return $ok;
         } catch (mysqli_sql_exception $e) {
