@@ -14,7 +14,7 @@
                 <div class="auth-visual-content">
                     <span class="eyebrow">// ACCESS · MÓDULO 00</span>
                     <h2 class="auth-visual-title">Tu próximo <span class="text-red">rango</span> empieza aquí</h2>
-                    <p class="auth-visual-desc">Únete y desbloquea matchmaking inteligente, lineups verificados y rutinas personalizadas.</p>
+                    <p class="auth-visual-desc">Únete y desbloquea matchmaking inteligente, lineups verificados y chat con amigos.</p>
                     <ul class="auth-features">
                         <li class="auth-feature">
                             <span class="auth-feature-icon">◈</span>
@@ -33,8 +33,8 @@
                         <li class="auth-feature">
                             <span class="auth-feature-icon">◉</span>
                             <div>
-                                <h3 class="auth-feature-title">Coach de entrenamiento</h3>
-                                <p class="auth-feature-desc">Rutinas y análisis táctico para tu nivel actual.</p>
+                                <h3 class="auth-feature-title">Chat con amigos</h3>
+                                <p class="auth-feature-desc">Habla con tus contactos y coordina partidas desde ValoSense.</p>
                             </div>
                         </li>
                     </ul>
@@ -69,18 +69,38 @@
 
                 <!-- panel de login -->
                 <div class="auth-form-wrapper" id="tab-login" role="tabpanel">
-                    <form class="auth-form" action="index.php?controlador=usuario&amp;action=login" method="post">
+                    <form class="auth-form" action="index.php?controlador=usuario&amp;action=login" method="post" novalidate>
                         <div class="form-group">
                             <label class="form-label" for="nombre">Usuario</label>
-                            <input class="form-input" type="text" id="nombre" name="nombre" required autocomplete="username" placeholder="Tu nick">
+                            <input class="form-input" type="text" id="nombre" name="nombre" required autocomplete="username" value="<?= isset($_COOKIE['valosense_usuario']) ? htmlspecialchars($_COOKIE['valosense_usuario']) : '' ?>">
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="pswd">Contraseña</label>
                             <div class="input-wrap">
-                                <input class="form-input" type="password" id="pswd" name="pswd" required autocomplete="current-password" placeholder="••••••••">
+                                <input class="form-input" type="password" id="pswd" name="pswd" required autocomplete="current-password">
                                 <button type="button" class="input-toggle-btn" data-toggle-password="pswd" aria-label="Mostrar u ocultar contraseña">Ver</button>
                             </div>
                         </div>
+                        <!-- recordar usuario opcional -->
+                        <div class="login-check">
+                            <input type="checkbox" id="recordar" name="recordar" value="1">
+                            <label for="recordar">Recordar usuario</label>
+                        </div>
+
+                        <!-- terminos obligatorio -->
+                        <div class="login-check">
+                            <input type="checkbox" id="acepta_terminos" name="acepta_terminos" value="1" required>
+                            <label for="acepta_terminos">He leído y acepto los <a href="index.php?controlador=legal&action=terminos" target="_blank">Términos y condiciones</a></label>
+                        </div>
+
+                        <!-- cookies obligatorio -->
+                        <div class="login-check">
+                            <input type="checkbox" id="acepta_cookies" name="acepta_cookies" value="1" required>
+                            <label for="acepta_cookies">Acepto el uso de <a href="index.php?controlador=legal&action=cookies" target="_blank">Cookies</a></label>
+                        </div>
+
+                        <p class="auth-check-error" id="avisoLoginLegal"></p>
+
                         <button class="btn-primary btn-full" type="submit" name="login" value="1">Entrar al matchmaker</button>
                         <p class="auth-swap">
                             ¿Todavía no tienes cuenta? <a href="#" data-swap-tab="registro">Regístrate gratis</a>

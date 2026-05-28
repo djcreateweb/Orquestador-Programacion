@@ -15,15 +15,25 @@ function login(){
     $model = new Usuario_model();
     $message = "";
     if (isset($_POST["login"])) {
+        // comprobar que acepta terminos y cookies
+        if (!isset($_POST['acepta_terminos']) || !isset($_POST['acepta_cookies'])) {
+            $message = "Debes aceptar los términos y condiciones y las cookies para continuar";
+            require_once("view/usuario_view.php");
+            return;
+        }
         $user = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
         $pass = isset($_POST["pswd"]) ? $_POST["pswd"] : "";
         $registro = $model->login($user, $pass);
         if ($registro) {
             $_SESSION["usuario"] = $registro;
+            // guardar usuario en cookie si marca recordar
+            if (isset($_POST['recordar']) && $_POST['recordar'] == 1) {
+                setcookie('valosense_usuario', $registro['username'], time() + (30 * 24 * 60 * 60), '/');
+            }
             header('Location: index.php?controlador=matchmaker&action=home');
             exit();
         }
-        $message = "Usuario o contraseÃ±a incorrectos";
+        $message = "Usuario o contraseña incorrectos";
     }
     require_once("view/usuario_view.php");
 }

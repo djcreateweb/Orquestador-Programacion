@@ -17,7 +17,7 @@
                 Con inteligencia, no con horas.
             </h1>
             <p class="hero-subtitle">
-                Matchmaking, lineups, rutinas de entrenamiento y composiciones.
+                Matchmaking, lineups, chat con tu equipo y composiciones.
                 Todo lo que necesitas para jugar mejor, en una sola plataforma.
             </p>
             <div class="hero-cta-row">
@@ -55,11 +55,8 @@
                         <li>Filtros por rango, región y agentes favoritos</li>
                         <li>Estadísticas reales de cada jugador</li>
                     </ul>
-                    <?php if (!$logeado): ?>
-                        <p class="feature-locked"><span class="feature-lock-icon" aria-hidden="true">🔒</span> Necesitas una cuenta para usar esta herramienta</p>
-                    <?php endif; ?>
                     <a href="<?php echo $logeado ? 'index.php?controlador=matchmaker&action=home' : 'index.php?controlador=usuario&action=home'; ?>" class="feature-cta">
-                        <?php echo $logeado ? 'Buscar equipo' : 'Iniciar sesión para usar'; ?> <span class="feature-cta-arrow" aria-hidden="true">→</span>
+                        <?php echo $logeado ? 'Buscar equipo' : 'Crear cuenta gratis'; ?> <span class="feature-cta-arrow" aria-hidden="true">→</span>
                     </a>
                 </li>
 
@@ -71,40 +68,34 @@
                         <li>Lineups moderados antes de publicarse</li>
                         <li>Videos integrados desde YouTube</li>
                     </ul>
-                    <a href="index.php?controlador=lineup&amp;action=home" class="feature-cta">
-                        Ver lineups <span class="feature-cta-arrow" aria-hidden="true">→</span>
+                    <a href="<?php echo $logeado ? 'index.php?controlador=lineup&action=home' : 'index.php?controlador=usuario&action=home'; ?>" class="feature-cta">
+                        <?php echo $logeado ? 'Ver lineups' : 'Crear cuenta gratis'; ?> <span class="feature-cta-arrow" aria-hidden="true">→</span>
                     </a>
                 </li>
 
-                <li class="feature-card tilt-card feature-card-training reveal">
-                    <span class="eyebrow">// ENTRENAMIENTO</span>
-                    <h3 class="feature-title">Rutinas según tu rango</h3>
-                    <p class="feature-desc">Entrenamientos de aim, utilidad y táctica adaptados a tu nivel actual.</p>
+                <li class="feature-card tilt-card feature-card-chat reveal">
+                    <span class="eyebrow">// CHAT</span>
+                    <h3 class="feature-title">Habla con tu equipo</h3>
+                    <p class="feature-desc">Encuentra jugadores, añádelos como amigos y coordínate directamente desde la plataforma.</p>
                     <ul class="feature-bullets">
-                        <li>Rutinas por categoría</li>
-                        <li>Videos de referencia integrados</li>
+                        <li>Mensajes privados entre jugadores</li>
+                        <li>Sistema de solicitudes de amistad</li>
                     </ul>
-                    <?php if (!$logeado): ?>
-                        <p class="feature-locked"><span class="feature-lock-icon" aria-hidden="true">🔒</span> Necesitas una cuenta para usar esta herramienta</p>
-                    <?php endif; ?>
-                    <a href="<?php echo $logeado ? 'index.php?controlador=training&action=home' : 'index.php?controlador=usuario&action=home'; ?>" class="feature-cta">
-                        <?php echo $logeado ? 'Empezar rutina' : 'Iniciar sesión para usar'; ?> <span class="feature-cta-arrow" aria-hidden="true">→</span>
+                    <a href="<?php echo $logeado ? 'index.php?controlador=chat&action=home' : 'index.php?controlador=usuario&action=home'; ?>" class="feature-cta">
+                        <?php echo $logeado ? 'Abrir chat' : 'Crear cuenta gratis'; ?> <span class="feature-cta-arrow" aria-hidden="true">→</span>
                     </a>
                 </li>
 
                 <li class="feature-card tilt-card feature-card-team reveal">
                     <span class="eyebrow">// COMPOSICIÓN</span>
-                    <h3 class="feature-title">Recomendador de comp</h3>
+                    <h3 class="feature-title">Recomendador de composición</h3>
                     <p class="feature-desc">Elige mapa y dinos con qué agentes vais. Te sugerimos cómo completar el equipo.</p>
                     <ul class="feature-bullets">
                         <li>Recomendaciones por rol faltante</li>
                         <li>Basado en tier list por mapa</li>
                     </ul>
-                    <?php if (!$logeado): ?>
-                        <p class="feature-locked"><span class="feature-lock-icon" aria-hidden="true">🔒</span> Necesitas una cuenta para usar esta herramienta</p>
-                    <?php endif; ?>
                     <a href="<?php echo $logeado ? 'index.php?controlador=team&action=home' : 'index.php?controlador=usuario&action=home'; ?>" class="feature-cta">
-                        <?php echo $logeado ? 'Probar recomendador' : 'Iniciar sesión para usar'; ?> <span class="feature-cta-arrow" aria-hidden="true">→</span>
+                        <?php echo $logeado ? 'Probar recomendador' : 'Crear cuenta gratis'; ?> <span class="feature-cta-arrow" aria-hidden="true">→</span>
                     </a>
                 </li>
 
@@ -132,12 +123,12 @@
                 <li class="step-card reveal">
                     <span class="step-number">02</span>
                     <h3 class="step-title">Elige herramienta</h3>
-                    <p class="step-desc">Matchmaker, lineups, rutinas o composición según lo que necesites.</p>
+                    <p class="step-desc">Matchmaker, lineups, chat o composición según lo que necesites.</p>
                 </li>
                 <li class="step-card reveal">
                     <span class="step-number">03</span>
                     <h3 class="step-title">Mejora</h3>
-                    <p class="step-desc">Entrena, conecta con jugadores y gana más partidas.</p>
+                    <p class="step-desc">Conecta con jugadores, coordínate y gana más partidas.</p>
                 </li>
             </ol>
         </div>

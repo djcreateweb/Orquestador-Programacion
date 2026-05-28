@@ -40,12 +40,14 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
                             Encontrar equipo
                         </a>
                     </li>
+                    <?php if (!$es_admin): ?>
                     <li class="nav-item">
                         <a href="index.php?controlador=lineup&amp;action=home"
                            class="nav-link<?php echo ($c_actual === 'lineup' && ($_GET['action'] ?? '') !== 'enviar') ? ' nav-link-active' : ''; ?>">
                             Lineups
                         </a>
                     </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a href="index.php?controlador=team&amp;action=home"
                            class="nav-link<?php echo $c_actual === 'team' ? ' nav-link-active' : ''; ?>">
@@ -79,6 +81,12 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
                     </li>
 
                     <?php if ($es_admin): ?>
+                        <li class="nav-item">
+                            <a href="index.php?controlador=lineup&amp;action=home"
+                               class="nav-link nav-link-red<?php echo $c_actual === 'lineup' ? ' nav-link-active' : ''; ?>">
+                                Editor lineup
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="index.php?controlador=lineup&amp;action=gestionar" class="nav-link nav-link-red">Moderar</a>
                         </li>

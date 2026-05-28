@@ -109,52 +109,53 @@
                 </div>
             </div>
             <footer class="tool-section-footer">
-                <p class="tool-access-note"><span class="tool-access-icon" aria-hidden="true">ℹ</span> Ver la biblioteca es libre. Para enviar tus propios lineups necesitas cuenta.</p>
-                <div class="tool-actions">
-                    <a href="index.php?controlador=lineup&amp;action=home" class="btn-ghost">Ver biblioteca</a>
-                    <?php if ($logeado): ?>
-                        <a href="index.php?controlador=lineup&amp;action=enviar" class="btn-primary">Enviar lineup</a>
-                    <?php else: ?>
-                        <a href="index.php?controlador=usuario&amp;action=home" class="btn-primary">Iniciar sesión para enviar</a>
-                    <?php endif; ?>
-                </div>
+                <?php if ($logeado): ?>
+                    <div class="tool-actions">
+                        <a href="index.php?controlador=lineup&amp;action=home" class="btn-primary">Ver biblioteca</a>
+                    </div>
+                <?php else: ?>
+                    <p class="tool-access-note tool-locked"><span class="tool-access-icon" aria-hidden="true">🔒</span> Necesitas una cuenta para usar esta herramienta.</p>
+                    <div class="tool-actions">
+                        <a href="index.php?controlador=usuario&amp;action=home" class="btn-primary">Crear cuenta gratis</a>
+                    </div>
+                <?php endif; ?>
             </footer>
         </div>
     </section>
 
-    <!-- entrenamiento -->
-    <section class="tool-section" id="tool-training">
+    <!-- chat -->
+    <section class="tool-section" id="tool-chat">
         <div class="container">
             <header class="tool-section-header">
                 <span class="tool-section-number">03</span>
                 <div>
-                    <span class="eyebrow">// ENTRENAMIENTO</span>
-                    <h2 class="tool-section-title">Rutinas según tu rango</h2>
-                    <p class="tool-section-subtitle">Entrenamientos de aim, movilidad, disparo, utilidad y game sense adaptados a tu nivel.</p>
+                    <span class="eyebrow">// CHAT</span>
+                    <h2 class="tool-section-title">Chat con amigos</h2>
+                    <p class="tool-section-subtitle">Habla con jugadores agregados, coordina partidas y mantén el contacto con tu equipo.</p>
                 </div>
             </header>
             <div class="tool-section-grid">
                 <div class="tool-section-col">
                     <h3 class="tool-col-title">Qué ofrece</h3>
                     <ul class="tool-bullets">
-                        <li>Catálogo dividido por rango (Iron a Radiant)</li>
-                        <li>Cinco categorías: aim, movilidad, disparo, utilidad, game sense</li>
-                        <li>Cada rutina incluye descripción y video de referencia</li>
+                        <li>Mensajes privados entre amigos</li>
+                        <li>Acceso directo desde el perfil de cada jugador</li>
+                        <li>Conversaciones pensadas para coordinar partidas</li>
                     </ul>
                 </div>
                 <div class="tool-section-col">
                     <h3 class="tool-col-title">Cómo se usa</h3>
                     <ol class="tool-steps">
-                        <li><span class="tool-step-num">01</span><span class="tool-step-text">Selecciona tu rango actual</span></li>
-                        <li><span class="tool-step-num">02</span><span class="tool-step-text">Marca qué aspectos quieres mejorar</span></li>
-                        <li><span class="tool-step-num">03</span><span class="tool-step-text">Sigue los videos integrados y repite los ejercicios</span></li>
+                        <li><span class="tool-step-num">01</span><span class="tool-step-text">Agrega jugadores a tu lista de amigos</span></li>
+                        <li><span class="tool-step-num">02</span><span class="tool-step-text">Abre una conversación privada</span></li>
+                        <li><span class="tool-step-num">03</span><span class="tool-step-text">Coordina mapa, rol y horario de partida</span></li>
                     </ol>
                 </div>
             </div>
             <footer class="tool-section-footer">
                 <?php if ($logeado): ?>
                     <div class="tool-actions">
-                        <a href="index.php?controlador=training&amp;action=home" class="btn-primary">Abrir Entrenamiento</a>
+                        <a href="index.php?controlador=chat&amp;action=home" class="btn-primary">Abrir Chat</a>
                     </div>
                 <?php else: ?>
                     <p class="tool-access-note tool-locked"><span class="tool-access-icon" aria-hidden="true">🔒</span> Necesitas una cuenta para usar esta herramienta.</p>

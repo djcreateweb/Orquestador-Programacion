@@ -55,6 +55,42 @@ require_once("view/menu.php"); ?>
                 <!-- grid de habilidades, se rellena por JS -->
                 <div class="abilities-grid" id="abilitiesGrid"></div>
             </section>
+
+            <!-- lineups guardados del agente seleccionado -->
+            <?php if (!empty($lineups_agente)): ?>
+            <section class="lineup-lista-panel">
+                <h2 class="section-title">Lineups guardados</h2>
+                <div class="lineup-lista" id="lineupLista">
+                    <?php foreach ($lineups_agente as $lp): ?>
+                    <div class="lineup-lista-item"
+                        data-inicio-x="<?= $lp['inicio_x'] ?>"
+                        data-inicio-y="<?= $lp['inicio_y'] ?>"
+                        data-destino-x="<?= $lp['destino_x'] ?>"
+                        data-destino-y="<?= $lp['destino_y'] ?>"
+                        data-habilidad="<?= htmlspecialchars($lp['habilidad']) ?>"
+                        data-titulo="<?= htmlspecialchars($lp['titulo']) ?>"
+                        data-video="<?= htmlspecialchars($lp['video_url']) ?>">
+                        <div class="lineup-lista-info">
+                            <span class="lineup-lista-titulo"><?= htmlspecialchars($lp['titulo']) ?></span>
+                            <span class="lineup-lista-hab"><?= htmlspecialchars($lp['habilidad']) ?></span>
+                        </div>
+                        <div class="lineup-lista-acciones">
+                            <button class="btn-ver-lineup" type="button">Ver</button>
+                            <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1): ?>
+                            <form method="post" action="index.php?controlador=lineup&action=eliminar" style="display:inline">
+                                <input type="hidden" name="id" value="<?= $lp['id'] ?>">
+                                <input type="hidden" name="mapa" value="<?= htmlspecialchars($mapa_sel) ?>">
+                                <input type="hidden" name="lado" value="<?= htmlspecialchars($lado_sel) ?>">
+                                <input type="hidden" name="agente_id" value="<?= $agente_id ?>">
+                                <button type="submit" class="btn-eliminar-lineup">Eliminar</button>
+                            </form>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+            <?php endif; ?>
         </div>
     </aside>
 
@@ -71,7 +107,8 @@ require_once("view/menu.php"); ?>
                 </div>
             </div>
 
-            <!-- panel derecho con info del mapa -->
+            <?php if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['es_admin'] != 1): ?>
+            <!-- panel derecho con info del mapa solo para usuarios normales -->
             <aside class="map-info">
                 <h2 id="mapName">Selecciona un mapa</h2>
                 <p id="mapText">Elige un mapa y un agente para ver los lineups disponibles.</p>
@@ -83,6 +120,33 @@ require_once("view/menu.php"); ?>
                     <span class="pill">Lineups</span>
                 </div>
             </aside>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1): ?>
+            <!-- editor de lineups solo visible para el admin -->
+            <section class="lineup-editor">
+                <div class="lineup-editor-header">
+                    <h3>Editor de lineup</h3>
+                    <p class="lineup-editor-hint">Selecciona habilidad y haz dos clics en el mapa: inicio y destino.</p>
+                </div>
+                <div class="lineup-editor-body">
+                    <div class="editor-aviso" id="editorAviso"></div>
+                    <div class="editor-btn-row">
+                        <button id="toggleEditorMode" type="button">Crear lineup</button>
+                        <button id="clearLineupDraft" type="button">Limpiar puntos</button>
+                    </div>
+
+                    <!-- campos para rellenar el lineup -->
+                    <div class="editor-campos" id="editorCampos" style="display:none">
+                        <label>URL de YouTube</label>
+                        <input type="text" id="editorVideoUrl" placeholder="https://www.youtube.com/watch?v=...">
+                        <button id="guardarLineup" type="button">Guardar lineup</button>
+                    </div>
+
+                    <pre id="lineupJsonOutput">Aqui aparecera el JSON del lineup.</pre>
+                </div>
+            </section>
+            <?php endif; ?>
         </section>
     </main>
 </div>
@@ -105,4 +169,13 @@ require_once("view/menu.php"); ?>
 ?>
 <script>
 window.lineupData = <?php echo json_encode($lineups ?? array()); ?>;
+window.agentesIds = <?php
+    $ids = array();
+    if (!empty($agentes)) {
+        foreach ($agentes as $ag) {
+            $ids[$ag['nombre']] = $ag['id'];
+        }
+    }
+    echo json_encode($ids);
+?>;
 </script>

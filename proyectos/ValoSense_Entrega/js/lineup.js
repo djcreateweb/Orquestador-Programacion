@@ -25,18 +25,61 @@ let estado = {
 // lineups inyectados desde PHP en la vista
 let lineupData = window.lineupData || [];
 
+// variables del modo editor
+let modoEditor = false;
+let habilidadEditorActual = null;
+let puntoInicio = null;
+let puntoDestino = null;
+
+// lineups de prueba para ver sin base de datos
+let lineupsDemo = [
+    {
+        id: 1,
+        mapa: 'Ascent',
+        lado: 'Ataque',
+        agente: 'Brimstone',
+        habilidad: 'Incendiario',
+        titulo: 'Incendiario para B default',
+        descripcion: 'Lineup de prueba para B.',
+        video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        inicio_x: 28.40,
+        inicio_y: 76.20,
+        destino_x: 35.10,
+        destino_y: 22.80
+    },
+    {
+        id: 2,
+        mapa: 'Ascent',
+        lado: 'Ataque',
+        agente: 'Brimstone',
+        habilidad: 'Cortina de humo',
+        titulo: 'Humo en A main',
+        descripcion: 'Ciega A main para entrar.',
+        video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        inicio_x: 22.00,
+        inicio_y: 72.00,
+        destino_x: 48.00,
+        destino_y: 28.00
+    }
+];
+
 let defaultVideo = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
 
 // CAMBIO: const maps -> let maps
 // RAZON: patron profesora, no se usa const
 let maps = [
+    { displayName: 'Abyss',    folder: 'abyss',    splash: 'imagenes/mapas/Abyss.png' },
     { displayName: 'Ascent',   folder: 'ascent',   splash: 'imagenes/mapas/Ascent.png' },
+    { displayName: 'Bind',     folder: 'bind',     splash: 'imagenes/mapas/Bind.png' },
     { displayName: 'Breeze',   folder: 'breeze',   splash: 'imagenes/mapas/Breeze.png' },
+    { displayName: 'Corrode',  folder: 'corrode',  splash: 'imagenes/mapas/Corrode.png' },
     { displayName: 'Fracture', folder: 'fracture', splash: 'imagenes/mapas/Fracture.png' },
     { displayName: 'Haven',    folder: 'haven',    splash: 'imagenes/mapas/Haven.png' },
+    { displayName: 'Icebox',   folder: 'icebox',   splash: 'imagenes/mapas/Icebox.png' },
     { displayName: 'Lotus',    folder: 'lotus',    splash: 'imagenes/mapas/Lotus.png' },
     { displayName: 'Pearl',    folder: 'pearl',    splash: 'imagenes/mapas/Pearl.png' },
-    { displayName: 'Split',    folder: 'split',    splash: 'imagenes/mapas/Split.png' }
+    { displayName: 'Split',    folder: 'split',    splash: 'imagenes/mapas/Split.png' },
+    { displayName: 'Sunset',   folder: 'sunset',   splash: 'imagenes/mapas/Sunset.png' }
 ];
 
 // CAMBIO: const agents -> let agents
@@ -108,7 +151,6 @@ function iniciar() {
         }
     });
 
-    // CAMBIO: tabs.forEach -> bucle for
     let tabs = document.querySelectorAll('.tab');
     for (let i = 0; i < tabs.length; i++) {
         tabs[i].addEventListener('click', function() {
@@ -123,6 +165,16 @@ function iniciar() {
             renderizarLineups();
         });
     }
+
+    activarListaLineups();
+
+    // conecta botones del editor
+    let btnEditor = document.getElementById('toggleEditorMode');
+    let btnLimpiar = document.getElementById('clearLineupDraft');
+    let btnGuardar = document.getElementById('guardarLineup');
+    if (btnEditor) btnEditor.addEventListener('click', activarModoEditor);
+    if (btnLimpiar) btnLimpiar.addEventListener('click', limpiarBorrador);
+    if (btnGuardar) btnGuardar.addEventListener('click', guardarLineupBD);
 }
 
 function getStrategicMapPath() {
@@ -204,28 +256,29 @@ function seleccionarMapa(mapa) {
     }
 }
 
-// CAMBIO: renderLineups -> renderizarLineups
-// CAMBIO: ahora usa lineupData de PHP en vez de posiciones fijas de prueba
-// RAZON: los lineups reales vienen de la BD via PHP
+// pinta lineups en el mapa y conecta hover y click
 function renderizarLineups() {
     let layer = document.getElementById('lineupLayer');
     let lines = document.getElementById('lineupLines');
     if (!layer || !lines) return;
 
-    // limpiar pines anteriores
+    // borrar pines anteriores sin tocar los del editor
     let viejos = layer.querySelectorAll('.lineup-point, .lineup-start, .lineup-agent-start, .lineup-tooltip');
     for (let i = 0; i < viejos.length; i++) viejos[i].remove();
-    lines.innerHTML = '';
+    let lineasViejas = lines.querySelectorAll('line:not(.draft-line)');
+    for (let i = 0; i < lineasViejas.length; i++) lineasViejas[i].remove();
 
     if (!estado.selectedAgent || !estado.selectedMap) return;
 
-    // filtrar lineups por mapa lado y agente en cliente
+    // combina lineups de prueba con los de la BD
+    let todos = lineupsDemo.concat(lineupData || []);
     let filtrados = [];
-    for (let i = 0; i < lineupData.length; i++) {
-        let lp = lineupData[i];
+    for (let i = 0; i < todos.length; i++) {
+        let lp = todos[i];
+        let nombreAgente = lp.agente || lp.agente_nombre || '';
         if (lp.mapa === estado.selectedMap.displayName
             && lp.lado === estado.selectedSide
-            && String(lp.agente_id) === String(estado.selectedAgent.dbId)) {
+            && nombreAgente === estado.selectedAgent.displayName) {
             filtrados.push(lp);
         }
     }
@@ -239,28 +292,27 @@ function renderizarLineups() {
         punto.type = 'button';
         punto.style.left = lp.destino_x + '%';
         punto.style.top = lp.destino_y + '%';
+        punto.style.pointerEvents = 'auto';
 
-        // buscar icono de la habilidad en el agente seleccionado
-        let iconoHab = '';
-        for (let j = 0; j < estado.selectedAgent.abilities.length; j++) {
-            if (estado.selectedAgent.abilities[j].displayName === lp.habilidad) {
-                iconoHab = estado.selectedAgent.abilities[j].displayIcon;
-                break;
-            }
-        }
+        let iconoHab = buscarIconoHabilidad(lp.habilidad);
 
         punto.innerHTML = '<img src="' + iconoHab + '" alt="' + lp.habilidad + '">';
 
+        // al pasar el raton muestra linea y tooltip
         punto.addEventListener('mouseenter', function() {
             mostrarLineaPrevia(lp, estado.selectedAgent);
-            marcarHabilidadActiva(lp.habilidad);
         });
+
+        // al quitar el raton borra linea y tooltip
         punto.addEventListener('mouseleave', function() {
             limpiarLineaPrevia();
-            marcarHabilidadActiva('');
         });
+
+        // al hacer clic abre el video de youtube del lineup
         punto.addEventListener('click', function() {
-            if (lp.video_url) abrirModal(lp.titulo, lp.video_url);
+            if (lp.video_url) {
+                abrirModal(lp.titulo, lp.video_url);
+            }
         });
 
         layer.appendChild(punto);
@@ -290,7 +342,7 @@ function mostrarLineaPrevia(lp, agente) {
     let agenteStart = document.createElement('div');
     agenteStart.className = 'lineup-agent-start';
     agenteStart.style.left = lp.inicio_x + '%';
-    agenteStart.style.top = (parseFloat(lp.inicio_y) + 7) + '%';
+    agenteStart.style.top = lp.inicio_y + '%';
     agenteStart.innerHTML = '<img src="' + agente.displayIcon + '" alt="' + agente.displayName + '">';
     layer.appendChild(agenteStart);
 
@@ -302,11 +354,14 @@ function mostrarLineaPrevia(lp, agente) {
     layer.appendChild(tooltip);
 }
 
-// CAMBIO: clearLineupPreview -> limpiarLineaPrevia, forEach -> for
 function limpiarLineaPrevia() {
     let lines = document.getElementById('lineupLines');
     let layer = document.getElementById('lineupLayer');
-    if (lines) lines.innerHTML = '';
+    // solo borra lineas de preview, no las del borrador
+    if (lines) {
+        let lineas = lines.querySelectorAll('line:not(.draft-line)');
+        for (let i = 0; i < lineas.length; i++) lineas[i].remove();
+    }
     if (layer) {
         let items = layer.querySelectorAll('.lineup-start, .lineup-agent-start, .lineup-tooltip');
         for (let i = 0; i < items.length; i++) items[i].remove();
@@ -321,8 +376,28 @@ function marcarHabilidadActiva(nombre) {
     }
 }
 
-// CAMBIO: selectAgent -> seleccionarAgente, forEach -> for
+function buscarIconoHabilidad(nombre) {
+    if (!estado.selectedAgent) return '';
+    let nombreLimpio = limpiarTexto(nombre);
+    for (let i = 0; i < estado.selectedAgent.abilities.length; i++) {
+        let habilidad = estado.selectedAgent.abilities[i];
+        if (limpiarTexto(habilidad.displayName) === nombreLimpio) {
+            return habilidad.displayIcon;
+        }
+    }
+    return '';
+}
+
+function limpiarTexto(texto) {
+    if (!texto) return '';
+    return texto.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function seleccionarAgente(agente, btn, abrirHabilidades) {
+    // asigna el id real de la bd al agente seleccionado
+    if (window.agentesIds && window.agentesIds[agente.displayName]) {
+        agente.dbId = window.agentesIds[agente.displayName];
+    }
     estado.selectedAgent = agente;
 
     let agentText = document.getElementById('agentText');
@@ -372,29 +447,286 @@ function renderizarHabilidades(agente) {
         card.dataset.ability = hab.displayName;
         card.innerHTML = '<div class="ability-icon"><img src="' + hab.displayIcon + '" alt="' + hab.displayName + '"></div>'
             + '<span>' + hab.displayName + '</span>';
+        // guarda habilidad seleccionada para el editor
         card.addEventListener('click', function() {
-            abrirModal(agente.displayName + ' - ' + hab.displayName, defaultVideo);
+            habilidadEditorActual = hab;
+            let todas = document.querySelectorAll('.ability-card');
+            for (let k = 0; k < todas.length; k++) todas[k].classList.remove('editor-activo');
+            card.classList.add('editor-activo');
         });
         grid.appendChild(card);
     }
 }
 
-// CAMBIO: openVideoModal -> abrirModal
-// CAMBIO: convierte url de youtube a formato embed para el iframe
+// abre el modal con el video del lineup
 function abrirModal(titulo, videoUrl) {
     let modal = document.getElementById('videoModal');
     let frame = document.getElementById('videoFrame');
     let tit = document.getElementById('videoTitle');
-    let embedUrl = videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/');
     if (tit) tit.textContent = titulo;
-    if (frame) frame.src = embedUrl;
+    if (frame) frame.src = obtenerUrlEmbed(videoUrl);
     if (modal) modal.classList.add('open');
 }
 
-// CAMBIO: closeVideoModal -> cerrarModal
+// convierte url de youtube a formato embed para iframe
+function obtenerUrlEmbed(url) {
+    if (!url) return '';
+    if (url.indexOf('embed/') !== -1) return url;
+    let matchWatch = url.match(/[?&]v=([^&]+)/);
+    if (matchWatch) return 'https://www.youtube.com/embed/' + matchWatch[1];
+    let matchCorta = url.match(/youtu\.be\/([^?&]+)/);
+    if (matchCorta) return 'https://www.youtube.com/embed/' + matchCorta[1];
+    return url;
+}
+
 function cerrarModal() {
     let modal = document.getElementById('videoModal');
     let frame = document.getElementById('videoFrame');
     if (frame) frame.src = '';
     if (modal) modal.classList.remove('open');
+}
+
+// calcula coordenadas del clic en porcentaje sobre el mapa
+function obtenerPorcentajeClic(e) {
+    let rotador = document.getElementById('mapRotator');
+    if (!rotador) return { x: 0, y: 0 };
+    let rect = rotador.getBoundingClientRect();
+    let x = ((e.clientX - rect.left) / rect.width) * 100;
+    let y = ((e.clientY - rect.top) / rect.height) * 100;
+    return { x: parseFloat(x.toFixed(2)), y: parseFloat(y.toFixed(2)) };
+}
+
+// activa o desactiva el modo editor
+function activarModoEditor() {
+    modoEditor = !modoEditor;
+    let btn = document.getElementById('toggleEditorMode');
+    let rotador = document.getElementById('mapRotator');
+    if (!btn || !rotador) return;
+    if (modoEditor) {
+        btn.textContent = 'Salir del editor';
+        rotador.style.cursor = 'crosshair';
+        rotador.addEventListener('click', manejarClicEditor);
+    } else {
+        btn.textContent = 'Crear lineup';
+        rotador.style.cursor = '';
+        rotador.removeEventListener('click', manejarClicEditor);
+        limpiarBorrador();
+    }
+}
+
+// maneja los clics en el mapa en modo editor
+function manejarClicEditor(e) {
+    if (!modoEditor) return;
+    if (!estado.selectedAgent) {
+        mostrarAvisoEditor('Selecciona un agente primero');
+        return;
+    }
+    if (!habilidadEditorActual) {
+        mostrarAvisoEditor('Selecciona una habilidad primero');
+        return;
+    }
+    ocultarAvisoEditor();
+    let coords = obtenerPorcentajeClic(e);
+    if (!puntoInicio) {
+        puntoInicio = coords;
+        dibujarBorrador();
+    } else if (!puntoDestino) {
+        puntoDestino = coords;
+        dibujarBorrador();
+        generarJsonLineup();
+    } else {
+        limpiarBorrador();
+        puntoInicio = coords;
+        puntoDestino = null;
+        dibujarBorrador();
+    }
+}
+
+// dibuja los puntos del borrador en el mapa
+function dibujarBorrador() {
+    let layer = document.getElementById('lineupLayer');
+    let lines = document.getElementById('lineupLines');
+    if (!layer || !lines) return;
+
+    let viejos = layer.querySelectorAll('.draft-lineup-start, .draft-lineup-point');
+    for (let i = 0; i < viejos.length; i++) viejos[i].remove();
+    let lineasViejas = lines.querySelectorAll('.draft-line');
+    for (let i = 0; i < lineasViejas.length; i++) lineasViejas[i].remove();
+
+    if (!puntoInicio) return;
+
+    // foto del agente en el punto de inicio
+    let inicio = document.createElement('div');
+    inicio.className = 'draft-lineup-start';
+    inicio.style.left = puntoInicio.x + '%';
+    inicio.style.top = puntoInicio.y + '%';
+    inicio.innerHTML = '<img src="' + estado.selectedAgent.displayIcon + '" alt="' + estado.selectedAgent.displayName + '">';
+    layer.appendChild(inicio);
+
+    if (!puntoDestino) return;
+
+    // icono de habilidad en el punto de destino
+    let destino = document.createElement('div');
+    destino.className = 'draft-lineup-point';
+    destino.style.left = puntoDestino.x + '%';
+    destino.style.top = puntoDestino.y + '%';
+    let iconoHab = habilidadEditorActual && habilidadEditorActual.displayIcon ? habilidadEditorActual.displayIcon : '';
+    destino.innerHTML = '<img src="' + iconoHab + '" alt="habilidad">';
+    layer.appendChild(destino);
+
+    // linea amarilla entre inicio y destino
+    let linea = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    linea.setAttribute('x1', puntoInicio.x + '%');
+    linea.setAttribute('y1', puntoInicio.y + '%');
+    linea.setAttribute('x2', puntoDestino.x + '%');
+    linea.setAttribute('y2', puntoDestino.y + '%');
+    linea.setAttribute('class', 'draft-line');
+    lines.appendChild(linea);
+}
+
+// genera el json y lo muestra en pantalla
+function generarJsonLineup() {
+    let output = document.getElementById('lineupJsonOutput');
+    if (!output || !puntoInicio || !puntoDestino) return;
+    let datos = {
+        mapa: estado.selectedMap ? estado.selectedMap.displayName : '',
+        lado: estado.selectedSide,
+        agente: estado.selectedAgent ? estado.selectedAgent.displayName : '',
+        habilidad: habilidadEditorActual ? habilidadEditorActual.displayName : '',
+        inicio_x: puntoInicio.x,
+        inicio_y: puntoInicio.y,
+        destino_x: puntoDestino.x,
+        destino_y: puntoDestino.y,
+        titulo: '',
+        descripcion: '',
+        video_url: ''
+    };
+    output.innerHTML =
+        '<span>Mapa</span><strong>' + datos.mapa + '</strong>' +
+        '<span>Lado</span><strong>' + datos.lado + '</strong>' +
+        '<span>Agente</span><strong>' + datos.agente + '</strong>' +
+        '<span>Habilidad</span><strong>' + datos.habilidad + '</strong>' +
+        '<span>Inicio X</span><strong>' + datos.inicio_x + '</strong>' +
+        '<span>Inicio Y</span><strong>' + datos.inicio_y + '</strong>' +
+        '<span>Destino X</span><strong>' + datos.destino_x + '</strong>' +
+        '<span>Destino Y</span><strong>' + datos.destino_y + '</strong>';
+    output.classList.add('visible');
+    // mostrar campos de titulo y url al tener los dos puntos
+    let campos = document.getElementById('editorCampos');
+    if (campos) campos.style.display = 'block';
+}
+
+// borra todos los puntos del borrador
+function limpiarBorrador() {
+    puntoInicio = null;
+    puntoDestino = null;
+    ocultarAvisoEditor();
+    let layer = document.getElementById('lineupLayer');
+    let lines = document.getElementById('lineupLines');
+    let output = document.getElementById('lineupJsonOutput');
+    let campos = document.getElementById('editorCampos');
+    if (layer) {
+        let items = layer.querySelectorAll('.draft-lineup-start, .draft-lineup-point');
+        for (let i = 0; i < items.length; i++) items[i].remove();
+    }
+    if (lines) {
+        let lineas = lines.querySelectorAll('.draft-line');
+        for (let i = 0; i < lineas.length; i++) lineas[i].remove();
+    }
+    if (output) {
+        output.textContent = '';
+        output.classList.remove('visible');
+    }
+    if (campos) campos.style.display = 'none';
+}
+
+// activa los botones ver de la lista de lineups
+function activarListaLineups() {
+    let items = document.querySelectorAll('.lineup-lista-item');
+    for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+        let btnVer = item.querySelector('.btn-ver-lineup');
+        if (!btnVer) continue;
+        btnVer.addEventListener('click', function() {
+            let lp = {
+                inicio_x: parseFloat(item.dataset.inicioX),
+                inicio_y: parseFloat(item.dataset.inicioY),
+                destino_x: parseFloat(item.dataset.destinoX),
+                destino_y: parseFloat(item.dataset.destinoY),
+                habilidad: item.dataset.habilidad,
+                titulo: item.dataset.titulo,
+                video_url: item.dataset.video
+            };
+            limpiarLineaPrevia();
+            mostrarLineaPrevia(lp, estado.selectedAgent);
+            // marcar item activo
+            let todos = document.querySelectorAll('.lineup-lista-item');
+            for (let j = 0; j < todos.length; j++) todos[j].classList.remove('activo');
+            item.classList.add('activo');
+        });
+    }
+}
+
+// envia el lineup al servidor para guardarlo en la bd
+function guardarLineupBD() {
+    if (!puntoInicio || !puntoDestino) {
+        mostrarAvisoEditor('Marca los dos puntos en el mapa primero');
+        return;
+    }
+    if (!estado.selectedAgent || !estado.selectedMap || !habilidadEditorActual) {
+        mostrarAvisoEditor('Selecciona mapa, agente y habilidad');
+        return;
+    }
+    let videoUrl = document.getElementById('editorVideoUrl');
+    let videoVal = videoUrl ? videoUrl.value.trim() : '';
+    if (!videoVal) {
+        mostrarAvisoEditor('Añade la URL de YouTube');
+        return;
+    }
+    ocultarAvisoEditor();
+    let tituloVal = estado.selectedAgent.displayName + ' - ' + habilidadEditorActual.displayName + ' en ' + estado.selectedMap.displayName;
+
+    // construir el form y enviarlo por POST
+    let form = document.createElement('form');
+    form.method = 'post';
+    form.action = 'index.php?controlador=lineup&action=guardar';
+
+    let campos = {
+        mapa: estado.selectedMap.displayName,
+        lado: estado.selectedSide,
+        agente_id: estado.selectedAgent.dbId || '',
+        habilidad: habilidadEditorActual.displayName,
+        inicio_x: puntoInicio.x,
+        inicio_y: puntoInicio.y,
+        destino_x: puntoDestino.x,
+        destino_y: puntoDestino.y,
+        titulo: tituloVal,
+        descripcion: '',
+        video_url: videoVal
+    };
+
+    for (let clave in campos) {
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = clave;
+        input.value = campos[clave];
+        form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function mostrarAvisoEditor(texto) {
+    let aviso = document.getElementById('editorAviso');
+    if (!aviso) return;
+    aviso.textContent = texto;
+    aviso.classList.add('visible');
+}
+
+function ocultarAvisoEditor() {
+    let aviso = document.getElementById('editorAviso');
+    if (!aviso) return;
+    aviso.textContent = '';
+    aviso.classList.remove('visible');
 }

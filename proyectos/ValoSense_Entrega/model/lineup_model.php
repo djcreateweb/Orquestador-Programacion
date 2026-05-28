@@ -146,6 +146,65 @@ class Lineup_model {
         return ['Ascent','Bind','Breeze','Fracture','Haven','Icebox','Lotus','Pearl','Split','Sunset','Abyss','Corrode'];
     }
 
+    // obtiene lineups de un agente en un mapa y lado
+    public function get_por_agente_mapa($agente_id, $mapa, $lado) {
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT l.id, l.titulo, l.habilidad, l.video_url,
+                 l.inicio_x, l.inicio_y, l.destino_x, l.destino_y
+                 FROM lineup l
+                 WHERE l.agente_id = ? AND l.mapa = ? AND l.lado = ? AND l.aprobado = 1
+                 ORDER BY l.id DESC"
+            );
+            $stmt->bind_param("iss", $agente_id, $mapa, $lado);
+            $stmt->execute();
+            $this->datos = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            return $this->datos;
+        } catch (mysqli_sql_exception $e) {
+            return array();
+        }
+    }
+
+    // elimina un lineup por id
+    public function eliminar_lineup($id) {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM lineup WHERE id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $this->datos = $stmt->affected_rows > 0;
+            $stmt->close();
+            return $this->datos;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
+    // guarda un lineup nuevo aprobado directo desde el admin
+    public function guardar_lineup($usuario_id, $agente_id, $mapa, $lado, $habilidad,
+        $inicio_x, $inicio_y, $destino_x, $destino_y, $titulo, $descripcion, $video_url) {
+        try {
+            $stmt = $this->db->prepare(
+                "INSERT INTO lineup (usuario_id, agente_id, mapa, lado, habilidad,
+                 inicio_x, inicio_y, destino_x, destino_y,
+                 titulo, descripcion, video_url, aprobado)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)"
+            );
+            $stmt->bind_param(
+                "iisssddddsss",
+                $usuario_id, $agente_id, $mapa, $lado, $habilidad,
+                $inicio_x, $inicio_y, $destino_x, $destino_y,
+                $titulo, $descripcion, $video_url
+            );
+            $stmt->execute();
+            $this->datos = $stmt->affected_rows > 0;
+            $stmt->close();
+            return $this->datos;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
     // devuelve todos los lineups aprobados con coordenadas para el JS
     public function get_todos_aprobados(){
         try {
