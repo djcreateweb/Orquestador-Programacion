@@ -126,7 +126,7 @@ require_once("view/menu.php"); ?>
                     <!-- campos para rellenar el lineup -->
                     <div class="editor-campos" id="editorCampos" style="display:none">
                         <label>URL de YouTube <span style="font-weight:normal;opacity:.6">(opcional, se puede añadir después)</span></label>
-                        <input type="text" id="editorVideoUrl" placeholder="https://www.youtube.com/watch?v=...">
+                        <input type="text" id="editorVideoUrl" value="" autocomplete="off">
                         <button id="guardarLineup" type="button">Guardar lineup</button>
                     </div>
 

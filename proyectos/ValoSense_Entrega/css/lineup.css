@@ -261,14 +261,15 @@ body::before {
 /* grid de agentes */
 .agents-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(86px, 1fr));
+    gap: 10px;
     margin-bottom: 14px;
 }
 
 .agent-card {
     position: relative;
-    height: 76px;
+    height: 88px;
+    min-width: 0;
     overflow: hidden;
     border: 0;
     border-radius: 4px;
@@ -280,7 +281,8 @@ body::before {
     position: relative;
     z-index: 1;
     width: 100%;
-    height: calc(100% - 18px);
+    height: calc(100% - 24px);
+    padding: 5px 5px 0;
     object-fit: contain;
     transform: none;
     filter: saturate(0.95);
@@ -301,14 +303,18 @@ body::before {
 
 .agent-card span {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 3px;
+    left: 4px;
+    right: 4px;
+    bottom: 5px;
     z-index: 3;
     text-align: center;
     color: #ffffff;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
+    line-height: 1.1;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
     text-shadow: 0 2px 4px rgba(0,0,0,0.9);
 }
 
@@ -744,6 +750,15 @@ body::before {
     .selected-agent-box {
         gap: 8px;
         padding: 8px;
+    }
+
+    .agents-grid {
+        grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
+        gap: 8px;
+    }
+
+    .agent-card {
+        height: 84px;
     }
 
     .back-agents {

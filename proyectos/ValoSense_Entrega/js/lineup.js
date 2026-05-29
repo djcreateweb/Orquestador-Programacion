@@ -721,9 +721,11 @@ function activarModoEditor() {
     modoEditor = !modoEditor;
     let btn = document.getElementById('toggleEditorMode');
     let rotador = document.getElementById('mapRotator');
+    let videoUrl = document.getElementById('editorVideoUrl');
     if (!btn || !rotador) return;
     if (modoEditor) {
         btn.textContent = 'Salir del editor';
+        if (videoUrl) videoUrl.value = '';
         rotador.style.cursor = 'crosshair';
         rotador.addEventListener('click', manejarClicEditor);
     } else {
@@ -834,6 +836,8 @@ function generarJsonLineup() {
     // mostrar campos de titulo y url al tener los dos puntos
     let campos = document.getElementById('editorCampos');
     if (campos) campos.style.display = 'block';
+    let videoUrl = document.getElementById('editorVideoUrl');
+    if (videoUrl) videoUrl.value = '';
 }
 
 // borra todos los puntos del borrador
@@ -845,6 +849,7 @@ function limpiarBorrador() {
     let lines = document.getElementById('lineupLines');
     let output = document.getElementById('lineupJsonOutput');
     let campos = document.getElementById('editorCampos');
+    let videoUrl = document.getElementById('editorVideoUrl');
     if (layer) {
         let items = layer.querySelectorAll('.draft-lineup-start, .draft-lineup-point');
         for (let i = 0; i < items.length; i++) items[i].remove();
@@ -858,6 +863,7 @@ function limpiarBorrador() {
         output.classList.remove('visible');
     }
     if (campos) campos.style.display = 'none';
+    if (videoUrl) videoUrl.value = '';
 }
 
 // envia el lineup al servidor
@@ -960,7 +966,6 @@ function abrirEditorVideo(lp, fila, btn) {
     let input = document.createElement('input');
     input.type = 'text';
     input.className = 'inline-video-input';
-    input.placeholder = 'https://www.youtube.com/watch?v=...';
     input.value = lp.video_url || '';
     contenedor.appendChild(input);
 
