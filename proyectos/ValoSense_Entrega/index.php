@@ -1,3 +1,9 @@
+<?php
+if (!empty($_POST['ajax'])) {
+    require_once("controller/front_controller.php");
+    exit();
+}
+?>
 <html lang="es"><head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="imagenes/favicon.svg">

@@ -52,7 +52,7 @@ let maps = [
 ];
 
 // mapas visibles en rotacion
-let mapasVisibles = ['Ascent','Abyss','Breeze','Corrode','Haven','Pearl','Split'];
+let mapasVisibles = ['Ascent','Abyss','Breeze','Haven','Pearl','Split'];
 
 // CAMBIO: const agents -> let agents
 // CAMBIO: createAgent -> crearAgente (nombre en español)
@@ -92,10 +92,50 @@ function iniciar() {
 
     renderizarMapas();
     renderizarAgentes();
-    seleccionarMapa(obtenerPrimerMapaVisible());
 
-    let primerAgente = document.querySelector('.agent-card');
-    seleccionarAgente(agents[0], primerAgente, false);
+    let mapaInicial = obtenerPrimerMapaVisible();
+    if (window.lineupInicial && window.lineupInicial.mapa) {
+        for (let i = 0; i < maps.length; i++) {
+            if (maps[i].displayName === window.lineupInicial.mapa && mapaVisible(maps[i].displayName)) {
+                mapaInicial = maps[i];
+                break;
+            }
+        }
+    }
+
+    if (window.lineupInicial && window.lineupInicial.lado) {
+        estado.selectedSide = window.lineupInicial.lado;
+        let tabsInicio = document.querySelectorAll('.tab');
+        for (let i = 0; i < tabsInicio.length; i++) {
+            tabsInicio[i].classList.toggle('active', tabsInicio[i].dataset.side === estado.selectedSide);
+        }
+        let sideTextInicio = document.getElementById('sideText');
+        if (sideTextInicio) sideTextInicio.textContent = estado.selectedSide;
+    }
+
+    seleccionarMapa(mapaInicial);
+
+    let agenteInicial = agents[0];
+    if (window.lineupInicial && window.lineupInicial.agente_id) {
+        for (let i = 0; i < agents.length; i++) {
+            let idAgente = window.agentesIds ? window.agentesIds[agents[i].displayName] : '';
+            if (String(idAgente) === String(window.lineupInicial.agente_id)) {
+                agenteInicial = agents[i];
+                break;
+            }
+        }
+    }
+
+    let cardsAgentes = document.querySelectorAll('.agent-card');
+    let btnAgenteInicial = cardsAgentes[0];
+    for (let i = 0; i < cardsAgentes.length; i++) {
+        let nombreCard = cardsAgentes[i].querySelector('span');
+        if (nombreCard && nombreCard.textContent === agenteInicial.displayName) {
+            btnAgenteInicial = cardsAgentes[i];
+            break;
+        }
+    }
+    seleccionarAgente(agenteInicial, btnAgenteInicial, false);
 
     let cerrarBtn = document.getElementById('closeVideo');
     let modal = document.getElementById('videoModal');
@@ -151,7 +191,7 @@ function iniciar() {
 function getStrategicMapPath() {
     if (!estado.selectedMap) return '';
     let sideFile = estado.selectedSide === 'Ataque' ? 'ataque.png' : 'defensa.png';
-    return 'imagenes/mapas_estrategicos/' + estado.selectedMap.folder + '/' + sideFile;
+    return 'imagenes/mapas_estrategicos/' + estado.selectedMap.folder + '/' + sideFile + '?v=20260529-2';
 }
 
 function actualizarImagenMapa() {
@@ -257,22 +297,12 @@ function renderizarLineups() {
 
     if (!estado.selectedAgent || !estado.selectedMap) return;
 
-    // combina lineups de prueba con los de la BD
-    let todos = lineupsDemo.concat(lineupData || []);
-    let filtrados = [];
-    for (let i = 0; i < todos.length; i++) {
-        let lp = todos[i];
-        let nombreAgente = lp.agente || lp.agente_nombre || '';
-        if (lp.mapa === estado.selectedMap.displayName
-            && lp.lado === estado.selectedSide
-            && nombreAgente === estado.selectedAgent.displayName) {
-            filtrados.push(lp);
-        }
-    }
+    let filtrados = obtenerLineupsFiltrados();
 
+    let numeroPin = 1;
     for (let i = 0; i < filtrados.length; i++) {
         let lp = filtrados[i];
-        if (!lp.destino_x || !lp.destino_y) continue;
+        if (!tieneCoordenadas(lp)) continue;
 
         let punto = document.createElement('button');
         punto.className = 'lineup-point';
@@ -283,7 +313,8 @@ function renderizarLineups() {
 
         let iconoHab = buscarIconoHabilidad(lp.habilidad);
 
-        punto.innerHTML = '<img src="' + iconoHab + '" alt="' + lp.habilidad + '">';
+        punto.innerHTML = '<span>' + numeroPin + '</span><img src="' + iconoHab + '" alt="' + lp.habilidad + '">';
+        numeroPin++;
 
         // al pasar el raton muestra linea y tooltip
         punto.addEventListener('mouseenter', function() {
@@ -298,7 +329,9 @@ function renderizarLineups() {
         // al hacer clic abre el video de youtube del lineup
         punto.addEventListener('click', function() {
             if (lp.video_url) {
-                abrirModal(lp.titulo, lp.video_url);
+                abrirModal(lp.titulo || lp.habilidad, lp.video_url);
+            } else {
+                mostrarAvisoEditor('Este lineup no tiene video');
             }
         });
 
@@ -369,50 +402,36 @@ function renderizarTablaLineups() {
         if (window.esAdminLineup) {
             let btnVideo = document.createElement('button');
             btnVideo.type = 'button';
-            btnVideo.className = 'btn-editar-video';
-            btnVideo.textContent = lp.video_url ? 'Editar video' : 'Añadir video';
+            btnVideo.className = 'btn-video-lineup';
+            btnVideo.textContent = 'Video';
+            btnVideo.addEventListener('click', function() {
+                if (lp.video_url) {
+                    abrirModal(lp.titulo || lp.habilidad, lp.video_url);
+                } else {
+                    mostrarAvisoEditor('Este lineup no tiene video');
+                }
+            });
+            tdAcciones.appendChild(btnVideo);
+
+            let btnEditar = document.createElement('button');
+            btnEditar.type = 'button';
+            btnEditar.className = 'btn-editar-video';
+            btnEditar.textContent = lp.video_url ? 'Editar' : 'Añadir';
             (function(lineup, btn, fila) {
                 btn.addEventListener('click', function() {
                     abrirEditorVideo(lineup, fila, btn);
                 });
-            })(lp, btnVideo, fila);
-            tdAcciones.appendChild(btnVideo);
-
-            let form = document.createElement('form');
-            form.method = 'post';
-            form.action = 'index.php?controlador=admin&action=eliminar_lineup';
-
-            let inId = document.createElement('input');
-            inId.type = 'hidden';
-            inId.name = 'id';
-            inId.value = lp.id;
-            form.appendChild(inId);
-
-            let inMapa = document.createElement('input');
-            inMapa.type = 'hidden';
-            inMapa.name = 'mapa';
-            inMapa.value = lp.mapa;
-            form.appendChild(inMapa);
-
-            let inLado = document.createElement('input');
-            inLado.type = 'hidden';
-            inLado.name = 'lado';
-            inLado.value = lp.lado;
-            form.appendChild(inLado);
-
-            let inAgente = document.createElement('input');
-            inAgente.type = 'hidden';
-            inAgente.name = 'agente_id';
-            inAgente.value = estado.selectedAgent.dbId || '';
-            form.appendChild(inAgente);
+            })(lp, btnEditar, fila);
+            tdAcciones.appendChild(btnEditar);
 
             let btnElim = document.createElement('button');
-            btnElim.type = 'submit';
+            btnElim.type = 'button';
             btnElim.className = 'btn-eliminar-lineup';
             btnElim.textContent = 'Eliminar';
-            form.appendChild(btnElim);
-
-            tdAcciones.appendChild(form);
+            btnElim.addEventListener('click', function() {
+                eliminarLineupBD(lp.id);
+            });
+            tdAcciones.appendChild(btnElim);
         }
 
         fila.appendChild(tdAcciones);
@@ -424,16 +443,85 @@ function renderizarTablaLineups() {
 function obtenerLineupsFiltrados() {
     let filtrados = [];
     let todos = lineupData || [];
+    let repetidos = [];
     for (let i = 0; i < todos.length; i++) {
         let lp = todos[i];
         let nombreAgente = lp.agente || lp.agente_nombre || '';
         if (lp.mapa === estado.selectedMap.displayName
             && lp.lado === estado.selectedSide
-            && nombreAgente === estado.selectedAgent.displayName) {
-            filtrados.push(lp);
+            && nombreAgente === estado.selectedAgent.displayName
+            && tieneCoordenadas(lp)) {
+            let clave = crearClaveLineup(lp);
+            if (repetidos.indexOf(clave) === -1) {
+                repetidos.push(clave);
+                filtrados.push(lp);
+            } else {
+                for (let j = 0; j < filtrados.length; j++) {
+                    if (crearClaveLineup(filtrados[j]) === clave
+                        && !filtrados[j].video_url
+                        && lp.video_url) {
+                        filtrados[j] = lp;
+                    }
+                }
+            }
         }
     }
     return filtrados;
+}
+
+// borra un lineup sin recargar ni perder mapa/lado/agente actual
+function eliminarLineupBD(id) {
+    if (!id) return;
+
+    let formData = new FormData();
+    formData.append('ajax', '1');
+    formData.append('id', id);
+    formData.append('mapa', estado.selectedMap ? estado.selectedMap.displayName : '');
+    formData.append('lado', estado.selectedSide || 'Ataque');
+    formData.append('agente_id', estado.selectedAgent ? estado.selectedAgent.dbId || '' : '');
+
+    fetch('index.php?controlador=admin&action=eliminar_lineup', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        if (data.ok) {
+            for (let i = lineupData.length - 1; i >= 0; i--) {
+                if (String(lineupData[i].id) === String(id)) {
+                    lineupData.splice(i, 1);
+                }
+            }
+            limpiarLineaPrevia();
+            renderizarLineups();
+            renderizarTablaLineups();
+            mostrarExitoEditor('Lineup eliminado');
+        } else {
+            mostrarAvisoEditor('Error al eliminar el lineup');
+        }
+    })
+    .catch(function() {
+        mostrarAvisoEditor('Error al eliminar el lineup');
+    });
+}
+
+// evita lineups duplicados
+function crearClaveLineup(lp) {
+    let inicioX = parseFloat(lp.inicio_x).toFixed(2);
+    let inicioY = parseFloat(lp.inicio_y).toFixed(2);
+    let destinoX = parseFloat(lp.destino_x).toFixed(2);
+    let destinoY = parseFloat(lp.destino_y).toFixed(2);
+    return lp.habilidad + '-' + inicioX + '-' + inicioY + '-' + destinoX + '-' + destinoY;
+}
+
+// comprueba puntos del lineup
+function tieneCoordenadas(lp) {
+    if (!lp) return false;
+    if (lp.inicio_x === '' || lp.inicio_y === '') return false;
+    if (lp.destino_x === '' || lp.destino_y === '') return false;
+    if (lp.inicio_x === null || lp.inicio_y === null) return false;
+    if (lp.destino_x === null || lp.destino_y === null) return false;
+    return true;
 }
 
 // selecciona mapa desde la tabla
@@ -772,7 +860,7 @@ function limpiarBorrador() {
     if (campos) campos.style.display = 'none';
 }
 
-// envia el lineup al servidor via fetch para no recargar la pagina
+// envia el lineup al servidor
 function guardarLineupBD() {
     if (!puntoInicio || !puntoDestino) {
         mostrarAvisoEditor('Marca los dos puntos en el mapa primero');
@@ -789,18 +877,24 @@ function guardarLineupBD() {
     let tituloVal = estado.selectedAgent.displayName + ' - ' + habilidadEditorActual.displayName + ' en ' + estado.selectedMap.displayName;
 
     let formData = new FormData();
-    formData.append('ajax', '1');
-    formData.append('mapa', estado.selectedMap.displayName);
-    formData.append('lado', estado.selectedSide);
-    formData.append('agente_id', estado.selectedAgent.dbId || '');
-    formData.append('habilidad', habilidadEditorActual.displayName);
-    formData.append('inicio_x', puntoInicio.x);
-    formData.append('inicio_y', puntoInicio.y);
-    formData.append('destino_x', puntoDestino.x);
-    formData.append('destino_y', puntoDestino.y);
-    formData.append('titulo', tituloVal);
-    formData.append('descripcion', '');
-    formData.append('video_url', videoVal);
+    let campos = {
+        ajax: '1',
+        mapa: estado.selectedMap.displayName,
+        lado: estado.selectedSide,
+        agente_id: estado.selectedAgent.dbId || '',
+        habilidad: habilidadEditorActual.displayName,
+        inicio_x: puntoInicio.x,
+        inicio_y: puntoInicio.y,
+        destino_x: puntoDestino.x,
+        destino_y: puntoDestino.y,
+        titulo: tituloVal,
+        descripcion: '',
+        video_url: videoVal
+    };
+
+    for (let clave in campos) {
+        formData.append(clave, campos[clave]);
+    }
 
     fetch('index.php?controlador=admin&action=guardar_lineup', {
         method: 'POST',
@@ -822,7 +916,7 @@ function guardarLineupBD() {
         }
     })
     .catch(function() {
-        mostrarAvisoEditor('Error de conexion al guardar');
+        mostrarAvisoEditor('Error al guardar el lineup');
     });
 }
 
@@ -859,7 +953,6 @@ function abrirEditorVideo(lp, fila, btn) {
         existente.remove();
         return;
     }
-    let tdAcciones = fila.querySelector('.lineup-tabla-acciones');
 
     let contenedor = document.createElement('div');
     contenedor.className = 'inline-video-form';
@@ -877,12 +970,23 @@ function abrirEditorVideo(lp, fila, btn) {
     btnGuardar.textContent = 'Guardar';
     btnGuardar.addEventListener('click', function() {
         let url = input.value.trim();
-        let fd = new FormData();
-        fd.append('id', lp.id);
-        fd.append('video_url', url);
+        let formData = new FormData();
+        let campos = {
+            ajax: '1',
+            id: lp.id,
+            video_url: url,
+            mapa: estado.selectedMap ? estado.selectedMap.displayName : lp.mapa,
+            lado: estado.selectedSide || lp.lado,
+            agente_id: estado.selectedAgent ? estado.selectedAgent.dbId || '' : ''
+        };
+
+        for (let clave in campos) {
+            formData.append(clave, campos[clave]);
+        }
+
         fetch('index.php?controlador=admin&action=editar_video_lineup', {
             method: 'POST',
-            body: fd
+            body: formData
         })
         .then(function(res) { return res.json(); })
         .then(function(data) {
@@ -890,19 +994,23 @@ function abrirEditorVideo(lp, fila, btn) {
                 lp.video_url = url;
                 btn.textContent = url ? 'Editar video' : 'Añadir video';
                 for (let i = 0; i < lineupData.length; i++) {
-                    if (lineupData[i].id == lp.id) { lineupData[i].video_url = url; break; }
+                    if (lineupData[i].id == lp.id) {
+                        lineupData[i].video_url = url;
+                        break;
+                    }
                 }
                 contenedor.remove();
+                mostrarExitoEditor('Video guardado');
             } else {
                 mostrarAvisoEditor('Error al guardar el video');
             }
         })
         .catch(function() {
-            mostrarAvisoEditor('Error de conexion');
+            mostrarAvisoEditor('Error al guardar el video');
         });
     });
     contenedor.appendChild(btnGuardar);
 
-    tdAcciones.appendChild(contenedor);
+    fila.appendChild(contenedor);
     input.focus();
 }

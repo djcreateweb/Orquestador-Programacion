@@ -75,7 +75,6 @@ function guardar_lineup(){
     $titulo = isset($_POST['titulo']) ? trim($_POST['titulo']) : '';
     $descripcion = isset($_POST['descripcion']) ? trim($_POST['descripcion']) : '';
     $video_url = isset($_POST['video_url']) ? trim($_POST['video_url']) : '';
-    $ajax = !empty($_POST['ajax']);
     $nuevo_id = false;
     if ($mapa != "" && $titulo != "" && $agente_id > 0) {
         $nuevo_id = $model->guardar_lineup(
@@ -85,23 +84,23 @@ function guardar_lineup(){
             $titulo, $descripcion, $video_url
         );
     }
-    if ($ajax) {
+    if (!empty($_POST['ajax'])) {
         header('Content-Type: application/json');
         if ($nuevo_id) {
             echo json_encode([
                 'ok' => true,
                 'lineup' => [
-                    'id'          => $nuevo_id,
-                    'mapa'        => $mapa,
-                    'lado'        => $lado,
-                    'habilidad'   => $habilidad,
-                    'inicio_x'    => $inicio_x,
-                    'inicio_y'    => $inicio_y,
-                    'destino_x'   => $destino_x,
-                    'destino_y'   => $destino_y,
-                    'titulo'      => $titulo,
+                    'id' => $nuevo_id,
+                    'mapa' => $mapa,
+                    'lado' => $lado,
+                    'habilidad' => $habilidad,
+                    'inicio_x' => $inicio_x,
+                    'inicio_y' => $inicio_y,
+                    'destino_x' => $destino_x,
+                    'destino_y' => $destino_y,
+                    'titulo' => $titulo,
                     'descripcion' => $descripcion,
-                    'video_url'   => $video_url,
+                    'video_url' => $video_url
                 ]
             ]);
         } else {
@@ -109,7 +108,7 @@ function guardar_lineup(){
         }
         exit();
     }
-    header('Location: index.php?controlador=lineup&action=home');
+    header('Location: index.php?controlador=lineup&action=home&mapa=' . urlencode($mapa) . '&lado=' . urlencode($lado) . '&agente_id=' . $agente_id);
     exit();
 }
 
@@ -124,8 +123,15 @@ function editar_video_lineup(){
     if ($id > 0) {
         $ok = $model->actualizar_video_lineup($id, $video_url);
     }
-    header('Content-Type: application/json');
-    echo json_encode(['ok' => (bool)$ok]);
+    if (!empty($_POST['ajax'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['ok' => (bool)$ok]);
+        exit();
+    }
+    $mapa = isset($_POST['mapa']) ? trim($_POST['mapa']) : '';
+    $lado = isset($_POST['lado']) ? trim($_POST['lado']) : 'Ataque';
+    $agente_id = isset($_POST['agente_id']) ? (int)$_POST['agente_id'] : 0;
+    header('Location: index.php?controlador=lineup&action=home&mapa=' . urlencode($mapa) . '&lado=' . urlencode($lado) . '&agente_id=' . $agente_id);
     exit();
 }
 
@@ -135,8 +141,14 @@ function eliminar_lineup(){
     require_once("model/admin_model.php");
     $model = new Admin_model();
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+    $ok = false;
     if ($id > 0) {
-        $model->borrar_lineup($id);
+        $ok = $model->borrar_lineup($id);
+    }
+    if (!empty($_POST['ajax'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['ok' => (bool)$ok]);
+        exit();
     }
     $mapa = isset($_POST['mapa']) ? trim($_POST['mapa']) : '';
     $lado = isset($_POST['lado']) ? trim($_POST['lado']) : 'Ataque';

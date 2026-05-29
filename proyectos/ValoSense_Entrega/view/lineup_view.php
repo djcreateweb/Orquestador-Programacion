@@ -157,6 +157,11 @@ require_once("view/menu.php"); ?>
 <script>
 window.lineupData = <?php echo json_encode($lineups ?? array()); ?>;
 window.esAdminLineup = <?php echo (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1) ? 'true' : 'false'; ?>;
+window.lineupInicial = {
+    mapa: <?php echo json_encode($mapa_sel ?? ''); ?>,
+    lado: <?php echo json_encode($lado_sel ?? 'Ataque'); ?>,
+    agente_id: <?php echo json_encode($agente_id ?? 0); ?>
+};
 window.agentesIds = <?php
     $ids = array();
     if (!empty($agentes)) {

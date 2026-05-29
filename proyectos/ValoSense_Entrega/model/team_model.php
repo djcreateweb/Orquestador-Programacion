@@ -9,7 +9,7 @@ class Team_model {
 
     public function get_mapas(){
         $todos = ['Ascent','Bind','Breeze','Fracture','Haven','Icebox','Lotus','Pearl','Split','Sunset','Abyss','Corrode'];
-        $visibles = ['Ascent','Abyss','Breeze','Corrode','Haven','Pearl','Split'];
+        $visibles = ['Ascent','Abyss','Breeze','Haven','Pearl','Split'];
         $mapas = [];
         for ($i = 0; $i < count($todos); $i++) {
             if (in_array($todos[$i], $visibles, true)) {

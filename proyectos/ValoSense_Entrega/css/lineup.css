@@ -268,7 +268,7 @@ body::before {
 
 .agent-card {
     position: relative;
-    height: 68px;
+    height: 76px;
     overflow: hidden;
     border: 0;
     border-radius: 4px;
@@ -277,8 +277,10 @@ body::before {
 }
 
 .agent-card img {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 18px);
     object-fit: contain;
     transform: none;
     filter: saturate(0.95);
@@ -292,15 +294,17 @@ body::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.72), transparent 55%);
+    z-index: 2;
+    background: linear-gradient(to top, rgba(0,0,0,0.78), transparent 48%);
+    pointer-events: none;
 }
 
 .agent-card span {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 4px;
-    z-index: 1;
+    bottom: 3px;
+    z-index: 3;
     text-align: center;
     color: #ffffff;
     font-size: 13px;
@@ -311,6 +315,7 @@ body::before {
 .abilities-panel {
     display: none;
     padding-bottom: 22px;
+    min-width: 0;
 }
 
 .side-content.ability-mode .agent-title,
@@ -348,9 +353,11 @@ body::before {
     background: #262b34;
     border: 1px solid rgba(204,34,51,0.28);
     border-radius: 6px;
+    min-width: 0;
 }
 
 .selected-agent-box img {
+    flex: 0 0 42px;
     width: 42px;
     height: 42px;
     object-fit: contain;
@@ -358,10 +365,17 @@ body::before {
     background: #111720;
 }
 
+.selected-agent-box > div {
+    min-width: 0;
+}
+
 .selected-agent-box h3 {
     color: #ffffff;
     font-size: 18px;
     line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .selected-agent-box p {
@@ -374,8 +388,10 @@ body::before {
 /* grid de habilidades */
 .abilities-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 8px;
+    width: 100%;
+    min-width: 0;
 }
 
 .ability-card {
@@ -383,8 +399,9 @@ body::before {
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    min-height: 66px;
-    padding: 7px 4px;
+    min-width: 0;
+    min-height: 82px;
+    padding: 9px 8px;
     background: #20252e;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 8px;
@@ -418,12 +435,16 @@ body::before {
 }
 
 .ability-card span {
-    max-width: 72px;
+    width: 100%;
+    max-width: 104px;
     color: #ffffff;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     text-align: center;
-    line-height: 1.15;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
 /* zona principal derecha */
@@ -502,8 +523,8 @@ body::before {
 .lineup-point {
     position: absolute;
     z-index: 6;
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -516,16 +537,36 @@ body::before {
     pointer-events: auto;
 }
 
+.lineup-point span {
+    position: absolute;
+    top: -11px;
+    right: -8px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 999px;
+    background: #CC2233;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 0 0 10px rgba(204,34,51,0.75);
+}
+
 .lineup-point img {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     object-fit: contain;
 }
 
 .lineup-point:hover,
 .lineup-point.active {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     background: rgba(204,34,51,0.18);
 }
 
@@ -688,6 +729,48 @@ body::before {
     .side-content { height: auto; max-height: 520px; }
     .lineup-board { grid-template-columns: 1fr; }
     .map-rotator { width: 100%; }
+}
+
+@media (max-width: 360px) {
+    .side-content {
+        padding-inline: 6px;
+    }
+
+    .tabs {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 1px 34px;
+        gap: 8px;
+    }
+
+    .selected-agent-box {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .back-agents {
+        flex: 0 0 auto;
+        padding-inline: 12px;
+    }
+
+    .abilities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+    }
+
+    .lineup-tabla-wrap {
+        padding: 6px;
+    }
+
+    .lineup-tabla-fila {
+        grid-template-columns: 24px minmax(0, 1fr) 42px;
+        gap: 4px 6px;
+        padding: 8px;
+    }
+
+    .lineup-tabla .btn-ver-lineup,
+    .lineup-tabla .btn-video-lineup,
+    .lineup-tabla .btn-eliminar-lineup,
+    .lineup-tabla .btn-editar-video {
+        width: 36px;
+    }
 }
 
 /* editor de lineup */
@@ -971,22 +1054,64 @@ body::before {
 /* tabla de lineups del agente */
 .lineup-tabla-panel {
     margin-top: 22px;
-    padding-bottom: 24px;
+    padding-bottom: 28px;
 }
 
 .lineup-tabla-wrap {
     width: 100%;
-    overflow: hidden;
-    border: 1px solid rgba(204,34,51,0.22);
+    max-height: 330px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+    border: 1px solid rgba(204,34,51,0.26);
     border-radius: 7px;
-    background: #151a22;
+    background: #11161d;
     box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+}
+
+.lineup-tabla-wrap::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lineup-tabla-wrap::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.04);
+    border-radius: 999px;
+}
+
+.lineup-tabla-wrap::-webkit-scrollbar-thumb {
+    background: #CC2233;
+    border-radius: 999px;
 }
 
 .lineup-tabla {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+    display: block;
+}
+
+.lineup-tabla thead {
+    display: none;
+}
+
+.lineup-tabla tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.lineup-tabla tbody tr:not(.lineup-tabla-fila) {
+    display: block;
+    padding: 12px;
+    background: #191f28;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 7px;
+}
+
+.lineup-tabla tbody tr:not(.lineup-tabla-fila) td {
+    display: block;
+    color: #aeb5c1;
+    font-size: 11px;
+    white-space: normal;
 }
 
 .lineup-tabla th {
@@ -1001,10 +1126,10 @@ body::before {
 }
 
 .lineup-tabla td {
-    padding: 9px 6px;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 0;
+    border-top: 0;
     color: #d7d7d7;
-    font-size: 10px;
+    font-size: 11px;
     vertical-align: middle;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1013,39 +1138,101 @@ body::before {
 
 .lineup-tabla th:nth-child(1),
 .lineup-tabla td:nth-child(1) {
-    width: 26px;
+    width: auto;
     text-align: center;
 }
 
 .lineup-tabla th:nth-child(2),
 .lineup-tabla td:nth-child(2) {
-    width: 34%;
+    width: auto;
 }
 
 .lineup-tabla th:nth-child(3),
 .lineup-tabla td:nth-child(3) {
-    width: 20%;
+    width: auto;
 }
 
 .lineup-tabla th:nth-child(4),
 .lineup-tabla td:nth-child(4) {
-    width: 18%;
+    width: auto;
 }
 
 .lineup-tabla th:nth-child(5),
 .lineup-tabla td:nth-child(5) {
-    width: 74px;
+    width: auto;
+}
+
+.lineup-tabla-fila {
+    display: grid;
+    grid-template-columns: 26px minmax(0,1fr) 52px;
+    gap: 4px 8px;
+    align-items: center;
+    padding: 10px;
+    background: #191f28;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 7px;
+}
+
+.lineup-tabla-fila td:nth-child(1) {
+    grid-row: 1 / 4;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(204,34,51,0.16);
+    border: 1px solid rgba(204,34,51,0.35);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.lineup-tabla-fila td:nth-child(2) {
+    grid-column: 2;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: normal;
+    line-height: 1.2;
+}
+
+.lineup-tabla-fila td:nth-child(3),
+.lineup-tabla-fila td:nth-child(4) {
+    grid-column: 2;
+    color: #aeb5c1;
+    font-size: 10px;
+}
+
+.lineup-tabla-fila td:nth-child(3)::before {
+    content: "Mapa: ";
+    color: #CC2233;
+}
+
+.lineup-tabla-fila td:nth-child(4)::before {
+    content: "Lado: ";
+    color: #CC2233;
 }
 
 .lineup-tabla-fila.activo td {
+    background: transparent;
+}
+
+.lineup-tabla-fila.activo {
+    border-color: #CC2233;
     background: rgba(204,34,51,0.12);
 }
 
 .lineup-tabla-acciones {
+    grid-column: 3;
+    grid-row: 1 / 4;
     display: flex;
+    flex-direction: column;
     gap: 4px;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
+    overflow: visible;
+    white-space: normal;
 }
 
 .lineup-tabla-acciones form {
@@ -1053,8 +1240,9 @@ body::before {
 }
 
 .lineup-tabla .btn-ver-lineup,
+.lineup-tabla .btn-video-lineup,
 .lineup-tabla .btn-eliminar-lineup {
-    width: 31px;
+    width: 38px;
     height: 28px;
     padding: 0;
     display: inline-flex;
@@ -1069,33 +1257,59 @@ body::before {
     font-size: 10px;
 }
 
+.lineup-tabla .btn-video-lineup {
+    background: rgba(255,200,0,0.12);
+    color: #ffc800;
+    border: 1px solid rgba(255,200,0,0.3);
+    cursor: pointer;
+}
+
+.lineup-tabla .btn-video-lineup::before {
+    content: "Video";
+    font-size: 9px;
+}
+
+.lineup-tabla .btn-video-lineup:hover {
+    background: rgba(255,200,0,0.22);
+}
+
 .lineup-tabla .btn-eliminar-lineup::before {
     content: "X";
     font-size: 12px;
 }
 
 .lineup-tabla .btn-editar-video {
+    width: 38px;
     height: 28px;
-    padding: 0 7px;
+    padding: 0;
     border-radius: 4px;
-    font-size: 10px;
-    background: rgba(255,200,0,0.12);
-    color: #ffc800;
-    border: 1px solid rgba(255,200,0,0.3);
+    font-size: 0;
+    background: rgba(104,217,255,0.1);
+    color: #68d9ff;
+    border: 1px solid rgba(104,217,255,0.32);
     cursor: pointer;
     white-space: nowrap;
 }
 
+.lineup-tabla .btn-editar-video::before {
+    content: "Editar";
+    font-size: 9px;
+}
+
 .lineup-tabla .btn-editar-video:hover {
-    background: rgba(255,200,0,0.22);
+    background: rgba(104,217,255,0.18);
 }
 
 .inline-video-form {
-    display: flex;
-    gap: 4px;
+    grid-column: 1 / 4;
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 64px;
+    gap: 6px;
     align-items: center;
-    margin-top: 4px;
+    margin-top: 8px;
     width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .inline-video-input {
@@ -1112,9 +1326,9 @@ body::before {
 
 .btn-guardar-video {
     height: 26px;
-    padding: 0 8px;
+    padding: 0 6px;
     border-radius: 4px;
-    font-size: 10px;
+    font-size: 9px;
     background: rgba(204,34,51,0.2);
     color: #CC2233;
     border: 1px solid rgba(204,34,51,0.4);
