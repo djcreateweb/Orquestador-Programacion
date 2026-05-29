@@ -2,7 +2,7 @@
 /* CAMBIOS respecto al original: */
 /* - #ff4655 cambiado a #CC2233 en todos los sitios */
 /* - rgba(255, 70, 85) cambiado a rgba(204, 34, 51) */
-/* - colores del mapa sin tocar: #ff00d4 rosa pines, #efff00 amarillo lineas */
+/* - colores del mapa sin tocar: #ff00d4 rosa pines */
 
 * {
     box-sizing: border-box;
@@ -519,10 +519,10 @@ body::before {
 }
 
 .lineup-lines line {
-    stroke: #efff00;
+    stroke: #CC2233;
     stroke-width: 3;
     stroke-linecap: round;
-    filter: drop-shadow(0 0 5px rgba(239,255,0,0.75));
+    filter: drop-shadow(0 0 5px rgba(204,34,51,0.75));
 }
 
 /* pin de lineup en el mapa */
