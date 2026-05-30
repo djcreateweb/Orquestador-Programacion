@@ -26,6 +26,8 @@ let estado = {
 
 // lineups inyectados desde PHP en la vista
 let lineupData = window.lineupData || [];
+let misEnviosUsuario = window.misEnviosUsuario || [];
+let envioUsuarioActivo = null;
 
 // variables del modo editor
 let modoEditor = false;
@@ -134,11 +136,13 @@ function crearAgente(id, nombre, rol, imgArchivo, carpetaHab, habilidades) {
 // RAZON: patron profesora, punto de entrada es window load con funcion iniciar
 function iniciar() {
     lineupData = window.lineupData || [];
+    misEnviosUsuario = window.misEnviosUsuario || [];
     estado.maps = maps;
     estado.agents = agents;
 
     renderizarMapas();
     renderizarAgentes();
+    renderizarMisEnvios();
 
     let mapaInicial = obtenerPrimerMapaVisible();
     if (window.lineupInicial && window.lineupInicial.mapa) {
@@ -233,6 +237,223 @@ function iniciar() {
     if (btnEditor) btnEditor.addEventListener('click', activarModoEditor);
     if (btnLimpiar) btnLimpiar.addEventListener('click', limpiarBorrador);
     if (btnGuardar) btnGuardar.addEventListener('click', guardarLineupBD);
+}
+
+function renderizarMisEnvios() {
+    let lista = document.getElementById('misEnviosLista');
+    let contador = document.getElementById('misEnviosContador');
+    if (!lista) return;
+    if (contador) contador.textContent = misEnviosUsuario.length;
+    lista.innerHTML = '';
+
+    if (misEnviosUsuario.length === 0) {
+        let vacio = document.createElement('p');
+        vacio.className = 'mis-envios-vacio';
+        vacio.textContent = 'Todavia no has enviado ningun lineup. Crea uno y aparecera aqui con su estado.';
+        lista.appendChild(vacio);
+        return;
+    }
+
+    for (let i = 0; i < misEnviosUsuario.length; i++) {
+        let lp = misEnviosUsuario[i];
+        let item = document.createElement('div');
+        item.setAttribute('role', 'button');
+        item.tabIndex = 0;
+        item.className = 'mis-envios-item' + (String(lp.id) === String(envioUsuarioActivo) ? ' active' : '');
+        item.dataset.id = lp.id;
+
+        let titulo = document.createElement('span');
+        titulo.className = 'aul-titulo';
+        titulo.textContent = (lp.agente || lp.agente_nombre || 'Agente') + ' · ' + (lp.habilidad || 'Habilidad');
+        item.appendChild(titulo);
+
+        let meta = document.createElement('span');
+        meta.className = 'aul-meta';
+        meta.textContent = (lp.mapa || 'Mapa') + ' · ' + (lp.lado || 'Lado');
+        item.appendChild(meta);
+
+        let estadoEnvio = document.createElement('span');
+        estadoEnvio.className = 'mis-envios-estado ' + (parseInt(lp.aprobado, 10) === 1 ? 'is-aprobado' : 'is-pendiente');
+        estadoEnvio.textContent = parseInt(lp.aprobado, 10) === 1 ? 'Aprobado' : 'Pendiente';
+        item.appendChild(estadoEnvio);
+
+        let acciones = document.createElement('div');
+        acciones.className = 'mis-envios-acciones';
+
+        let btnVideo = document.createElement('button');
+        btnVideo.type = 'button';
+        btnVideo.className = 'mis-envios-btn mis-envios-btn-video';
+        btnVideo.textContent = 'Video';
+        btnVideo.addEventListener('click', function(e) {
+            e.stopPropagation();
+            abrirEditorVideoEnvio(lp, item);
+        });
+        acciones.appendChild(btnVideo);
+
+        let btnBorrar = document.createElement('button');
+        btnBorrar.type = 'button';
+        btnBorrar.className = 'mis-envios-btn mis-envios-btn-borrar';
+        btnBorrar.textContent = 'Borrar';
+        btnBorrar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            borrarEnvioUsuario(lp.id);
+        });
+        acciones.appendChild(btnBorrar);
+        item.appendChild(acciones);
+
+        item.addEventListener('click', function() {
+            seleccionarEnvioUsuario(lp.id);
+        });
+        item.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                seleccionarEnvioUsuario(lp.id);
+            }
+        });
+        lista.appendChild(item);
+    }
+}
+
+function abrirEditorVideoEnvio(lp, item) {
+    let existente = item.querySelector('.mis-envios-video-form');
+    if (existente) {
+        existente.remove();
+        return;
+    }
+
+    let formularios = document.querySelectorAll('.mis-envios-video-form');
+    for (let i = 0; i < formularios.length; i++) formularios[i].remove();
+
+    let form = document.createElement('div');
+    form.className = 'mis-envios-video-form';
+    form.addEventListener('click', function(e) { e.stopPropagation(); });
+
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.value = lp.video_url || '';
+    input.placeholder = 'URL de YouTube';
+    form.appendChild(input);
+
+    let guardar = document.createElement('button');
+    guardar.type = 'button';
+    guardar.textContent = 'Guardar';
+    guardar.addEventListener('click', function(e) {
+        e.stopPropagation();
+        guardarVideoEnvioUsuario(lp.id, input.value.trim());
+    });
+    form.appendChild(guardar);
+
+    item.appendChild(form);
+    input.focus();
+}
+
+function guardarVideoEnvioUsuario(id, videoUrl) {
+    let formData = new FormData();
+    formData.append('ajax', '1');
+    formData.append('id', id);
+    formData.append('video_url', videoUrl);
+
+    fetch('index.php?controlador=lineup&action=editar_video_envio', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        if (data.ok) {
+            for (let i = 0; i < misEnviosUsuario.length; i++) {
+                if (String(misEnviosUsuario[i].id) === String(id)) {
+                    misEnviosUsuario[i].video_url = videoUrl;
+                }
+            }
+            for (let j = 0; j < lineupData.length; j++) {
+                if (String(lineupData[j].id) === String(id)) {
+                    lineupData[j].video_url = videoUrl;
+                }
+            }
+            renderizarMisEnvios();
+            mostrarExitoEditor('Video actualizado');
+        } else {
+            mostrarAvisoEditor('Error al actualizar el video');
+        }
+    })
+    .catch(function() {
+        mostrarAvisoEditor('Error al actualizar el video');
+    });
+}
+
+function borrarEnvioUsuario(id) {
+    if (!confirm('¿Borrar este envio de lineup?')) return;
+    let formData = new FormData();
+    formData.append('ajax', '1');
+    formData.append('id', id);
+
+    fetch('index.php?controlador=lineup&action=borrar_envio', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        if (data.ok) {
+            for (let i = misEnviosUsuario.length - 1; i >= 0; i--) {
+                if (String(misEnviosUsuario[i].id) === String(id)) misEnviosUsuario.splice(i, 1);
+            }
+            for (let j = lineupData.length - 1; j >= 0; j--) {
+                if (String(lineupData[j].id) === String(id)) lineupData.splice(j, 1);
+            }
+            if (String(envioUsuarioActivo) === String(id)) {
+                envioUsuarioActivo = null;
+                limpiarLineaPrevia();
+            }
+            renderizarMisEnvios();
+            renderizarLineups();
+            renderizarTablaLineups();
+            mostrarExitoEditor('Envio borrado');
+        } else {
+            mostrarAvisoEditor('Error al borrar el envio');
+        }
+    })
+    .catch(function() {
+        mostrarAvisoEditor('Error al borrar el envio');
+    });
+}
+
+function seleccionarEnvioUsuario(id) {
+    let lp = null;
+    for (let i = 0; i < misEnviosUsuario.length; i++) {
+        if (String(misEnviosUsuario[i].id) === String(id)) lp = misEnviosUsuario[i];
+    }
+    if (!lp) return;
+    envioUsuarioActivo = lp.id;
+
+    seleccionarMapaDeLineup(lp.mapa);
+    seleccionarLadoDeLineup(lp.lado || 'Ataque');
+
+    let agente = buscarAgentePorNombre(lp.agente || lp.agente_nombre);
+    if (agente) {
+        let btn = buscarBotonAgente(agente.displayName);
+        seleccionarAgente(agente, btn, false);
+    }
+
+    renderizarMisEnvios();
+    renderizarLineups();
+    limpiarLineaPrevia();
+    if (agente && tieneCoordenadas(lp)) mostrarLineaPrevia(lp, agente);
+}
+
+function buscarAgentePorNombre(nombre) {
+    for (let i = 0; i < agents.length; i++) {
+        if (agents[i].displayName === nombre) return agents[i];
+    }
+    return null;
+}
+
+function buscarBotonAgente(nombre) {
+    let cards = document.querySelectorAll('.agent-card');
+    for (let i = 0; i < cards.length; i++) {
+        let texto = cards[i].querySelector('span');
+        if (texto && texto.textContent === nombre) return cards[i];
+    }
+    return null;
 }
 
 function getStrategicMapPath() {
@@ -620,6 +841,21 @@ function mostrarLineaPrevia(lp, agente) {
     agenteStart.innerHTML = '<img src="' + agente.displayIcon + '" alt="' + agente.displayName + '">';
     layer.appendChild(agenteStart);
 
+    let iconoHab = buscarIconoHabilidad(lp.habilidad);
+    let destino = document.createElement('div');
+    destino.className = 'lineup-preview-end';
+    destino.style.left = lp.destino_x + '%';
+    destino.style.top = lp.destino_y + '%';
+    destino.innerHTML = '<img src="' + iconoHab + '" alt="' + lp.habilidad + '">';
+    destino.addEventListener('click', function() {
+        if (lp.video_url) {
+            abrirModal(lp.titulo || lp.habilidad, lp.video_url);
+        } else {
+            mostrarAvisoEditor('Este envio no tiene video');
+        }
+    });
+    layer.appendChild(destino);
+
     let tooltip = document.createElement('div');
     tooltip.className = 'lineup-tooltip';
     tooltip.style.left = lp.destino_x + '%';
@@ -637,7 +873,7 @@ function limpiarLineaPrevia() {
         for (let i = 0; i < lineas.length; i++) lineas[i].remove();
     }
     if (layer) {
-        let items = layer.querySelectorAll('.lineup-start, .lineup-agent-start, .lineup-tooltip');
+        let items = layer.querySelectorAll('.lineup-start, .lineup-agent-start, .lineup-preview-end, .lineup-tooltip');
         for (let i = 0; i < items.length; i++) items[i].remove();
     }
 }
@@ -962,6 +1198,12 @@ function guardarLineupBD() {
         if (data.ok) {
             limpiarBorrador();
             if (window.modoEnvioLineup) {
+                if (data.lineup) {
+                    misEnviosUsuario.unshift(data.lineup);
+                    window.misEnviosUsuario = misEnviosUsuario;
+                    renderizarMisEnvios();
+                    seleccionarEnvioUsuario(data.lineup.id);
+                }
                 mostrarExitoEditor('Lineup enviado para revisión');
             } else {
                 let nuevo = data.lineup;

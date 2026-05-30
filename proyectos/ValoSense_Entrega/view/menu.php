@@ -25,7 +25,7 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
         </button>
 
         <nav class="navbar-menu" id="navbar-menu" aria-label="Menú principal">
-            <ul class="nav-list">
+            <ul class="nav-list<?php echo $logeado ? '' : ' nav-list--guest'; ?>">
 
                 <?php if (!$logeado): ?>
                     <li class="nav-item">

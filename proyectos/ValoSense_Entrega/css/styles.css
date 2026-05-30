@@ -1028,6 +1028,13 @@ p {
     flex-wrap: nowrap;
 }
 
+/* Menu sin login: pocos enlaces -> alinear a la derecha (logo a la izquierda,
+   enlaces y boton Login pegados al borde derecho). margin-left:auto no afecta
+   al menu movil en columna, asi que es seguro. */
+.nav-list--guest > .nav-item:first-child {
+    margin-left: auto;
+}
+
 .navbar-menu {
     flex: 1 1 auto;
     min-width: 0;

@@ -104,12 +104,27 @@ class Team_model {
                     ? $ocurrencia_por_rol[$mejor_rol] + 1
                     : 1;
 
+                $opciones_slot = array_slice($por_rol[$mejor_rol], 0, 3);
+                $ids_mostrados = [];
+                foreach ($opciones_slot as $opcion) {
+                    $ids_mostrados[] = (int)$opcion['id'];
+                }
+
                 $secciones[] = [
                     'rol' => $mejor_rol,
                     'slot_num' => $slot_inicial + $slot - 1,
                     'occurrence' => $ocurrencia_por_rol[$mejor_rol],
-                    'opciones' => array_slice($por_rol[$mejor_rol], 0, 6),
+                    'opciones' => $opciones_slot,
                 ];
+                foreach ($por_rol as $rol_lista => $lista_agentes) {
+                    $nueva_lista = [];
+                    foreach ($lista_agentes as $agente_lista) {
+                        if (!in_array((int)$agente_lista['id'], $ids_mostrados, true)) {
+                            $nueva_lista[] = $agente_lista;
+                        }
+                    }
+                    $por_rol[$rol_lista] = $nueva_lista;
+                }
                 $cobertura[$mejor_rol]++;
             }
 

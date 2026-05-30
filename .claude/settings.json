@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root -P 3307 -h 127.0.0.1 valosensebdd -N -e 'SELECT id,username FROM usuario WHERE es_admin=1;')",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root -P 3307 -h 127.0.0.1 valosensebdd -N -e 'SELECT id,username FROM usuario WHERE username='\\\\''usuario'\\\\'';')",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root -P 3307 -h 127.0.0.1 valosensebdd -N -e 'SELECT id,username FROM usuario WHERE es_admin=0 ORDER BY id;')"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-﻿<?php require_once("view/menu.php"); ?>
+<?php require_once("view/menu.php"); ?>
 <?php $seccion_usuario = $seccion_usuario ?? "auth"; ?>
 
 <?php if ($seccion_usuario == "ajustes"): ?>

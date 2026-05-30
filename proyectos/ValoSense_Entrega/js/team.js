@@ -1,9 +1,23 @@
 window.addEventListener('load', iniciarTeam);
 
 function iniciarTeam() {
+    activarSelectorMapaTeam();
     activarCheckboxAgentes();
     activarGuardarScrollMapa();
+    actualizarEstadoComposicion();
     restaurarScrollTeam();
+}
+
+function activarSelectorMapaTeam() {
+    let selector = document.getElementById('teamMapSelector');
+    let hero = document.getElementById('teamMapHero');
+    if (!selector || !hero) return;
+    hero.addEventListener('click', function() {
+        selector.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+        if (!selector.contains(e.target)) selector.classList.remove('open');
+    });
 }
 
 // toggle visual de is-selected al marcar agente
@@ -32,11 +46,31 @@ function toggleSeleccionado() {
     } else {
         label.classList.remove('is-selected');
     }
+    actualizarEstadoComposicion();
+}
+
+function actualizarEstadoComposicion() {
+    let seleccionados = document.querySelectorAll('.agent-btn input[type="checkbox"]:checked');
+    let status = document.getElementById('comp-status');
+    if (status) {
+        status.textContent = seleccionados.length + ' / 5 agentes seleccionados.';
+    }
+
+    let roles = {};
+    for (let i = 0; i < seleccionados.length; i++) {
+        let label = seleccionados[i].parentNode;
+        if (label && label.dataset.rol) roles[label.dataset.rol] = true;
+    }
+
+    let pills = document.querySelectorAll('.team-role-pill');
+    for (let j = 0; j < pills.length; j++) {
+        pills[j].classList.toggle('is-covered', !!roles[pills[j].dataset.role]);
+    }
 }
 
 // guarda scroll antes de enviar el formulario
 function activarGuardarScrollMapa() {
-    let botonesMapas = document.querySelectorAll('.map-btn');
+    let botonesMapas = document.querySelectorAll('.team-map-card');
     for (let i = 0; i < botonesMapas.length; i++) {
         botonesMapas[i].addEventListener('click', guardarScrollTeam);
     }

@@ -63,6 +63,29 @@ class Lineup_model {
         }
     }
 
+    // lineups que ha enviado un usuario, con su estado (pendiente/aprobado)
+    public function get_envios_usuario($usuario_id){
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT l.id, l.agente_id, l.titulo, l.descripcion, l.mapa, l.lado,
+                        l.habilidad, l.video_url, l.inicio_x, l.inicio_y,
+                        l.destino_x, l.destino_y, l.aprobado, l.creado_en,
+                        a.nombre AS agente, a.nombre AS agente_nombre
+                   FROM lineup l
+                   JOIN agente a ON a.id = l.agente_id
+                  WHERE l.usuario_id = ?
+                  ORDER BY l.creado_en DESC, l.id DESC"
+            );
+            $stmt->bind_param("i", $usuario_id);
+            $stmt->execute();
+            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            return $registros ?: [];
+        } catch (mysqli_sql_exception $e) {
+            return [];
+        }
+    }
+
     // guarda un lineup enviado por usuario para revisión del admin
     public function guardar_envio_usuario($usuario_id, $agente_id, $mapa, $lado, $habilidad,
         $inicio_x, $inicio_y, $destino_x, $destino_y, $titulo, $descripcion, $video_url) {
@@ -83,6 +106,38 @@ class Lineup_model {
             $id = $ok ? $this->db->insert_id : false;
             $stmt->close();
             return $id;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
+    public function actualizar_video_envio_usuario($id, $usuario_id, $video_url) {
+        try {
+            $check = $this->db->prepare("SELECT id FROM lineup WHERE id = ? AND usuario_id = ? LIMIT 1");
+            $check->bind_param("ii", $id, $usuario_id);
+            $check->execute();
+            $existe = $check->get_result()->num_rows > 0;
+            $check->close();
+            if (!$existe) return false;
+
+            $stmt = $this->db->prepare("UPDATE lineup SET video_url = ? WHERE id = ? AND usuario_id = ?");
+            $stmt->bind_param("sii", $video_url, $id, $usuario_id);
+            $ok = $stmt->execute();
+            $stmt->close();
+            return $ok;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
+    public function borrar_envio_usuario($id, $usuario_id) {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM lineup WHERE id = ? AND usuario_id = ?");
+            $stmt->bind_param("ii", $id, $usuario_id);
+            $ok = $stmt->execute();
+            $afectadas = $stmt->affected_rows;
+            $stmt->close();
+            return $ok && $afectadas > 0;
         } catch (mysqli_sql_exception $e) {
             return false;
         }

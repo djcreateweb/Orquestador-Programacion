@@ -41,6 +41,36 @@ require_once("view/menu.php"); ?>
                 <div class="loading">Cargando agentes...</div>
             </div>
 
+            <?php if ($modo_envio_lineup): ?>
+            <!-- apartado: lineups que ya ha enviado este usuario -->
+            <section class="mis-envios-panel">
+                <h2 class="section-title agent-title">Tus envios</h2>
+                <p class="lineup-editor-hint mis-envios-hint">Pulsa un lineup para verlo en el mapa y comprobar su estado.</p>
+                <button class="mis-envios-user-card" type="button">
+                    <i><?php echo htmlspecialchars(strtoupper(substr($_SESSION['usuario']['username'] ?? 'TU', 0, 2))); ?></i>
+                    <span><?php echo htmlspecialchars($_SESSION['usuario']['username'] ?? 'Usuario'); ?></span>
+                    <b id="misEnviosContador"><?php echo count($mis_envios ?? array()); ?></b>
+                </button>
+                <?php if (empty($mis_envios)): ?>
+                    <div class="mis-envios-lista" id="misEnviosLista">
+                        <p class="mis-envios-vacio">Todavia no has enviado ningun lineup. Crea uno y aparecera aqui con su estado.</p>
+                    </div>
+                <?php else: ?>
+                    <div class="mis-envios-lista" id="misEnviosLista">
+                        <?php foreach ($mis_envios as $envio): ?>
+                            <button class="mis-envios-item" type="button" data-id="<?php echo (int)$envio['id']; ?>">
+                                <span class="aul-titulo"><?php echo htmlspecialchars($envio['agente']); ?> · <?php echo htmlspecialchars($envio['habilidad']); ?></span>
+                                <span class="aul-meta"><?php echo htmlspecialchars($envio['mapa']); ?> · <?php echo htmlspecialchars($envio['lado']); ?></span>
+                                <span class="mis-envios-estado <?php echo !empty($envio['aprobado']) ? 'is-aprobado' : 'is-pendiente'; ?>">
+                                    <?php echo !empty($envio['aprobado']) ? 'Aprobado' : 'Pendiente'; ?>
+                                </span>
+                            </button>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </section>
+            <?php endif; ?>
+
             <section class="abilities-panel">
                 <h2 class="section-title">Personaje seleccionado</h2>
                 <!-- caja del agente seleccionado actualmente -->
@@ -159,6 +189,7 @@ require_once("view/menu.php"); ?>
 window.lineupData = <?php echo json_encode($lineups ?? array()); ?>;
 window.esAdminLineup = <?php echo (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1) ? 'true' : 'false'; ?>;
 window.modoEnvioLineup = <?php echo $modo_envio_lineup ? 'true' : 'false'; ?>;
+window.misEnviosUsuario = <?php echo json_encode($mis_envios ?? array()); ?>;
 window.lineupInicial = {
     mapa: <?php echo json_encode($mapa_sel ?? ''); ?>,
     lado: <?php echo json_encode($lado_sel ?? 'Ataque'); ?>,

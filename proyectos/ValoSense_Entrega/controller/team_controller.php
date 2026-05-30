@@ -9,6 +9,9 @@ function home(){
     $model = new Team_model();
     $mapas = $model->get_mapas();
     $mapa = isset($_GET["mapa"]) ? $_GET["mapa"] : "";
+    if ($mapa == "" || !in_array($mapa, $mapas, true)) {
+        $mapa = !empty($mapas) ? $mapas[0] : "";
+    }
     $seleccionados = isset($_GET["agentes"]) ? $_GET["agentes"] : [];
     if (!is_array($seleccionados)) $seleccionados = [];
     $seleccionados = array_slice(array_values(array_unique(array_map('intval', $seleccionados))), 0, 5);

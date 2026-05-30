@@ -325,8 +325,325 @@ body::before {
 }
 
 .side-content.ability-mode .agent-title,
-.side-content.ability-mode .agents-grid {
+.side-content.ability-mode .agents-grid,
+.side-content.ability-mode .mis-envios-panel {
     display: none;
+}
+
+/* === Apartado: lineups enviados por el usuario === */
+.mis-envios-panel {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mis-envios-panel .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mis-envios-contador {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(204, 34, 51, 0.18);
+    border: 1px solid rgba(204, 34, 51, 0.5);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.mis-envios-vacio {
+    margin: 10px 0 0;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #aeb5c1;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.mis-envios-lista {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.mis-envios-lista::-webkit-scrollbar { width: 6px; }
+.mis-envios-lista::-webkit-scrollbar-thumb { background: #CC2233; border-radius: 999px; }
+
+.mis-envios-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    background: #191f28;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.mis-envios-item:hover {
+    border-color: rgba(204, 34, 51, 0.5);
+    background: #1d242e;
+}
+
+.mis-envios-agente {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #0f141b;
+    border: 1px solid rgba(204, 34, 51, 0.45);
+}
+
+.mis-envios-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.mis-envios-titulo {
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mis-envios-meta {
+    color: #aeb5c1;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.mis-envios-estado {
+    flex: 0 0 auto;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.mis-envios-estado.is-pendiente {
+    background: rgba(255, 200, 0, 0.14);
+    border: 1px solid rgba(255, 200, 0, 0.45);
+    color: #ffc800;
+}
+
+.mis-envios-estado.is-aprobado {
+    background: rgba(64, 220, 132, 0.14);
+    border: 1px solid rgba(64, 220, 132, 0.5);
+    color: #5ce39b;
+}
+
+.mis-envios-hint {
+    margin: -2px 0 10px;
+}
+
+.mis-envios-user-card {
+    min-height: 54px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    background: #161b23;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px 4px 0 0;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-align: left;
+}
+
+.mis-envios-user-card i {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #CC2233, #751620);
+    color: #fff;
+    font-style: normal;
+    font-size: 0.78rem;
+    line-height: 1;
+}
+
+.mis-envios-user-card span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.mis-envios-user-card b {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    justify-self: end;
+    border-radius: 999px;
+    background: rgba(204,34,51,0.18);
+    border: 1px solid rgba(204,34,51,0.48);
+    color: #fff;
+}
+
+.mis-envios-panel .mis-envios-lista {
+    gap: 6px;
+    margin-top: 0;
+    padding: 10px;
+    background: rgba(8,13,18,0.55);
+    border: 1px solid rgba(204,34,51,0.28);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+}
+
+.mis-envios-panel .mis-envios-item {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 10px;
+    text-align: left;
+    background: #161b23;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.mis-envios-panel .mis-envios-item:hover,
+.mis-envios-panel .mis-envios-item.active {
+    border-color: #CC2233;
+    background: rgba(204,34,51,0.2);
+}
+
+.mis-envios-panel .aul-titulo,
+.mis-envios-panel .mis-envios-titulo {
+    width: 100%;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.25;
+    white-space: normal;
+}
+
+.mis-envios-panel .aul-meta,
+.mis-envios-panel .mis-envios-meta {
+    color: #aeb5c1;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mis-envios-panel .mis-envios-estado {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.mis-envios-panel .mis-envios-item .aul-titulo {
+    padding-right: 86px;
+}
+
+.mis-envios-acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.mis-envios-btn {
+    min-height: 28px;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+}
+
+.mis-envios-btn-video {
+    background: rgba(104,217,255,0.1);
+    color: #68d9ff;
+    border: 1px solid rgba(104,217,255,0.32);
+}
+
+.mis-envios-btn-video:hover {
+    background: rgba(104,217,255,0.18);
+}
+
+.mis-envios-btn-borrar {
+    background: rgba(204,34,51,0.14);
+    color: #ff6b75;
+    border: 1px solid rgba(204,34,51,0.42);
+}
+
+.mis-envios-btn-borrar:hover {
+    background: rgba(204,34,51,0.28);
+    color: #fff;
+}
+
+.mis-envios-video-form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 66px;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.mis-envios-video-form input {
+    min-width: 0;
+    height: 30px;
+    padding: 0 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.75rem;
+}
+
+.mis-envios-video-form input:focus {
+    outline: none;
+    border-color: #68d9ff;
+}
+
+.mis-envios-video-form button {
+    height: 30px;
+    border-radius: 4px;
+    background: rgba(204,34,51,0.2);
+    color: #fff;
+    border: 1px solid rgba(204,34,51,0.45);
+    font-size: 0.68rem;
+    font-weight: 900;
+    cursor: pointer;
 }
 
 .side-content.ability-mode .abilities-panel {
@@ -615,6 +932,34 @@ body::before {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.lineup-preview-end {
+    position: absolute;
+    z-index: 7;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #CC2233;
+    border-radius: 50%;
+    background: rgba(8,13,18,0.92);
+    box-shadow: 0 0 0 4px rgba(204,34,51,0.16), 0 0 14px rgba(204,34,51,0.72);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.lineup-preview-end:hover {
+    background: rgba(204,34,51,0.2);
+    box-shadow: 0 0 0 5px rgba(204,34,51,0.2), 0 0 18px rgba(204,34,51,0.86);
+}
+
+.lineup-preview-end img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
 }
 
 /* tooltip de cada lineup */
