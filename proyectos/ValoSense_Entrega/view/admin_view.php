@@ -358,13 +358,65 @@ function agente_img_admin($agente){
             title.textContent = lp.agente + ' - ' + lp.habilidad;
             hint.textContent = lp.autor + ' · ' + lp.mapa + ' · ' + lp.lado;
             let embed = normalizarVideo(lp.video_url);
-            body.innerHTML =
-                (embed ? '<figure class="lineup-thumb moderation-video"><iframe src="' + embed + '" frameborder="0" allowfullscreen loading="lazy" class="lineup-thumb-img"></iframe></figure>' : '<p class="lineup-desc">Este envio no trae video de YouTube.</p>') +
-                '<pre class="admin-review-meta"><span>Mapa</span><strong>' + lp.mapa + '</strong><span>Lado</span><strong>' + lp.lado + '</strong><span>Agente</span><strong>' + lp.agente + '</strong><span>Habilidad</span><strong>' + lp.habilidad + '</strong></pre>' +
-                '<div class="admin-card-actions">' +
-                '<form class="inline-form" action="index.php?controlador=admin&amp;action=lineups" method="post"><input type="hidden" name="id" value="' + lp.id + '"><button type="submit" name="aprobar" value="1" class="btn-primary btn-small">Aprobar</button></form>' +
-                '<form class="inline-form" action="index.php?controlador=admin&amp;action=lineups" method="post"><input type="hidden" name="id" value="' + lp.id + '"><button type="submit" name="borrar" value="1" class="btn-secondary btn-small">Rechazar</button></form>' +
-                '</div>';
+            body.innerHTML = '';
+
+            if (embed) {
+                let fig = document.createElement('figure');
+                fig.className = 'lineup-thumb moderation-video';
+                let iframe = document.createElement('iframe');
+                iframe.src = embed;
+                iframe.setAttribute('frameborder', '0');
+                iframe.allowFullscreen = true;
+                iframe.loading = 'lazy';
+                iframe.className = 'lineup-thumb-img';
+                fig.appendChild(iframe);
+                body.appendChild(fig);
+            } else {
+                let p = document.createElement('p');
+                p.className = 'lineup-desc';
+                p.textContent = 'Este envio no trae video de YouTube.';
+                body.appendChild(p);
+            }
+
+            let meta = document.createElement('pre');
+            meta.className = 'admin-review-meta';
+            let filas = [['Mapa', lp.mapa], ['Lado', lp.lado], ['Agente', lp.agente], ['Habilidad', lp.habilidad]];
+            for (let i = 0; i < filas.length; i++) {
+                let s = document.createElement('span');
+                s.textContent = filas[i][0];
+                let b = document.createElement('strong');
+                b.textContent = filas[i][1];
+                meta.appendChild(s);
+                meta.appendChild(b);
+            }
+            body.appendChild(meta);
+
+            let acciones = document.createElement('div');
+            acciones.className = 'admin-card-actions';
+            let botones = [
+                { name: 'aprobar', texto: 'Aprobar', clase: 'btn-primary btn-small' },
+                { name: 'borrar', texto: 'Rechazar', clase: 'btn-secondary btn-small' }
+            ];
+            for (let i = 0; i < botones.length; i++) {
+                let form = document.createElement('form');
+                form.className = 'inline-form';
+                form.action = 'index.php?controlador=admin&action=lineups';
+                form.method = 'post';
+                let inputId = document.createElement('input');
+                inputId.type = 'hidden';
+                inputId.name = 'id';
+                inputId.value = lp.id;
+                let btn = document.createElement('button');
+                btn.type = 'submit';
+                btn.name = botones[i].name;
+                btn.value = '1';
+                btn.className = botones[i].clase;
+                btn.textContent = botones[i].texto;
+                form.appendChild(inputId);
+                form.appendChild(btn);
+                acciones.appendChild(form);
+            }
+            body.appendChild(acciones);
         }
 
         function refrescarTodo() {
