@@ -3,6 +3,17 @@
 
     var NUM_ORBS = 8;
     var STORAGE_KEY = 'vsOrbsBroken';
+    var FROZEN_KEY = 'vsOrbsFrozen';
+
+    // Estado global de congelado, compartido por todas las instancias y persistente
+    // entre páginas (se guarda en localStorage para que aplique en toda la web).
+    function leerFrozen() {
+        try { return localStorage.getItem(FROZEN_KEY) === '1'; } catch (_) { return false; }
+    }
+    function guardarFrozen(v) {
+        try { localStorage.setItem(FROZEN_KEY, v ? '1' : '0'); } catch (_) {}
+    }
+    var frozen = leerFrozen();
 
     // colores de las bolas
     var COLORES = [
@@ -157,12 +168,14 @@
 
             for (var i = 0; i < orbs.length; i++) {
                 var o = orbs[i];
-                o.x += o.vx * dt;
-                o.y += o.vy * dt;
-                if (o.x - o.r < 0)      { o.x = o.r;     o.vx = -o.vx; }
-                else if (o.x + o.r > W) { o.x = W - o.r; o.vx = -o.vx; }
-                if (o.y - o.r < 0)      { o.y = o.r;     o.vy = -o.vy; }
-                else if (o.y + o.r > H) { o.y = H - o.r; o.vy = -o.vy; }
+                if (!frozen) {
+                    o.x += o.vx * dt;
+                    o.y += o.vy * dt;
+                    if (o.x - o.r < 0)      { o.x = o.r;     o.vx = -o.vx; }
+                    else if (o.x + o.r > W) { o.x = W - o.r; o.vx = -o.vx; }
+                    if (o.y - o.r < 0)      { o.y = o.r;     o.vy = -o.vy; }
+                    else if (o.y + o.r > H) { o.y = H - o.r; o.vy = -o.vy; }
+                }
 
                 var g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r * 2.4);
                 var c = o.color;
@@ -187,11 +200,13 @@
 
             for (var j = particulas.length - 1; j >= 0; j--) {
                 var p = particulas[j];
-                p.x += p.vx * dt * 0.6;
-                p.y += p.vy * dt * 0.6;
-                p.vx *= 0.98;
-                p.vy *= 0.98;
-                p.life -= dt * 0.0016;
+                if (!frozen) {
+                    p.x += p.vx * dt * 0.6;
+                    p.y += p.vy * dt * 0.6;
+                    p.vx *= 0.98;
+                    p.vy *= 0.98;
+                    p.life -= dt * 0.0016;
+                }
                 if (p.life <= 0) { particulas.splice(j, 1); continue; }
                 var pc = p.color;
                 ctx.fillStyle = 'rgba(' + pc.r + ',' + pc.g + ',' + pc.b + ',' + p.life + ')';
@@ -219,9 +234,29 @@
         else window.addEventListener('resize', redimensionar);
     }
 
+    function conectarBoton() {
+        var btn = document.getElementById('orbsFreeze');
+        if (!btn) return;
+
+        function pintar() {
+            btn.classList.toggle('is-frozen', frozen);
+            btn.setAttribute('aria-pressed', frozen ? 'true' : 'false');
+            btn.title = frozen ? 'Reanudar las bolitas' : 'Congelar las bolitas';
+            btn.setAttribute('aria-label', btn.title);
+        }
+
+        btn.addEventListener('click', function () {
+            frozen = !frozen;
+            guardarFrozen(frozen);
+            pintar();
+        });
+        pintar();
+    }
+
     function init() {
         var heros = document.querySelectorAll('.hero');
         for (var i = 0; i < heros.length; i++) crearOrbsHero(heros[i]);
+        conectarBoton();
     }
 
     if (document.readyState === 'loading') {

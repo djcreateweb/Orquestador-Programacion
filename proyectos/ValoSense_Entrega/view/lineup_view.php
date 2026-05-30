@@ -6,6 +6,7 @@
 //   - sin session_start ni logica de negocio
 //   - $lineups viene del controlador y se pasa al JS como JSON
 
+$modo_envio_lineup = !empty($modo_envio_lineup);
 require_once("view/menu.php"); ?>
 
 <!-- contenedor principal del apartado lineups -->
@@ -94,7 +95,7 @@ require_once("view/menu.php"); ?>
                 </div>
             </div>
 
-            <?php if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['es_admin'] != 1): ?>
+            <?php if ((!isset($_SESSION['usuario']) || $_SESSION['usuario']['es_admin'] != 1) && !$modo_envio_lineup): ?>
             <!-- panel derecho con info del mapa solo para usuarios normales -->
             <aside class="map-info">
                 <h2 id="mapName">Selecciona un mapa</h2>
@@ -109,12 +110,12 @@ require_once("view/menu.php"); ?>
             </aside>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1): ?>
-            <!-- editor de lineups solo visible para el admin -->
+            <?php if ((isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1) || $modo_envio_lineup): ?>
+            <!-- editor de lineups visible para admin y para envíos de usuarios -->
             <section class="lineup-editor">
                 <div class="lineup-editor-header">
-                    <h3>Editor de lineup</h3>
-                    <p class="lineup-editor-hint">Selecciona habilidad y haz dos clics en el mapa: inicio y destino.</p>
+                    <h3><?php echo $modo_envio_lineup ? 'Enviar prueba de lineup' : 'Editor de lineup'; ?></h3>
+                    <p class="lineup-editor-hint"><?php echo $modo_envio_lineup ? 'Prepara una prueba de lineup con inicio, destino y video para que el admin la revise.' : 'Selecciona habilidad y haz dos clics en el mapa: inicio y destino.'; ?></p>
                 </div>
                 <div class="lineup-editor-body">
                     <div class="editor-aviso" id="editorAviso"></div>
@@ -127,7 +128,7 @@ require_once("view/menu.php"); ?>
                     <div class="editor-campos" id="editorCampos" style="display:none">
                         <label>URL de YouTube <span style="font-weight:normal;opacity:.6">(opcional, se puede añadir después)</span></label>
                         <input type="text" id="editorVideoUrl" value="" autocomplete="off">
-                        <button id="guardarLineup" type="button">Guardar lineup</button>
+                        <button id="guardarLineup" type="button"><?php echo $modo_envio_lineup ? 'Enviar prueba' : 'Guardar lineup'; ?></button>
                     </div>
 
                     <pre id="lineupJsonOutput">Aqui aparecera el JSON del lineup.</pre>
@@ -157,6 +158,7 @@ require_once("view/menu.php"); ?>
 <script>
 window.lineupData = <?php echo json_encode($lineups ?? array()); ?>;
 window.esAdminLineup = <?php echo (isset($_SESSION['usuario']) && $_SESSION['usuario']['es_admin'] == 1) ? 'true' : 'false'; ?>;
+window.modoEnvioLineup = <?php echo $modo_envio_lineup ? 'true' : 'false'; ?>;
 window.lineupInicial = {
     mapa: <?php echo json_encode($mapa_sel ?? ''); ?>,
     lado: <?php echo json_encode($lado_sel ?? 'Ataque'); ?>,

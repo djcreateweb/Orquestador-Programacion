@@ -44,14 +44,9 @@
 /* Layout grid principal */
 .contacto-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 720px);
+    justify-content: center;
     gap: var(--sp-5);
-}
-
-@media (min-width: 880px) {
-    .contacto-grid {
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    }
 }
 
 /* Card base */
@@ -80,6 +75,7 @@
     margin-bottom: var(--sp-4);
     padding-bottom: var(--sp-3);
     border-bottom: 1px solid var(--border-subtle);
+    text-align: center;
 }
 .contacto-card-title {
     margin: var(--sp-1) 0 var(--sp-2);
@@ -141,7 +137,7 @@
 
 .contacto-form-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: var(--sp-3);
     margin-top: var(--sp-1);
     padding-top: var(--sp-4);

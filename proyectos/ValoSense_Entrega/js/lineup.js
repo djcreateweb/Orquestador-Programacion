@@ -12,6 +12,8 @@
 // - el filtrado por mapa/lado/agente se hace aqui en cliente
 
 window.addEventListener('load', iniciar);
+window.addEventListener('DOMContentLoaded', bloquearMovimientoMapas);
+window.addEventListener('DOMContentLoaded', limitarZoomMaximo);
 
 // estado global de la pantalla
 let estado = {
@@ -33,6 +35,51 @@ let puntoDestino = null;
 
 // lineups de prueba desactivados
 let lineupsDemo = [];
+
+// bloquea gestos solo encima del mapa, sin afectar al resto de la página
+function bloquearMovimientoMapas() {
+    let mapa = document.getElementById('mapRotator');
+    if (!mapa) return;
+
+    mapa.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+    });
+
+    mapa.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+    });
+
+    mapa.addEventListener('gesturechange', function(e) {
+        e.preventDefault();
+    });
+
+    mapa.addEventListener('touchmove', function(e) {
+        if (e.touches && e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+}
+
+// permite alejar la página, pero no ampliarla por encima del 100%
+function limitarZoomMaximo() {
+    if (!window.bloquearZoom100) return;
+
+    document.addEventListener('wheel', function(e) {
+        if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('keydown', function(e) {
+        let tecla = e.key;
+        let esZoom = tecla === '+' || tecla === '-' || tecla === '=' || tecla === '0';
+        if ((e.ctrlKey || e.metaKey) && esZoom) e.preventDefault();
+    });
+
+    document.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('gesturechange', function(e) {
+        e.preventDefault();
+    });
+}
 
 // CAMBIO: const maps -> let maps
 // RAZON: patron profesora, no se usa const
@@ -902,27 +949,35 @@ function guardarLineupBD() {
         formData.append(clave, campos[clave]);
     }
 
-    fetch('index.php?controlador=admin&action=guardar_lineup', {
+    let urlGuardar = window.modoEnvioLineup
+        ? 'index.php?controlador=lineup&action=guardar_envio'
+        : 'index.php?controlador=admin&action=guardar_lineup';
+
+    fetch(urlGuardar, {
         method: 'POST',
         body: formData
     })
     .then(function(res) { return res.json(); })
     .then(function(data) {
         if (data.ok) {
-            let nuevo = data.lineup;
-            nuevo.agente = estado.selectedAgent.displayName;
-            nuevo.agente_nombre = estado.selectedAgent.displayName;
-            lineupData.push(nuevo);
             limpiarBorrador();
-            renderizarLineups();
-            renderizarTablaLineups();
-            mostrarExitoEditor('Lineup guardado');
+            if (window.modoEnvioLineup) {
+                mostrarExitoEditor('Lineup enviado para revisión');
+            } else {
+                let nuevo = data.lineup;
+                nuevo.agente = estado.selectedAgent.displayName;
+                nuevo.agente_nombre = estado.selectedAgent.displayName;
+                lineupData.push(nuevo);
+                renderizarLineups();
+                renderizarTablaLineups();
+                mostrarExitoEditor('Lineup guardado');
+            }
         } else {
-            mostrarAvisoEditor('Error al guardar el lineup');
+            mostrarAvisoEditor(window.modoEnvioLineup ? 'Error al enviar el lineup' : 'Error al guardar el lineup');
         }
     })
     .catch(function() {
-        mostrarAvisoEditor('Error al guardar el lineup');
+        mostrarAvisoEditor(window.modoEnvioLineup ? 'Error al enviar el lineup' : 'Error al guardar el lineup');
     });
 }
 

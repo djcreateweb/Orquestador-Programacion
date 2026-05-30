@@ -51,7 +51,8 @@ class Admin_model {
     public function get_lineups_pendientes(){
         try {
             $stmt = $this->db->prepare(
-                "SELECT l.id, l.titulo, l.descripcion, l.video_url, l.mapa, l.creado_en,
+                "SELECT l.id, l.usuario_id, l.titulo, l.descripcion, l.video_url, l.mapa, l.lado, l.habilidad,
+                        l.inicio_x, l.inicio_y, l.destino_x, l.destino_y, l.creado_en,
                         a.nombre AS agente, u.username AS autor
                    FROM lineup l
                    JOIN agente a ON a.id = l.agente_id

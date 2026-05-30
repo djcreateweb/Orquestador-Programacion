@@ -73,39 +73,6 @@
                     </form>
                 </article>
 
-                <!-- info lateral -->
-                <aside class="contacto-aside">
-                    <article class="contacto-card contacto-card--info">
-                        <header class="contacto-card-head">
-                            <span class="eyebrow">// DIRECTO</span>
-                            <h2 class="contacto-card-title">Prefieres el correo</h2>
-                        </header>
-                        <a class="contacto-email-link" href="mailto:djcreateweb@gmail.com">
-                            <span class="contacto-email-icon" aria-hidden="true">@</span>
-                            <span class="contacto-email-text">djcreateweb@gmail.com</span>
-                        </a>
-                        <p class="contacto-info-note">Respuesta habitual en menos de 48 horas.</p>
-                    </article>
-
-                    <article class="contacto-card contacto-card--lineup">
-                        <header class="contacto-card-head">
-                            <span class="eyebrow">// COLABORA</span>
-                            <h2 class="contacto-card-title">¿Tienes un <span class="text-red">lineup</span>?</h2>
-                            <p class="contacto-card-sub">Comparte tu jugada con la comunidad.</p>
-                        </header>
-                        <?php if (isset($_SESSION['usuario'])): ?>
-                            <a href="index.php?controlador=lineup&amp;action=enviar" class="btn-primary btn-large contacto-cta-lineup">
-                                Enviar mi lineup
-                            </a>
-                        <?php else: ?>
-                            <a href="index.php?controlador=usuario&amp;action=home" class="btn-secondary btn-large contacto-cta-lineup">
-                                Inicia sesión para enviar
-                            </a>
-                        <?php endif; ?>
-                        <p class="contacto-info-note">Solo smokes, flashes y mollies útiles.</p>
-                    </article>
-                </aside>
-
             </div>
         </div>
     </section>

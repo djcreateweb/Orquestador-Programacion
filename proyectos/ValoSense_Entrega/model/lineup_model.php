@@ -62,5 +62,30 @@ class Lineup_model {
             return array();
         }
     }
+
+    // guarda un lineup enviado por usuario para revisión del admin
+    public function guardar_envio_usuario($usuario_id, $agente_id, $mapa, $lado, $habilidad,
+        $inicio_x, $inicio_y, $destino_x, $destino_y, $titulo, $descripcion, $video_url) {
+        try {
+            $stmt = $this->db->prepare(
+                "INSERT INTO lineup (usuario_id, agente_id, mapa, lado, habilidad,
+                 inicio_x, inicio_y, destino_x, destino_y,
+                 titulo, descripcion, video_url, aprobado)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)"
+            );
+            $stmt->bind_param(
+                "iisssddddsss",
+                $usuario_id, $agente_id, $mapa, $lado, $habilidad,
+                $inicio_x, $inicio_y, $destino_x, $destino_y,
+                $titulo, $descripcion, $video_url
+            );
+            $ok = $stmt->execute();
+            $id = $ok ? $this->db->insert_id : false;
+            $stmt->close();
+            return $id;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
 }
 ?>

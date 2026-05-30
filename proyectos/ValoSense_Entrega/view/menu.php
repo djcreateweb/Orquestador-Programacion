@@ -9,10 +9,16 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
 
 <header class="navbar">
     <div class="navbar-container">
-        <a href="index.php" class="navbar-logo">
-            <img src="imagenes/logo.svg" alt="ValoSense" width="32" height="32">
-            <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
-        </a>
+        <div class="navbar-brand">
+            <button type="button" id="orbsFreeze" class="orbs-freeze"
+                    aria-pressed="false" aria-label="Congelar las bolitas" title="Congelar las bolitas">
+                <span class="orbs-freeze-dot" aria-hidden="true"></span>
+            </button>
+            <a href="index.php" class="navbar-logo">
+                <img src="imagenes/logo.svg" alt="ValoSense" width="32" height="32">
+                <span class="logo-text">Valo<span class="logo-accent">Sense</span></span>
+            </a>
+        </div>
 
         <button class="navbar-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
             <span></span><span></span><span></span>
@@ -79,6 +85,14 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
                             Contacto
                         </a>
                     </li>
+                    <?php if (!$es_admin): ?>
+                    <li class="nav-item">
+                        <a href="index.php?controlador=lineup&amp;action=enviar"
+                           class="nav-link<?php echo ($c_actual === 'lineup' && ($_GET['action'] ?? '') === 'enviar') ? ' nav-link-active' : ''; ?>">
+                            Enviar lineup
+                        </a>
+                    </li>
+                    <?php endif; ?>
 
                     <?php if ($es_admin): ?>
                         <li class="nav-item">
@@ -105,8 +119,8 @@ $username = $logeado ? ($_SESSION["usuario"]["username"] ?? '') : '';
                     <?php
                         $user_menu_activo = in_array($c_actual, ['perfil','usuario']) && in_array($_GET['action'] ?? '', ['ajustes','completar_perfil','ver','']);
                     ?>
-                    <li class="nav-item nav-item-user nav-dropdown<?php echo $user_menu_activo ? ' is-active' : ''; ?>">
-                        <button type="button" class="nav-user-toggle nav-dropdown-toggle"
+                    <li class="nav-item nav-item-user nav-dropdown">
+                        <button type="button" class="nav-user-toggle nav-dropdown-toggle<?php echo $user_menu_activo ? ' nav-link-active' : ''; ?>"
                                 aria-haspopup="menu" aria-expanded="false"
                                 aria-label="Menú de <?php echo htmlspecialchars($username); ?>">
                             <span class="nav-user-avatar"><?php echo htmlspecialchars(strtoupper(substr($username, 0, 2))); ?></span>
