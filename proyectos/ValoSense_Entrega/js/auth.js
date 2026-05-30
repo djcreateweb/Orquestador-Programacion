@@ -17,12 +17,15 @@ function iniciar() {
     let formLogin = document.querySelector('#tab-login form');
     if (formLogin) {
         formLogin.addEventListener('submit', validarLogin);
+        // desactiva el bocadillo nativo del navegador: usamos validacion propia
+        formLogin.noValidate = true;
     }
 
     // formulario de registro
     let formRegistro = document.querySelector('#tab-registro form');
     if (formRegistro) {
         formRegistro.addEventListener('submit', validarRegistro);
+        formRegistro.noValidate = true;
     }
 
     // resalta campos al enfocarlos
@@ -30,6 +33,8 @@ function iniciar() {
     for (let i = 0; i < campos.length; i++) {
         campos[i].addEventListener('focus', enfocarCampo);
         campos[i].addEventListener('blur', desenfocarCampo);
+        // al escribir, quita el marcado de error del campo
+        campos[i].addEventListener('input', limpiarMarcaError);
     }
 
     // limpia aviso legal
@@ -92,6 +97,7 @@ function validarLogin(e) {
     if (regexVacio.test(nombre) || pswd.length === 0) {
         e.preventDefault();
         mostrarError('tab-login', 'Rellena el usuario y la contraseña');
+        marcarCampoError(regexVacio.test(nombre) ? document.getElementById('nombre') : document.getElementById('pswd'));
         return;
     }
 
@@ -145,20 +151,33 @@ function validarRegistro(e) {
     if (!regexNombre.test(nombre)) {
         e.preventDefault();
         mostrarError('tab-registro', 'El usuario: solo letras, números y _ (3-30 caracteres)');
+        marcarCampoError(inputNombre);
         return;
     }
 
     if (!regexEmail.test(email)) {
         e.preventDefault();
         mostrarError('tab-registro', 'Introduce un email con formato válido');
+        marcarCampoError(inputEmail);
         return;
     }
 
     if (pswd.length < 8) {
         e.preventDefault();
-        mostrarError('tab-registro', 'La contraseña debe tener al menos 8 caracteres');
+        mostrarError('tab-registro', 'La contraseña debe tener al menos 8 caracteres (te faltan ' + (8 - pswd.length) + ')');
+        marcarCampoError(inputPswd);
         return;
     }
+}
+
+function marcarCampoError(input) {
+    if (!input) return;
+    input.classList.add('input-error');
+    input.focus();
+}
+
+function limpiarMarcaError() {
+    this.classList.remove('input-error');
 }
 
 function mostrarError(panelId, texto) {

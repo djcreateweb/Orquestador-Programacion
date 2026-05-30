@@ -120,6 +120,9 @@ html {
     /* Ancla sin quedar tapada por navbar */
     scroll-padding-top: calc(var(--nav-h, 80px) + 12px);
     -webkit-text-size-adjust: 100%;
+    /* Reserva siempre el hueco de la barra de scroll para que el navbar y el
+       contenido no se descuadren entre paginas cortas (ajustes, completar) y largas */
+    scrollbar-gutter: stable;
 }
 
 body {

@@ -451,6 +451,12 @@
     border-radius: var(--radius-xs);
 }
 
+/* campo resaltado cuando la validacion propia falla */
+.auth-form .form-input.input-error {
+    border-color: var(--red-primary) !important;
+    box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.18);
+}
+
 /* 13. Footer compacto de la página */
 
 .footer-compact {
@@ -686,6 +692,64 @@
     justify-content: flex-end;
     padding-top: var(--sp-3);
     border-top: 1px solid var(--border-subtle);
+}
+
+/* campo de agentes favoritos a ancho completo */
+.completar-page .filter-group--full {
+    grid-column: 1 / -1;
+}
+
+.fav-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: var(--sp-2);
+}
+
+.fav-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px 4px 4px;
+    background: rgba(255, 70, 85, 0.1);
+    border: 1px solid rgba(255, 70, 85, 0.42);
+    border-radius: 999px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.fav-chip img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-dark);
+}
+
+.fav-chip-x {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.fav-chip-x:hover {
+    background: var(--red-primary);
+}
+
+.fav-hint {
+    margin: var(--sp-2) 0 0;
+    color: var(--text-muted);
+    font-size: 0.8rem;
 }
 
 .vincular-message {

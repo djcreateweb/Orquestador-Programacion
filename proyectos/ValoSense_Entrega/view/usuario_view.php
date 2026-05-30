@@ -404,6 +404,18 @@
                     <input class="form-input" type="number" id="rango_rr" name="rango_rr" min="0" max="100" value="0" required>
                 </div>
 
+                <div class="filter-group filter-group--full">
+                    <label class="filter-label" for="favoritoSelect">Agentes favoritos</label>
+                    <select class="filter-select" id="favoritoSelect">
+                        <option value="">Anade un agente favorito...</option>
+                        <?php foreach (($agentes ?? array()) as $ag): ?>
+                            <option value="<?php echo (int) $ag['id']; ?>"><?php echo htmlspecialchars($ag['nombre']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="fav-chips" id="favChips" aria-live="polite"></div>
+                    <p class="fav-hint" id="favHint">Elige hasta 5 agentes. Apareceran en tu perfil publico.</p>
+                </div>
+
                 <div class="filter-actions">
                     <a href="index.php?controlador=perfil&amp;action=ver&amp;id=<?php echo $_SESSION['usuario']['id']; ?>" class="btn-secondary">Cancelar</a>
                     <button type="submit" name="guardar_perfil" value="1" class="btn-primary">Guardar perfil</button>
@@ -412,6 +424,109 @@
 
         </div>
     </section>
+
+    <script>
+    window.vsAgentes = <?php echo json_encode($agentes ?? array()); ?>;
+    window.vsFavoritosIniciales = <?php echo json_encode($favoritos_ids ?? array()); ?>;
+    window.vsMaxFavoritos = 5;
+    </script>
+    <script>
+    (function() {
+        let select = document.getElementById('favoritoSelect');
+        let chips = document.getElementById('favChips');
+        let hint = document.getElementById('favHint');
+        if (!select || !chips) return;
+
+        let maxFav = window.vsMaxFavoritos || 5;
+        let agentes = window.vsAgentes || [];
+        let seleccionados = [];
+
+        function nombreDe(id) {
+            for (let i = 0; i < agentes.length; i++) {
+                if (String(agentes[i].id) === String(id)) return agentes[i].nombre;
+            }
+            return '';
+        }
+
+        function actualizarSelect() {
+            let opts = select.options;
+            for (let i = 0; i < opts.length; i++) {
+                if (!opts[i].value) continue;
+                opts[i].disabled = seleccionados.indexOf(String(opts[i].value)) !== -1;
+            }
+            select.value = '';
+            select.disabled = seleccionados.length >= maxFav;
+            if (hint) {
+                hint.textContent = seleccionados.length >= maxFav
+                    ? 'Has alcanzado el maximo de ' + maxFav + ' agentes.'
+                    : 'Elige hasta ' + maxFav + ' agentes. Apareceran en tu perfil publico.';
+            }
+        }
+
+        function pintar() {
+            chips.innerHTML = '';
+            for (let i = 0; i < seleccionados.length; i++) {
+                let id = seleccionados[i];
+                let nombre = nombreDe(id);
+
+                let chip = document.createElement('span');
+                chip.className = 'fav-chip';
+
+                let img = document.createElement('img');
+                img.src = 'imagenes/agentes/' + nombre + '.png';
+                img.alt = nombre;
+                img.onerror = function() { this.style.display = 'none'; };
+
+                let texto = document.createElement('span');
+                texto.textContent = nombre;
+
+                let quitar = document.createElement('button');
+                quitar.type = 'button';
+                quitar.className = 'fav-chip-x';
+                quitar.setAttribute('aria-label', 'Quitar ' + nombre);
+                quitar.textContent = '×';
+                (function(idCerrar) {
+                    quitar.addEventListener('click', function() { eliminar(idCerrar); });
+                })(id);
+
+                let hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = 'favoritos[]';
+                hidden.value = id;
+
+                chip.appendChild(img);
+                chip.appendChild(texto);
+                chip.appendChild(quitar);
+                chip.appendChild(hidden);
+                chips.appendChild(chip);
+            }
+            actualizarSelect();
+        }
+
+        function anadir(id) {
+            id = String(id);
+            if (!id) return;
+            if (seleccionados.indexOf(id) !== -1) return;
+            if (seleccionados.length >= maxFav) return;
+            seleccionados.push(id);
+            pintar();
+        }
+
+        function eliminar(id) {
+            let idx = seleccionados.indexOf(String(id));
+            if (idx !== -1) seleccionados.splice(idx, 1);
+            pintar();
+        }
+
+        select.addEventListener('change', function() {
+            if (this.value) anadir(this.value);
+        });
+
+        // precarga los favoritos que ya tenia el usuario
+        let iniciales = window.vsFavoritosIniciales || [];
+        for (let i = 0; i < iniciales.length; i++) anadir(iniciales[i]);
+    })();
+    </script>
 
 </main>
 

@@ -233,6 +233,9 @@ function completar_perfil(){
         } else {
             $ok = $model->completar_perfil($id, $riot_id, $riot_tag, $riot_region, $rango, $rango_rr);
             if ($ok) {
+                // guarda los agentes favoritos elegidos en el formulario
+                $favoritos = isset($_POST["favoritos"]) && is_array($_POST["favoritos"]) ? $_POST["favoritos"] : [];
+                $model->guardar_favoritos($id, $favoritos);
                 $_SESSION["usuario"]["perfil_completo"] = "si";
                 $_SESSION["usuario"]["rango"] = $rango;
                 $_SESSION["usuario"]["riot_id"] = $riot_id;
@@ -245,6 +248,9 @@ function completar_perfil(){
             }
         }
     }
+    // datos para el selector de agentes favoritos
+    $agentes = $model->get_agentes();
+    $favoritos_ids = $model->get_favoritos_ids($_SESSION["usuario"]["id"]);
     require_once("view/usuario_view.php");
 }
 ?>

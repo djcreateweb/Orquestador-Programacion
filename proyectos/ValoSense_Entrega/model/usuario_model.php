@@ -186,6 +186,62 @@ class Usuario_model {
         }
     }
 
+    // lista todos los agentes para el selector de favoritos
+    public function get_agentes(){
+        try {
+            $stmt = $this->db->prepare("SELECT id, nombre FROM agente ORDER BY nombre ASC");
+            $stmt->execute();
+            $registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            return $registros ?: [];
+        } catch (mysqli_sql_exception $e) {
+            return [];
+        }
+    }
+
+    // ids de los agentes favoritos del usuario
+    public function get_favoritos_ids($id){
+        try {
+            $stmt = $this->db->prepare("SELECT agente_id FROM agente_favorito WHERE usuario_id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $filas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            $ids = [];
+            for ($i = 0; $i < count($filas); $i++) {
+                $ids[] = (int) $filas[$i]['agente_id'];
+            }
+            return $ids;
+        } catch (mysqli_sql_exception $e) {
+            return [];
+        }
+    }
+
+    // reemplaza los agentes favoritos del usuario por la lista dada (maximo 5)
+    public function guardar_favoritos($id, $agente_ids){
+        try {
+            $stmt = $this->db->prepare("DELETE FROM agente_favorito WHERE usuario_id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $stmt->close();
+
+            $stmt = $this->db->prepare("INSERT IGNORE INTO agente_favorito (usuario_id, agente_id) VALUES (?, ?)");
+            $insertados = 0;
+            for ($i = 0; $i < count($agente_ids) && $insertados < 5; $i++) {
+                $agente_id = (int) $agente_ids[$i];
+                if ($agente_id > 0) {
+                    $stmt->bind_param("ii", $id, $agente_id);
+                    $stmt->execute();
+                    $insertados++;
+                }
+            }
+            $stmt->close();
+            return true;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
+
     // guarda perfil competitivo del usuario
     public function completar_perfil($id, $riot_id, $riot_tag, $riot_region, $rango, $rango_rr) {
         try {
