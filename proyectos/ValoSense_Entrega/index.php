@@ -97,5 +97,6 @@ $desactivar_orbs = ($ctrl === 'admin' && $action === 'lineups');
     require_once("controller/front_controller.php");
     require_once("view/footer.php");
     ?>
+    <script src="js/validacion.js"></script>
     <script src="js/main.js"></script>
 </body></html>
