@@ -1,0 +1,47 @@
+@import "../shared/tokens.css";
+/* fonts.css NO se importa aquí todavía: los .woff2 de Inter aún no están en
+   shared/fonts/ (ver TODO-INTEGRACIÓN en shared/fonts.css). Importarlo ahora
+   solo provoca peticiones 404 que el dev-server responde con index.html y el
+   navegador falla al decodificar como fuente ("OTS parsing error"). --font-sans
+   ya lista "Inter" primero, así que se usa Inter local si está instalada y, si
+   no, el fallback (Segoe UI). Reactívese cuando se empaqueten los .woff2. */
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.preview { min-height: 100%; display: flex; flex-direction: column; }
+
+.preview-bar {
+  display: flex; align-items: center; gap: 0.75rem 1.25rem;
+  flex-wrap: wrap;                 /* dev-only: que la barra no fuerce scroll horizontal */
+  padding: 0.6rem 1rem;
+  background: var(--color-surface-raised);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  position: sticky; top: 0; z-index: 10;
+}
+.preview-marca { color: var(--color-text-muted); font-weight: var(--font-weight-semibold); }
+.preview-tabs { display: flex; gap: 0.25rem; }
+.preview-tabs button {
+  font-family: inherit; font-weight: var(--font-weight-semibold);
+  border: 1px solid var(--color-border); background: transparent; color: var(--color-text-muted);
+  padding: 0.4rem 0.9rem; border-radius: var(--radius-full); cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+.preview-tabs button.on {
+  background: var(--color-action-admin-soft); color: var(--color-action-admin);
+  border-color: var(--color-action-admin);
+}
+.preview-rol { margin-left: auto; color: var(--color-text-muted); font-size: 0.9rem; }
+.preview-rol select {
+  font-family: inherit; border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  padding: 0.25rem 0.4rem; background: var(--color-surface); color: var(--color-text);
+}
+.preview-pins { margin-left: auto; color: var(--color-text-muted); font-size: 0.9rem; }
+.preview-pins code { font-family: var(--font-mono); color: var(--color-action-employee); }
+.preview-body { flex: 1; min-height: 0; }

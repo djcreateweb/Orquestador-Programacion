@@ -1,0 +1,365 @@
+/* ============================================================================
+   Presentia · Kiosko — hoja de estilos
+   Cero colores/fuentes hardcodeados: SÓLO variables de tokens (../shared/tokens.css).
+   Prefijo de clase: .pk-  (presentia-kiosk). Pensado para pantalla táctil grande.
+   ============================================================================ */
+@import "../shared/tokens.css";
+@import "../shared/responsive.css";
+
+.pk-root {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+.pk-root *,
+.pk-root *::before,
+.pk-root *::after { box-sizing: border-box; }
+
+/* ---------------------------------------------------- Tarjeta del menú (VERDE) */
+.pk-card {
+  appearance: none;
+  text-align: left;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  color: var(--color-text-on-accent);
+  background: var(--color-action-employee);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  transition: background var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+  font-family: inherit;
+}
+.pk-card:hover { background: var(--color-action-employee-hover); transform: translateY(-2px); }
+.pk-card:focus-visible { outline: 3px solid var(--color-action-admin); outline-offset: 3px; }
+.pk-card__icono {
+  width: 4rem; height: 4rem; flex: none;
+  border-radius: var(--radius-lg);
+  background: var(--vidrio-accento);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
+.pk-card__texto { min-width: 0; }
+.pk-card__titulo { font-size: 1.6rem; font-weight: var(--font-weight-bold); line-height: 1.1; }
+.pk-card__sub { font-size: 0.95rem; opacity: 0.92; margin-top: 0.25rem; font-weight: var(--font-weight-medium); }
+
+/* ---------------------------------------------------- Pantalla / lienzo */
+.pk-pantalla {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  min-height: 100%;
+}
+.pk-superficie {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  padding: 1.75rem;
+}
+.pk-volver {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-weight: var(--font-weight-semibold);
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin-bottom: 0.75rem;
+}
+.pk-volver:hover { color: var(--color-text); }
+
+/* ---------------------------------------------------- Reloj y fecha */
+.pk-reloj {
+  font-family: var(--font-mono);
+  /* Fluido pero acotado: nunca supera 3.5rem (idéntico en escritorio), encoge en
+     móvil para no tocar los bordes (D-014). */
+  font-size: clamp(2.25rem, 11vw, 3.5rem);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--color-text);
+}
+.pk-fecha {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin-top: 0.4rem;
+  text-transform: capitalize;
+  font-weight: var(--font-weight-medium);
+}
+
+/* ---------------------------------------------------- Cabecera de empleado */
+.pk-hola { text-align: center; margin: 1.25rem 0; }
+.pk-hola__avatar {
+  width: 5rem; height: 5rem;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  margin: 0 auto 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-action-employee-soft);
+  color: var(--color-on-employee-soft);
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+}
+.pk-hola__nombre { font-size: 1.5rem; font-weight: var(--font-weight-bold); }
+.pk-hola__estado { margin-top: 0.35rem; color: var(--color-text-muted); font-weight: var(--font-weight-medium); }
+
+/* ---------------------------------------------------- Botón enorme de fichaje */
+.pk-boton-ficha {
+  appearance: none;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--color-text-on-accent);
+  border-radius: var(--radius-xl);
+  padding: 2rem 1rem;
+  /* El botón dominante escala con la pantalla sin superar su tamaño actual (D-014). */
+  font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
+  box-shadow: var(--shadow-card);
+  transition: background var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+  margin-top: 1.25rem;
+}
+.pk-boton-ficha:disabled { opacity: 0.6; cursor: progress; }
+.pk-boton-ficha--entrada { background: var(--color-action-employee); }
+.pk-boton-ficha--entrada:not(:disabled):hover { background: var(--color-action-employee-hover); transform: translateY(-2px); }
+.pk-boton-ficha--salida { background: var(--color-danger); }
+.pk-boton-ficha--salida:not(:disabled):hover { background: var(--color-danger-hover); transform: translateY(-2px); }
+
+/* ---------------------------------------------------- Lista de empleados */
+.pk-titulo-pantalla { font-size: 1.4rem; font-weight: var(--font-weight-bold); margin: 0 0 1rem; }
+.pk-empleados {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 0.85rem;
+}
+.pk-empleado {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              background var(--duration-fast) var(--ease-standard);
+}
+.pk-empleado:hover { border-color: var(--color-action-employee); background: var(--color-action-employee-soft); }
+.pk-empleado__avatar {
+  width: 3.25rem; height: 3.25rem;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-action-employee-soft);
+  color: var(--color-on-employee-soft);
+  font-weight: var(--font-weight-bold);
+}
+.pk-empleado__nombre { font-size: 0.9rem; font-weight: var(--font-weight-semibold); text-align: center; }
+
+/* ---------------------------------------------------- PIN */
+.pk-pin-puntos { display: flex; justify-content: center; gap: 0.75rem; margin: 1.25rem 0; }
+.pk-pin-punto {
+  width: 1rem; height: 1rem;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-border);
+  background: transparent;
+}
+.pk-pin-punto--lleno { background: var(--color-action-employee); border-color: var(--color-action-employee); }
+.pk-teclado {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  max-width: 18rem;
+  margin: 0 auto;
+}
+.pk-tecla {
+  appearance: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 0;
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+.pk-tecla:hover { background: var(--color-action-employee-soft); }
+.pk-tecla:disabled { opacity: 0.5; cursor: not-allowed; }
+.pk-tecla--accion { font-family: var(--font-sans); font-size: 1rem; }
+
+/* ---------------------------------------------------- Estados / avisos */
+.pk-mensaje {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: 0.95rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+.pk-mensaje--error { background: var(--status-error); color: var(--on-status-error); border: 1px solid var(--color-danger); }
+.pk-mensaje--info { background: var(--status-info); color: var(--on-status-info); border: 1px solid var(--color-action-admin); }
+.pk-estado { text-align: center; padding: 2rem 1rem; color: var(--color-text-muted); font-weight: var(--font-weight-medium); }
+
+/* Insignia de estado dentro/fuera (kiosko) */
+.pk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-bold);
+}
+.pk-badge__dot { width: 0.55rem; height: 0.55rem; border-radius: var(--radius-full); background: currentColor; }
+.pk-badge--dentro { background: var(--status-success); color: var(--on-status-success); }
+.pk-badge--fuera { background: var(--color-surface); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+.pk-badge--en-curso { background: var(--status-warning); color: var(--on-status-warning); }
+
+/* ---------------------------------------------------- Toast del kiosko */
+.pk-toast-zona {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  z-index: 1100;
+  pointer-events: none;
+}
+.pk-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-modal);
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-bold);
+  animation: pk-toast-in var(--duration-normal) var(--ease-out);
+}
+.pk-toast--entrada { background: var(--status-success); color: var(--on-status-success); border: 1px solid var(--color-action-employee); }
+.pk-toast--salida { background: var(--status-error); color: var(--on-status-error); border: 1px solid var(--color-danger); }
+.pk-toast__hora { font-family: var(--font-mono); }
+@keyframes pk-toast-in { from { opacity: 0; transform: translateY(0.75rem); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---------------------------------------------------- Botonera secundaria */
+.pk-acciones { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 1.25rem; }
+.pk-btn {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 0.7rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.pk-btn:hover { border-color: var(--color-action-admin); color: var(--color-action-admin); }
+.pk-btn--primario { background: var(--color-action-admin); color: var(--color-text-on-accent); border-color: transparent; }
+.pk-btn--primario:hover { background: var(--color-action-admin-hover); color: var(--color-text-on-accent); }
+
+/* ---------------------------------------------------- Aviso RGPD */
+.pk-aviso-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  z-index: 1200;
+}
+.pk-aviso {
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-modal);
+  max-width: 34rem;
+  width: 100%;
+  max-height: 90vh;      /* fallback navegadores sin dvh */
+  max-height: 90dvh;     /* la barra del navegador móvil no recorta */
+  overflow-y: auto;
+  padding: 1.75rem;
+}
+.pk-aviso__titulo { margin: 0 0 0.75rem; font-size: 1.35rem; font-weight: var(--font-weight-bold); }
+.pk-aviso__cuerpo { color: var(--color-text-muted); font-weight: var(--font-weight-medium); font-size: 0.95rem; line-height: 1.55; }
+.pk-aviso__cuerpo p { margin: 0 0 0.75rem; }
+.pk-aviso__cuerpo ul { margin: 0 0 0.75rem; padding-left: 1.25rem; }
+.pk-aviso__cuerpo li { margin-bottom: 0.35rem; }
+.pk-aviso__acciones { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem; }
+
+/* Tabla compacta (mis registros) */
+.pk-tabla-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--color-border); margin-top: 1rem; }
+.pk-tabla { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 30rem; }
+.pk-tabla thead th {
+  text-align: left; padding: 0.6rem 0.75rem;
+  background: var(--color-surface); color: var(--color-text-muted);
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--color-border); white-space: nowrap;
+}
+.pk-tabla tbody td { padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--color-border); }
+.pk-tabla tbody tr:last-child td { border-bottom: none; }
+.pk-mono { font-family: var(--font-mono); }
+.pk-nowrap { white-space: nowrap; }
+.pk-total {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  margin-top: 1rem; padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: var(--status-info); color: var(--on-status-info);
+}
+.pk-total__valor { font-family: var(--font-mono); font-size: 1.4rem; font-weight: var(--font-weight-bold); }
+
+/* Información legal (empleado) */
+.pk-legal-tabs { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+.pk-legal-doc {
+  text-align: left;
+  max-height: 60vh;
+  max-height: 60dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.pk-enlace-legal {
+  display: inline-block;
+  margin-top: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--color-enlace);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.pk-enlace-legal:hover { color: var(--color-action-admin-hover); }
+.pk-aviso__mas {
+  margin-top: 0.5rem;
+  max-height: 45vh;
+  max-height: 45dvh;
+  overflow-y: auto;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.75rem;
+}
+.pk-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }

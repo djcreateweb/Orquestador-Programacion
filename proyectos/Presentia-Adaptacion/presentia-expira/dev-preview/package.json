@@ -1,0 +1,17 @@
+{
+  "name": "presentia-preview",
+  "private": true,
+  "type": "module",
+  "description": "Arnés de previsualización local (dev-only) del módulo Presentia. No forma parte del entregable.",
+  "scripts": {
+    "api": "node api-server.mjs",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vite": "^6.0.7"
+  }
+}

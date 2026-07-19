@@ -1,0 +1,21 @@
+SOFTWARE PROPIETARIO — TODOS LOS DERECHOS RESERVADOS
+
+Módulo «Presentia» de registro de jornada para el software «Expira».
+Copyright (c) 2026 [NOMBRE_PROVEEDOR]. Todos los derechos reservados.
+
+Este software y su código fuente son propiedad de su titular y se licencian, no se
+venden. Su uso se rige por los "Términos y Condiciones de Uso (EULA)" incluidos en
+`legal/TERMINOS-Y-CONDICIONES.md`, que forman parte inseparable de esta licencia.
+
+Queda prohibida, salvo autorización expresa y por escrito del titular o en la medida
+imperativamente permitida por la ley aplicable:
+  - la reproducción, distribución o comunicación pública del software;
+  - su modificación, adaptación o creación de obras derivadas;
+  - la ingeniería inversa, descompilación o desensamblado;
+  - la cesión, sublicencia, alquiler o préstamo a terceros.
+
+Se concede al Cliente una licencia de uso no exclusiva, intransferible y limitada a la
+finalidad de registro de la jornada laboral, conforme al EULA.
+
+`TODO-LEGAL`: sustituir [NOMBRE_PROVEEDOR] por la razón social real del titular y
+validar esta nota de propiedad con asesoría legal antes de su uso en producción.

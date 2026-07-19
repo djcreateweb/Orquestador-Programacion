@@ -1,0 +1,23 @@
+{
+  "name": "presentia-expira",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Módulo Presentia (registro de jornada) integrable en Expira. Cero dependencias nuevas.",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "test": "node --test --test-reporter=spec",
+    "lint": "node --check src/index.js",
+    "legal:build": "node legal/generar-contenido.mjs",
+    "smoke": "node smoke-test.mjs"
+  },
+  "keywords": [
+    "registro-jornada",
+    "control-horario",
+    "expira",
+    "presentia"
+  ],
+  "license": "UNLICENSED"
+}

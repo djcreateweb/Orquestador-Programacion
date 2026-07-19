@@ -1,0 +1,26 @@
+/* boton-tema.css — Botón de tema (pastilla en la cabecera). Solo tokens. */
+@import "../shared/tokens.css";
+
+.px-tema-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+}
+.px-tema-btn:hover { background: var(--color-surface); border-color: var(--color-action-admin); }
+.px-tema-btn:focus-visible {
+  outline: 2px solid var(--color-action-admin);
+  outline-offset: 2px;
+}
+.px-tema-btn__icono { font-size: 1rem; line-height: 1; }
+.px-tema-btn__txt { line-height: 1; }

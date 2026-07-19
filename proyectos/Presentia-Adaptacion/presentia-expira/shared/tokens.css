@@ -1,0 +1,216 @@
+/* ============================================================================
+   Presentia — Design Tokens (única fuente de verdad)
+   Importado por el Manager y por el kiosko. Los componentes referencian SOLO
+   estas variables — cero colores, radios, sombras o fuentes hardcodeados.
+   La paleta y la tipografía son normativas (§1.1). No añadir hex ad-hoc.
+   ============================================================================ */
+
+:root {
+  /* ---------------------------------------------------------------------------
+     PRIMITIVAS — paleta mandada (el hex es fijo; nunca editar en un JSX)
+     --------------------------------------------------------------------------- */
+
+  /* Base slate */
+  --slate-surface:  #f8fafc;  /* fondo de app / superficie suave       */
+  --slate-white:    #ffffff;  /* superficie de tarjeta elevada         */
+  --slate-border:   #e2e8f0;  /* líneas, divisores, bordes de input    */
+  --slate-muted:    #64748b;  /* texto secundario / atenuado           */
+  --slate-title:    #1e293b;  /* títulos y texto principal             */
+
+  /* Azul — admin y técnico (el técnico usa el MISMO azul, nunca violeta) */
+  --blue-soft:   #eef4ff;
+  --blue-action: #2f5fbf;
+  --blue-hover:  #1e3f80;
+
+  /* Verde — empleado */
+  --green-soft:   #e7f7ef;
+  --green-action: #1e9a59;
+  --green-hover:  #157042;
+
+  /* Rojo — peligro */
+  --red-soft:   #fee2e2;
+  --red-action: #dc2626;
+  --red-hover:  #b91c1c;
+
+  /* Estados (significado constante: verde=correcto, rojo=error, ámbar=pendiente) */
+  --state-success:   #dcfce7;
+  --state-warning:   #fef3c7;
+  --state-caducidad: #eab308;
+  --state-info:      #eff6ff;
+
+  /* Texto legible sobre fondos de estado suaves */
+  --on-success:   #166534;
+  --on-warning:   #92400e;
+  --on-danger:    #991b1b;
+  --on-caducidad: #713f12;
+  --on-info:      #1e40af;
+
+  /* ---------------------------------------------------------------------------
+     ALIAS SEMÁNTICOS — lo que referencian los componentes
+     --------------------------------------------------------------------------- */
+
+  /* Superficies y texto */
+  --color-surface:        var(--slate-surface);
+  --color-surface-raised: var(--slate-white);
+  --color-border:         var(--slate-border);
+  --color-text:           var(--slate-title);
+  --color-text-muted:     var(--slate-muted);
+  --color-text-on-accent: #ffffff;   /* texto sobre botones llenos azul/verde/rojo */
+
+  /* Admin / técnico (azul) */
+  --color-action-admin:       var(--blue-action);
+  --color-action-admin-hover: var(--blue-hover);
+  --color-action-admin-soft:  var(--blue-soft);
+  --color-on-admin-soft:      var(--blue-hover);
+
+  /* Técnico === azul admin (alias explícito: la insignia "MODO TÉCNICO"/llave
+     no puede derivar a violeta) */
+  --color-tech:       var(--blue-action);
+  --color-tech-hover: var(--blue-hover);
+  --color-tech-soft:  var(--blue-soft);
+
+  /* Empleado (verde) */
+  --color-action-employee:       var(--green-action);
+  --color-action-employee-hover: var(--green-hover);
+  --color-action-employee-soft:  var(--green-soft);
+  --color-on-employee-soft:      var(--green-hover);
+
+  /* Peligro (rojo) */
+  --color-danger:         var(--red-action);
+  --color-danger-hover:   var(--red-hover);
+  --color-danger-soft:    var(--red-soft);
+  --color-on-danger-soft: var(--on-danger);
+
+  /* Enlaces de texto (necesidad de contraste distinta al fondo de botón). */
+  --color-enlace: var(--blue-action);
+
+  /* Superposiciones: velo de modales/avisos (SIEMPRE oscuro, en ambos temas) y
+     "vidrio" translúcido claro sobre tarjetas de color (decorativo). */
+  --color-overlay:   rgba(2, 6, 23, 0.55);
+  --vidrio-accento:  rgba(255, 255, 255, 0.18);
+
+  /* Semántica de estado (constante en todo el producto) */
+  --status-success:   var(--state-success);   /* correcto              */
+  --status-warning:   var(--state-warning);    /* pendiente / en curso  */
+  --status-caducidad: var(--state-caducidad);  /* caducidad / expiración */
+  --status-info:      var(--state-info);
+  --status-error:     var(--red-soft);         /* error                 */
+  --on-status-success:   var(--on-success);
+  --on-status-warning:   var(--on-warning);
+  --on-status-caducidad: var(--on-caducidad);
+  --on-status-info:      var(--on-info);
+  --on-status-error:     var(--on-danger);
+
+  /* Puntos de estado (sólidos, alto contraste) */
+  --dot-correcto: var(--green-action);
+  --dot-error:    var(--red-action);
+  --dot-pending:  var(--state-caducidad);
+
+  /* ---------------------------------------------------------------------------
+     RADIOS — reconciliados del uso real de Presentia
+     --------------------------------------------------------------------------- */
+  --radius-xs:   6px;
+  --radius-sm:   8px;    /* botones, inputs, badges pequeñas   */
+  --radius-md:   12px;   /* paneles anidados                   */
+  --radius-lg:   16px;   /* tarjetas                           */
+  --radius-xl:   24px;   /* modales, paneles hero              */
+  --radius-full: 9999px; /* pills, insignias, puntos, avatares */
+
+  /* ---------------------------------------------------------------------------
+     SOMBRAS
+     --------------------------------------------------------------------------- */
+  --shadow-xs:    0 2px 8px -4px rgba(0, 0, 0, 0.05);
+  --shadow-card:  0 6px 18px rgba(2, 6, 23, 0.08);
+  --shadow-soft:  0 10px 30px rgba(2, 6, 23, 0.10);
+  --shadow-modal: 0 25px 50px -12px rgba(2, 6, 23, 0.25);
+
+  /* ---------------------------------------------------------------------------
+     MOVIMIENTO
+     --------------------------------------------------------------------------- */
+  --duration-fast:   140ms;
+  --duration-normal: 240ms;
+  --duration-slow:   300ms;
+  --ease-standard:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);
+
+  /* ---------------------------------------------------------------------------
+     TIPOGRAFÍA — Inter para UI (semibold predominante), monoespaciada del
+     sistema para datos técnicos (códigos, horas, IPs, timestamps, IDs).
+     PROHIBIDAS: Hanken Grotesk, Unbounded, JetBrains Mono.
+     NOTA: Inter debe empaquetarse vía @font-face (fonts.css) — hoy no se carga.
+     --------------------------------------------------------------------------- */
+  --font-sans: "Inter", "Segoe UI", Tahoma, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", "Courier New", monospace;
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;   /* predominante en UI */
+  --font-weight-bold:     700;   /* titulares          */
+}
+
+/* ============================================================================
+   TEMA OSCURO — se activa con <html data-tema-efectivo="oscuro"> (lo pone el
+   script anti-FOUC y shared/tema.js). Redefine SOLO las primitivas: los alias
+   semánticos (--color-*, --status-*) los siguen por cascada. Los fondos bajan y
+   los colores de acción suben en luminosidad. Contrastes AA calculados en
+   docs/TEMA-OSCURO.md (validados por test/tema.test.js).
+   ============================================================================ */
+:root[data-tema-efectivo="oscuro"] {
+  /* Base slate */
+  --slate-surface: #1e293b;   /* superficie suave (th, hover, áreas anidadas)  */
+  --slate-white:   #273449;   /* superficie elevada (tarjeta, panel, modal)     */
+  --slate-border:  #334155;
+  --slate-muted:   #94a3b8;
+  --slate-title:   #f1f5f9;
+
+  /* Azul admin/técnico */
+  --blue-soft:   #16233d;
+  --blue-action: #4f83e3;
+  --blue-hover:  #6b9bee;
+
+  /* Verde empleado */
+  --green-soft:   #0f2b1f;
+  --green-action: #22b86a;
+  --green-hover:  #34cf7e;
+
+  /* Rojo peligro */
+  --red-soft:   #3b1717;
+  --red-action: #ef4444;
+  --red-hover:  #f87171;
+
+  /* Estados (mismo significado: verde=correcto, rojo=error, ámbar=pendiente) */
+  --state-success:   #14532d;
+  --state-warning:   #422006;
+  --state-caducidad: #facc15;
+  --state-info:      #16233d;
+
+  /* Texto sobre fondos de estado (claros sobre fondos oscuros) */
+  --on-success:   #4ade80;
+  --on-warning:   #fbbf24;
+  --on-danger:    #fca5a5;
+  --on-caducidad: #422006;
+  --on-info:      #93c5fd;
+
+  /* Texto sobre botones LLENOS: oscuro (las acciones son claras en tema oscuro) */
+  --color-text-on-accent: #0f172a;
+  /* Enlaces de texto: azul más luminoso para AA sobre superficies oscuras */
+  --color-enlace: #7ea6f0;
+
+  /* Elevación por superficie + borde sutil (no por sombra negra, invisible aquí) */
+  --shadow-xs:    0 0 0 1px var(--color-border);
+  --shadow-card:  0 0 0 1px var(--color-border), 0 6px 18px rgba(0, 0, 0, 0.45);
+  --shadow-soft:  0 0 0 1px var(--color-border), 0 10px 30px rgba(0, 0, 0, 0.55);
+  --shadow-modal: 0 0 0 1px var(--color-border), 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* Transición suave SOLO durante el cambio de tema (clase temporal en <html>).
+   Respeta prefers-reduced-motion: si el usuario lo pide, no hay transición. */
+@media (prefers-reduced-motion: no-preference) {
+  :root.tema-cambiando,
+  :root.tema-cambiando * {
+    transition: background-color 0.18s var(--ease-standard),
+                border-color 0.18s var(--ease-standard),
+                color 0.18s var(--ease-standard) !important;
+  }
+}

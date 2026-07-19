@@ -1,0 +1,24 @@
+# Presentia-Adaptacion — el único entregable es presentia-expira/
+# (El Presentia original Laravel/React se eliminó; ver README.md)
+
+# Dependencias y builds (regenerables)
+**/node_modules/
+**/dist/
+
+# Entornos / secretos — nunca en el repositorio
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs y temporales
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.tmp
+
+# Sistema / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,257 @@
+/* ============================================================================
+   Presentia · Responsive — reglas transversales mobile-first (§ adaptación).
+   Cero colores/fuentes hardcodeados: SÓLO variables de tokens.
+   Cero componentes duplicados: un componente, varios diseños (§5).
+
+   Importado al principio de kiosk.css y presentia.css. Para NO depender del orden
+   de @import, todas las reglas van ANCLADAS a la raíz del módulo (.px-root / .pk-root
+   / .acepta), de modo que ganan por especificidad a las reglas base de componente.
+
+   Contextos cubiertos:
+     · Ancho:   base = móvil; breakpoints 480 / 640 / 1024 / 1440 (D-016).
+     · Entrada: any-pointer:coarse → objetivos táctiles ≥44 px e inputs ≥16 px (D-012).
+     · Chrome:  dvh, safe-area (env(safe-area-inset-*)), hoja inferior (D-018).
+   ============================================================================ */
+@import "./tokens.css";
+
+/* ---------------------------------------------------------------------------
+   1. OBJETIVOS TÁCTILES — solo donde hay dedo (kiosko, tablet, móvil, portátil
+   táctil). Con ratón fino (escritorio/Electron) se conserva la densidad actual.
+   Se ancla a la raíz para ganar por especificidad sin depender del orden.
+   --------------------------------------------------------------------------- */
+@media (any-pointer: coarse) {
+  .px-root .px-btn,
+  .px-root .px-tab,
+  .px-root .px-legal__item,
+  .px-root .px-input,
+  .px-root .px-select,
+  .px-root .px-textarea,
+  .pk-root .pk-btn,
+  .pk-root .pk-volver,
+  .pk-root .pk-tecla,
+  .pk-root .pk-enlace-legal,
+  .acepta .acepta__btn,
+  .acepta .acepta__tab,
+  .px-tema-btn.px-tema-btn {   /* botón de tema (doble clase = gana sin depender del ancestro) */
+    min-height: 44px;
+  }
+  /* El botón compacto de fila deja de ser diminuto en cuanto hay dedo. */
+  .px-root .px-btn--sm {
+    min-height: 44px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  /* Inputs ≥16 px: por debajo, iOS/iPadOS hacen zoom automático al enfocar. */
+  .px-root .px-input,
+  .px-root .px-select,
+  .px-root .px-textarea,
+  .pk-root .pk-btn,
+  .acepta .acepta__doc input {
+    font-size: 16px;
+  }
+  /* Toggle: se amplía el ÁREA de toque sin cambiar el aspecto (pseudo-overlay). */
+  .px-root .px-toggle { position: relative; }
+  .px-root .px-toggle::after {
+    content: "";
+    position: absolute;
+    inset: -0.55rem -0.4rem;   /* 27px + ~18px ≈ 45px de alto táctil */
+  }
+  /* Feedback inmediato al tocar (no hay hover que confirme en táctil). */
+  .px-root .px-btn:active,
+  .pk-root .pk-btn:active,
+  .pk-root .pk-tecla:active,
+  .pk-root .pk-boton-ficha:not(:disabled):active,
+  .pk-root .pk-card:active,
+  .pk-root .pk-empleado:active { transform: translateY(1px); }
+}
+
+/* Sin selección de texto accidental ni retardo de 300 ms en controles táctiles. */
+.px-root button, .pk-root button, .acepta button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.px-root .px-btn, .px-root .px-tab, .pk-root .pk-tecla,
+.pk-root .pk-boton-ficha, .pk-root .pk-card, .pk-root .pk-empleado {
+  user-select: none;
+}
+
+/* ---------------------------------------------------------------------------
+   2. PATRÓN TABLA → TARJETAS APILADAS (≤640 px). Un componente, dos diseños.
+   Cada <tr> es una ficha; cada <td> muestra su etiqueta vía data-label.
+   Ningún dato desaparece. Las tablas de prosa (.prosa__tabla) NO se tocan.
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .px-root .px-tabla-wrap,
+  .pk-root .pk-tabla-wrap {
+    overflow-x: visible;
+    border: none;
+    border-radius: 0;
+  }
+  .px-root .px-tabla,
+  .pk-root .pk-tabla {
+    min-width: 0;
+    display: block;
+    font-size: 0.95rem;
+  }
+  .px-root .px-tabla thead,
+  .pk-root .pk-tabla thead {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .px-root .px-tabla tbody,
+  .pk-root .pk-tabla tbody { display: block; }
+
+  .px-root .px-tabla tbody tr,
+  .pk-root .pk-tabla tbody tr {
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-raised);
+    padding: 0.25rem 0.9rem;
+    margin-bottom: 0.7rem;
+  }
+  .px-root .px-tabla tbody tr:last-child,
+  .pk-root .pk-tabla tbody tr:last-child { margin-bottom: 0; }
+  .px-root .px-tabla tbody tr:hover { background: var(--color-surface-raised); }
+
+  .px-root .px-tabla tbody td,
+  .pk-root .pk-tabla tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--color-border);
+    text-align: right;
+    white-space: normal;
+    min-width: 0;
+  }
+  .px-root .px-tabla tbody td:last-child,
+  .pk-root .pk-tabla tbody td:last-child { border-bottom: none; }
+
+  .px-root .px-tabla tbody td::before,
+  .pk-root .pk-tabla tbody td::before {
+    content: attr(data-label);
+    flex: none;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+  /* Celda de acciones: sin etiqueta, botones a ancho completo y cómodos. */
+  .px-root .px-tabla td.px-cell-acciones {
+    display: block;
+    padding-top: 0.7rem;
+  }
+  .px-root .px-tabla td.px-cell-acciones::before { content: none; }
+  .px-root .px-cell-acciones .px-td-acciones { width: 100%; }
+  .px-root .px-cell-acciones .px-td-acciones .px-btn {
+    flex: 1 1 0;
+    justify-content: center;
+    min-height: 44px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   3. FILTROS DEL MANAGER — en móvil, apilados a ancho completo (nunca amontonados).
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .px-root .px-filtros { flex-direction: column; align-items: stretch; gap: 0.7rem; }
+  .px-root .px-filtros .px-campo { width: 100%; }
+  .px-root .px-filtros .px-input,
+  .px-root .px-filtros .px-select { width: 100%; }
+  .px-root .px-filtros .px-spacer { display: none; }
+  .px-root .px-filtros .px-btn { width: 100%; justify-content: center; }
+}
+
+/* ---------------------------------------------------------------------------
+   4. MODALES → HOJA INFERIOR en móvil, con pie de acción SIEMPRE alcanzable.
+   Alturas en dvh (la barra del navegador móvil no recorta) + safe-area.
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .px-root .px-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .px-root .px-modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+  /* El pie de acciones queda fijo dentro del scroll del modal → siempre visible. */
+  .px-root .px-modal__acciones {
+    position: sticky;
+    bottom: 0;
+    margin-top: 1.25rem;
+    padding: 0.85rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+    background: var(--color-surface-raised);
+    border-top: 1px solid var(--color-border);
+  }
+  .px-root .px-modal__acciones .px-btn { flex: 1 1 0; justify-content: center; }
+
+  /* Aviso RGPD del kiosko como hoja inferior. */
+  .pk-root .pk-aviso-overlay { align-items: flex-end; padding: 0; }
+  .pk-root .pk-aviso {
+    max-width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding-bottom: calc(1.75rem + env(safe-area-inset-bottom));
+  }
+  .pk-root .pk-aviso__acciones {
+    position: sticky; bottom: 0;
+    padding: 0.85rem 0 calc(0.25rem + env(safe-area-inset-bottom));
+    background: var(--color-surface-raised);
+    border-top: 1px solid var(--color-border);
+  }
+  .pk-root .pk-aviso__acciones .pk-btn { flex: 1 1 0; justify-content: center; }
+
+  /* Aceptación de términos: caja a ancho completo, acción alcanzable. */
+  .acepta { padding: 0; align-items: stretch; }
+  .acepta .acepta__caja {
+    border-radius: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+  .acepta .acepta__acciones {
+    position: sticky; bottom: 0;
+    padding: 0.85rem 0 calc(0.25rem + env(safe-area-inset-bottom));
+    background: var(--color-surface-raised);
+    border-top: 1px solid var(--color-border);
+  }
+  .acepta .acepta__acciones .acepta__btn { flex: 1 1 0; text-align: center; }
+}
+
+/* ---------------------------------------------------------------------------
+   5. SAFE-AREA en zonas fijas (toasts) para notch / barra gestual.
+   --------------------------------------------------------------------------- */
+.pk-root .pk-toast-zona { bottom: calc(2rem + env(safe-area-inset-bottom)); }
+.px-root .px-toast-zona { bottom: calc(1.25rem + env(safe-area-inset-bottom)); }
+.pk-root .pk-toast, .px-root .px-toast { max-width: calc(100vw - 2rem); }
+
+/* ---------------------------------------------------------------------------
+   6. LISTA DE SOLICITUDES (ya son fichas): en móvil, acciones a ancho completo
+   y motivo truncado con acceso (title) para no desbordar.
+   --------------------------------------------------------------------------- */
+.px-root .px-solicitud__motivo {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .px-root .px-solicitud { flex-direction: column; }
+  .px-root .px-solicitud__acciones { width: 100%; }
+  .px-root .px-solicitud__acciones .px-btn { flex: 1 1 0; justify-content: center; min-height: 44px; }
+}
+
+/* ---------------------------------------------------------------------------
+   7. NOMBRES/TEXTOS LARGOS — que nunca desborden (tildes, motivos, rutas).
+   --------------------------------------------------------------------------- */
+.px-root .px-solicitud__nombre,
+.px-root .px-modal__sub,
+.pk-root .pk-hola__nombre { overflow-wrap: anywhere; }
