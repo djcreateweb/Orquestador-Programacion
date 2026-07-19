@@ -18,16 +18,16 @@ const INSIGNIA_ESTADO = {
 };
 
 /** Describe el cambio propuesto en texto plano (sin HTML). */
-function describirCambio(cambio) {
+function describirCambio(cambio, tz) {
   if (!cambio || typeof cambio !== "object") return "—";
   const tipo = cambio.tipo ? ` (${cambio.tipo})` : "";
-  const hora = cambio.ts != null ? ` a las ${fmtHora(cambio.ts)}` : "";
+  const hora = cambio.ts != null ? ` a las ${fmtHora(cambio.ts, tz)}` : "";
   if (cambio.accion === "anadir") return `Añadir marca${tipo}${hora}`;
   if (cambio.accion === "editar") return `Editar marca${tipo}${hora}`;
   return "Cambio de corrección";
 }
 
-function Resolver({ solicitud, accion, onConfirmar, onCancelar }) {
+function Resolver({ solicitud, accion, tz, onConfirmar, onCancelar }) {
   const [comentario, setComentario] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState(null);
@@ -49,7 +49,7 @@ function Resolver({ solicitud, accion, onConfirmar, onCancelar }) {
       <div className="px-modal" onMouseDown={(e) => e.stopPropagation()}>
         <h3 className="px-modal__title">{esAprobar ? "Aprobar solicitud" : "Rechazar solicitud"}</h3>
         <p className="px-modal__sub">
-          {solicitud.empleadoNombre} · {describirCambio(solicitud.cambio)}
+          {solicitud.empleadoNombre} · {describirCambio(solicitud.cambio, tz)}
         </p>
         <div className="px-modal__body">
           {error ? <div className="px-error" role="alert">{error}</div> : null}
@@ -81,7 +81,7 @@ function Resolver({ solicitud, accion, onConfirmar, onCancelar }) {
   );
 }
 
-export default function Solicitudes({ api, onToast, onPendientesChange }) {
+export default function Solicitudes({ api, tz, onToast, onPendientesChange }) {
   const [estado, setEstado] = useState("pendiente");
   const [lista, setLista] = useState([]);
   const [pendientes, setPendientes] = useState(0);
@@ -170,7 +170,7 @@ export default function Solicitudes({ api, onToast, onPendientesChange }) {
                     <Insignia tipo={ins.tipo}>{ins.texto}</Insignia>
                   </div>
                   <div className="px-solicitud__linea">
-                    <strong>Cambio:</strong> {describirCambio(s.cambio)}
+                    <strong>Cambio:</strong> {describirCambio(s.cambio, tz)}
                   </div>
                   <div className="px-solicitud__motivo">Motivo: {s.motivo}</div>
                 </div>
@@ -202,6 +202,7 @@ export default function Solicitudes({ api, onToast, onPendientesChange }) {
         <Resolver
           solicitud={resolver.solicitud}
           accion={resolver.accion}
+          tz={tz}
           onConfirmar={resolver.accion === "aprobar" ? aprobar : rechazar}
           onCancelar={() => setResolver(null)}
         />

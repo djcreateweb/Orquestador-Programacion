@@ -46,6 +46,26 @@ export function marcarJornadaEditada(db, jornadaId, ts) {
 }
 
 /**
+ * Marca una jornada abierta como "requiere corrección" (fix K-01): se abandonó porque su
+ * entrada es de un día de jornada distinto al actual o superó `maxDuracionJornadaMin`, así
+ * que NO se cierra con la hora de la fichada actual. Queda 'abierta' (sigue faltando la
+ * salida real) pero señalizada para que el admin la revise en Registros.
+ */
+export function marcarJornadaRequiereCorreccion(db, jornadaId, ts) {
+  db.prepare('UPDATE presentia_jornadas SET requiere_correccion = 1, actualizado_ts = ? WHERE id = ?').run(ts, jornadaId);
+}
+
+/** Última marca (cualquier tipo/jornada) del empleado, para la guardia anti-doble-toque (K-04). */
+export function ultimaMarcaEmpleado(db, empleadoId) {
+  return db.prepare(
+    `SELECT m.* FROM presentia_marcas m
+     JOIN presentia_jornadas j ON j.id = m.jornada_id
+     WHERE j.empleado_id = ?
+     ORDER BY m.ts DESC, m.id DESC LIMIT 1`
+  ).get(empleadoId) ?? null;
+}
+
+/**
  * Cambia el ts de una marca conservando el valor ORIGINAL en presentia_marca_versiones
  * (append-only). Nunca se pierde el dato anterior (§5.3, §6.4).
  */

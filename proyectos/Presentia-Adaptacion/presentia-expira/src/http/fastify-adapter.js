@@ -10,7 +10,7 @@ import { ErrorPresentia } from '../errors.js';
  * @param {{prefix?:string}} [opts]
  */
 export function registrarFastify(fastify, modulo, opts = {}) {
-  const { deps, rate, kioskSessions } = modulo;
+  const { deps, rate, kioskSessions, descargaTokens } = modulo;
   const base = opts.prefix || '/presentia';
 
   function construirCtx(req, canal, formato) {
@@ -21,7 +21,7 @@ export function registrarFastify(fastify, modulo, opts = {}) {
       query: req.query || {},
       body: req.body || {},
       dispositivo: (req.headers && req.headers['x-presentia-dispositivo']) || 'desconocido',
-      rate, kioskSessions, formato,
+      rate, kioskSessions, descargaTokens, formato,
       now: deps.clock.now,
     };
   }
@@ -49,10 +49,13 @@ export function registrarFastify(fastify, modulo, opts = {}) {
 
   // --- Kiosko ---
   fastify.get(`${base}/kiosk/empleados`, run(kiosk.empleados, 'kiosk'));
+  fastify.get(`${base}/kiosk/config`, run(kiosk.config, 'kiosk'));
   fastify.post(`${base}/kiosk/entrar`, run(kiosk.entrar, 'kiosk'));
   fastify.post(`${base}/kiosk/estado`, run(kiosk.estado, 'kiosk'));
   fastify.post(`${base}/kiosk/fichar`, run(kiosk.fichar, 'kiosk'));
   fastify.post(`${base}/kiosk/mis-registros`, run(kiosk.misRegistros, 'kiosk'));
+  // fix S-03/K-07: token de DESCARGA de un solo uso (nunca el token de sesión en la URL).
+  fastify.post(`${base}/kiosk/mis-horas/token`, run(kiosk.solicitarDescarga, 'kiosk'));
   fastify.get(`${base}/kiosk/mis-horas.csv`, run(kiosk.exportar, 'kiosk', 'csv'));
   fastify.get(`${base}/kiosk/mis-horas.pdf`, run(kiosk.exportar, 'kiosk', 'pdf'));
   fastify.post(`${base}/kiosk/solicitud`, run(kiosk.crearSolicitud, 'kiosk'));
@@ -61,9 +64,11 @@ export function registrarFastify(fastify, modulo, opts = {}) {
 
   // --- Manager ---
   fastify.get(`${base}/manager/hoy`, run(manager.hoy, 'manager'));
+  fastify.get(`${base}/manager/empleados`, run(manager.empleados, 'manager'));
   fastify.get(`${base}/manager/registros`, run(manager.registros, 'manager'));
   fastify.post(`${base}/manager/registros/marca/editar`, run(manager.editarMarca, 'manager'));
   fastify.post(`${base}/manager/registros/marca/anadir`, run(manager.anadirMarca, 'manager'));
+  fastify.post(`${base}/manager/registros/jornada`, run(manager.crearJornada, 'manager'));
   fastify.get(`${base}/manager/informe`, run(manager.informe, 'manager'));
   fastify.get(`${base}/manager/informe.csv`, run(manager.informeExport, 'manager', 'csv'));
   fastify.get(`${base}/manager/informe.pdf`, run(manager.informeExport, 'manager', 'pdf'));

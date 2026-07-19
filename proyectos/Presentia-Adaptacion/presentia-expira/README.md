@@ -19,7 +19,7 @@ En la interfaz sólo añade el apartado **«Presentia»** en el Manager y la acc
 ## Uso rápido (dev)
 ```bash
 cd presentia-expira
-npm test          # 121 pruebas (dominio, migración, flujos, seguridad, legal, tema, responsive)
+npm test          # 139 pruebas (dominio, migración, flujos, seguridad, legal, tema, responsive)
 ```
 Integración real: ver [docs/INTEGRACION-EN-EXPIRA.md](docs/INTEGRACION-EN-EXPIRA.md).
 

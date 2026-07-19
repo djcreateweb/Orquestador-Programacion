@@ -51,6 +51,10 @@ export default function PresentiaSection({ rol = "local_admin", apiBase = "/pres
   const [aceptando, setAceptando] = useState(false);
   const [errorAcepta, setErrorAcepta] = useState(null);
   const [temaDefecto, setTemaDefecto] = useState("auto"); // valor global (Ajustes)
+  // Zona horaria del centro (fix A-01/A-06): fuente única = config.zonaHoraria (backend).
+  // `undefined` hasta que llega /manager/ajustes; los formateadores caen entonces en la
+  // zona del navegador como último recurso — NUNCA se asume "Europe/Madrid".
+  const [tz, setTz] = useState(undefined);
   const { toast, mostrar, ocultar } = useToast();
 
   const onToast = useCallback((mensaje, tipo, hora) => mostrar(mensaje, tipo, hora), [mostrar]);
@@ -88,8 +92,12 @@ export default function PresentiaSection({ rol = "local_admin", apiBase = "/pres
       .catch(() => { /* el contador es informativo */ });
     api
       .ajustesGet()
-      .then((c) => { if (vivo && c && c.temaPorDefecto) setTemaDefecto(c.temaPorDefecto); })
-      .catch(() => { /* el tema por defecto es opcional */ });
+      .then((c) => {
+        if (!vivo || !c) return;
+        if (c.temaPorDefecto) setTemaDefecto(c.temaPorDefecto);
+        if (c.zonaHoraria) setTz(c.zonaHoraria);
+      })
+      .catch(() => { /* tema/zona por defecto son opcionales (fallback a la zona del navegador) */ });
     return () => { vivo = false; };
   }, [api, aceptado]);
 
@@ -145,11 +153,11 @@ export default function PresentiaSection({ rol = "local_admin", apiBase = "/pres
       </nav>
 
       <div>
-        {activa === "hoy" ? <Hoy api={api} /> : null}
-        {activa === "registros" ? <Registros api={api} onToast={onToast} /> : null}
-        {activa === "informe" ? <InformeHoras api={api} /> : null}
+        {activa === "hoy" ? <Hoy api={api} tz={tz} /> : null}
+        {activa === "registros" ? <Registros api={api} tz={tz} onToast={onToast} /> : null}
+        {activa === "informe" ? <InformeHoras api={api} tz={tz} /> : null}
         {activa === "solicitudes" ? (
-          <Solicitudes api={api} onToast={onToast} onPendientesChange={setPendientes} />
+          <Solicitudes api={api} tz={tz} onToast={onToast} onPendientesChange={setPendientes} />
         ) : null}
         {activa === "ajustes" ? <Ajustes api={api} onToast={onToast} /> : null}
         {activa === "legal" ? <Legal /> : null}

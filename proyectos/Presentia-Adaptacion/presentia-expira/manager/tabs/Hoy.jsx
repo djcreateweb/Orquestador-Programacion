@@ -6,7 +6,7 @@ import { fmtHora, fmtFechaCorta } from "../api.js";
 
 const INTERVALO_MS = 15000;
 
-export default function Hoy({ api }) {
+export default function Hoy({ api, tz }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -93,7 +93,7 @@ export default function Hoy({ api }) {
                             <Insignia tipo="peligro" punto>Salida</Insignia>
                           )}
                         </td>
-                        <td data-label="Hora" className="px-mono px-nowrap">{fmtHora(m.ts)}</td>
+                        <td data-label="Hora" className="px-mono px-nowrap">{fmtHora(m.ts, tz)}</td>
                         <td data-label="Código" className="px-mono px-nowrap">{m.codigo}</td>
                       </tr>
                     ))}

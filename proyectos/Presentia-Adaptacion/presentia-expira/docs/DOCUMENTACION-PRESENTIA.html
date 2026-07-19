@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>Presentia — Documentación Técnica Integral</title>
+<style>
+:root{
+  --slate-surface:#f8fafc; --slate-white:#ffffff; --slate-border:#e2e8f0;
+  --slate-muted:#64748b; --slate-title:#1e293b;
+  --blue-soft:#eef4ff; --blue-action:#2f5fbf; --blue-hover:#1e3f80;
+  --green-soft:#e7f7ef; --green-action:#1e9a59; --green-hover:#157042;
+  --red-soft:#fee2e2; --red-action:#dc2626; --red-hover:#b91c1c;
+  --font-sans:"Segoe UI",Tahoma,system-ui,-apple-system,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono","Courier New",monospace;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:16px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--font-sans);
+  color:var(--slate-title);
+  background:var(--slate-white);
+  font-size:11.5pt;
+  line-height:1.5;
+}
+.portada{
+  min-height:90vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  page-break-after:always;
+  background:linear-gradient(180deg,var(--blue-soft) 0%,var(--slate-white) 60%);
+}
+.portada .kicker{
+  color:var(--blue-action); font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  font-size:11pt; margin-bottom:0.5rem;
+}
+.portada h1{font-size:34pt; margin:0 0 .4rem 0; color:var(--slate-title);}
+.portada .sub{font-size:14pt; color:var(--slate-muted); margin-bottom:2.2rem;}
+.portada .meta{
+  display:inline-flex; gap:1.4rem; padding:0.9rem 1.6rem; border-radius:var(--radius-lg);
+  background:var(--slate-white); border:1px solid var(--slate-border);
+  box-shadow:0 6px 18px rgba(2,6,23,.08);
+  font-size:10.5pt; color:var(--slate-muted);
+}
+.portada .meta b{color:var(--slate-title);}
+.portada .franjas{display:flex; gap:.5rem; margin-top:2.5rem;}
+.portada .franja{width:46px; height:8px; border-radius:99px;}
+.franja.azul{background:var(--blue-action);}
+.franja.verde{background:var(--green-action);}
+.franja.roja{background:var(--red-action);}
+
+.contenido{ max-width:100%; padding:0 0.3rem; }
+
+h1{
+  font-size:19pt; color:var(--slate-title); margin:2.2rem 0 0.8rem;
+  border-bottom:3px solid var(--blue-action); padding-bottom:.35rem;
+  page-break-before:always;
+}
+.contenido > h1:first-of-type{ page-break-before:avoid; }
+h2{
+  font-size:14.5pt; color:var(--blue-hover); margin:1.6rem 0 .6rem;
+  border-bottom:1px solid var(--slate-border); padding-bottom:.25rem;
+}
+h3{ font-size:12pt; color:var(--slate-title); margin:1.2rem 0 .4rem; font-weight:700;}
+h4{ font-size:11pt; color:var(--slate-muted); margin:1rem 0 .3rem; font-weight:700;}
+p{ margin:.45rem 0; text-align:left; }
+a{ color:var(--blue-action); text-decoration:none; }
+code{
+  font-family:var(--font-mono); background:var(--slate-surface); color:var(--blue-hover);
+  padding:.05rem .3rem; border-radius:4px; font-size:.92em; border:1px solid var(--slate-border);
+  word-break:break-word;
+}
+pre.codeblock{
+  background:#0f172a; color:#e2e8f0; padding:.8rem 1rem; border-radius:var(--radius-md);
+  overflow-x:auto; font-size:9.2pt; line-height:1.45;
+  page-break-inside:avoid;
+  white-space:pre;
+}
+pre.codeblock code{ background:none; border:none; color:inherit; padding:0; font-size:1em; border:none; }
+ul,ol{ margin:.4rem 0 .7rem 1.3rem; padding:0; }
+li{ margin:.2rem 0; }
+hr{ border:none; border-top:1px solid var(--slate-border); margin:1.4rem 0; }
+strong{ color:var(--slate-title); }
+
+.tabla-wrap{ margin:.6rem 0 1rem; }
+table{
+  width:100%; border-collapse:collapse; font-size:9.1pt;
+}
+thead th{
+  background:var(--blue-action); color:#fff; text-align:left;
+  padding:.4rem .55rem; font-weight:600;
+}
+tbody td{
+  padding:.38rem .55rem; border-bottom:1px solid var(--slate-border); vertical-align:top;
+}
+tbody tr{ page-break-inside:avoid; }
+tbody tr:nth-child(even){ background:var(--slate-surface); }
+tbody td code{ white-space:normal; }
+
+/* Índice (primera lista tras el H2 "Índice") */
+#índice + ol{ list-style:none; counter-reset:toc; margin-left:0; }
+#índice + ol li{
+  counter-increment:toc; padding:.28rem 0; border-bottom:1px dotted var(--slate-border);
+  display:flex; justify-content:space-between; font-size:10.5pt;
+}
+#índice + ol li a{ color:var(--slate-title); font-weight:600; }
+#índice + ol li a:after{ content:""; }
+
+.pie-doc{
+  margin-top:2rem; padding-top:.8rem; border-top:2px solid var(--blue-action);
+  font-size:9pt; color:var(--slate-muted); font-style:italic;
+}
+
+@page{
+  size:A4;
+  margin: 18mm 16mm 18mm 16mm;
+  @bottom-center{
+    content: "Presentia — Documentación Técnica · v1.0.0 · página " counter(page) " de " counter(pages);
+    font-size:8.5pt; color:#64748b; font-family: "Segoe UI", sans-serif;
+  }
+}
+</style>
+</head>
+<body>
+
+<section class="portada">
+  <div class="kicker">Documentación técnica integral</div>
+  <h1>Presentia</h1>
+  <div class="sub">Módulo de registro de jornada para Expira</div>
+  <div class="meta">
+    <span><b>Versión</b> 1.0.0</span>
+    <span><b>Fecha</b> 2026-07-19</span>
+    <span><b>Ámbito</b> Revisión Fase 1</span>
+  </div>
+  <div class="franjas"><span class="franja azul"></span><span class="franja verde"></span><span class="franja roja"></span></div>
+</section>
+
+<div class="contenido">
+<h2 id="índice">Índice</h2>
+<ol>
+<li><a href="#1-resumen-ejecutivo">Resumen ejecutivo</a></li>
+<li><a href="#2-arquitectura">Arquitectura</a></li>
+<li><a href="#3-modelo-de-datos">Modelo de datos</a></li>
+<li><a href="#4-api">API</a></li>
+<li><a href="#5-lógica-de-negocio">Lógica de negocio</a></li>
+<li><a href="#6-manager-pantalla-por-pantalla">Manager, pantalla por pantalla</a></li>
+<li><a href="#7-kiosko">Kiosko</a></li>
+<li><a href="#8-roles-y-permisos">Roles y permisos</a></li>
+<li><a href="#9-configuración">Configuración</a></li>
+<li><a href="#10-diseño-y-temas">Diseño y temas</a></li>
+<li><a href="#11-flujos-de-uso">Flujos de uso</a></li>
+<li><a href="#12-integración-en-expira">Integración en Expira</a></li>
+<li><a href="#13-glosario">Glosario</a></li>
+<li><a href="#14-observaciones--deuda">Observaciones / deuda</a></li>
+</ol>
+<hr/>
+<h2 id="1-resumen-ejecutivo">1. Resumen ejecutivo</h2>
+<p><strong>Presentia</strong> es un módulo de <strong>registro de jornada laboral</strong> (control horario, art. 34.9 ET) pensado para integrarse dentro de un software de gestión llamado <strong>Expira</strong>, del que hoy <strong>no existe código en este repositorio</strong> (fue eliminado; archivado en el tag git <code>presentia-original-preborrado</code>). Por ello el módulo se ha construido contra una <strong>interfaz de puertos explícita</strong> (<code>src/ports.js</code>): Expira deberá inyectar <code>db</code>, <code>clock</code>, <code>employees</code>, <code>pin</code>, <code>session</code> y, opcionalmente, <code>correlatives</code>, <code>printing</code> y <code>hash</code>. El módulo no tiene login propio, no crea procesos ni bases de datos nuevas: añade 9 tablas con prefijo <code>presentia_</code> a la base SQLite que ya posea Expira, mediante una migración <strong>aditiva e idempotente</strong> (<code>CREATE TABLE IF NOT EXISTS</code>).</p>
+<p>El backend es JavaScript puro sobre Node ≥ 22 (probado en Node 24), usando únicamente builtins (<code>node:sqlite</code>, <code>node:crypto</code>) — <strong>cero dependencias de producción</strong> (<code>package.json</code> no declara ninguna). La capa HTTP es agnóstica de framework: los <em>handlers</em> (<code>src/http/handlers.js</code>) son funciones puras <code>(deps, ctx) =&gt; resultado</code> que un adaptador delgado (<code>src/http/fastify-adapter.js</code>) cuelga de la instancia Fastify que aporte Expira bajo el prefijo <code>/presentia</code>.</p>
+<p>Funcionalmente cubre: fichaje de entrada/salida por PIN desde un <strong>kiosko</strong> táctil (con pausas, turnos que cruzan medianoche y código correlativo <code>F-AAAA-NNNN</code>), un <strong>Manager</strong> con 6 pestañas (Hoy, Registros, Informe de horas, Solicitudes, Ajustes, Legal) para el rol <code>local_admin</code>/<code>technician</code>, exportación <strong>CSV y PDF</strong> sin dependencias, un modelo de corrección de errores <strong>sin edición destructiva</strong> (las correcciones generan versiones que conservan el valor original) y una <strong>auditoría append-only encadenada por hash</strong> que detecta alteraciones. Incluye 10 documentos legales (RGPD, LSSI, EULA) embebidos y un sistema de temas claro/oscuro/automático con tokens CSS centralizados.</p>
+<p>El estado de la suite de pruebas se ha verificado en esta revisión ejecutando <code>npm test</code>: <strong>121/121 pruebas en verde</strong> (dominio, migración, flujos de negocio, seguridad, legal, tema, responsive, release). El servidor de previsualización (<code>dev-preview/api-server.mjs</code>) está operativo en <code>http://127.0.0.1:8787</code> sobre el entorno de referencia en memoria, con 4 empleados de demostración (Ana/<code>e1</code>, Bruno/<code>e2</code>, Laura/<code>a1</code> admin, Tec/<code>t1</code> técnico).</p>
+<p>El módulo se declara "apto para integrar" por su propio equipo (<code>ENTREGA.md</code>), pero con condiciones reales pendientes: cifrado en reposo, TLS, empaquetado de la tipografía Inter (nunca cargada hoy), relleno de los marcadores legales (<code>[NOMBRE_EMPRESA]</code>, etc.) y, sobre todo, validar el módulo contra el código <strong>real</strong> de Expira, que no ha podido probarse porque no existe en este entorno. Esta revisión añade hallazgos propios más allá de los que el propio equipo ya documentó (ver §14), entre ellos que las claves foráneas del esquema no se hacen cumplir (no hay <code>PRAGMA foreign_keys = ON</code> en ningún punto) y que la cadena de auditoría no detecta el truncamiento de sus últimas filas, sólo la alteración de filas intermedias.</p>
+<hr/>
+<h2 id="2-arquitectura">2. Arquitectura</h2>
+<h3 id="21-principio-rector">2.1 Principio rector</h3>
+<p>Presentia <strong>no es una aplicación independiente</strong>: es código fuente que Expira importa y monta. No abre su propio puerto de red, no tiene su propio proceso, no gestiona su propia base de datos y no implementa login. Toda dependencia externa se recibe <strong>inyectada</strong> como "puerto" (patrón <em>ports &amp; adapters</em> / arquitectura hexagonal).</p>
+<h3 id="22-puertos-consumidos-de-expira-srcportsjs">2.2 Puertos consumidos de Expira (<code>src/ports.js</code>)</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Puerto</th><th>Obligatorio</th><th>Interfaz</th><th>Si falta</th></tr></thead>
+<tbody>
+<tr><td><code>db</code></td><td>Sí</td><td><code>{ exec(sql), prepare(sql) → {run,get,all} }</code>, compatible <code>node:sqlite</code></td><td><code>crearModulo</code> lanza error explícito</td></tr>
+<tr><td><code>clock.now</code></td><td>Sí</td><td><code>() → epoch_ms</code></td><td>lanza error</td></tr>
+<tr><td><code>employees</code></td><td>Sí</td><td><code>getById(id) → Empleado|null</code>, <code>list() → Empleado[]</code></td><td>lanza error</td></tr>
+<tr><td><code>session.resolve</code></td><td>Sí</td><td><code>(req) → {empleadoId, rol}|null</code></td><td>lanza error</td></tr>
+<tr><td><code>pin.verify</code></td><td>Sí si <code>exigirPin</code> (por defecto sí)</td><td><code>(empleadoId, pin) → boolean</code>, tiempo constante</td><td>lanza error si <code>exigirPin</code> activo</td></tr>
+<tr><td><code>correlatives.next</code></td><td>No</td><td><code>(serie, anio) → 'F-AAAA-NNNN'</code></td><td>fallback: contador atómico propio en <code>presentia_correlativos</code></td></tr>
+<tr><td><code>printing</code></td><td>No</td><td><code>printTicket(doc)</code>, <code>renderPdf(report) → Buffer</code></td><td>ticket no se imprime; PDF usa generador propio</td></tr>
+<tr><td><code>hash</code></td><td>No</td><td><code>hashSecret(s)</code>, <code>verifySecret(s, stored)</code></td><td>fallback <code>scrypt</code> propio (<code>src/security/hash.js</code>)</td></tr>
+</tbody></table></div>
+<p><code>assertDeps()</code> valida en caliente que los puertos obligatorios existen y son funciones; si no, <code>crearModulo()</code> lanza con un mensaje que nombra el puerto ausente. <code>Empleado</code> esperado: <code>{id, nombre, rol, activo, avatarUrl?}</code> con <code>rol ∈ {empleado, local_admin, technician}</code> (no hay "supervisor" ni "superadmin"; ver <code>ROLES</code> en <code>ports.js</code>).</p>
+<h3 id="23-capas-del-código">2.3 Capas del código</h3>
+<pre class="codeblock"><code>src/
+  ports.js                contrato de integración, ROLES, DEFAULT_CONFIG, normalizeConfig, assertDeps
+  index.js                crearModulo(deps) → { deps, rate, kioskSessions } + registrarFastify + handlers + verificarIntegridad
+  db/
+    schema.js             DDL (9 tablas presentia_*, índices)
+    migrate.js            migrate() aditivo + leerConfig/guardarConfig
+    tx.js                 transaccion(db, fn) vía SAVEPOINT anidable
+  domain/                 lógica PURA, sin BD ni red (testeable sin mocks)
+    time.js               zona horaria del centro vs. timestamps UTC
+    jornadas.js            emparejado de marcas, minutos, redondeo, resumen
+    correlativo.js         formato/parseo F-AAAA-NNNN + contador atómico
+  services/               orquestan dominio + repos + auditoría (con efectos: BD, reloj)
+    repos.js, fichaje.service.js, hoy.service.js, registros.service.js,
+    informe.service.js, solicitudes.service.js, ajustes.service.js,
+    audit.service.js, aceptacion.service.js
+  http/
+    handlers.js            handlers puros (deps, ctx) → datos | lanza ErrorPresentia
+    authz.js               requireRol, requireCanalKiosko, rate limiter en memoria
+    kiosk-session.js       micro-sesión de kiosko (token efímero, hash almacenado)
+    fastify-adapter.js     registrarFastify(): cuelga los handlers de Fastify bajo /presentia
+  security/
+    hash.js                scrypt (fallback), verificación en tiempo constante
+    pin-policy.js           PIN débil/trivial, backoff exponencial
+  export/
+    csv.js, pdf.js          exportación sin dependencias (BOM UTF-8, PDF de texto plano)
+  errors.js                ErrorPresentia (code, status, mensaje interno, mensaje público)
+  dev/reference-env.js     entorno de referencia SOLO dev/test (bloqueado si NODE_ENV=production)
+manager/                  React 19 — Manager (6 pestañas)
+kiosk/                    React 19 — kiosko (fichar, mis registros, legal)
+shared/                   tokens.css, temas, Markdown seguro, responsive.css
+legal/                    10 documentos + generador de contenido embebido
+test/                     121 pruebas (node:test, cero dependencias)
+dev-preview/              arnés de desarrollo (Vite + servidor HTTP mínimo), NO es producción
+auditoria/                catálogo de auditoría funcional previa (defectos, evidencias)</code></pre>
+<h3 id="24-flujo-de-arranque-crearmodulo">2.4 Flujo de arranque (<code>crearModulo</code>)</h3>
+<ol>
+<li>Valida que <code>deps.db</code> y <code>deps.clock.now</code> existan (chequeo temprano, antes de tocar BD).</li>
+<li><code>migrate(deps.db)</code>: ejecuta el DDL completo (<code>CREATE TABLE/INDEX IF NOT EXISTS</code>) y siembra <code>presentia_ajustes</code></li>
+</ol>
+<p>con <code>INSERT OR IGNORE</code> (nunca sobreescribe valores ya guardados). Ejecutarlo dos veces es no-op (probado).</p>
+<ol>
+<li>Fusiona la config persistida (<code>leerConfig</code>) con la que pase Expira en <code>deps.config</code>, y normaliza (<code>normalizeConfig</code>).</li>
+<li>Instancia <code>correlatives</code> (si Expira no lo aporta, usa el contador atómico propio).</li>
+<li><code>assertDeps(full)</code> — última comprobación con la config ya resuelta (p. ej. exige <code>pin.verify</code> si <code>exigirPin</code> es true).</li>
+<li>Crea el <em>rate limiter</em> (ventana de 60 s, máx. 30 peticiones por clave) y el emisor de micro-sesiones de kiosko</li>
+</ol>
+<p>(TTL 90 s).</p>
+<ol>
+<li>Devuelve <code>{ deps, rate, kioskSessions }</code>, que se pasa a <code>registrarFastify(fastify, modulo, { prefix })</code>.</li>
+</ol>
+<h3 id="25-por-qué-el-diseño-es-agnóstico-de-fastify-d-006">2.5 Por qué el diseño es agnóstico de Fastify (D-006)</h3>
+<p>Los handlers de <code>handlers.js</code> no reciben <code>req</code>/<code>reply</code>: reciben un objeto <code>ctx</code> plano (<code>{actor, canal, params, query, body, dispositivo, rate, kioskSessions, formato}</code>) y devuelven datos o lanzan <code>ErrorPresentia</code>. Esto permite testear las 121 pruebas sin arrancar un servidor HTTP real ni depender de Fastify como dependencia de test, y hace portable la lógica de autorización/validación a cualquier framework futuro.</p>
+<hr/>
+<h2 id="3-modelo-de-datos">3. Modelo de datos</h2>
+<p>Las 9 tablas viven en la <strong>misma base SQLite</strong> que Expira (puerto <code>db</code>); todas con prefijo <code>presentia_</code> para evitar colisión de nombres. El módulo nunca crea su propio fichero <code>.db</code>. En el entorno de referencia de desarrollo/test la base es <code>:memory:</code> (no existe <code>.db</code> real en disco en este repositorio).</p>
+<h3 id="31-presentiaajustes--configuración-clavevalor">3.1 <code>presentia_ajustes</code> — configuración clave/valor</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>clave</code></td><td>TEXT</td><td><strong>PK</strong>. Nombre del ajuste (p. ej. <code>zonaHoraria</code>)</td></tr>
+<tr><td><code>valor</code></td><td>TEXT NOT NULL</td><td>Valor serializado en JSON (<code>JSON.stringify</code>)</td></tr>
+</tbody></table></div>
+<p>Una fila por cada clave de <code>DEFAULT_CONFIG</code> (10 claves). Se lee entera y se normaliza con <code>normalizeConfig()</code> en cada <code>leerConfig()</code>.</p>
+<h3 id="32-presentiajornadas--un-día-de-un-empleado">3.2 <code>presentia_jornadas</code> — un día de un empleado</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>id</code></td><td>INTEGER</td><td><strong>PK</strong> autoincremental</td></tr>
+<tr><td><code>empleado_id</code></td><td>TEXT NOT NULL</td><td>id del empleado (externo; no hay tabla de empleados en este módulo)</td></tr>
+<tr><td><code>fecha</code></td><td>TEXT NOT NULL</td><td><code>YYYY-MM-DD</code> en la <strong>zona horaria del centro</strong>, no UTC (día de la marca de entrada)</td></tr>
+<tr><td><code>codigo</code></td><td>TEXT NOT NULL <strong>UNIQUE</strong></td><td><code>F-AAAA-NNNN</code> (serie configurable, año, correlativo de 4+ dígitos)</td></tr>
+<tr><td><code>estado</code></td><td>TEXT NOT NULL DEFAULT <code>abierta</code></td><td><code>CHECK IN ('abierta','cerrada')</code></td></tr>
+<tr><td><code>editado</code></td><td>INTEGER NOT NULL DEFAULT 0</td><td>1 si alguna marca de la jornada fue editada/añadida por un admin</td></tr>
+<tr><td><code>creado_ts</code> / <code>actualizado_ts</code></td><td>INTEGER NOT NULL</td><td>epoch ms UTC</td></tr>
+<tr><td>—</td><td>—</td><td><code>UNIQUE (empleado_id, fecha)</code>: un empleado sólo puede tener <strong>una</strong> jornada por fecha de calendario del centro</td></tr>
+</tbody></table></div>
+<h3 id="33-presentiamarcas--cada-fichaje-individual">3.3 <code>presentia_marcas</code> — cada fichaje individual</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>id</code></td><td>INTEGER</td><td><strong>PK</strong> autoincremental</td></tr>
+<tr><td><code>jornada_id</code></td><td>INTEGER NOT NULL</td><td><strong>FK</strong> declarada → <code>presentia_jornadas(id)</code> (ver nota de integridad en §14)</td></tr>
+<tr><td><code>tipo</code></td><td>TEXT NOT NULL</td><td><code>CHECK IN ('entrada','salida')</code></td></tr>
+<tr><td><code>ts</code></td><td>INTEGER NOT NULL</td><td>epoch ms <strong>UTC</strong> (nunca hora local)</td></tr>
+<tr><td><code>origen</code></td><td>TEXT</td><td><code>'kiosk' | 'manager'</code> (libre, sin <code>CHECK</code>)</td></tr>
+<tr><td><code>dispositivo</code></td><td>TEXT</td><td>identificador libre del dispositivo/kiosko</td></tr>
+<tr><td><code>editado</code></td><td>INTEGER NOT NULL DEFAULT 0</td><td>1 si esta marca concreta fue creada/editada por un admin (no por fichaje normal)</td></tr>
+<tr><td><code>creado_ts</code></td><td>INTEGER NOT NULL</td><td>epoch ms</td></tr>
+</tbody></table></div>
+<p>Índice: <code>idx_presentia_marcas_jornada (jornada_id)</code>.</p>
+<h3 id="34-presentiamarcaversiones--historial-inalterable-append-only">3.4 <code>presentia_marca_versiones</code> — historial inalterable (append-only)</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>id</code></td><td>INTEGER</td><td><strong>PK</strong></td></tr>
+<tr><td><code>marca_id</code></td><td>INTEGER NOT NULL</td><td>referencia lógica a <code>presentia_marcas.id</code> (<strong>sin</strong> <code>FOREIGN KEY</code> declarada)</td></tr>
+<tr><td><code>campo</code></td><td>TEXT NOT NULL</td><td>hoy siempre <code>'ts'</code> (única propiedad versionable)</td></tr>
+<tr><td><code>valor_anterior</code> / <code>valor_nuevo</code></td><td>TEXT</td><td>timestamps serializados a texto</td></tr>
+<tr><td><code>motivo</code></td><td>TEXT NOT NULL</td><td>obligatorio en toda edición</td></tr>
+<tr><td><code>autor_id</code></td><td>TEXT NOT NULL</td><td>quién corrigió</td></tr>
+<tr><td><code>ts</code></td><td>INTEGER NOT NULL</td><td>cuándo se corrigió</td></tr>
+</tbody></table></div>
+<p>Nunca se hace <code>UPDATE</code>/<code>DELETE</code> sobre esta tabla: sólo <code>INSERT</code>. Cada corrección de una marca inserta aquí el valor <strong>anterior</strong>, y sólo entonces actualiza <code>presentia_marcas.ts</code> con el nuevo valor. Índice: <code>idx_presentia_versiones_marca</code>.</p>
+<h3 id="35-presentiasolicitudes--ciclo-de-vida-de-una-corrección-propuesta-por-el-empleado">3.5 <code>presentia_solicitudes</code> — ciclo de vida de una corrección propuesta por el empleado</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>id</code></td><td>INTEGER</td><td><strong>PK</strong></td></tr>
+<tr><td><code>empleado_id</code></td><td>TEXT NOT NULL</td><td>quién la propone</td></tr>
+<tr><td><code>tipo</code></td><td>TEXT NOT NULL DEFAULT <code>'correccion'</code></td><td>único valor usado hoy</td></tr>
+<tr><td><code>jornada_id</code> / <code>marca_id</code></td><td>INTEGER</td><td>referencias lógicas opcionales (sin <code>FK</code>)</td></tr>
+<tr><td><code>cambio</code></td><td>TEXT NOT NULL</td><td>JSON <code>{accion:'editar'|'anadir', marcaId?/jornadaId?, tipo?, ts}</code></td></tr>
+<tr><td><code>motivo</code></td><td>TEXT NOT NULL</td><td>obligatorio</td></tr>
+<tr><td><code>estado</code></td><td>TEXT NOT NULL DEFAULT <code>'pendiente'</code></td><td><code>CHECK IN ('pendiente','aprobada','rechazada')</code></td></tr>
+<tr><td><code>resuelto_por</code> / <code>resuelto_ts</code> / <code>comentario</code></td><td>—</td><td>rellenos al aprobar/rechazar</td></tr>
+<tr><td><code>creado_ts</code></td><td>INTEGER NOT NULL</td><td>—</td></tr>
+</tbody></table></div>
+<p>Índice: <code>idx_presentia_solici_estado</code>.</p>
+<h3 id="36-presentiaauditoria--log-append-only-encadenado-por-hash">3.6 <code>presentia_auditoria</code> — log append-only encadenado por hash</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>id</code></td><td>INTEGER</td><td><strong>PK</strong></td></tr>
+<tr><td><code>ts</code>, <code>actor_id</code>, <code>actor_rol</code>, <code>accion</code>, <code>entidad</code>, <code>entidad_id</code>, <code>detalle</code> (JSON), <code>origen</code>, <code>motivo</code></td><td>—</td><td>payload del evento; <code>detalle</code> nunca contiene PIN/hash/token (verificado por test)</td></tr>
+<tr><td><code>prev_hash</code></td><td>TEXT NOT NULL</td><td>hash de la fila anterior (<code>'GENESIS'</code> si es la primera)</td></tr>
+<tr><td><code>hash</code></td><td>TEXT NOT NULL</td><td><code>sha256(prev_hash + JSON-canónico(payload))</code></td></tr>
+</tbody></table></div>
+<p>No hay ningún <code>UPDATE</code>/<code>DELETE</code> sobre esta tabla en todo el código de producción. <code>verificarIntegridad(db)</code> recorre la tabla en orden de <code>id</code> y recalcula la cadena; si una fila fue alterada, <code>prev_hash</code>/<code>hash</code> dejan de cuadrar y devuelve <code>{ok:false, rotoEn:&lt;id&gt;}</code>. Ver limitación real en §14 (no detecta el borrado de las últimas filas).</p>
+<h3 id="37-presentiacorrelativos--contador-atómico-f-aaaa-nnnn">3.7 <code>presentia_correlativos</code> — contador atómico F-AAAA-NNNN</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>serie</code>, <code>anio</code></td><td>TEXT / INTEGER</td><td><strong>PK compuesta</strong></td></tr>
+<tr><td><code>ultimo</code></td><td>INTEGER NOT NULL DEFAULT 0</td><td>último número asignado</td></tr>
+</tbody></table></div>
+<p>Se actualiza con un único <code>UPSERT ... RETURNING</code> (<code>INSERT ... ON CONFLICT DO UPDATE SET ultimo = ultimo + 1 RETURNING ultimo</code>), atómico en una sola sentencia SQL. Fallback usado sólo si Expira no aporta su propio puerto <code>correlatives</code>.</p>
+<h3 id="38-presentiaaceptaciones--consentimiento-de-términos-una-vez-por-versión">3.8 <code>presentia_aceptaciones</code> — consentimiento de términos, una vez por versión</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>empleado_id</code>, <code>version</code></td><td>TEXT</td><td><strong>PK compuesta</strong></td></tr>
+<tr><td><code>ts</code></td><td>INTEGER NOT NULL</td><td>cuándo aceptó</td></tr>
+<tr><td><code>origen</code></td><td>TEXT</td><td><code>'kiosk' | 'manager'</code></td></tr>
+</tbody></table></div>
+<p><code>TERMINOS_VERSION = 'v1'</code> está fijado en código (<code>aceptacion.service.js</code>); subir esta constante fuerza a todos los usuarios a re-aceptar.</p>
+<h3 id="39-presentiapinintentos--bloqueobackoff-por-empleado-y-dispositivo">3.9 <code>presentia_pin_intentos</code> — bloqueo/backoff por empleado y dispositivo</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Campo</th><th>Tipo</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td><code>empleado_id</code>, <code>dispositivo</code></td><td>TEXT</td><td><strong>PK compuesta</strong></td></tr>
+<tr><td><code>fallos</code></td><td>INTEGER NOT NULL DEFAULT 0</td><td>contador de intentos fallidos consecutivos</td></tr>
+<tr><td><code>bloqueado_hasta</code></td><td>INTEGER NOT NULL DEFAULT 0</td><td>epoch ms hasta el que está bloqueado</td></tr>
+<tr><td><code>actualizado_ts</code></td><td>INTEGER NOT NULL</td><td>—</td></tr>
+</tbody></table></div>
+<p>Se limpia (<code>DELETE</code>) tras un PIN correcto; es la única tabla del módulo donde <code>DELETE</code> es una operación normal (no afecta a datos de jornada ni auditoría).</p>
+<h3 id="310-diagrama-de-relaciones-ascii">3.10 Diagrama de relaciones (ASCII)</h3>
+<pre class="codeblock"><code>  Expira (externo, puerto `employees`)
+  ┌───────────────────────────┐
+  │ empleado: id, nombre,     │
+  │ rol, activo, avatarUrl    │
+  └─────────────┬─────────────┘
+                │ empleado_id (referencia LÓGICA; el módulo no posee esta tabla,
+                │              no hay FK real hacia un origen externo)
+  ┌─────────────┼───────────────────────────────┬─────────────────────────────┐
+  │             │                               │                             │
+  ▼             ▼                               ▼                             ▼
+presentia_    presentia_aceptaciones      presentia_pin_intentos       presentia_solicitudes
+jornadas      (empleado_id,version) PK    (empleado_id,dispositivo)PK  id PK, empleado_id,
+id PK         ts, origen                  fallos, bloqueado_hasta      jornada_id / marca_id (lógicas)
+empleado_id                                                            cambio(JSON), motivo,
+fecha                                                                   estado, resuelto_*
+codigo UNIQUE                                                                 ▲
+estado                                                                        │ (referencia lógica,
+editado                                                                       │  sin FK declarada)
+  │ 1                                                                         │
+  │                                                                           │
+  │ N   (FK declarada: presentia_marcas.jornada_id → presentia_jornadas.id;   │
+  ▼      NO forzada por el motor: no hay PRAGMA foreign_keys=ON, ver §14)     │
+presentia_marcas ◄─────────────────────────────────────────────────────────────┘
+id PK
+jornada_id FK → presentia_jornadas.id
+tipo (entrada|salida), ts (UTC), origen, dispositivo, editado
+  │ 1
+  │
+  │ N   (referencia lógica marca_id, SIN FK declarada)
+  ▼
+presentia_marca_versiones
+id PK, marca_id, campo, valor_anterior, valor_nuevo, motivo, autor_id, ts   (append-only, nunca UPDATE/DELETE)
+
+presentia_auditoria (independiente; encadenada por hash, no por FK)
+id PK, ts, actor_id, actor_rol, accion, entidad, entidad_id, detalle(JSON), origen, motivo,
+prev_hash, hash        donde hash(n) = sha256(hash(n-1) + payload_canónico(n)); hash(0_prev) = 'GENESIS'
+
+presentia_correlativos (independiente)         presentia_ajustes (independiente)
+(serie, anio) PK, ultimo                        clave PK, valor(JSON)</code></pre>
+<hr/>
+<h2 id="4-api">4. API</h2>
+<p>Base por defecto: <code>/presentia</code> (configurable en <code>registrarFastify(fastify, modulo, { prefix })</code>). Sobre de respuesta uniforme: <code>{ ok:true, data }</code> en éxito, <code>{ ok:false, error:{ code, mensaje } }</code> en error (mensaje siempre genérico/público, nunca el mensaje interno). Las descargas (CSV/PDF) devuelven el binario con <code>Content-Disposition: attachment</code>.</p>
+<h3 id="41-canal-kiosk-identidad--pin--micro-sesión-no-depende-del-rol-de-la-sesión-del-host">4.1 Canal <em>kiosk</em> (identidad = PIN + micro-sesión; <strong>no</strong> depende del rol de la sesión del host)</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Método · Ruta</th><th>Body/Query</th><th>Validaciones</th><th>Respuesta / código</th><th>Rol host requerido</th></tr></thead>
+<tbody>
+<tr><td><code>GET /kiosk/empleados</code></td><td>—</td><td>ninguna (sólo canal <code>kiosk</code>)</td><td><code>[{id,nombre,avatarUrl}]</code>; <code>[]</code> si <code>mostrarEnKiosko=false</code></td><td>ninguno (canal <code>kiosk</code>)</td></tr>
+<tr><td><code>POST /kiosk/entrar</code></td><td><code>{empleadoId, pin}</code></td><td><code>empleadoId</code> requerido (400 <code>EMPLEADO_REQUERIDO</code>); rate-limit por <code>dispositivo+empleadoId</code> (429 <code>RATE</code>); PIN vía <code>pin.verify</code> (401 <code>PIN_INCORRECTO</code>, 429 <code>PIN_BLOQUEADO</code>)</td><td><code>{token, empleado, estado, aceptado}</code></td><td>ninguno</td></tr>
+<tr><td><code>POST /kiosk/estado</code></td><td><code>{token}</code></td><td>token de micro-sesión válido (401 <code>SESION_KIOSKO</code>)</td><td><code>{empleado, estado}</code></td><td>ninguno</td></tr>
+<tr><td><code>POST /kiosk/fichar</code></td><td><code>{token}</code></td><td>token válido; rate-limit por <code>dispositivo+empleadoId</code>; <code>variasMarcasDia=false</code> + jornada ya cerrada ⇒ 409 <code>JORNADA_CERRADA</code></td><td><code>{tipo, ts, codigo, estado, marcaId, jornadaId}</code></td><td>ninguno</td></tr>
+<tr><td><code>POST /kiosk/mis-registros</code></td><td><code>{token, desde?, hasta?}</code></td><td>token válido; rango por defecto = mes en curso</td><td>informe <strong>sólo del propio empleado</strong> (mismo shape que <code>manager.informe</code>)</td><td>ninguno</td></tr>
+<tr><td><code>GET /kiosk/mis-horas.csv</code></td><td><code>?token&amp;desde&amp;hasta</code></td><td>token válido</td><td>CSV (BOM UTF-8, <code>;</code>)</td><td>ninguno</td></tr>
+<tr><td><code>GET /kiosk/mis-horas.pdf</code></td><td><code>?token&amp;desde&amp;hasta</code></td><td>token válido</td><td>PDF (texto plano, generador propio)</td><td>ninguno</td></tr>
+<tr><td><code>POST /kiosk/solicitud</code></td><td><code>{token, cambio, motivo, jornadaId?, marcaId?}</code></td><td>token válido; <code>motivo</code> no vacío (400 <code>MOTIVO_REQUERIDO</code>); <code>cambio</code> objeto válido (400 <code>CAMBIO_INVALIDO</code>); <strong>anti-IDOR</strong>: la marca/jornada referida debe pertenecer al empleado del token (403 <code>PROHIBIDO</code>)</td><td>solicitud creada, <code>estado:'pendiente'</code></td><td>ninguno</td></tr>
+<tr><td><code>POST /kiosk/terminos</code></td><td><code>{token}</code></td><td>token válido</td><td><code>{aceptado, version, ts}</code></td><td>ninguno</td></tr>
+<tr><td><code>POST /kiosk/terminos/aceptar</code></td><td><code>{token}</code></td><td>token válido; idempotente</td><td><code>{aceptado:true, version, ts}</code></td><td>ninguno</td></tr>
+</tbody></table></div>
+<p>Nota importante: en el canal kiosko la identidad es siempre la del <strong>PIN introducido</strong>, no el rol de sesión del host. Un empleado con rol <code>local_admin</code> o <code>technician</code> puede fichar en el kiosko como cualquier otro empleado; el módulo no distingue el rol en este canal (ver matriz §8).</p>
+<h3 id="42-canal-manager-requiere-sessionresolvereq-del-host-con-rol-localadmintechnician">4.2 Canal <em>manager</em> (requiere <code>session.resolve(req)</code> del host con rol <code>local_admin</code>/<code>technician</code>)</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Método · Ruta</th><th>Body/Query</th><th>Validaciones</th><th>Respuesta / código</th><th>Rol requerido</th></tr></thead>
+<tbody>
+<tr><td><code>GET /manager/hoy</code></td><td>—</td><td>sesión de host (401 <code>NO_AUTENTICADO</code>); rol (403 <code>PROHIBIDO</code>)</td><td>KPIs + marcas del día</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>GET /manager/registros</code></td><td><code>?desde&amp;hasta&amp;empleadoId</code></td><td>rango por defecto = mes en curso</td><td><code>[{id,codigo,empleadoId,...,marcas[]}]</code></td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>POST /manager/registros/marca/editar</code></td><td><code>{marcaId, tsNuevo, motivo}</code></td><td><code>motivo</code> no vacío (400 <code>MOTIVO_REQUERIDO</code>); <code>tsNuevo</code> numérico (400 <code>TS_INVALIDO</code>); marca existente (404 <code>MARCA_INEXISTENTE</code>)</td><td>jornada recompuesta</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>POST /manager/registros/marca/anadir</code></td><td><code>{jornadaId, tipo, ts, motivo}</code></td><td><code>tipo∈{entrada,salida}</code> (400 <code>TIPO_INVALIDO</code>); <code>ts</code> numérico (400 <code>TS_INVALIDO</code>); <code>motivo</code> no vacío (400 <code>MOTIVO_REQUERIDO</code>); jornada existente (404 <code>JORNADA_INEXISTENTE</code>)</td><td>jornada recompuesta</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>GET /manager/informe</code></td><td><code>?desde&amp;hasta&amp;empleadoId</code></td><td>rango por defecto = mes en curso</td><td>informe agregado por empleado + total del periodo</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>GET /manager/informe.csv</code> / <code>.pdf</code></td><td>ídem</td><td>—</td><td>descarga</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>GET /manager/solicitudes</code></td><td><code>?estado=pendiente|aprobada|rechazada</code></td><td>—</td><td>lista</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>POST /manager/solicitudes/:id/aprobar</code></td><td><code>{comentario?}</code></td><td>solicitud existente (404 <code>SOLICITUD_INEXISTENTE</code>); ya resuelta (409 <code>SOLICITUD_RESUELTA</code>)</td><td>aplica el cambio propuesto + versiona</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>POST /manager/solicitudes/:id/rechazar</code></td><td><code>{comentario?}</code></td><td>ídem</td><td>no cambia ningún dato</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>GET /manager/ajustes</code></td><td>—</td><td>—</td><td>config normalizada completa</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>PUT /manager/ajustes</code></td><td><code>{...claves}</code></td><td>claves desconocidas se ignoran; se normalizan tipos/rangos</td><td>config resultante</td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>GET /manager/auditoria/verificar</code></td><td>—</td><td>—</td><td><code>{ok, rotoEn, total}</code></td><td><strong>sólo</strong> <code>technician</code></td></tr>
+<tr><td><code>GET /manager/terminos</code></td><td>—</td><td>—</td><td><code>{aceptado, version, ts}</code></td><td><code>local_admin</code>, <code>technician</code></td></tr>
+<tr><td><code>POST /manager/terminos/aceptar</code></td><td>—</td><td>idempotente</td><td><code>{aceptado:true,...}</code></td><td><code>local_admin</code>, <code>technician</code></td></tr>
+</tbody></table></div>
+<h3 id="43-códigos-de-error-transversales">4.3 Códigos de error transversales</h3>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Code</th><th>HTTP</th><th>Origen</th></tr></thead>
+<tbody>
+<tr><td><code>NO_AUTENTICADO</code></td><td>401</td><td><code>requireRol</code>/<code>requireAutenticado</code> sin <code>actor</code></td></tr>
+<tr><td><code>PROHIBIDO</code></td><td>403</td><td>rol insuficiente, canal inválido, o IDOR (marca/jornada ajena)</td></tr>
+<tr><td><code>CANAL_INVALIDO</code></td><td>403</td><td>ruta de kiosko invocada fuera del canal <code>kiosk</code></td></tr>
+<tr><td><code>SESION_KIOSKO</code></td><td>401</td><td>token de micro-sesión ausente/caducado (TTL 90 s)</td></tr>
+<tr><td><code>RATE</code></td><td>429</td><td>límite de 30 peticiones/60 s superado (sólo en <code>entrar</code> y <code>fichar</code>)</td></tr>
+<tr><td><code>PIN_INCORRECTO</code> / <code>PIN_BLOQUEADO</code></td><td>401 / 429</td><td>fallo de PIN / bloqueo por backoff</td></tr>
+<tr><td><code>ERROR</code></td><td>500</td><td>cualquier excepción no <code>ErrorPresentia</code> (mensaje interno registrado en log, nunca en la respuesta)</td></tr>
+</tbody></table></div>
+<p>El adaptador Fastify captura toda excepción; si es <code>ErrorPresentia</code> usa su <code>status</code>/<code>code</code>/<code>publico</code>, si no, responde <code>500 { code:'ERROR', mensaje:'Error interno.' }</code> y sólo registra en el log el <code>code</code> y el mensaje interno (nunca datos personales).</p>
+<hr/>
+<h2 id="5-lógica-de-negocio">5. Lógica de negocio</h2>
+<h3 id="51-apertura-y-cierre-de-jornada-toggle-entradasalida">5.1 Apertura y cierre de jornada; toggle entrada/salida</h3>
+<p><code>fichar(deps, {empleadoId, pin, dispositivo, origen, pinVerificado})</code> (<code>src/services/fichaje.service.js</code>):</p>
+<ol>
+<li>Verifica que el empleado existe y está activo (403 <code>EMPLEADO_INVALIDO</code>).</li>
+<li>Verifica el PIN si no viene ya verificado por la sesión de kiosko (<code>verificarPin</code>, ver §5.6).</li>
+<li>Calcula la <strong>fecha de jornada</strong> en la zona horaria del centro (<code>fechaJornada(now, config.zonaHoraria)</code>), no en UTC.</li>
+<li>Resuelve la jornada objetivo (<code>jornadaObjetivo</code>, ver §5.2): la del día si existe, o una jornada abierta reciente</li>
+</ol>
+<p>(turno de noche), o ninguna (se creará una nueva).</p>
+<ol>
+<li>Si no existe jornada, la crea con un código correlativo nuevo (<code>correlatives.next(serieCorrelativo, año)</code>).</li>
+<li>Calcula el <strong>tipo de marca siguiente</strong> (<code>siguienteTipo</code>): <code>'entrada'</code> si no hay una entrada sin salida abierta,</li>
+</ol>
+<p><code>'salida'</code> en caso contrario.</p>
+<ol>
+<li>Si <code>variasMarcasDia=false</code> y ya hay una entrada registrada hoy y toca fichar otra entrada ⇒ 409 <code>JORNADA_CERRADA</code>.</li>
+<li>Inserta la marca, recalcula el estado de la jornada (<code>'cerrada'</code> si la última marca es una salida), audita el</li>
+</ol>
+<p>evento <code>fichaje</code>, e imprime ticket si <code>imprimirTicket</code> está activo y el host aporta el puerto <code>printing</code> (best-effort: los fallos de impresión se ignoran).</p>
+<p>Todo el bloque 4–8 corre dentro de una <strong>transacción</strong> (<code>SAVEPOINT</code> anidable, <code>src/db/tx.js</code>), con <code>ROLLBACK</code> si algo lanza.</p>
+<h3 id="52-multi-marca-pausas-y-turnos-de-noche">5.2 Multi-marca (pausas) y turnos de noche</h3>
+<p><code>jornadaObjetivo(deps, empleadoId, fecha, now)</code>:</p>
+<ul>
+<li>Si ya existe una jornada para <code>(empleadoId, fecha)</code>, se reutiliza (permite varias parejas entrada/salida el mismo</li>
+</ul>
+<p>día = pausas, si <code>variasMarcasDia</code> está activo).</p>
+<ul>
+<li>Si <strong>no</strong> existe jornada del día local pero el empleado tiene una <strong>jornada abierta reciente</strong> (su última marca es</li>
+</ul>
+<p>una <code>entrada</code> de hace <strong>menos de 24 h</strong>), el fichaje (la salida) <strong>cierra esa jornada anterior</strong> en vez de crear una nueva del día siguiente. Esto es lo que permite que un turno de 23:00→02:00 compute correctamente sus 3 horas en la jornada de <strong>entrada</strong>, no en dos jornadas separadas de 0 horas cada una.</p>
+<ul>
+<li>Si la jornada abierta tiene <strong>24 h o más</strong> de antigüedad (olvido de días atrás), <strong>no</strong> se reutiliza: se abre una</li>
+</ul>
+<p>jornada nueva hoy y la antigua queda huérfana, a la espera de corrección manual del admin (Registros o Solicitudes). No hay ninguna alerta proactiva de este caso (ver §14).</p>
+<p>Este comportamiento corrigió un defecto real detectado en la auditoría previa del propio equipo (<code>DEF-001</code>, ver <code>auditoria/02-DEFECTOS.md</code>), verificado hoy con el test <em>"REGRESIÓN turno de noche"</em> (<code>test/auditoria.test.js</code>) y con <code>test/domain.test.js</code> ("jornada que cruza medianoche se computa correctamente": 22:00→00:00 = 120 min).</p>
+<h3 id="53-cálculo-de-horas-y-redondeo">5.3 Cálculo de horas y redondeo</h3>
+<p><code>emparejarSegmentos(marcas)</code> (<code>src/domain/jornadas.js</code>) ordena las marcas por <code>ts</code> y las empareja en segmentos <code>entrada→salida</code>; una segunda <code>entrada</code> sin <code>salida</code> previa cierra el segmento abierto anterior como "sin salida" (hueco); una <code>salida</code> sin <code>entrada</code> previa es un segmento huérfano que no computa. <code>minutosTrabajados()</code> suma sólo los segmentos cerrados con <code>salida &gt; entrada</code>. El total se redondea con <code>aplicarRedondeo(min, redondeoMin)</code> (múltiplo más cercano; <code>redondeoMin=0</code> = sin redondeo) para producir <code>minutosRedondeados</code>, el valor que se muestra en Informe, Registros y exportaciones. <strong>El ajuste <code>jornadaEstandarMin</code> no interviene en ningún cálculo</strong>: se persiste y se muestra convertido a horas en Ajustes, pero no genera "horas extra" ni compara esperado/trabajado (confirmado leyendo <code>informe.service.js</code>; documentado por el propio equipo como <code>OBS-1</code>).</p>
+<h3 id="54-correlativo-f-aaaa-nnnn">5.4 Correlativo <code>F-AAAA-NNNN</code></h3>
+<p><code>formatearCodigo(serie, anio, n)</code> → <code>F-2026-0001</code> (rellena a 4 dígitos; crece libremente a partir de 5). El número se obtiene de <code>correlatives.next(serie, año)</code>, atómico: si Expira no aporta este puerto, el fallback (<code>crearCorrelativosDb</code>) hace un único <code>UPSERT ... ON CONFLICT DO UPDATE SET ultimo = ultimo + 1 RETURNING ultimo</code> por serie+año — no hay ventana de carrera entre leer y escribir porque es una sola sentencia SQL.</p>
+<h3 id="55-ciclo-de-vida-de-una-solicitud-de-corrección">5.5 Ciclo de vida de una solicitud de corrección</h3>
+<p><code>presentia_solicitudes.estado</code>: <code>pendiente → aprobada</code> | <code>pendiente → rechazada</code> (sin otros estados ni transiciones; <code>aprobar</code>/<code>rechazar</code> sobre una solicitud ya resuelta devuelven 409 <code>SOLICITUD_RESUELTA</code>).</p>
+<ul>
+<li><strong>Crear</strong> (<code>kiosk.crearSolicitud</code>): el empleado propone <code>{accion:'editar'|'anadir', ...}</code>; anti-IDOR verifica que</li>
+</ul>
+<p>la marca/jornada referida sea suya.</p>
+<ul>
+<li><strong>Aprobar</strong> (<code>manager.aprobar</code>, sólo admin/técnico): aplica el cambio propuesto (<code>aplicarCambio</code>) — si es</li>
+</ul>
+<p><code>'editar'</code>, versiona la marca (conserva el valor original en <code>presentia_marca_versiones</code>); si es <code>'anadir'</code>, inserta una marca nueva marcada <code>editado=1</code>. Todo dentro de una transacción; audita <code>solicitud_aprobada</code>.</p>
+<ul>
+<li><strong>Rechazar</strong>: <strong>no toca ningún registro de jornada</strong>, sólo marca la solicitud como <code>rechazada</code>; audita</li>
+</ul>
+<p><code>solicitud_rechazada</code>.</p>
+<h3 id="56-versionado-de-correcciones-presentiamarcaversiones">5.6 Versionado de correcciones (<code>presentia_marca_versiones</code>)</h3>
+<p><code>versionarMarcaTs(db, {marcaId, tsNuevo, motivo, autorId, ts})</code>: inserta primero la fila de historial con el <code>valor_anterior</code> (el <code>ts</code> que tenía la marca antes de tocarla) y <strong>sólo después</strong> hace el <code>UPDATE</code> sobre <code>presentia_marcas.ts</code> (y marca <code>editado=1</code>). El <code>motivo</code> es obligatorio en toda edición directa (<code>registros.service</code>) o corrección aprobada (<code>solicitudes.service</code>). No existe ninguna ruta que permita sobrescribir sin dejar rastro.</p>
+<h3 id="57-auditoría-encadenada">5.7 Auditoría encadenada</h3>
+<p>Cada llamada relevante (<code>fichaje</code>, <code>marca_editada</code>, <code>marca_anadida</code>, <code>solicitud_creada/aprobada/rechazada</code>, <code>ajustes_cambiados</code>, <code>pin_fallido</code>, <code>pin_bloqueado</code>, <code>terminos_aceptados</code>) inserta una fila en <code>presentia_auditoria</code> con <code>hash = sha256(prev_hash + serialización_canónica(payload))</code>. La serialización canónica ordena las claves del objeto recursivamente para que el hash sea determinista. <code>verificarIntegridad(db)</code> recorre la tabla completa y recalcula la cadena; sólo el <code>technician</code> puede invocar el endpoint que la expone (<code>GET /manager/auditoria/verificar</code>).</p>
+<h3 id="58-verificación-de-pin-bloqueo-y-backoff">5.8 Verificación de PIN, bloqueo y backoff</h3>
+<p><code>verificarPin</code> (si <code>config.exigirPin !== false</code>): comprueba primero si el par <code>(empleado, dispositivo)</code> está bloqueado (<code>presentia_pin_intentos.bloqueado_hasta &gt; now</code>, 429 <code>PIN_BLOQUEADO</code>, auditado como <code>pin_bloqueado</code>); si no, llama a <code>pin.verify</code>. Si falla, incrementa <code>fallos</code> y calcula <code>bloqueado_hasta = now + backoffMs(fallos)</code> (<code>src/security/pin-policy.js</code>: umbral de 3 fallos, backoff <code>30s→1m→2m→5m→15m</code>), audita <code>pin_fallido</code> (nunca el PIN). Si acierta, borra la fila de intentos. <code>pin-policy.js</code> también clasifica PIN triviales (repetidos, secuencias, lista de comunes) para uso opcional en el alta de PIN por parte de Expira (el módulo no impone esta validación en tiempo de fichaje, sólo la ofrece como utilidad).</p>
+<hr/>
+<h2 id="6-manager-pantalla-por-pantalla">6. Manager, pantalla por pantalla</h2>
+<p>Componente raíz: <code>manager/PresentiaSection.jsx</code>. Se monta con <code>&lt;PresentiaSection rol="local_admin" apiBase="/presentia" /&gt;</code>. La sesión es la del host (<code>fetch</code> con <code>credentials:'include'</code>; el Manager <strong>no</strong> gestiona tokens).</p>
+<p><strong>Antes de mostrar cualquier pestaña</strong>, comprueba <code>GET /manager/terminos</code>; si <code>aceptado=false</code>, muestra <code>AceptacionTerminos</code> (selector de documentos legales + checkbox obligatorio + botón "Aceptar y continuar" deshabilitado hasta marcar la casilla) y no deja pasar hasta <code>POST /manager/terminos/aceptar</code>.</p>
+<p><strong>Cabecera</strong> (<code>px-header</code>): título "Fichajes", subtítulo "Registro de jornada · control horario del equipo", <code>BotonTema</code> (icono + texto, cicla claro→oscuro→auto) e <code>InsigniaModo</code> (🔑 "Modo admin" o "Modo técnico", <strong>siempre</strong> en azul de admin — nunca violeta, aunque sea técnico).</p>
+<p><strong>Navegación</strong>: 6 pestañas (<code>role="tablist"</code>), la de "Solicitudes" lleva un contador numérico (<code>px-tab__contador</code>) con el número de solicitudes pendientes, refrescado tras cada acción y al montar.</p>
+<h3 id="61-hoy-tabshoyjsx">6.1 Hoy (<code>tabs/Hoy.jsx</code>)</h3>
+<ul>
+<li>3 KPIs: <strong>Dentro ahora</strong> (acentuado), <strong>Salidas</strong> (personas que ya ficharon hoy y ya se fueron — jornada cerrada),</li>
+</ul>
+<p><strong>Personas hoy</strong> (empleados distintos con al menos una marca).</p>
+<ul>
+<li>Tabla "Marcas del día" (Empleado, Tipo —insignia verde <code>Entrada</code>/roja <code>Salida</code>—, Hora en <code>--font-mono</code>, Código),</li>
+</ul>
+<p>ordenada de más reciente a más antigua.</p>
+<ul>
+<li><strong>Autorefresco cada 15 s</strong> (<code>setInterval</code>, se limpia al desmontar); no hay filtros ni acciones en esta pestaña.</li>
+</ul>
+<h3 id="62-registros-tabsregistrosjsx">6.2 Registros (<code>tabs/Registros.jsx</code>)</h3>
+<ul>
+<li>Filtros: <strong>Desde</strong>/<strong>Hasta</strong> (por defecto, mes en curso), <strong>Empleado</strong> (<code>&lt;select&gt;</code> construido a partir de los</li>
+</ul>
+<p>nombres presentes en la página cargada — no hay endpoint de plantilla de empleados).</p>
+<ul>
+<li>Tabla: Empleado, Fecha, Entrada, Salida (insignia ámbar "En curso" si falta), Código, insignia "Editado" si</li>
+</ul>
+<p><code>editado=true</code>, columna de acciones.</p>
+<ul>
+<li>Acción <strong>Editar</strong> (modal): selector de marca de la jornada (con "(editada)" si corresponde), `&lt;input</li>
+</ul>
+<p>datetime-local&gt;<code> con la nueva hora, textarea de motivo <strong>obligatorio</strong>; llama a </code>POST /manager/registros/marca/editar`.</p>
+<ul>
+<li>Acción <strong>Añadir marca</strong> (modal): tipo (entrada/salida), hora, motivo obligatorio; llama a `POST</li>
+</ul>
+<p>/manager/registros/marca/anadir`.</p>
+<ul>
+<li><strong>Exportar CSV</strong>: generado <strong>en el cliente</strong> a partir de las filas ya cargadas (no hay endpoint dedicado de</li>
+</ul>
+<p>exportación de Registros, a diferencia de Informe).</p>
+<ul>
+<li>Toast de confirmación ("Marca actualizada."/"Marca añadida.") tras cada acción, y recarga automática de la tabla.</li>
+</ul>
+<h3 id="63-informe-de-horas-tabsinformehorasjsx">6.3 Informe de horas (<code>tabs/InformeHoras.jsx</code>)</h3>
+<ul>
+<li>Mismos filtros de rango + empleado que Registros.</li>
+<li>Un bloque por empleado con su nombre, insignia "Total: <code>168 h 30 m</code>" y tabla de jornadas (Fecha, Código, Entrada,</li>
+</ul>
+<p>Salida —o "En curso"—, Horas).</p>
+<ul>
+<li>Caja "Total del periodo" al final, agregando todos los empleados visibles.</li>
+<li><strong>Exportar CSV</strong> y <strong>Exportar PDF</strong>: ambos son <strong>descargas del servidor</strong> (<code>GET /manager/informe.csv|.pdf</code>), no</li>
+</ul>
+<p>generados en cliente.</p>
+<h3 id="64-solicitudes-tabssolicitudesjsx">6.4 Solicitudes (<code>tabs/Solicitudes.jsx</code>)</h3>
+<ul>
+<li>Sub-pestañas internas: <strong>Pendientes / Aprobadas / Rechazadas</strong> (con contador propio en "Pendientes").</li>
+<li>Cada línea: nombre del empleado, insignia neutral con el <code>tipo</code> (<code>correccion</code>), insignia de estado (ámbar</li>
+</ul>
+<p>"Pendiente" / verde "Aprobada" / roja "Rechazada"), descripción textual del cambio propuesto (<code>describirCambio</code>: "Añadir marca (entrada) a las 18:30" / "Editar marca (salida) a las 17:45"), y el motivo.</p>
+<ul>
+<li>Sólo las pendientes muestran botones <strong>Aprobar</strong>/<strong>Rechazar</strong>, que abren un modal con comentario opcional antes</li>
+</ul>
+<p>de confirmar (<code>POST /manager/solicitudes/:id/aprobar|rechazar</code>).</p>
+<ul>
+<li>Tras resolver, se refresca la lista y el contador de pendientes global (que también actualiza el badge de la</li>
+</ul>
+<p>pestaña en la cabecera del Manager).</p>
+<h3 id="65-ajustes-tabsajustesjsx">6.5 Ajustes (<code>tabs/Ajustes.jsx</code>)</h3>
+<p>Sólo expone <strong>7 de las 10 claves</strong> de configuración (ver detalle exacto en §9): <code>jornadaEstandarMin</code> (número, con conversión a horas mostrada como ayuda), <code>redondeoMin</code> (número, "0 = sin redondeo"), <code>temaPorDefecto</code> (select claro/oscuro/automático) y 4 interruptores (<code>Toggle</code>, <code>role="switch"</code>): "Mostrar «Fichar» en el kiosko", "Exigir PIN", "Varias marcas por día", "Imprimir ticket", cada uno con su descripción de una línea. Botones <strong>Descartar</strong> (recarga desde el servidor) y <strong>Guardar cambios</strong> (<code>PUT /manager/ajustes</code>, sólo con las 7 claves editables; el servidor normaliza y devuelve la config resultante, que sustituye al formulario para reflejar cualquier ajuste de rango). <code>zonaHoraria</code>, <code>conservacionAnios</code> y <code>serieCorrelativo</code> <strong>no tienen control en esta pantalla</strong> — sólo son modificables llamando directamente a la API.</p>
+<h3 id="66-legal-tabslegaljsx">6.6 Legal (<code>tabs/Legal.jsx</code>)</h3>
+<p>Visor de los 10 documentos legales (fuente <code>legal/*.md</code>, embebidos en <code>legal/contenido.js</code> por <code>legal/generar-contenido.mjs</code>), agrupados por categoría (Protección de datos · Legales · Cumplimiento) en un aside con buscador de texto libre. Cada documento se renderiza con el parser Markdown propio (<code>shared/Markdown.jsx</code>, sin <code>dangerouslySetInnerHTML</code>). Toolbar con <strong>Imprimir</strong> (<code>window.print()</code>) y <strong>Descargar .md</strong> (<code>Blob</code> + enlace temporal). Sólo lectura: los textos se editan en los <code>.md</code> fuente y se regeneran con <code>npm run legal:build</code>.</p>
+<hr/>
+<h2 id="7-kiosko">7. Kiosko</h2>
+<p>Componentes: <code>kiosk/FicharCard.jsx</code> (tarjeta verde del menú del kiosko, con prop <code>visible</code> que el host debe atar al ajuste <code>mostrarEnKiosko</code> — el propio componente no consulta la API de ajustes) y <code>kiosk/FicharScreen.jsx</code> (pantalla completa de fichaje), montados por el host del kiosko (no hay enrutador propio).</p>
+<p><strong>Identidad y sesión</strong>: <code>crearApiKiosk({base, dispositivo})</code> envía siempre la cabecera <code>x-presentia-dispositivo</code>. El <strong>token de micro-sesión</strong> vive sólo en estado de React (memoria), nunca en <code>localStorage</code> ni cookies; caduca a los ~90 s. Si cualquier llamada devuelve <code>401 SESION_KIOSKO</code>, la pantalla vuelve automáticamente al paso de PIN conservando el empleado seleccionado.</p>
+<p><strong>Flujo de pantallas</strong> (<code>vista</code> en <code>FicharScreen</code>):</p>
+<ol>
+<li><strong><code>empleados</code></strong> — grid de tarjetas (avatar o iniciales) desde <code>GET /kiosk/empleados</code>; enlace a "Información legal</li>
+</ol>
+<p>y protección de datos".</p>
+<ol>
+<li><strong><code>pin</code></strong> — cabecera "Hola, {nombre}", puntos de PIN (mínimo 4, máximo 8 dígitos), teclado numérico 0-9 +</li>
+</ol>
+<p>Borrar + Entrar (deshabilitado si <code>pin.length &lt; 4</code> o hay envío en curso). <code>POST /kiosk/entrar</code>.</p>
+<ol>
+<li><strong><code>aceptar</code></strong> (sólo la primera vez del empleado, si <code>aceptado=false</code> en la respuesta de <code>entrar</code>) —</li>
+</ol>
+<p><code>AceptacionTerminos</code> compartido con el Manager.</p>
+<ol>
+<li><strong><code>panel</code></strong> — avatar, "Hola, {nombre}", insignia Dentro/Fuera (con hora de entrada si está dentro), reloj en</li>
+</ol>
+<p>vivo (<code>HH:MM:SS</code>, actualizado cada segundo) y fecha larga en español, <strong>botón único enorme</strong> que alterna <strong>FICHAR ENTRADA</strong> (verde) / <strong>FICHAR SALIDA</strong> (rojo) según <code>siguienteTipo</code>; toast con la hora tras fichar. Accesos a "Ver mis registros", "Información legal" y "Terminar".</p>
+<ol>
+<li><strong><code>registros</code></strong> (<code>MisRegistros.jsx</code>) — selector de rango (mes en curso por defecto), tabla de jornadas propias,</li>
+</ol>
+<p>total del periodo, <strong>Exportar CSV/PDF</strong> (descargas con el token en la query string).</p>
+<ol>
+<li><strong><code>legal</code></strong> (<code>InfoLegal.jsx</code>) — sólo los documentos marcados <code>empleado:true</code> en <code>legal/contenido.js</code> (2 de los 10:</li>
+</ol>
+<p>cláusula informativa y política de privacidad), accesible con o sin sesión activa.</p>
+<p><strong>Aviso de tratamiento</strong> (<code>AvisoTratamiento.jsx</code>): overlay RGPD mostrado la primera vez que se abre el kiosko en un dispositivo (aceptación persistida en <code>localStorage</code>, <strong>nunca</strong> el token de sesión); resume responsable, finalidad, datos tratados, ausencia de biometría/geolocalización y conservación de 4 años, con enlace para ver la cláusula completa.</p>
+<p><strong>Antirrebote</strong>: el botón de fichar se deshabilita mientras hay una petición en curso (mitigación en <strong>cliente</strong>; ver limitación de servidor en §14).</p>
+<hr/>
+<h2 id="8-roles-y-permisos">8. Roles y permisos</h2>
+<p>Roles definidos (<code>ROLES</code> en <code>ports.js</code>): <code>empleado</code>, <code>local_admin</code>, <code>technician</code>. No existe "supervisor" ni "superadmin". El canal <strong>kiosk</strong> no consulta el rol de la sesión del host en absoluto: la identidad es la del PIN introducido y las acciones se limitan a la propia identidad (anti-IDOR reforzado en servidor). El canal <strong>manager</strong> exige <code>actor.rol ∈ {local_admin, technician}</code> en cada endpoint (comprobado en servidor, nunca confiado del cliente).</p>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Acción / endpoint</th><th><code>no_auth</code> (sin sesión host)</th><th><code>empleado</code></th><th><code>local_admin</code></th><th><code>technician</code></th></tr></thead>
+<tbody>
+<tr><td><code>GET /kiosk/empleados</code></td><td>✅ (canal <code>kiosk</code>, sin rol)</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>POST /kiosk/entrar</code> (con su propio PIN)</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>POST /kiosk/fichar</code>, <code>estado</code>, <code>mis-registros</code>, <code>terminos*</code></td><td>✅ (con token válido)</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>POST /kiosk/solicitud</code> (sobre su propia jornada)</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td><code>POST /kiosk/solicitud</code> sobre jornada/marca <strong>ajena</strong></td><td>❌ 403 <code>PROHIBIDO</code> (anti-IDOR, para cualquier identidad)</td><td>❌</td><td>❌</td><td>❌</td></tr>
+<tr><td><code>GET/POST /manager/*</code> (cualquier ruta de Manager)</td><td>❌ 401 <code>NO_AUTENTICADO</code></td><td>❌ 403 <code>PROHIBIDO</code></td><td>✅</td><td>✅</td></tr>
+<tr><td><code>GET /manager/auditoria/verificar</code></td><td>❌ 401</td><td>❌ 403</td><td>❌ 403 <code>PROHIBIDO</code></td><td>✅ <strong>(único rol permitido)</strong></td></tr>
+<tr><td>Ver/editar <strong>sus propios</strong> registros (kiosko)</td><td>—</td><td>✅ (siempre lo propio)</td><td>✅</td><td>✅</td></tr>
+<tr><td>Ver/editar registros <strong>de cualquier empleado</strong> (Manager)</td><td>❌</td><td>❌</td><td>✅</td><td>✅</td></tr>
+<tr><td>Cambiar <code>Ajustes</code> del módulo</td><td>❌</td><td>❌</td><td>✅</td><td>✅</td></tr>
+</tbody></table></div>
+<p>Notas de la matriz:</p>
+<ul>
+<li>Un empleado con rol <code>local_admin</code>/<code>technician</code> en Expira que ficha en el kiosko <strong>con su propio PIN</strong> se comporta</li>
+</ul>
+<p>como cualquier <code>empleado</code> desde el punto de vista del canal kiosko (el módulo no distingue rol allí).</p>
+<ul>
+<li>"Ocultar un botón no autoriza": la UI del Manager no vuelve a comprobar el rol antes de mostrar acciones; toda la</li>
+</ul>
+<p>autorización real vive en <code>authz.js</code> (<code>requireRol</code>) y se aplica en <strong>cada</strong> handler, no una vez por sesión.</p>
+<ul>
+<li>El canal (<code>kiosk</code> vs <code>manager</code>) no lo decide el cliente: está fijado por la ruta registrada en</li>
+</ul>
+<p><code>fastify-adapter.js</code> (<code>run(handler, 'kiosk'|'manager', ...)</code>); no existe un parámetro de "canal" que el cliente pueda manipular para escalar de kiosko a Manager.</p>
+<hr/>
+<h2 id="9-configuración">9. Configuración</h2>
+<p>Persistida en <code>presentia_ajustes</code> (clave/valor JSON); normalizada siempre por <code>normalizeConfig()</code> (tipos, mínimos, máximos). El objeto vivo <code>deps.config</code> se reemplaza in-place tras cada <code>PUT /manager/ajustes</code> (<code>Object.assign(deps.config, nueva)</code>), de forma que servicios que ya capturaron <code>deps.config</code> ven el cambio sin reiniciar.</p>
+<div class="tabla-wrap"><table>
+<thead><tr><th>Clave</th><th>Tipo / valores admitidos</th><th>Por defecto</th><th>Efecto real</th><th>Editable en Ajustes (UI)</th></tr></thead>
+<tbody>
+<tr><td><code>zonaHoraria</code></td><td>string IANA (p. ej. <code>Europe/Madrid</code>)</td><td><code>Europe/Madrid</code></td><td>Determina la fecha de jornada (<code>fechaJornada</code>), el año del correlativo, y todo formateo de horas (kiosko, CSV, PDF). <strong>Ningún control de tipo en <code>normalizeConfig</code></strong> (se acepta cualquier string; un valor inválido rompería <code>Intl.DateTimeFormat</code> en tiempo de uso)</td><td><strong>No</strong> (sólo vía API)</td></tr>
+<tr><td><code>jornadaEstandarMin</code></td><td>entero 0–1440 (min)</td><td>480 (8 h)</td><td><strong>Ninguno en el cálculo</strong>: sólo se muestra convertido a horas en Ajustes. No genera horas extra ni compara esperado/trabajado</td><td>Sí</td></tr>
+<tr><td><code>redondeoMin</code></td><td>entero 0–120 (min)</td><td>0</td><td>Redondea <code>minutosRedondeados</code> al múltiplo más cercano; afecta a Informe, Registros y exportaciones</td><td>Sí</td></tr>
+<tr><td><code>mostrarEnKiosko</code></td><td>boolean</td><td><code>true</code></td><td><code>false</code> ⇒ <code>GET /kiosk/empleados</code> devuelve <code>[]</code> (nadie puede fichar); <strong>la tarjeta <code>FicharCard</code> sólo se oculta si el host ata su prop <code>visible</code> a este ajuste</strong> — no ocurre automáticamente</td><td>Sí</td></tr>
+<tr><td><code>exigirPin</code></td><td>boolean</td><td><code>true</code></td><td><code>false</code> ⇒ <code>verificarPin</code> <strong>no llama a <code>pin.verify</code> en absoluto</strong> y siempre devuelve <code>true</code>: <code>POST /kiosk/entrar</code> acepta <strong>cualquier</strong> valor de <code>pin</code> (incluido vacío) para cualquier <code>empleadoId</code> activo</td><td>Sí</td></tr>
+<tr><td><code>variasMarcasDia</code></td><td>boolean</td><td><code>true</code></td><td><code>false</code> ⇒ tras la primera pareja entrada/salida del día, un nuevo intento de <code>entrada</code> devuelve 409 <code>JORNADA_CERRADA</code></td><td>Sí</td></tr>
+<tr><td><code>imprimirTicket</code></td><td>boolean</td><td><code>false</code></td><td><code>true</code> ⇒ tras fichar, invoca <code>deps.printing.printTicket(...)</code> si el host aportó ese puerto opcional; si no lo aportó, no ocurre nada (silencioso, sin error)</td><td>Sí</td></tr>
+<tr><td><code>conservacionAnios</code></td><td>entero, mínimo forzado 4</td><td>4</td><td><strong>Ninguno en tiempo de ejecución</strong>: no hay ningún job/endpoint de purga que lo lea; es puramente documental (referenciado en <code>legal/POLITICA-DE-CONSERVACION-Y-SUPRESION.md</code>)</td><td>No</td></tr>
+<tr><td><code>serieCorrelativo</code></td><td>string</td><td><code>F</code></td><td>Prefijo usado por <code>correlatives.next(serie, año)</code> al generar el código de cada jornada nueva</td><td>No</td></tr>
+<tr><td><code>temaPorDefecto</code></td><td><code>'claro' | 'oscuro' | 'auto'</code></td><td><code>auto</code></td><td>Se pasa como prop <code>defecto</code> a <code>BotonTema</code> en el Manager; <strong>sólo se adopta si el dispositivo no tiene ya una preferencia guardada en <code>localStorage</code></strong>. El kiosko <strong>no</strong> lee ni usa esta clave en ningún componente (usa siempre <code>auto</code> de forma fija, D-015)</td><td>Sí (afecta sólo al Manager)</td></tr>
+</tbody></table></div>
+<hr/>
+<h2 id="10-diseño-y-temas">10. Diseño y temas</h2>
+<h3 id="101-tokens-sharedtokenscss-única-fuente-de-verdad">10.1 Tokens (<code>shared/tokens.css</code>, única fuente de verdad)</h3>
+<ul>
+<li><strong>Paleta primitiva</strong>: base <em>slate</em> (superficie/borde/texto), <strong>azul</strong> = admin y técnico (`--blue-action</li>
+</ul>
+<p>#2f5fbf<code>, el técnico usa el <strong>mismo</strong> azul, nunca violeta), <strong>verde</strong> = empleado (</code>--green-action #1e9a59<code>), <strong>rojo</strong> = peligro (</code>--red-action #dc2626`). Estados con significado constante: verde=correcto, ámbar=pendiente/en curso, rojo=error.</p>
+<ul>
+<li><strong>Alias semánticos</strong>: <code>--color-<em></code>, <code>--status-</em></code>, <code>--dot-*</code> referencian siempre las primitivas; los componentes</li>
+</ul>
+<p>sólo usan alias, nunca hex directos (verificado por <code>test/tema.test.js</code>, "CERO colores hardcodeados fuera de tokens.css").</p>
+<ul>
+<li><strong>Radios</strong>: <code>--radius-xs 6px</code> … <code>--radius-full 9999px</code>. <strong>Sombras</strong>: 4 niveles (<code>xs/card/soft/modal</code>).</li>
+</ul>
+<p><strong>Movimiento</strong>: <code>--duration-fast/normal/slow</code> + easings estándar.</p>
+<ul>
+<li><strong>Tipografía</strong>: <code>--font-sans</code> = <code>"Inter", "Segoe UI", Tahoma, system-ui, sans-serif</code>; <code>--font-mono</code> para datos</li>
+</ul>
+<p>técnicos (horas, códigos). <strong>Inter está declarada pero nunca se carga</strong> en la práctica — ver §14.</p>
+<h3 id="102-tema-oscuro">10.2 Tema oscuro</h3>
+<p>Bloque único <code>:root[data-tema-efectivo="oscuro"]</code> que <strong>redefine sólo las primitivas</strong>; los alias siguen por cascada (ningún componente sabe qué tema hay activo). Contraste verificado por <code>test/tema.test.js</code> y documentado en <code>docs/TEMA-OSCURO-ANALISIS.md</code>: mínimo <strong>4.89:1</strong> en texto atenuado sobre superficie elevada y <strong>3.96:1</strong> en elementos de interfaz con foco — ambos por encima de AA (4.5:1 texto normal / 3:1 UI). En oscuro, el texto sobre botones llenos pasa a oscuro (<code>--color-text-on-accent:#0f172a</code>) porque las acciones son más luminosas; los enlaces usan un token propio (<code>--color-enlace:#7ea6f0</code>) para mantener AA sin depender del alias de acción azul.</p>
+<h3 id="103-modelo-de-tema-dos-atributos-en-html">10.3 Modelo de tema: dos atributos en <code>&lt;html&gt;</code></h3>
+<p><code>data-tema</code> (preferencia: <code>claro|oscuro|auto</code>) y <code>data-tema-efectivo</code> (resuelto: <code>claro|oscuro</code>, lo único que lee el CSS). <code>shared/tema.js</code> resuelve <code>auto</code> vía <code>matchMedia('(prefers-color-scheme: dark)')</code> y escucha cambios en caliente. Persistencia por dispositivo en <code>localStorage</code> (<code>presentia.tema</code>); si el dispositivo no tiene preferencia propia, adopta <code>temaPorDefecto</code> de Ajustes. Requiere un script anti-FOUC en el <code>&lt;head&gt;</code> del host (documentado en <code>docs/TEMA-OSCURO.md</code>) para fijar el tema antes del primer render. El kiosko no lleva botón de tema (dispositivo compartido) y usa siempre <code>auto</code>. El PDF exportado se genera siempre en claro.</p>
+<h3 id="104-responsive-sharedresponsivecss-mobile-first">10.4 Responsive (<code>shared/responsive.css</code>, mobile-first)</h3>
+<ul>
+<li><strong>Breakpoints</strong>: 480 / 640 / 1024 / 1440 px (D-016); el corte tabla↔tarjetas es 640 px.</li>
+<li><strong>Objetivos táctiles ≥44 px</strong> e <strong>inputs ≥16 px</strong> (evita el zoom de iOS), pero **sólo bajo `@media</li>
+</ul>
+<p>(any-pointer:coarse)`** — con ratón fino (escritorio/Electron) se conserva la densidad de tabla original; es decir, el mismo componente cambia de tamaño según el tipo de puntero, no según el ancho de pantalla.</p>
+<ul>
+<li><strong>Tablas de datos → tarjetas apiladas</strong> en ≤640 px (<code>display:block</code> + <code>td::before{content:attr(data-label)}</code>);</li>
+</ul>
+<p>ningún dato ni acción desaparece. Las tablas de <strong>prosa</strong> (Legal, contenido Markdown arbitrario) mantienen scroll horizontal contenido en vez de tarjetizarse (D-013).</p>
+<ul>
+<li><strong>Modales → hoja inferior</strong> en ≤640 px, con pie de acciones <code>sticky</code> y <code>env(safe-area-inset-bottom)</code> para</li>
+</ul>
+<p>notch/gestos (D-018). Alturas en <code>dvh</code> con respaldo <code>vh</code>.</p>
+<ul>
+<li><strong>Filtros</strong> del Manager se apilan a ancho completo en columna (nunca amontonados) en ≤640 px (D-017).</li>
+</ul>
+<h3 id="105-componentes-visuales-reutilizables">10.5 Componentes visuales reutilizables</h3>
+<p><code>Insignia.jsx</code> (7 variantes con significado de color constante: <code>exito</code>, <code>aviso</code>, <code>en-curso</code>, <code>info</code>, <code>peligro</code>, <code>editado</code>, <code>neutral</code>; sin <code>dangerouslySetInnerHTML</code>), <code>Toast.jsx</code> (auto-descarte a 3.5 s), <code>Markdown.jsx</code> (renderiza Markdown a nodos React reales — negrita, cursiva, código, enlaces, listas, tablas, citas, bloques de código — nunca HTML crudo, ver <code>shared/markdown-parse.js</code>).</p>
+<hr/>
+<h2 id="11-flujos-de-uso">11. Flujos de uso</h2>
+<h3 id="111-jornada-normal-entrada--dentro-en-hoy--salida--registros-con-horas">11.1 Jornada normal (entrada → dentro en Hoy → salida → Registros con horas)</h3>
+<p>Empleado entra al kiosko, elige su tarjeta, introduce PIN (<code>POST /kiosk/entrar</code>) → recibe token + <code>estado.dentro = false</code>. Pulsa <strong>FICHAR ENTRADA</strong> (<code>POST /kiosk/fichar</code>) → se crea la jornada con código <code>F-2026-0001</code>, marca <code>entrada</code>, jornada <code>abierta</code>. En el Manager, "Hoy" muestra <code>dentroAhora=1</code>. Horas después, el mismo empleado vuelve a entrar con su PIN y pulsa <strong>FICHAR SALIDA</strong> → misma jornada (mismo código), marca <code>salida</code>, jornada <code>cerrada</code>. "Hoy" pasa a <code>dentroAhora=0</code>, <code>salidas=1</code>. En "Registros", la fila muestra <code>enCurso:false</code>, minutos correctos y <code>editado:false</code>. (Verificado end-to-end en <code>test/flujos.test.js</code>, flujo (a)).</p>
+<h3 id="112-olvido-de-fichaje--solicitud--aprobación--corrección-versionada">11.2 Olvido de fichaje → solicitud → aprobación → corrección versionada</h3>
+<p>El empleado sólo ficha la entrada y se marcha sin fichar la salida. Desde el kiosko, crea una solicitud (<code>POST /kiosk/solicitud</code>, <code>cambio:{accion:'anadir', jornadaId, tipo:'salida', ts}</code>, motivo obligatorio) → queda <code>pendiente</code>. El admin la ve en Solicitudes → <strong>Aprobar</strong> con comentario opcional (<code>POST /manager/solicitudes/:id/aprobar</code>) → se inserta la marca de salida marcada <code>editado=1</code>, la jornada pasa a <code>cerrada</code> con las horas correctas, y la solicitud queda <code>aprobada</code>. Si en vez de aprobar el admin <strong>rechaza</strong>, no se modifica ningún registro de jornada (verificado: el nº de marcas antes/después es idéntico).</p>
+<h3 id="113-corrección-directa-del-admin-sin-pasar-por-solicitud">11.3 Corrección directa del admin (sin pasar por solicitud)</h3>
+<p>Desde Registros, el admin abre "Editar marca" sobre una jornada existente, cambia la hora y escribe el motivo → <code>POST /manager/registros/marca/editar</code>. El valor <strong>original</strong> queda conservado en <code>presentia_marca_versiones</code> (una fila con <code>valor_anterior</code> = el ts previo exacto) antes de que la marca cambie; la jornada queda marcada <code>editado</code>.</p>
+<h3 id="114-turno-de-noche-2300--0200">11.4 Turno de noche (23:00 → 02:00)</h3>
+<p>Entrada a las 23:00 (jornada del día D, código <code>F-AAAA-NNNN</code>). El empleado ficha salida a las 02:00 del día D+1: como no existe jornada de D+1 pero sí una jornada abierta de D con menos de 24 h, la salida <strong>cierra la jornada de D</strong> (no crea una de D+1). El informe de D muestra 3 h correctas; D+1 no tiene ninguna jornada espuria.</p>
+<h3 id="115-primer-acceso-aceptación-de-términos">11.5 Primer acceso (aceptación de términos)</h3>
+<p>Tanto un empleado nuevo en el kiosko como un admin/técnico nuevo en el Manager ven, antes de cualquier otra pantalla, el gate de aceptación de términos (todos los documentos legales, checkbox obligatorio). Tras aceptar (<code>.../terminos/aceptar</code>), queda registrado en <code>presentia_aceptaciones</code> y auditado; no se vuelve a pedir mientras <code>TERMINOS_VERSION</code> no cambie.</p>
+<h3 id="116-verificación-de-integridad-de-la-auditoría-sólo-técnico">11.6 Verificación de integridad de la auditoría (sólo técnico)</h3>
+<p>El técnico entra en el Manager, y sólo él puede llamar <code>GET /manager/auditoria/verificar</code>; el resultado <code>{ok:true/false, rotoEn}</code> indica si alguna fila fue alterada desde el génesis de la cadena. (Ver limitación real en §14: no cubre el borrado de las últimas filas.)</p>
+<hr/>
+<h2 id="12-integración-en-expira">12. Integración en Expira</h2>
+<p>Procedimiento completo en <code>INTEGRACION-EN-EXPIRA.md</code> (8 pasos). Resumen:</p>
+<ol>
+<li><strong>Copiar</strong> la carpeta del módulo dentro del repo de Expira; verificar <code>npm test</code> en verde.</li>
+<li><strong>Registrar el backend</strong>: <code>crearModulo(deps)</code> + <code>registrarFastify(fastify, modulo, {prefix:'/presentia'})</code>, con</li>
+</ol>
+<p>los puertos reales de Expira (ver tabla §2.2).</p>
+<ol>
+<li><strong>Puertos obligatorios</strong>: <code>db</code>, <code>clock.now</code>, <code>employees</code>, <code>session.resolve</code>, <code>pin.verify</code> (si <code>exigirPin</code>);</li>
+</ol>
+<p>opcionales con fallback propio: <code>correlatives</code>, <code>printing</code>, <code>hash</code>.</p>
+<ol>
+<li><strong>Migración</strong> (tras copia de seguridad de la BD de Expira): aditiva e idempotente, 9 tablas <code>presentia_*</code>, nunca</li>
+</ol>
+<p>toca tablas preexistentes.</p>
+<ol>
+<li><strong>Manager</strong>: añadir la entrada "Presentia" al sidebar y montar <code>&lt;PresentiaSection rol={rol} apiBase="/presentia" /&gt;</code>.</li>
+<li><strong>Kiosko</strong>: añadir la tarjeta "Fichar" y montar <code>&lt;FicharScreen api={apiKiosk} /&gt;</code>.</li>
+<li><strong>Tema</strong>: incluir el script anti-FOUC en el <code>&lt;head&gt;</code> del host.</li>
+<li><strong>Smoke test</strong>: <code>npm run smoke</code> debe imprimir <code>SMOKE TEST: OK</code> (ejercita migración, PIN, entrada/salida,</li>
+</ol>
+<p>Registros, horas, informe, kiosko y auditoría contra los puertos reales).</p>
+<p><strong>Plan de reversión</strong>: quitar la llamada a <code>registrarFastify</code> y el montaje de los componentes React deja a Expira funcionando exactamente igual que antes; las tablas <code>presentia_*</code> son aditivas y pueden dejarse o eliminarse manualmente (nunca automáticamente).</p>
+<p><strong>Pendientes que sólo pueden cerrarse contra el Expira real</strong> (<code>TODO-INTEGRACIÓN</code>, ver <code>INTEGRACION-EN-EXPIRA.md</code>): regresión funcional de Expira (etiquetado, caducidades, licencia, Hub, backups, impresión — no verificable sin su código), cifrado en reposo y de backups, servidor en <code>127.0.0.1</code> + TLS si hay acceso por red, CSP y cabeceras, endurecimiento de Electron (<code>contextIsolation</code>, sin <code>nodeIntegration</code>, <code>sandbox</code>), NTP en el dispositivo del kiosko, empaquetado de la fuente Inter, y validación visual en hardware real.</p>
+<hr/>
+<h2 id="13-glosario">13. Glosario</h2>
+<ul>
+<li><strong>Jornada</strong>: el registro de un día de un empleado (<code>presentia_jornadas</code>); agrupa todas sus marcas de ese día en</li>
+</ul>
+<p>la zona horaria del centro.</p>
+<ul>
+<li><strong>Marca</strong>: un fichaje individual de tipo <code>entrada</code> o <code>salida</code> (<code>presentia_marcas</code>), con timestamp UTC.</li>
+<li><strong>Segmento</strong>: un par entrada→salida emparejado por el dominio (<code>emparejarSegmentos</code>); una jornada puede tener</li>
+</ul>
+<p>varios segmentos (pausas).</p>
+<ul>
+<li><strong>Código correlativo (<code>F-AAAA-NNNN</code>)</strong>: identificador único de una jornada, serie configurable + año + número</li>
+</ul>
+<p>secuencial por año.</p>
+<ul>
+<li><strong>Solicitud</strong>: propuesta de corrección hecha por un empleado, sujeta a aprobación/rechazo del admin.</li>
+<li><strong>Versión (de marca)</strong>: entrada de historial que conserva el valor anterior de una marca corregida; nunca se</li>
+</ul>
+<p>sobrescribe ni se borra.</p>
+<ul>
+<li><strong>Auditoría encadenada por hash</strong>: log append-only donde cada fila incluye el hash de la anterior, de modo que</li>
+</ul>
+<p>alterar una fila intermedia rompe la cadena de forma detectable.</p>
+<ul>
+<li><strong>Canal</strong>: <code>kiosk</code> (identidad por PIN + micro-sesión) o <code>manager</code> (identidad por sesión del host); fijado por la</li>
+</ul>
+<p>ruta, no por el cliente.</p>
+<ul>
+<li><strong>Micro-sesión de kiosko</strong>: token efímero (TTL ~90 s) emitido tras un PIN correcto; sólo se guarda su hash en el</li>
+</ul>
+<p>servidor y el token en memoria de React en el cliente.</p>
+<ul>
+<li><strong>Puerto</strong>: interfaz que el módulo espera que Expira implemente (p. ej. <code>db</code>, <code>employees</code>, <code>session</code>); patrón</li>
+</ul>
+<p><em>ports &amp; adapters</em>.</p>
+<ul>
+<li><strong><code>ErrorPresentia</code></strong>: excepción de dominio con <code>code</code> estable, <code>status</code> HTTP, mensaje interno (log) y mensaje</li>
+</ul>
+<p>público genérico (nunca revela detalles sensibles).</p>
+<ul>
+<li><strong>Aceptación de términos</strong>: registro de consentimiento informado (quién, cuándo, qué versión) exigido una vez por</li>
+</ul>
+<p>usuario en el primer acceso.</p>
+<hr/>
+<h2 id="14-observaciones--deuda">14. Observaciones / deuda</h2>
+<p>Hallazgos verificados directamente sobre el código en esta revisión (no son una copia de la auditoría previa del propio equipo, aunque coinciden en dos puntos que se referencian explícitamente):</p>
+<ol>
+<li><strong>Las claves foráneas no se hacen cumplir.</strong> <code>presentia_marcas.jornada_id</code> es la única <code>FOREIGN KEY</code> declarada en</li>
+</ol>
+<p>todo el esquema (<code>src/db/schema.js</code>); <code>presentia_marca_versiones.marca_id</code> y <code>presentia_solicitudes.jornada_id/marca_id</code> son referencias puramente lógicas, sin <code>FOREIGN KEY</code> ni <code>CHECK</code>. Y ni siquiera la única FK declarada se aplica de verdad: no hay ningún <code>PRAGMA foreign_keys = ON</code> en el código del módulo ni en <code>src/dev/reference-env.js</code> (verificado por búsqueda en todo <code>src/</code>). En SQLite las FK están <strong>desactivadas por defecto</strong> salvo que la conexión lo active explícitamente, así que salvo que Expira la active por su cuenta, la integridad referencial de estas tablas depende sólo de la disciplina del código de aplicación.</p>
+<ol>
+<li><strong>La cadena de auditoría no detecta el truncamiento del final.</strong> <code>verificarIntegridad()</code> recorre</li>
+</ol>
+<p><code>SELECT * FROM presentia_auditoria ORDER BY id ASC</code> y recalcula <code>hash</code> fila a fila; esto detecta perfectamente la alteración de una fila intermedia (probado: <code>test/seguridad.test.js</code>, "alterar una línea rompe la cadena"), pero si alguien con acceso directo a la BD <strong>borra las últimas N filas</strong> (<code>DELETE ... WHERE id &gt; X</code>), la cadena restante sigue siendo internamente consistente y <code>verificarIntegridad()</code> devuelve <code>ok:true</code> sin detectar nada: no hay ningún ancla externa (recuento esperado de filas, timestamp firmado externamente, replicación) que permita detectar la desaparición de eventos recientes. Ninguna de las 121 pruebas ejercita este escenario (sólo se prueba <code>UPDATE</code>, nunca <code>DELETE</code> sobre filas finales).</p>
+<ol>
+<li><strong><code>jornadaEstandarMin</code> es puramente decorativo</strong> (confirmado leyendo <code>informe.service.js</code> y toda la cadena de</li>
+</ol>
+<p>cálculo): se persiste, se valida y se muestra convertido a horas en Ajustes, pero no interviene en ningún cálculo de horas extra ni de "esperado vs. trabajado". Ya documentado por el propio equipo como <code>OBS-1</code> en <code>auditoria/02-DEFECTOS.md</code>; se confirma que sigue siendo así.</p>
+<ol>
+<li><strong><code>conservacionAnios</code> tampoco tiene efecto real en tiempo de ejecución.</strong> Se fuerza a un mínimo de 4 (nunca</li>
+</ol>
+<p>rebajable) en <code>normalizeConfig</code>, y así lo documenta la política legal (<code>legal/POLITICA-DE-CONSERVACION-Y-SUPRESION.md</code>), pero no existe ningún job, endpoint o consulta en todo <code>src/</code> que lo lea para purgar o bloquear datos vencidos — es un valor de configuración sin consumidor. Si nadie lo implementa nunca contra Expira, los datos de jornada crecerán indefinidamente más allá del plazo legal sin ningún mecanismo de purga.</p>
+<ol>
+<li><strong>Rate limiting cubre sólo 2 de los ~24 endpoints.</strong> <code>crearRateLimiter</code> (30 peticiones/60 s) se invoca</li>
+</ol>
+<p>únicamente en <code>kiosk.entrar</code> y <code>kiosk.fichar</code> (confirmado en <code>handlers.js</code>); <code>kiosk.crearSolicitud</code>, <code>kiosk.misRegistros</code>, <code>kiosk.exportar</code> y <strong>absolutamente ningún</strong> endpoint de <code>manager.*</code> (incluidos <code>ajustesPut</code>, <code>aprobar</code>, <code>rechazar</code>, las exportaciones y la propia verificación de auditoría) tienen límite de ritmo. Documentado parcialmente por el propio equipo (<code>OBS-2</code>), pero el alcance real (cero límite en todo el canal Manager) es más amplio de lo que sugiere esa nota.</p>
+<ol>
+<li><strong><code>fichar</code> es un toggle sin ninguna protección de servidor contra doble envío.</strong> Dos peticiones casi simultáneas</li>
+</ol>
+<p>con el mismo token válido producen una entrada y una salida separadas por milisegundos (jornada de 0 minutos), sin ningún candado transaccional ni deduplicación por servidor; la única mitigación es deshabilitar el botón en el cliente (<code>FicharScreen</code>, variable <code>enviando</code>), que no protege contra una segunda pestaña, un doble toque real en pantallas táctiles con lag, o un reintento automático de red. El rate-limit de 30/60 s tampoco está pensado para detectar esto (documentado por el propio equipo como <code>OBS-4</code>, aceptado como riesgo de diseño).</p>
+<ol>
+<li><strong>La tipografía normativa (Inter) nunca se carga.</strong> <code>shared/tokens.css</code> declara <code>--font-sans</code> con <code>"Inter"</code> como</li>
+</ol>
+<p>primera opción y <code>shared/fonts.css</code> prepara los <code>@font-face</code> correspondientes, pero (a) <code>fonts.css</code> <strong>no se importa desde ningún componente ni hoja de estilos</strong> del proyecto (búsqueda confirmada: cero referencias fuera de sí mismo), y (b) aunque se importara, apunta a <code>./fonts/Inter-Regular.woff2</code> (y Medium/SemiBold/Bold), y el directorio <code>shared/fonts/</code> <strong>no existe</strong> en el repositorio. En la práctica, todo el sistema (Manager y kiosko) renderiza hoy con el fallback <code>"Segoe UI"</code>, silenciosamente, pese a que la tipografía se documenta como normativa.</p>
+<ol>
+<li><strong><code>editarMarca</code> (admin) no valida coherencia entre el nuevo <code>ts</code> y la <code>fecha</code> de la jornada que edita.</strong> Un admin</li>
+</ol>
+<p>puede fijar cualquier fecha/hora arbitraria (incluso de otro año) en una marca de una jornada concreta sin que el servidor lo impida ni lo señale; queda auditado y con motivo, pero la fila <code>presentia_jornadas.fecha</code> no se recalcula ni se contrasta. Documentado como decisión consciente por el propio equipo (<code>OBS-3</code>), no como defecto, pero sigue siendo una laguna de integridad de datos que un futuro admin descuidado puede introducir sin aviso.</p>
+<ol>
+<li><strong>Jornadas abiertas "huérfanas" (turno de noche de ≥24 h) no generan ninguna alerta.</strong> Cuando <code>jornadaObjetivo</code></li>
+</ol>
+<p>decide no reutilizar una jornada abierta de hace 24 h o más (para no cerrar por error un olvido antiguo), esa jornada queda indefinidamente <code>abierta</code> y en curso, sin salida y sin horas computadas, y <strong>no aparece destacada</strong> en ningún KPI de "Hoy" ni recibe ningún aviso proactivo en el Manager — sólo se detecta si un admin revisa manualmente "Registros" o si el propio empleado la reporta.</p>
+<ol>
+<li><strong>Los 10 documentos legales se sirven con marcadores sin rellenar</strong> (<code>[NOMBRE_EMPRESA]</code>, <code>[CIF]</code>, <code>[DOMICILIO]</code>,</li>
+</ol>
+<p><code>[EMAIL_DPD]</code>, <code>[NOMBRE_PROVEEDOR]</code>, <code>[HUB_CENTRAL]</code>) tal cual, tanto en el visor del Manager (<code>Legal.jsx</code>) como en el kiosko (<code>InfoLegal.jsx</code>, <code>AvisoTratamiento.jsx</code>); un empleado real vería hoy, literalmente, "Responsable: <strong>[NOMBRE_EMPRESA]</strong>" si el módulo se desplegara sin completar antes esos campos y sin revisión de un abogado/DPD (el propio <code>legal/CUMPLIMIENTO.md</code> ya lo marca como <code>TODO-LEGAL</code> pendiente, junto con el hecho de que el Real Decreto de desarrollo del art. 34.9 ET seguía sin publicarse en el BOE a la fecha de redacción, 2026-07-13).</p>
+<hr/>
+<p><em>Documento generado en la Fase 1 de la revisión integral de Presentia. Fuente editable: <code>docs/DOCUMENTACION-PRESENTIA.md</code>. Evidencias verificadas: lectura completa de <code>src/</code>, <code>manager/</code>, <code>kiosk/</code>, <code>shared/</code>, <code>legal/</code>, <code>test/</code>, <code>auditoria/</code> y <code>docs/</code> preexistente; ejecución de <code>npm test</code> (121/121 en verde); comprobación en vivo de <code>http://127.0.0.1:8787</code>.</em></p>
+
+<div class="pie-doc">Generado el 2026-07-19 · agente de documentación · fuente editable: docs/DOCUMENTACION-PRESENTIA.md</div>
+</div>
+</body>
+</html>

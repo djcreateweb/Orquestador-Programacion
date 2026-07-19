@@ -6,11 +6,12 @@ import { migrate, leerConfig } from './db/migrate.js';
 import { crearCorrelativosDb } from './domain/correlativo.js';
 import { crearRateLimiter } from './http/authz.js';
 import { crearKioskSessions } from './http/kiosk-session.js';
+import { crearDescargaTokens } from './http/descarga-tokens.js';
 
 /**
  * Inicializa el módulo: migración idempotente + wiring de servicios.
  * @param {object} deps puertos inyectados por Expira (ver ports.js)
- * @returns {{deps:object, rate:object, kioskSessions:object}}
+ * @returns {{deps:object, rate:object, kioskSessions:object, descargaTokens:object}}
  */
 export function crearModulo(deps) {
   if (!deps?.db?.exec || !deps?.db?.prepare) throw new Error('presentia: falta el puerto db (SQLite).');
@@ -28,7 +29,8 @@ export function crearModulo(deps) {
 
   const rate = crearRateLimiter({ now: deps.clock.now, ventanaMs: 60_000, max: 30 });
   const kioskSessions = crearKioskSessions({ now: deps.clock.now });
-  return { deps: full, rate, kioskSessions };
+  const descargaTokens = crearDescargaTokens({ now: deps.clock.now });
+  return { deps: full, rate, kioskSessions, descargaTokens };
 }
 
 export { registrarFastify } from './http/fastify-adapter.js';

@@ -38,12 +38,17 @@ export const DEFAULT_CONFIG = Object.freeze({
   conservacionAnios: 4,           // conservación legal del registro de jornada (art. 34.9 ET)
   serieCorrelativo: 'F',          // prefijo del código F-AAAA-NNNN
   temaPorDefecto: 'auto',         // tema por defecto del panel: 'claro' | 'oscuro' | 'auto'
+  maxDuracionJornadaMin: 960,     // 16h: por encima, una jornada abierta NO se reutiliza (fix K-01)
+  ventanaAntiRebotarFichajeSeg: 3, // ventana anti doble-toque en `fichar` (fix K-04)
 });
 
 export const TEMAS_VALIDOS = Object.freeze(['claro', 'oscuro', 'auto']);
 
 const CONFIG_BOOL = ['mostrarEnKiosko', 'exigirPin', 'variasMarcasDia', 'imprimirTicket'];
-const CONFIG_INT = ['jornadaEstandarMin', 'redondeoMin', 'conservacionAnios'];
+const CONFIG_INT = [
+  'jornadaEstandarMin', 'redondeoMin', 'conservacionAnios',
+  'maxDuracionJornadaMin', 'ventanaAntiRebotarFichajeSeg',
+];
 
 /**
  * Normaliza y valida un objeto de ajustes contra DEFAULT_CONFIG.
@@ -64,8 +69,60 @@ export function normalizeConfig(raw = {}) {
   if (out.redondeoMin > 120) out.redondeoMin = 120;      // tope sensato
   if (out.jornadaEstandarMin > 1440) out.jornadaEstandarMin = 1440;
   if (out.conservacionAnios < 4) out.conservacionAnios = 4; // nunca por debajo del mínimo legal
+  // maxDuracionJornadaMin: entre 1h y 72h (fuera de ese rango no protege nada / bloquea turnos válidos).
+  if (out.maxDuracionJornadaMin < 60) out.maxDuracionJornadaMin = 60;
+  if (out.maxDuracionJornadaMin > 4320) out.maxDuracionJornadaMin = 4320;
+  // ventanaAntiRebotarFichajeSeg: entre 0 (desactivada) y 60s.
+  if (out.ventanaAntiRebotarFichajeSeg > 60) out.ventanaAntiRebotarFichajeSeg = 60;
   if (!TEMAS_VALIDOS.includes(out.temaPorDefecto)) out.temaPorDefecto = DEFAULT_CONFIG.temaPorDefecto;
   return out;
+}
+
+// fix A-09: rangos válidos por ajuste numérico, IDÉNTICOS a los límites que
+// normalizeConfig ya aplicaba en silencio (misma semántica, ahora rechazada en vez de
+// recortada al escribir).
+const RANGOS_INT = {
+  redondeoMin: [0, 120],
+  jornadaEstandarMin: [0, 1440],
+  conservacionAnios: [4, Infinity],
+  maxDuracionJornadaMin: [60, 4320],
+  ventanaAntiRebotarFichajeSeg: [0, 60],
+};
+
+/**
+ * Valida ESTRICTAMENTE un subconjunto de ajustes ANTES de escribirlos (fix A-09).
+ * A diferencia de `normalizeConfig` (tolerante: se usa para LEER config ya persistida —
+ * y para la fusión con lo que aporte Expira al arrancar — y NUNCA debe reventar el
+ * arranque del módulo por un valor histórico raro), esta función es para la ESCRITURA
+ * (`PUT /manager/ajustes`): si algún valor no es válido, se debe rechazar la petición
+ * ENTERA con un error claro (campo + motivo), en vez de acotarlo/sustituirlo en
+ * silencio como ocurría antes.
+ * @param {object} [parcial]
+ * @returns {{valido:boolean, errores:{campo:string, motivo:string}[]}}
+ */
+export function validarAjustesEstricto(parcial = {}) {
+  const errores = [];
+  for (const key of Object.keys(parcial)) {
+    if (!(key in DEFAULT_CONFIG)) continue; // clave desconocida: se ignora, sin riesgo
+    const v = parcial[key];
+    if (v == null) continue; // null/undefined: no cambia el valor actual
+    if (CONFIG_BOOL.includes(key)) {
+      if (typeof v !== 'boolean') errores.push({ campo: key, motivo: 'debe ser verdadero o falso.' });
+    } else if (CONFIG_INT.includes(key)) {
+      const n = Number(v);
+      const [min, max] = RANGOS_INT[key] || [0, Infinity];
+      if (!Number.isFinite(n) || !Number.isInteger(n) || n < min || n > max) {
+        errores.push({ campo: key, motivo: `debe ser un número entero entre ${min} y ${max === Infinity ? '∞' : max}.` });
+      }
+    } else if (key === 'temaPorDefecto') {
+      if (!TEMAS_VALIDOS.includes(v)) {
+        errores.push({ campo: key, motivo: `debe ser uno de: ${TEMAS_VALIDOS.join(', ')}.` });
+      }
+    } else if (typeof v !== 'string' || !v.trim()) {
+      errores.push({ campo: key, motivo: 'debe ser un texto no vacío.' });
+    }
+  }
+  return { valido: errores.length === 0, errores };
 }
 
 /**

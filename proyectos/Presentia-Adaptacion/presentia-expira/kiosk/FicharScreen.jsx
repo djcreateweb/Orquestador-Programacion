@@ -13,10 +13,8 @@ import InfoLegal from "./InfoLegal.jsx";
 import AceptacionTerminos from "../shared/AceptacionTerminos.jsx";
 import "./kiosk.css";
 
-const TZ = "Europe/Madrid";
-
 /** Reloj en vivo aislado: 1 tick/segundo, se limpia al desmontar. */
-function Reloj() {
+function Reloj({ tz }) {
   const [ahora, setAhora] = useState(() => new Date());
   useEffect(() => {
     const id = setInterval(() => setAhora(new Date()), 1000);
@@ -24,8 +22,8 @@ function Reloj() {
   }, []);
   return (
     <div>
-      <div className="pk-reloj">{fmtReloj(ahora, TZ)}</div>
-      <div className="pk-fecha">{fmtFechaLarga(ahora, TZ)}</div>
+      <div className="pk-reloj">{fmtReloj(ahora, tz)}</div>
+      <div className="pk-fecha">{fmtFechaLarga(ahora, tz)}</div>
     </div>
   );
 }
@@ -47,9 +45,14 @@ export default function FicharScreen({ api, onSalir }) {
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState(null);
   const [toast, setToast] = useState(null);
+  // Zona horaria del centro (fix A-01/K-06): fuente única = config.zonaHoraria del
+  // backend (GET /kiosk/config), NUNCA un "Europe/Madrid" fijo en el bundle. `undefined`
+  // hasta que llega la respuesta; los formateadores caen entonces en la zona del
+  // navegador como último recurso (ver fmtHora/fmtReloj/fmtFechaLarga en ./api.js).
+  const [tz, setTz] = useState(undefined);
   const toastTimer = useRef(null);
 
-  // --- Carga de empleados ---
+  // --- Carga de empleados + zona horaria del centro ---
   const cargarEmpleados = useCallback(async () => {
     setCargando(true);
     setError(null);
@@ -64,13 +67,18 @@ export default function FicharScreen({ api, onSalir }) {
   }, [api]);
 
   useEffect(() => { cargarEmpleados(); }, [cargarEmpleados]);
+  useEffect(() => {
+    let vivo = true;
+    api.config().then((c) => { if (vivo && c && c.zonaHoraria) setTz(c.zonaHoraria); }).catch(() => { /* usa la zona del navegador */ });
+    return () => { vivo = false; };
+  }, [api]);
   useEffect(() => () => clearTimeout(toastTimer.current), []);
 
   const mostrarToast = useCallback((tipo, ts) => {
-    setToast({ tipo, hora: fmtHora(ts, TZ), id: Date.now() });
+    setToast({ tipo, hora: fmtHora(ts, tz), id: Date.now() });
     clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(null), 3500);
-  }, []);
+  }, [tz]);
 
   // --- PIN ---
   const irAPin = (emp) => {
@@ -254,7 +262,7 @@ export default function FicharScreen({ api, onSalir }) {
                 {sesion.estado.dentro ? (
                   <span className="pk-badge pk-badge--dentro">
                     <span className="pk-badge__dot" aria-hidden="true" />
-                    Dentro desde {fmtHora(sesion.estado.desde, TZ)}
+                    Dentro desde {fmtHora(sesion.estado.desde, tz)}
                   </span>
                 ) : (
                   <span className="pk-badge pk-badge--fuera">
@@ -265,7 +273,7 @@ export default function FicharScreen({ api, onSalir }) {
               </div>
             </div>
 
-            <Reloj />
+            <Reloj tz={tz} />
 
             {error ? <div className="pk-mensaje pk-mensaje--error" role="alert">{error}</div> : null}
 
@@ -325,6 +333,7 @@ export default function FicharScreen({ api, onSalir }) {
           <MisRegistros
             api={api}
             token={sesion.token}
+            tz={tz}
             empleadoNombre={sesion.empleado.nombre}
             onVolver={() => setVista("panel")}
             onSesionCaducada={() => {

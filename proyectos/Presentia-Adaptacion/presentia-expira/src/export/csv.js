@@ -10,15 +10,18 @@ function neutralizarFormula(s) {
   return /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
 }
 
-function esc(v) {
+// fix A-03: exportada para que el CSV generado en CLIENTE (manager/api.js,
+// descargarCsvCliente) reutilice EXACTAMENTE la misma neutralización de fórmulas que
+// este exportador de backend, en vez de mantener un escapado propio incompleto.
+export function escaparCelda(v) {
   const s = neutralizarFormula(v == null ? '' : String(v));
   return /[",\n;]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
 }
 
 /** Construye un CSV a partir de cabeceras y filas (arrays). */
 export function toCSV(headers, rows) {
-  const lineas = [headers.map(esc).join(';')];
-  for (const r of rows) lineas.push(r.map(esc).join(';'));
+  const lineas = [headers.map(escaparCelda).join(';')];
+  for (const r of rows) lineas.push(r.map(escaparCelda).join(';'));
   return '﻿' + lineas.join('\r\n');
 }
 

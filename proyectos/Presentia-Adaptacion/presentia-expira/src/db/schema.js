@@ -80,6 +80,19 @@ CREATE TABLE IF NOT EXISTS presentia_auditoria (
   hash       TEXT    NOT NULL
 );
 
+-- Ancla tamper-evidente de la auditoría (fix S-02): última fila REAL (id + hash) y
+-- recuento total, actualizada en cada alta (ver audit.service.js: registrar()). Un
+-- hash-chain simple sólo detecta manipulación "en el medio"; borrar las filas MÁS
+-- RECIENTES no deja ninguna fila posterior que lo delate. Este ancla —comparada contra
+-- la última fila real en verificarIntegridad()— sí detecta ese truncamiento de cola.
+-- Fila única (id=1).
+CREATE TABLE IF NOT EXISTS presentia_auditoria_ancla (
+  id          INTEGER PRIMARY KEY CHECK (id = 1),
+  ultima_id   INTEGER NOT NULL DEFAULT 0,
+  ultimo_hash TEXT    NOT NULL DEFAULT 'GENESIS',
+  recuento    INTEGER NOT NULL DEFAULT 0
+);
+
 -- Contador correlativo atómico (fallback cuando Expira no aporta su puerto correlatives).
 CREATE TABLE IF NOT EXISTS presentia_correlativos (
   serie  TEXT    NOT NULL,
@@ -123,6 +136,7 @@ export const TABLAS = Object.freeze([
   'presentia_marca_versiones',
   'presentia_solicitudes',
   'presentia_auditoria',
+  'presentia_auditoria_ancla',
   'presentia_correlativos',
   'presentia_pin_intentos',
   'presentia_aceptaciones',

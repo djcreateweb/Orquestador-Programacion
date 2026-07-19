@@ -11,10 +11,10 @@ import {
   descargar,
 } from "../api.js";
 
-export default function InformeHoras({ api }) {
-  const hoy = new Date();
-  const [desde, setDesde] = useState(primerDiaMes(hoy));
-  const [hasta, setHasta] = useState(ultimoDiaMes(hoy));
+export default function InformeHoras({ api, tz }) {
+  const hoy = Date.now();
+  const [desde, setDesde] = useState(primerDiaMes(hoy, tz));
+  const [hasta, setHasta] = useState(ultimoDiaMes(hoy, tz));
   const [empleadoId, setEmpleadoId] = useState("");
   const [data, setData] = useState(null);
   const [cargando, setCargando] = useState(false);
@@ -104,9 +104,9 @@ export default function InformeHoras({ api }) {
                       <tr key={j.codigo}>
                         <td data-label="Fecha" className="px-nowrap">{fmtFechaCorta(j.fecha)}</td>
                         <td data-label="Código" className="px-mono px-nowrap">{j.codigo}</td>
-                        <td data-label="Entrada" className="px-mono px-nowrap">{fmtHora(j.entrada)}</td>
+                        <td data-label="Entrada" className="px-mono px-nowrap">{fmtHora(j.entrada, tz)}</td>
                         <td data-label="Salida" className="px-mono px-nowrap">
-                          {j.enCurso ? <Insignia tipo="en-curso" punto>En curso</Insignia> : fmtHora(j.salida)}
+                          {j.enCurso ? <Insignia tipo="en-curso" punto>En curso</Insignia> : fmtHora(j.salida, tz)}
                         </td>
                         <td data-label="Horas" className="px-mono px-nowrap">{j.textoHoras}</td>
                       </tr>

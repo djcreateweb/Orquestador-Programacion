@@ -85,3 +85,29 @@ export function siguienteTipo(marcas) {
   const abierta = emparejarSegmentos(marcas).some((s) => s.entrada != null && s.salida == null);
   return abierta ? 'salida' : 'entrada';
 }
+
+/**
+ * Valida el orden cronológico de un conjunto de marcas (fix A-02). OJO: NO se apoya en
+ * `emparejarSegmentos` porque esa función siempre re-empareja por orden cronológico y
+ * "arregla" en silencio cualquier inversión (una entrada movida DESPUÉS de su salida deja
+ * de estar emparejada con ella y pasa a ser un hueco + una jornada abierta, sin que
+ * ningún segmento tenga entrada≥salida) — que es precisamente el bug que hay que
+ * detectar. Aquí se valida la invariante real del toggle: ordenadas por `ts`, las marcas
+ * deben alternar ESTRICTAMENTE entrada, salida, entrada, salida… (empezando por entrada)
+ * con `ts` estrictamente creciente. Cualquier ruptura (dos entradas seguidas, una salida
+ * igual o anterior a la entrada previa, etc.) se considera orden inconsistente.
+ * @param {Array} marcas
+ * @returns {boolean} true si el orden es consistente.
+ */
+export function ordenCronologicoValido(marcas) {
+  const orden = [...marcas].sort((a, b) => a.ts - b.ts);
+  let tipoEsperado = 'entrada';
+  let tsAnterior = -Infinity;
+  for (const m of orden) {
+    if (m.ts <= tsAnterior) return false;
+    if (m.tipo !== tipoEsperado) return false;
+    tsAnterior = m.ts;
+    tipoEsperado = tipoEsperado === 'entrada' ? 'salida' : 'entrada';
+  }
+  return true;
+}

@@ -71,6 +71,7 @@ test('RELEASE · un arranque limpio no crea datos de demostración (solo config)
   assert.equal(cuenta('presentia_marcas'), 0, 'cero marcas');
   assert.equal(cuenta('presentia_solicitudes'), 0, 'cero solicitudes');
   assert.equal(cuenta('presentia_aceptaciones'), 0, 'cero aceptaciones');
-  // Lo único sembrado: la config por defecto (instalación limpia).
-  assert.equal(cuenta('presentia_ajustes'), 10, 'solo los 10 ajustes por defecto');
+  // Lo único sembrado: la config por defecto (instalación limpia). 12 claves: las 10
+  // originales + `maxDuracionJornadaMin` (fix K-01) + `ventanaAntiRebotarFichajeSeg` (fix K-04).
+  assert.equal(cuenta('presentia_ajustes'), 12, 'solo los 12 ajustes por defecto');
 });

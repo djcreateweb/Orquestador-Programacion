@@ -24,6 +24,17 @@ export function requireCanalKiosko(canal) {
   if (canal !== 'kiosk') throw err('CANAL_INVALIDO', 403, 'canal no kiosk', 'No autorizado.');
 }
 
+/**
+ * fix A-08: cinturón de seguridad simétrico al del kiosko — el canal kiosko no debe
+ * poder alcanzar rutas de Manager. Aunque el enrutado real (`fastify-adapter.js`) fija
+ * `canal` en el servidor (nunca lo controla el cliente), añadir esta comprobación en
+ * cada handler `manager.*` evita que un futuro wiring alternativo (otro adaptador,
+ * pruebas, un proxy interno) reutilice `canal` de forma menos controlada.
+ */
+export function requireCanalManager(canal) {
+  if (canal !== 'manager') throw err('CANAL_INVALIDO', 403, 'canal no manager', 'No autorizado.');
+}
+
 /** Rate limiter de ventana fija en memoria. `now` inyectado (clock) para tests. */
 export function crearRateLimiter({ ventanaMs = 60000, max = 30, now }) {
   const buckets = new Map();

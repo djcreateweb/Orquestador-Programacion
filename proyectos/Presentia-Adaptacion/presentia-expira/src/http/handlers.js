@@ -14,7 +14,7 @@ import * as audit from '../services/audit.service.js';
 import * as repos from '../services/repos.js';
 import { informeACsv } from '../export/csv.js';
 import { informeAPdf } from '../export/pdf.js';
-import { requireRol, requireCanalKiosko } from './authz.js';
+import { requireRol, requireCanalKiosko, requireCanalManager } from './authz.js';
 import { ROLES } from '../ports.js';
 import { err } from '../errors.js';
 import { primerDiaDelMes, ultimoDiaDelMes } from '../domain/time.js';
@@ -36,9 +36,17 @@ function rangoDefecto(deps, src = {}) {
   };
 }
 
-function empleadoDeSesion(ctx) {
+function empleadoDeSesion(deps, ctx) {
   const empleadoId = ctx.kioskSessions.validar(ctx.body?.token || ctx.query?.token);
   if (!empleadoId) throw err('SESION_KIOSKO', 401, 'token de kiosko inválido/caducado', 'Sesión caducada. Introduce tu PIN de nuevo.');
+  // fix K-02: un empleado dado de baja NO puede operar en el kiosko en absoluto, ni
+  // siquiera con un token de sesión ya emitido antes de la baja (defensa en profundidad,
+  // simétrica a la comprobación de `entrar`): cubre TODAS las acciones autenticadas
+  // (ver estado/histórico, exportar, crear solicitud, aceptar términos, fichar).
+  const emp = deps.employees.getById(empleadoId);
+  if (!emp || emp.activo === false) {
+    throw err('EMPLEADO_INVALIDO', 403, 'empleado inactivo o inexistente', 'Empleado no disponible.');
+  }
   return empleadoId;
 }
 
@@ -66,12 +74,29 @@ export const kiosk = {
       .map((e) => ({ id: e.id, nombre: e.nombre, avatarUrl: e.avatarUrl || null }));
   },
 
+  // fix A-01/K-06: única fuente de verdad de la zona horaria para el frontend del
+  // kiosko (reloj en vivo, fecha larga, formateo de horas). Sin autenticación, igual
+  // que `empleados` (dato no sensible, necesario ANTES de introducir el PIN).
+  config(deps, ctx) {
+    requireCanalKiosko(ctx.canal);
+    return { zonaHoraria: deps.config.zonaHoraria };
+  },
+
   entrar(deps, ctx) {
     requireCanalKiosko(ctx.canal);
     const { empleadoId, pin } = ctx.body || {};
     if (!empleadoId) throw err('EMPLEADO_REQUERIDO', 400, 'falta empleadoId', 'Datos incompletos.');
-    if (!ctx.rate.check(`entrar:${ctx.dispositivo}:${empleadoId}`)) {
+    // fix S-01: la clave del rate limiter es la IDENTIDAD DEL EMPLEADO atacado, NUNCA
+    // `ctx.dispositivo` (cabecera controlada por el cliente, sin validar) — rotarla ya
+    // no reinicia la ventana (ver también fichaje.verificarPin/registrarFallo).
+    if (!ctx.rate.check(`entrar:${empleadoId}`)) {
       throw err('RATE', 429, 'rate', 'Demasiadas peticiones. Espera un momento.');
+    }
+    // fix K-02: un empleado de baja no debe poder autenticarse en el kiosko en absoluto,
+    // aunque el PIN sea correcto (antes sólo se bloqueaba en `fichar`).
+    const emp = deps.employees.getById(empleadoId);
+    if (!emp || emp.activo === false) {
+      throw err('EMPLEADO_INVALIDO', 403, 'empleado inactivo o inexistente', 'Empleado no disponible.');
     }
     fichaje.verificarPin(deps, { empleadoId, pin, dispositivo: ctx.dispositivo, origen: 'kiosk' });
     const token = ctx.kioskSessions.emitir(empleadoId);
@@ -85,26 +110,27 @@ export const kiosk = {
 
   terminos(deps, ctx) {
     requireCanalKiosko(ctx.canal);
-    const empleadoId = empleadoDeSesion(ctx);
+    const empleadoId = empleadoDeSesion(deps, ctx);
     return aceptacion.estado(deps, empleadoId);
   },
 
   aceptarTerminos(deps, ctx) {
     requireCanalKiosko(ctx.canal);
-    const empleadoId = empleadoDeSesion(ctx);
+    const empleadoId = empleadoDeSesion(deps, ctx);
     return aceptacion.aceptar(deps, { empleadoId, origen: 'kiosk' });
   },
 
   estado(deps, ctx) {
     requireCanalKiosko(ctx.canal);
-    const empleadoId = empleadoDeSesion(ctx);
+    const empleadoId = empleadoDeSesion(deps, ctx);
     return { empleado: empleadoPublico(deps, empleadoId), estado: fichaje.estadoEmpleado(deps, empleadoId) };
   },
 
   fichar(deps, ctx) {
     requireCanalKiosko(ctx.canal);
-    const empleadoId = empleadoDeSesion(ctx);
-    if (!ctx.rate.check(`fichar:${ctx.dispositivo}:${empleadoId}`)) {
+    const empleadoId = empleadoDeSesion(deps, ctx);
+    // fix S-01: clave server-trusted (empleadoId derivado del token), no `ctx.dispositivo`.
+    if (!ctx.rate.check(`fichar:${empleadoId}`)) {
       throw err('RATE', 429, 'rate', 'Demasiadas peticiones. Espera un momento.');
     }
     return fichaje.fichar(deps, { empleadoId, dispositivo: ctx.dispositivo, origen: 'kiosk', pinVerificado: true });
@@ -112,14 +138,41 @@ export const kiosk = {
 
   misRegistros(deps, ctx) {
     requireCanalKiosko(ctx.canal);
-    const empleadoId = empleadoDeSesion(ctx);
+    const empleadoId = empleadoDeSesion(deps, ctx);
+    // fix S-06: antes sin ningún límite de tasa (ver revision/_scripts/07-rate-limit-incompleto.mjs).
+    if (!ctx.rate.check(`misRegistros:${empleadoId}`)) {
+      throw err('RATE', 429, 'rate', 'Demasiadas peticiones. Espera un momento.');
+    }
     const { desde, hasta } = rangoDefecto(deps, ctx.body);
     return informe.informePorEmpleado(deps, { desde, hasta, empleadoId }); // sólo lo propio
   },
 
+  // fix S-03/K-07: emite un token de DESCARGA de un solo uso y vida corta (distinto del
+  // token de sesión), a partir del token de sesión enviado en el BODY de un POST (nunca
+  // en la URL). Sólo ese token de descarga —efímero y de un solo uso— viaja en la query
+  // del `GET` real de exportar().
+  solicitarDescarga(deps, ctx) {
+    requireCanalKiosko(ctx.canal);
+    const empleadoId = empleadoDeSesion(deps, ctx);
+    if (!ctx.rate.check(`solicitarDescarga:${empleadoId}`)) {
+      throw err('RATE', 429, 'rate', 'Demasiadas peticiones. Espera un momento.');
+    }
+    return { descargaToken: ctx.descargaTokens.emitir(empleadoId) };
+  },
+
   exportar(deps, ctx) {
     requireCanalKiosko(ctx.canal);
-    const empleadoId = empleadoDeSesion(ctx);
+    // fix S-03/K-07: ya NO acepta el token de SESIÓN en la query; exige un token de
+    // DESCARGA de un solo uso (emitido por `solicitarDescarga`), consumido aquí mismo.
+    const descargaToken = ctx.query?.token;
+    const empleadoId = ctx.descargaTokens.consumir(descargaToken);
+    if (!empleadoId) {
+      throw err('DESCARGA_INVALIDA', 401, 'token de descarga inválido/caducado/ya usado',
+        'El enlace de descarga ha caducado. Vuelve a intentarlo.');
+    }
+    if (!ctx.rate.check(`exportar:${empleadoId}`)) {
+      throw err('RATE', 429, 'rate', 'Demasiadas peticiones. Espera un momento.');
+    }
     const { desde, hasta } = rangoDefecto(deps, ctx.query);
     const inf = informe.informePorEmpleado(deps, { desde, hasta, empleadoId });
     const tz = deps.config.zonaHoraria;
@@ -129,9 +182,21 @@ export const kiosk = {
 
   crearSolicitud(deps, ctx) {
     requireCanalKiosko(ctx.canal);
-    const empleadoId = empleadoDeSesion(ctx);
-    const { cambio, motivo, jornadaId = null, marcaId = null } = ctx.body || {};
+    const empleadoId = empleadoDeSesion(deps, ctx);
+    // fix S-06: antes sin ningún límite de tasa (500 solicitudes aceptadas en el repro).
+    if (!ctx.rate.check(`crearSolicitud:${empleadoId}`)) {
+      throw err('RATE', 429, 'rate', 'Demasiadas peticiones. Espera un momento.');
+    }
+    const { cambio, motivo } = ctx.body || {};
     validarPropiedad(deps, empleadoId, cambio);
+    // fix S-04: los metadatos jornada_id/marca_id que se PERSISTEN se derivan del propio
+    // `cambio` (el mismo objeto que `validarPropiedad` acaba de validar y que es el único
+    // que de verdad se aplica al aprobar) — NUNCA de campos de nivel superior
+    // independientes enviados por el cliente, que antes podían referenciar el id de OTRO
+    // empleado sin que nada lo detectara (impacto acotado: sólo metadato mostrado al
+    // admin, `aplicarCambio` nunca los usa; aun así, se cierra en la causa raíz).
+    const jornadaId = cambio?.accion === 'anadir' ? (cambio.jornadaId ?? null) : null;
+    const marcaId = cambio?.accion === 'editar' ? (cambio.marcaId ?? null) : null;
     return solicitudes.crear(deps, { empleadoId, cambio, motivo, jornadaId, marcaId });
   },
 };
@@ -141,17 +206,31 @@ export const kiosk = {
 // ---------------------------------------------------------------------------
 export const manager = {
   hoy(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return hoyService.hoy(deps);
   },
 
+  // fix A-04: el Manager necesita poder elegir un empleado SIN jornadas en el rango
+  // (día completamente olvidado) para "Añadir jornada"; a diferencia de `kiosk.empleados`
+  // incluye también inactivos (por si hay que corregir una jornada de alguien que ya causó baja).
+  empleados(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
+    requireRol(ctx.actor, ...ADMIN);
+    return deps.employees.list()
+      .map((e) => ({ id: e.id, nombre: e.nombre, activo: e.activo !== false }))
+      .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+  },
+
   registros(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     const { desde, hasta } = rangoDefecto(deps, ctx.query);
     return registros.listarJornadas(deps, { desde, hasta, empleadoId: ctx.query?.empleadoId || null });
   },
 
   editarMarca(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     const { marcaId, tsNuevo, motivo } = ctx.body || {};
     return registros.editarMarca(deps, {
@@ -161,6 +240,7 @@ export const manager = {
   },
 
   anadirMarca(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     const { jornadaId, tipo, ts, motivo } = ctx.body || {};
     return registros.anadirMarca(deps, {
@@ -169,13 +249,26 @@ export const manager = {
     });
   },
 
+  // fix A-04: registrar un día SIN NINGUNA marca previa (olvido completo).
+  crearJornada(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
+    requireRol(ctx.actor, ...ADMIN);
+    const { empleadoId, entrada, salida, motivo } = ctx.body || {};
+    return registros.crearJornadaCompleta(deps, {
+      empleadoId, entrada: Number(entrada), salida: Number(salida), motivo,
+      actorId: ctx.actor.empleadoId, actorRol: ctx.actor.rol,
+    });
+  },
+
   informe(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     const { desde, hasta } = rangoDefecto(deps, ctx.query);
     return informe.informePorEmpleado(deps, { desde, hasta, empleadoId: ctx.query?.empleadoId || null });
   },
 
   informeExport(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     const { desde, hasta } = rangoDefecto(deps, ctx.query);
     const inf = informe.informePorEmpleado(deps, { desde, hasta, empleadoId: ctx.query?.empleadoId || null });
@@ -185,11 +278,13 @@ export const manager = {
   },
 
   solicitudes(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return solicitudes.listar(deps, { estado: ctx.query?.estado || null });
   },
 
   aprobar(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return solicitudes.aprobar(deps, {
       solicitudId: Number(ctx.params.id), actorId: ctx.actor.empleadoId, actorRol: ctx.actor.rol,
@@ -198,6 +293,7 @@ export const manager = {
   },
 
   rechazar(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return solicitudes.rechazar(deps, {
       solicitudId: Number(ctx.params.id), actorId: ctx.actor.empleadoId, actorRol: ctx.actor.rol,
@@ -206,28 +302,33 @@ export const manager = {
   },
 
   ajustesGet(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return ajustes.obtener(deps);
   },
 
   ajustesPut(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return ajustes.guardar(deps, ctx.body || {}, { actorId: ctx.actor.empleadoId, actorRol: ctx.actor.rol });
   },
 
   // Sólo técnico: verificación de integridad de la auditoría (dato sensible).
   auditoriaVerificar(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ROLES.TECHNICIAN);
     return audit.verificarIntegridad(deps.db);
   },
 
   // Aceptación de términos del admin/técnico (exigida en el primer acceso).
   terminos(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return aceptacion.estado(deps, ctx.actor.empleadoId);
   },
 
   aceptarTerminos(deps, ctx) {
+    requireCanalManager(ctx.canal); // fix A-08
     requireRol(ctx.actor, ...ADMIN);
     return aceptacion.aceptar(deps, { empleadoId: ctx.actor.empleadoId, actorRol: ctx.actor.rol, origen: 'manager' });
   },

@@ -43,7 +43,8 @@ Cada componente importa su CSS (`./kiosk.css`), que importa los tokens
 
 Flujo interno: **elegir empleado → PIN (`POST entrar`) → token en estado de React
 (memoria, NO localStorage) → panel** con avatar, «Hola {nombre}», **reloj en vivo**
-(fecha larga en español, `Europe/Madrid`), estado (dentro/fuera) y **botón único
+(fecha larga en español, en `config.zonaHoraria` — `GET /kiosk/config`, fix K-06; NUNCA
+`Europe/Madrid` fijo), estado (dentro/fuera) y **botón único
 enorme** que alterna **FICHAR ENTRADA** (verde) / **FICHAR SALIDA** (rojo). Al fichar
 muestra un **toast con la hora**. **Antirrebote**: el botón se deshabilita mientras
 hay petición en curso. Si el servidor no responde, muestra un error amable y permite
@@ -86,9 +87,11 @@ biometría y geolocalización**. Sólo texto (sin `dangerouslySetInnerHTML`).
 ## Contrato de API consumido (base `base`)
 
 Sobre: `{ ok:true, data }` | `{ ok:false, error:{ code, mensaje } }`. Los `ts` son
-epoch ms → `HH:MM` con `Intl` es-ES, `Europe/Madrid`.
+epoch ms → `HH:MM` con `Intl` es-ES, en la zona horaria del centro (`config.zonaHoraria`,
+`GET /kiosk/config` — fix K-06, nunca una zona fija en el bundle).
 
 - `GET  /kiosk/empleados`
+- `GET  /kiosk/config` (sólo `{ zonaHoraria }`; sin PIN, dato no sensible)
 - `POST /kiosk/entrar   { empleadoId, pin }`
 - `POST /kiosk/estado   { token }`
 - `POST /kiosk/fichar   { token }`  → `401 SESION_KIOSKO` si el token caducó.

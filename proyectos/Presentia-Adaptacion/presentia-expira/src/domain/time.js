@@ -69,3 +69,58 @@ export function ultimoDiaDelMes(ts, tz) {
   const dias = new Date(Date.UTC(p.year, p.month, 0)).getUTCDate(); // día 0 del mes+1 = último del mes
   return `${p.year}-${String(p.month).padStart(2, '0')}-${String(dias).padStart(2, '0')}`;
 }
+
+/**
+ * Diferencia en DÍAS DE CALENDARIO entre dos fechas 'YYYY-MM-DD' (fechaB - fechaA).
+ * Ambas ya deben estar bucketizadas en la MISMA zona horaria (p.ej. con `fechaJornada`);
+ * la resta es sobre las partes de calendario, no sobre instantes UTC (evita el ruido de
+ * DST). Positivo si fechaB es posterior a fechaA.
+ */
+export function diferenciaDiasCalendario(fechaA, fechaB) {
+  const [ya, ma, da] = String(fechaA).split('-').map(Number);
+  const [yb, mb, db] = String(fechaB).split('-').map(Number);
+  const a = Date.UTC(ya, ma - 1, da);
+  const b = Date.UTC(yb, mb - 1, db);
+  return Math.round((b - a) / (24 * 3600 * 1000));
+}
+
+/**
+ * Desfase (ms) de la zona `tz` respecto a UTC en el instante `ts`: la hora de pared en
+ * `tz` equivale a `ts + offset` expresado como si fuera UTC. Útil para convertir en
+ * ambos sentidos entre epoch ms y "hora de pared" de una zona arbitraria.
+ */
+function offsetTz(ts, tz) {
+  const p = partesFecha(ts, tz);
+  const comoUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+  return comoUtc - ts;
+}
+
+/**
+ * epoch ms -> valor para `<input type="datetime-local">` EN LA ZONA DADA (nunca la del
+ * navegador). Fuente única de verdad para "qué hora ve el admin", igual en la tabla y
+ * en el modal de edición (fix A-01/K-06/A-06: se elimina el hardcode Europe/Madrid y la
+ * dependencia de la zona local del proceso/navegador).
+ */
+export function tsAValorLocal(ts, tz) {
+  const p = partesFecha(ts, tz);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${p.year}-${pad(p.month)}-${pad(p.day)}T${pad(p.hour)}:${pad(p.minute)}`;
+}
+
+/**
+ * Valor de `<input type="datetime-local">` (interpretado como hora de pared EN LA ZONA
+ * `tz`, NO en la zona local del navegador) -> epoch ms absoluto. Inversa de
+ * `tsAValorLocal`. Devuelve `null` si el valor no tiene el formato esperado.
+ * Algoritmo: se toma el valor como si fuese UTC, se mide el desfase real de `tz` en ese
+ * instante y se corrige; se repite una vez más por si el primer ajuste cruza un cambio
+ * de hora (DST) — converge siempre en ≤2 iteraciones para este caso de uso.
+ */
+export function valorLocalATs(valor, tz) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/.exec(String(valor ?? ''));
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s] = m;
+  const guess = Date.UTC(Number(y), Number(mo) - 1, Number(d), Number(h), Number(mi), Number(s || 0));
+  let real = guess - offsetTz(guess, tz);
+  real = guess - offsetTz(real, tz); // refina cerca de un cambio de hora
+  return real;
+}

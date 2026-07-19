@@ -64,13 +64,16 @@ manager/
 ## Contrato de API consumido (base `apiBase`)
 
 Sobre de respuesta: `{ ok:true, data }` | `{ ok:false, error:{ code, mensaje } }`.
-Los `ts` son epoch ms → se formatean a `HH:MM` con `Intl` es-ES, zona
-`Europe/Madrid`.
+Los `ts` son epoch ms → se formatean a `HH:MM` con `Intl` es-ES, en la zona horaria
+del centro (`config.zonaHoraria`, obtenida de `GET /manager/ajustes`; NUNCA una zona
+fija en el bundle — fix A-01/A-06).
 
 - `GET  /manager/hoy`
+- `GET  /manager/empleados` (lista completa, incl. inactivos — para "Añadir jornada")
 - `GET  /manager/registros?desde&hasta&empleadoId`
 - `POST /manager/registros/marca/editar { marcaId, tsNuevo, motivo }`
 - `POST /manager/registros/marca/anadir { jornadaId, tipo, ts, motivo }`
+- `POST /manager/registros/jornada { empleadoId, entrada, salida, motivo }` (día sin ninguna marca)
 - `GET  /manager/informe?desde&hasta&empleadoId`
 - `GET  /manager/informe.csv` · `GET /manager/informe.pdf`
 - `GET  /manager/solicitudes?estado=pendiente|aprobada|rechazada`
@@ -82,8 +85,8 @@ Los `ts` son epoch ms → se formatean a `HH:MM` con `Intl` es-ES, zona
 - Cero colores/fuentes hardcodeados: todo vía variables de `../shared/tokens.css`.
 - Color con significado constante: **verde** correcto, **rojo** error/salida,
   **ámbar** pendiente/en curso. Datos técnicos (códigos, horas) en `--font-mono`.
-- Los `<input type="datetime-local">` de los modales operan en la hora local del
-  navegador. En un despliegue en España (kiosko en `Europe/Madrid`) coincide con la
-  zona del centro; si el equipo del Manager estuviera en otra zona, conviene revisar
-  la conversión antes de guardar.
+- Los `<input type="datetime-local">` de los modales de Registros (Editar/Añadir marca/
+  Añadir jornada) operan SIEMPRE en `config.zonaHoraria` (fix A-01/K-06), igual que la
+  tabla — no en la hora local del navegador del admin. Así, lo que se ve y lo que se
+  guarda son consistentes aunque el equipo del Manager esté en otra zona horaria.
 ```

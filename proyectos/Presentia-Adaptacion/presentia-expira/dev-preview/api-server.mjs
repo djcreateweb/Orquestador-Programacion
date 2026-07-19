@@ -70,7 +70,7 @@ const EMPLEADOS = ['e1', 'e2', 'a1', 't1'];
     // aprobadas (3) -> 'editar' conserva el valor original y marca "editado"
     aprobar(crearSol('e1', dia(), 'editar', 'Corrección de la hora de salida'));
     aprobar(crearSol('e2', dia(), 'editar', 'Corrección validada por RRHH'));
-    aprobar(crearSol('a1', dia(), 'editar', 'Ajuste aprobado'));
+    aprobar(crearSol('t1', dia(), 'editar', 'Ajuste aprobado')); // no 'a1': fix K-03, un admin no puede autoaprobarse
     // rechazadas (3)
     rechazar(crearSol('t1', dia(), 'anadir', 'Solicitud duplicada'));
     rechazar(crearSol('e1', dia(), 'anadir', 'Sin justificación suficiente'));
@@ -81,19 +81,23 @@ const EMPLEADOS = ['e1', 'e2', 'a1', 't1'];
 // --- Enrutado (mismos handlers que el adaptador Fastify) --------------------
 const RUTAS = [
   ['GET', '/kiosk/empleados', kiosk.empleados, 'kiosk'],
+  ['GET', '/kiosk/config', kiosk.config, 'kiosk'],
   ['POST', '/kiosk/entrar', kiosk.entrar, 'kiosk'],
   ['POST', '/kiosk/estado', kiosk.estado, 'kiosk'],
   ['POST', '/kiosk/fichar', kiosk.fichar, 'kiosk'],
   ['POST', '/kiosk/mis-registros', kiosk.misRegistros, 'kiosk'],
+  ['POST', '/kiosk/mis-horas/token', kiosk.solicitarDescarga, 'kiosk'],
   ['GET', '/kiosk/mis-horas.csv', kiosk.exportar, 'kiosk', 'csv'],
   ['GET', '/kiosk/mis-horas.pdf', kiosk.exportar, 'kiosk', 'pdf'],
   ['POST', '/kiosk/solicitud', kiosk.crearSolicitud, 'kiosk'],
   ['POST', '/kiosk/terminos', kiosk.terminos, 'kiosk'],
   ['POST', '/kiosk/terminos/aceptar', kiosk.aceptarTerminos, 'kiosk'],
   ['GET', '/manager/hoy', manager.hoy, 'manager'],
+  ['GET', '/manager/empleados', manager.empleados, 'manager'],
   ['GET', '/manager/registros', manager.registros, 'manager'],
   ['POST', '/manager/registros/marca/editar', manager.editarMarca, 'manager'],
   ['POST', '/manager/registros/marca/anadir', manager.anadirMarca, 'manager'],
+  ['POST', '/manager/registros/jornada', manager.crearJornada, 'manager'],
   ['GET', '/manager/informe', manager.informe, 'manager'],
   ['GET', '/manager/informe.csv', manager.informeExport, 'manager', 'csv'],
   ['GET', '/manager/informe.pdf', manager.informeExport, 'manager', 'pdf'],
@@ -138,7 +142,8 @@ const server = http.createServer(async (req, res) => {
   const ctx = {
     actor, canal: ruta.canal, body, query, params: ruta.params,
     dispositivo: req.headers['x-presentia-dispositivo'] || 'kiosko-demo-1',
-    rate: modulo.rate, kioskSessions: modulo.kioskSessions, formato: ruta.formato, now: deps.clock.now,
+    rate: modulo.rate, kioskSessions: modulo.kioskSessions, descargaTokens: modulo.descargaTokens,
+    formato: ruta.formato, now: deps.clock.now,
   };
   try {
     const r = ruta.handler(deps, ctx);

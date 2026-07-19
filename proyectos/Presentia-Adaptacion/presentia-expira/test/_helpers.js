@@ -18,6 +18,7 @@ export function ctx(modulo, o = {}) {
     dispositivo: o.dispositivo ?? 'tablet-1',
     rate: modulo.rate,
     kioskSessions: modulo.kioskSessions,
+    descargaTokens: modulo.descargaTokens,
     formato: o.formato,
     now: modulo.deps.clock.now,
   };

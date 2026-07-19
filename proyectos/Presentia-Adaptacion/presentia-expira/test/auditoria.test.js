@@ -180,12 +180,18 @@ test('C3 · PIN incorrecto → PIN_INCORRECTO (mensaje genérico, no dice qué c
   }
 });
 
-test('C3 · empleado inactivo: aunque el PIN sea correcto, no puede fichar → EMPLEADO_INVALIDO', () => {
+test('C3 · REGRESIÓN K-02: empleado inactivo NO puede autenticarse en el kiosko en absoluto (ni con PIN correcto)', () => {
+  // Antes del fix K-02: `entrar` emitía el token igual (PIN válido → token), y sólo
+  // `fichar` bloqueaba después con EMPLEADO_INVALIDO — un empleado de baja podía ver su
+  // estado/histórico, exportar y crear solicitudes con ese token. Ahora `entrar` rechaza
+  // de raíz, antes de emitir ningún token.
   const env = crearReferenceEnv({ now: Date.UTC(2026, 6, 13, 8, 0), empleados: [{ id: 'x', nombre: 'Baja', rol: 'empleado', pin: '4728', activo: false }] });
   const modulo = crearModulo(env); const deps = modulo.deps;
-  const en = kiosk.entrar(deps, ctx(modulo, K({ empleadoId: 'x', pin: '4728' }))); // PIN válido → emite token
-  assert.ok(en.token);
-  assert.throws(() => kiosk.fichar(deps, ctx(modulo, K({ token: en.token }))), (e) => e.code === 'EMPLEADO_INVALIDO' && e.status === 403);
+  assert.throws(
+    () => kiosk.entrar(deps, ctx(modulo, K({ empleadoId: 'x', pin: '4728' }))),
+    (e) => e.code === 'EMPLEADO_INVALIDO' && e.status === 403,
+    'entrar debe rechazar al empleado inactivo aunque el PIN sea correcto'
+  );
 });
 
 test('C3 · empleado inactivo no aparece en la lista del kiosko', () => {
@@ -220,21 +226,27 @@ test('C3 · misRegistros/exportar sólo devuelven lo propio (identidad del servi
   const { modulo, deps, token } = entrarYFichar('e1', '4728');
   const mis = kiosk.misRegistros(deps, ctx(modulo, K({ token, desde: '2026-07-01', hasta: '2026-07-31' })));
   assert.ok(mis.empleados.every((e) => e.empleadoId === 'e1'));
-  const exp = kiosk.exportar(deps, { ...ctx(modulo, K({ token })), query: { desde: '2026-07-01', hasta: '2026-07-31' }, formato: 'csv' });
+  // fix S-03/K-07: exportar ya no acepta el token de SESIÓN; exige un token de DESCARGA
+  // de un solo uso, obtenido antes con `solicitarDescarga` (token de sesión en el body).
+  const { descargaToken } = kiosk.solicitarDescarga(deps, ctx(modulo, K({ token })));
+  const exp = kiosk.exportar(deps, { ...ctx(modulo, { canal: 'kiosk' }), query: { token: descargaToken, desde: '2026-07-01', hasta: '2026-07-31' }, formato: 'csv' });
   assert.match(exp.raw, /Ana García/);
 });
 
-test('C3 · doble pulsación (observación): el toggle registra entrada + salida, NO dos entradas', () => {
-  // El cliente deshabilita el botón (antirrebote), pero a nivel de servidor fichar es
-  // un toggle; dos llamadas seguidas producen entrada y salida (jornada de 0 min), nunca
-  // dos entradas duplicadas ni corrupción. Se documenta el comportamiento real.
+test('C3 · REGRESIÓN K-04: doble pulsación casi simultánea se RECHAZA (ya no crea entrada+salida de 0 min)', () => {
+  // Antes del fix K-04: el cliente deshabilita el botón (antirrebote), pero a nivel de
+  // servidor `fichar` era un toggle sin guardia; dos llamadas seguidas con el mismo
+  // "now" producían entrada+salida (jornada de 0 min). Ahora el servidor rechaza la 2ª
+  // fichada del mismo empleado dentro de `ventanaAntiRebotarFichajeSeg` (por defecto 3s).
   const { modulo, deps } = nuevoModulo();
   const en = kiosk.entrar(deps, ctx(modulo, K({ empleadoId: 'e1', pin: '4728' })));
   const f1 = kiosk.fichar(deps, ctx(modulo, K({ token: en.token })));
-  const f2 = kiosk.fichar(deps, ctx(modulo, K({ token: en.token })));
   assert.equal(f1.tipo, 'entrada');
-  assert.equal(f2.tipo, 'salida');
-  assert.equal(marcasCount(deps, f1.jornadaId), 2);
+  assert.throws(
+    () => kiosk.fichar(deps, ctx(modulo, K({ token: en.token }))),
+    (e) => e.code === 'FICHAJE_DUPLICADO' && e.status === 429
+  );
+  assert.equal(marcasCount(deps, f1.jornadaId), 1, 'la 2ª fichada NO se registró (sigue habiendo sólo la entrada)');
 });
 
 function marcasCount(deps, jornadaId) {
@@ -349,11 +361,26 @@ test('C4 · Ajustes: imprimirTicket=true invoca al puerto printing al fichar', (
   assert.ok(impreso && impreso.tipo === 'entrada', 'se imprimió el ticket de entrada');
 });
 
-test('C4 · Ajustes: valor inválido se acota (redondeoMin 999 → 120, conservacion 1 → 4)', () => {
+test('C4 · REGRESIÓN A-09: valor inválido se RECHAZA con error claro (ya no se acota en silencio)', () => {
+  // Antes del fix A-09: la petición devolvía 200 OK con los valores silenciosamente
+  // acotados/sustituidos (redondeoMin→120, conservacionAnios→4), sin ningún código de
+  // error ni indicación de qué se corrigió. Ahora se rechaza la petición ENTERA.
   const { modulo, deps } = nuevoModulo();
-  const c = manager.ajustesPut(deps, ctx(modulo, { actor: ADMIN, body: { redondeoMin: 999, conservacionAnios: 1 } }));
-  assert.equal(c.redondeoMin, 120);
-  assert.equal(c.conservacionAnios, 4);
+  const antes = manager.ajustesGet(deps, ctx(modulo, { actor: ADMIN }));
+  assert.throws(
+    () => manager.ajustesPut(deps, ctx(modulo, { actor: ADMIN, body: { redondeoMin: 999, conservacionAnios: 1 } })),
+    (e) => e.code === 'AJUSTE_INVALIDO' && e.status === 400 && /redondeoMin/.test(e.publico) && /conservacionAnios/.test(e.publico)
+  );
+  // Rechazo ATÓMICO: ningún campo (ni siquiera uno válido del mismo payload) cambia.
+  const despues = manager.ajustesGet(deps, ctx(modulo, { actor: ADMIN }));
+  assert.deepEqual(despues, antes, 'nada se acota/aplica en silencio; la config queda intacta');
+});
+
+test('C4 · Ajustes: un valor válido dentro de rango SÍ se acepta (regresión negativa de A-09)', () => {
+  const { modulo, deps } = nuevoModulo();
+  const c = manager.ajustesPut(deps, ctx(modulo, { actor: ADMIN, body: { redondeoMin: 15, conservacionAnios: 5 } }));
+  assert.equal(c.redondeoMin, 15);
+  assert.equal(c.conservacionAnios, 5);
 });
 
 test('C4 · Ajustes: PERSISTEN tras reiniciar (nueva instancia sobre la misma BD en fichero)', () => {

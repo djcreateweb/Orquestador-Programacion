@@ -2,8 +2,12 @@
 // Sin dependencias: `fetch` nativo. Cada petición envía la cabecera de dispositivo
 // `x-presentia-dispositivo`. El token de micro-sesión vive en memoria de React (NO
 // en localStorage) y se pasa en el body de cada llamada autenticada.
-
-export const TZ_DEFECTO = "Europe/Madrid";
+//
+// Zona horaria (fix A-01/K-06/A-06): fuente ÚNICA de verdad = `config.zonaHoraria`,
+// obtenida de `GET /kiosk/config` (sin PIN: dato no sensible, necesario antes de que
+// el empleado se identifique). Se elimina el hardcode "Europe/Madrid": `fmtHora`,
+// `fmtReloj` y `fmtFechaLarga` EXIGEN `tz` explícito.
+import { primerDiaDelMes, ultimoDiaDelMes } from "../src/domain/time.js";
 
 export class ApiError extends Error {
   constructor(code, mensaje, status) {
@@ -60,6 +64,7 @@ export function crearApiKiosk({ base = "/presentia", dispositivo }) {
     base,
     dispositivo,
     empleados: () => pedir("/kiosk/empleados"),
+    config: () => pedir("/kiosk/config"),
     entrar: (empleadoId, pin) => pedir("/kiosk/entrar", { method: "POST", body: { empleadoId, pin } }),
     estado: (token) => pedir("/kiosk/estado", { method: "POST", body: { token } }),
     fichar: (token) => pedir("/kiosk/fichar", { method: "POST", body: { token } }),
@@ -67,42 +72,46 @@ export function crearApiKiosk({ base = "/presentia", dispositivo }) {
       pedir("/kiosk/mis-registros", { method: "POST", body: { token, desde, hasta } }),
     crearSolicitud: (payload) => pedir("/kiosk/solicitud", { method: "POST", body: payload }),
     aceptarTerminos: (token) => pedir("/kiosk/terminos/aceptar", { method: "POST", body: { token } }),
-    urlMisHorasCsv: (token, desde, hasta) => `${base}/kiosk/mis-horas.csv${qs({ token, desde, hasta })}`,
-    urlMisHorasPdf: (token, desde, hasta) => `${base}/kiosk/mis-horas.pdf${qs({ token, desde, hasta })}`,
+    // fix S-03/K-07: el token de SESIÓN ya nunca viaja en una URL. Para descargar, primero
+    // se pide un token de DESCARGA de un solo uso y vida corta (enviado en el BODY de este
+    // POST, con la sesión ya identificada) y SÓLO ÉSE se usa en la query de la descarga.
+    solicitarDescarga: (token) => pedir("/kiosk/mis-horas/token", { method: "POST", body: { token } }),
+    urlMisHorasCsv: (descargaToken, desde, hasta) => `${base}/kiosk/mis-horas.csv${qs({ token: descargaToken, desde, hasta })}`,
+    urlMisHorasPdf: (descargaToken, desde, hasta) => `${base}/kiosk/mis-horas.pdf${qs({ token: descargaToken, desde, hasta })}`,
   };
 }
 
 /* --------------------------------------------------------------- Formato --- */
 
-export function fmtHora(ts, tz = TZ_DEFECTO) {
+export function fmtHora(ts, tz) {
   if (ts == null) return "—";
   return new Intl.DateTimeFormat("es-ES", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-    timeZone: tz,
+    timeZone: tz || undefined,
   }).format(new Date(ts));
 }
 
 /** Reloj en vivo HH:MM:SS (24 h). */
-export function fmtReloj(date, tz = TZ_DEFECTO) {
+export function fmtReloj(date, tz) {
   return new Intl.DateTimeFormat("es-ES", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-    timeZone: tz,
+    timeZone: tz || undefined,
   }).format(date);
 }
 
 /** Fecha larga en español, p. ej. "lunes, 13 de julio de 2026". */
-export function fmtFechaLarga(date, tz = TZ_DEFECTO) {
+export function fmtFechaLarga(date, tz) {
   return new Intl.DateTimeFormat("es-ES", {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
-    timeZone: tz,
+    timeZone: tz || undefined,
   }).format(date);
 }
 
@@ -113,12 +122,9 @@ export function fmtFechaCorta(iso) {
   return `${d}/${m}/${a}`;
 }
 
-const ISO = (d) => {
-  const p = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
-};
-export function primerDiaMes(ref = new Date()) { return ISO(new Date(ref.getFullYear(), ref.getMonth(), 1)); }
-export function ultimoDiaMes(ref = new Date()) { return ISO(new Date(ref.getFullYear(), ref.getMonth() + 1, 0)); }
+/** Primer/último día del mes de `ts` (epoch ms) en la zona `tz` — YYYY-MM-DD (fix A-06). */
+export function primerDiaMes(ts, tz) { return primerDiaDelMes(ts, tz); }
+export function ultimoDiaMes(ts, tz) { return ultimoDiaDelMes(ts, tz); }
 
 /** Iniciales para el avatar de reserva (cuando no hay avatarUrl). */
 export function iniciales(nombre) {

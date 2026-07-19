@@ -1,15 +1,18 @@
 // MisRegistros.jsx — El empleado ve y exporta SÓLO lo suyo desde el kiosko (§ API
 // kiosk/mis-registros). Requiere el token de la micro-sesión (en memoria). Selector
-// de rango; exportación CSV/PDF (descargas con el token en la query). Si el token ha
-// caducado, avisa y delega en `onSesionCaducada` para volver a pedir el PIN.
+// de rango; exportación CSV/PDF. Fix S-03/K-07: el token de SESIÓN nunca viaja en la
+// URL de descarga — antes de descargar se pide un token de DESCARGA de un solo uso y
+// vida corta (`solicitarDescarga`, con la sesión en el body) y sólo ése se usa en la
+// query del `<a href>`. Si el token de sesión ha caducado, avisa y delega en
+// `onSesionCaducada` para volver a pedir el PIN.
 import React, { useState, useEffect, useCallback } from "react";
 import { fmtHora, fmtFechaCorta, primerDiaMes, ultimoDiaMes, descargar } from "./api.js";
 import "./kiosk.css";
 
-export default function MisRegistros({ api, token, empleadoNombre, onVolver, onSesionCaducada }) {
-  const hoy = new Date();
-  const [desde, setDesde] = useState(primerDiaMes(hoy));
-  const [hasta, setHasta] = useState(ultimoDiaMes(hoy));
+export default function MisRegistros({ api, token, tz, empleadoNombre, onVolver, onSesionCaducada }) {
+  const hoy = Date.now();
+  const [desde, setDesde] = useState(primerDiaMes(hoy, tz));
+  const [hasta, setHasta] = useState(ultimoDiaMes(hoy, tz));
   const [data, setData] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -33,6 +36,22 @@ export default function MisRegistros({ api, token, empleadoNombre, onVolver, onS
 
   useEffect(() => { cargar(); }, [cargar]);
 
+  // fix S-03/K-07: pide un token de descarga efímero/de un solo uso justo antes de
+  // descargar; nunca reutiliza el token de sesión en la URL.
+  const exportar = useCallback(async (urlDe) => {
+    setError(null);
+    try {
+      const { descargaToken } = await api.solicitarDescarga(token);
+      descargar(urlDe(descargaToken, desde, hasta));
+    } catch (e) {
+      if (e.code === "SESION_KIOSKO" || e.status === 401) {
+        onSesionCaducada && onSesionCaducada();
+        return;
+      }
+      setError(e.mensaje || "No se pudo generar la descarga.");
+    }
+  }, [api, token, desde, hasta, onSesionCaducada]);
+
   // Una sola persona (el propio empleado) en la respuesta.
   const persona = data && data.empleados && data.empleados[0];
 
@@ -49,14 +68,14 @@ export default function MisRegistros({ api, token, empleadoNombre, onVolver, onS
         <button
           type="button"
           className="pk-btn"
-          onClick={() => descargar(api.urlMisHorasCsv(token, desde, hasta))}
+          onClick={() => exportar(api.urlMisHorasCsv)}
         >
           Exportar CSV
         </button>
         <button
           type="button"
           className="pk-btn pk-btn--primario"
-          onClick={() => descargar(api.urlMisHorasPdf(token, desde, hasta))}
+          onClick={() => exportar(api.urlMisHorasPdf)}
         >
           Exportar PDF
         </button>
@@ -86,12 +105,12 @@ export default function MisRegistros({ api, token, empleadoNombre, onVolver, onS
                   <tr key={j.codigo}>
                     <td data-label="Fecha" className="pk-nowrap">{fmtFechaCorta(j.fecha)}</td>
                     <td data-label="Código" className="pk-mono pk-nowrap">{j.codigo}</td>
-                    <td data-label="Entrada" className="pk-mono pk-nowrap">{fmtHora(j.entrada)}</td>
+                    <td data-label="Entrada" className="pk-mono pk-nowrap">{fmtHora(j.entrada, tz)}</td>
                     <td data-label="Salida" className="pk-mono pk-nowrap">
                       {j.enCurso ? (
                         <span className="pk-badge pk-badge--en-curso">En curso</span>
                       ) : (
-                        fmtHora(j.salida)
+                        fmtHora(j.salida, tz)
                       )}
                     </td>
                     <td data-label="Horas" className="pk-mono pk-nowrap">{j.textoHoras}</td>

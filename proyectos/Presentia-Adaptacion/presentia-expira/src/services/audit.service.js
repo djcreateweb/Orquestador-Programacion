@@ -54,7 +54,7 @@ export function registrar(db, ev) {
     origen: ev.origen, motivo: ev.motivo,
   });
   const hash = sha256(prev + estable(payload));
-  db.prepare(
+  const info = db.prepare(
     `INSERT INTO presentia_auditoria
      (ts, actor_id, actor_rol, accion, entidad, entidad_id, detalle, origen, motivo, prev_hash, hash)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
@@ -63,11 +63,23 @@ export function registrar(db, ev) {
     payload.entidad_id, payload.detalle != null ? JSON.stringify(payload.detalle) : null,
     payload.origen, payload.motivo, prev, hash
   );
+  // fix S-02: actualiza el ANCLA tamper-evidente (última fila real + su hash + recuento
+  // contiguo) en cada alta — ver verificarIntegridad() para el porqué (detecta el
+  // TRUNCAMIENTO DE COLA, que un hash-chain simple no puede detectar por sí solo).
+  db.prepare(
+    'UPDATE presentia_auditoria_ancla SET ultima_id = ?, ultimo_hash = ?, recuento = recuento + 1 WHERE id = 1'
+  ).run(Number(info.lastInsertRowid), hash);
   return hash;
 }
 
 /**
- * Recalcula la cadena y detecta la primera línea alterada/borrada.
+ * Recalcula la cadena y detecta la primera línea alterada/borrada. Además comprueba el
+ * ANCLA tamper-evidente (fix S-02) contra la última fila REAL: un hash-chain simple sólo
+ * detecta manipulación "en el medio" (cualquier fila con al menos una fila posterior que
+ * referencie su hash) pero NO el truncamiento de cola (borrar las últimas filas: no
+ * queda ninguna fila posterior que lo delate). El ancla —actualizada en cada
+ * `registrar()`— guarda el id/hash de la última fila y el recuento total; si la última
+ * fila real o el recuento ya no coinciden con el ancla, se detecta la manipulación.
  * @param {object} db
  * @returns {{ok:boolean, rotoEn:(number|null), total:number}}
  */
@@ -86,6 +98,13 @@ export function verificarIntegridad(db) {
       return { ok: false, rotoEn: f.id, total: filas.length };
     }
     prev = f.hash;
+  }
+  const ancla = db.prepare('SELECT * FROM presentia_auditoria_ancla WHERE id = 1').get();
+  const ultimaFila = filas[filas.length - 1] || null;
+  const ultimaIdReal = ultimaFila ? ultimaFila.id : 0;
+  const ultimoHashReal = ultimaFila ? ultimaFila.hash : GENESIS;
+  if (!ancla || ancla.ultima_id !== ultimaIdReal || ancla.ultimo_hash !== ultimoHashReal || ancla.recuento !== filas.length) {
+    return { ok: false, rotoEn: null, total: filas.length };
   }
   return { ok: true, rotoEn: null, total: filas.length };
 }

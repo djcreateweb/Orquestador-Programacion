@@ -2,8 +2,23 @@
 // Sin dependencias: usa `fetch` nativo. La sesión es la del host (Expira): las
 // peticiones viajan con las cookies de sesión; el cliente NO maneja tokens.
 // Todas las respuestas cumplen el sobre { ok:true, data } | { ok:false, error }.
-
-export const TZ_DEFECTO = "Europe/Madrid";
+//
+// Zona horaria (fix A-01/K-06/A-06): fuente ÚNICA de verdad = `config.zonaHoraria`
+// (GET /manager/ajustes). Se elimina el hardcode "Europe/Madrid": todas las funciones
+// de formato/fecha de este módulo EXIGEN `tz` explícito (sin valor por defecto oculto),
+// para que la tabla y los modales de edición usen SIEMPRE la misma zona. Se reexportan
+// las utilidades de `src/domain/time.js` (la misma lógica que usa el backend para
+// bucketizar la fecha de jornada) en vez de duplicar el cálculo en el navegador.
+import {
+  tsAValorLocal as tsAValorLocalTz,
+  valorLocalATs as valorLocalATsTz,
+  primerDiaDelMes,
+  ultimoDiaDelMes,
+} from "../src/domain/time.js";
+// fix A-03: reutiliza la MISMA neutralización de inyección de fórmulas CSV (= + - @)
+// que ya usa el exportador de backend (src/export/csv.js), en vez de un escapado propio
+// que sólo entrecomillaba y dejaba pasar la fórmula cruda.
+import { escaparCelda } from "../src/export/csv.js";
 
 /** Error de API con código estable (para que la UI reaccione por código, no por texto). */
 export class ApiError extends Error {
@@ -57,11 +72,14 @@ export function crearApiManager(base = "/presentia") {
   return {
     base,
     hoy: () => pedir(base, "/manager/hoy"),
+    empleados: () => pedir(base, "/manager/empleados"),
     registros: (params = {}) => pedir(base, `/manager/registros${qs(params)}`),
     editarMarca: (payload) =>
       pedir(base, "/manager/registros/marca/editar", { method: "POST", body: payload }),
     anadirMarca: (payload) =>
       pedir(base, "/manager/registros/marca/anadir", { method: "POST", body: payload }),
+    crearJornada: (payload) =>
+      pedir(base, "/manager/registros/jornada", { method: "POST", body: payload }),
     informe: (params = {}) => pedir(base, `/manager/informe${qs(params)}`),
     solicitudes: (estado) => pedir(base, `/manager/solicitudes${qs(estado ? { estado } : {})}`),
     aprobar: (id, comentario) =>
@@ -80,14 +98,21 @@ export function crearApiManager(base = "/presentia") {
 
 /* --------------------------------------------------------------- Formato --- */
 
-/** Formatea un epoch ms como HH:MM (Intl es-ES, zona del centro). */
-export function fmtHora(ts, tz = TZ_DEFECTO) {
+/**
+ * Formatea un epoch ms como HH:MM (Intl es-ES). `tz` es OBLIGATORIO (config.zonaHoraria):
+ * fix A-01: antes esta función se llamaba sin `tz` en Registros/Hoy/InformeHoras/
+ * Solicitudes y caía silenciosamente en un "Europe/Madrid" hardcodeado, ignorando el
+ * ajuste real del centro. Si no se pasa `tz` se usa la zona del navegador como último
+ * recurso (mejor eso que asumir Madrid), pero cada llamador de esta app debe pasar
+ * siempre `config.zonaHoraria`.
+ */
+export function fmtHora(ts, tz) {
   if (ts == null) return "—";
   return new Intl.DateTimeFormat("es-ES", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-    timeZone: tz,
+    timeZone: tz || undefined,
   }).format(new Date(ts));
 }
 
@@ -99,32 +124,33 @@ export function fmtFechaCorta(iso) {
   return `${d}/${m}/${a}`;
 }
 
-const ISO = (d) => {
-  const p = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
-};
-
-/** Primer día del mes en curso (YYYY-MM-DD, hora local del navegador). */
-export function primerDiaMes(ref = new Date()) {
-  return ISO(new Date(ref.getFullYear(), ref.getMonth(), 1));
+/** Primer día del mes de `ts` (epoch ms) en la zona `tz` — YYYY-MM-DD. */
+export function primerDiaMes(ts, tz) {
+  return primerDiaDelMes(ts, tz);
 }
 
-/** Último día del mes en curso (YYYY-MM-DD). */
-export function ultimoDiaMes(ref = new Date()) {
-  return ISO(new Date(ref.getFullYear(), ref.getMonth() + 1, 0));
+/** Último día del mes de `ts` (epoch ms) en la zona `tz` — YYYY-MM-DD. */
+export function ultimoDiaMes(ts, tz) {
+  return ultimoDiaDelMes(ts, tz);
 }
 
-/** epoch ms -> valor para <input type="datetime-local"> (hora local del navegador). */
-export function tsAInputLocal(ts) {
-  const d = new Date(ts);
-  const p = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+/**
+ * epoch ms -> valor para `<input type="datetime-local">` EN LA ZONA `tz` (fix A-01/K-06:
+ * ya NO usa la hora local del navegador). Debe ser la MISMA zona que `fmtHora` para que
+ * lo que se ve en la tabla coincida con lo que se precarga al editar.
+ */
+export function tsAInputLocal(ts, tz) {
+  return tsAValorLocalTz(ts, tz);
 }
 
-/** valor de <input type="datetime-local"> -> epoch ms (hora local del navegador). */
-export function inputLocalATs(valor) {
-  const t = new Date(valor).getTime();
-  return Number.isFinite(t) ? t : null;
+/**
+ * Valor de `<input type="datetime-local">` (interpretado en la zona `tz`) -> epoch ms
+ * absoluto. Fix A-01/K-06: antes interpretaba el valor en la zona LOCAL del navegador,
+ * lo que podía guardar una hora absoluta equivocada si el equipo del Manager no estaba
+ * en la misma zona que `config.zonaHoraria`.
+ */
+export function inputLocalATs(valor, tz) {
+  return valorLocalATsTz(valor, tz);
 }
 
 /** Dispara la descarga de una URL respetando la sesión (cookies) del host. */
@@ -140,11 +166,7 @@ export function descargar(url, filename) {
 
 /** Descarga un CSV generado en cliente (sin endpoint dedicado). */
 export function descargarCsvCliente(filas, filename) {
-  const escapar = (v) => {
-    const s = v == null ? "" : String(v);
-    return /[";\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-  };
-  const texto = filas.map((f) => f.map(escapar).join(";")).join("\r\n");
+  const texto = filas.map((f) => f.map(escaparCelda).join(";")).join("\r\n");
   const blob = new Blob(["﻿" + texto], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   descargar(url, filename);
