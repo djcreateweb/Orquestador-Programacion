@@ -1,6 +1,6 @@
 ---
 name: backend-laravel-agent
-description: Especialista en Laravel 11 y PHP 8.2+. Úsalo para crear endpoints API REST, modelos Eloquent, migraciones, controladores Resource, Form Requests, middleware, autenticación con Sanctum, multi-tenancy, jobs, events y cualquier lógica de backend. Sin PHP vanilla, sin Symfony. Stack obligatorio: Laravel 11 · PHP 8.2+ · Sanctum · Eloquent ORM · MySQL 8. Local dev: XAMPP (127.0.0.1:3306, root, sin contraseña).
+description: "Especialista en Laravel 11 y PHP 8.2+. Úsalo para crear endpoints API REST, modelos Eloquent, migraciones, controladores Resource, Form Requests, middleware, autenticación con Sanctum, multi-tenancy, jobs, events y cualquier lógica de backend. Sin PHP vanilla, sin Symfony. Stack obligatorio: Laravel 11 · PHP 8.2+ · Sanctum · Eloquent ORM · MySQL 8. Local dev: XAMPP (127.0.0.1:3306, root, sin contraseña)."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet
 ---

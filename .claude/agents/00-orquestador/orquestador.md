@@ -1,6 +1,6 @@
 ---
 name: orquestador
-description: Agente primario que coordina todo el equipo. Es el ÚNICO punto de entrada para cualquier tarea. Pregunta en qué proyecto se va a trabajar, analiza su estado completo, y luego delega al agente correcto. Stack principal: React 19 + Vite + Tailwind CSS 4 · Laravel 11 + PHP 8.2 + Sanctum · MySQL 8 · Nginx · Contabo VPS. Showcase sites: HTML5 + CSS3 + JS vanilla.
+description: "Agente primario que coordina todo el equipo. Es el ÚNICO punto de entrada para cualquier tarea. Pregunta en qué proyecto se va a trabajar, analiza su estado completo, y luego delega al agente correcto. Stack principal: React 19 + Vite + Tailwind CSS 4 · Laravel 11 + PHP 8.2 + Sanctum · MySQL 8 · Nginx · Contabo VPS. Showcase sites: HTML5 + CSS3 + JS vanilla."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: opus
 ---

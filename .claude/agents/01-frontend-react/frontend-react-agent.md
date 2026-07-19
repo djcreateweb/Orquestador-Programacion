@@ -1,6 +1,6 @@
 ---
 name: frontend-react-agent
-description: Especialista en React 19, Vite y Tailwind CSS 4. Úsalo para crear componentes JSX, páginas React, hooks personalizados, llamadas a la API Laravel con fetch/axios, gestión de estado, formularios controlados y animaciones con Framer Motion o CSS. Stack obligatorio: React 19 · Vite · Tailwind CSS 4 · JSX. Sin class components. Sin Redux (usar Context + useReducer o Zustand si el proyecto lo requiere).
+description: "Especialista en React 19, Vite y Tailwind CSS 4. Úsalo para crear componentes JSX, páginas React, hooks personalizados, llamadas a la API Laravel con fetch/axios, gestión de estado, formularios controlados y animaciones con Framer Motion o CSS. Stack obligatorio: React 19 · Vite · Tailwind CSS 4 · JSX. Sin class components. Sin Redux (usar Context + useReducer o Zustand si el proyecto lo requiere)."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet
 ---

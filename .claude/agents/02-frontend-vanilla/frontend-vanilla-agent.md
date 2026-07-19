@@ -1,6 +1,6 @@
 ---
 name: frontend-vanilla-agent
-description: Especialista en HTML5, CSS3 y JavaScript vanilla para showcase sites y webs de cliente. Úsalo para maquetar páginas de presentación, crear animaciones con GSAP, AOS.js, p5.js, Canvas API o Three.js, diseñar interacciones táctiles fluidas, y construir sitios estáticos de alta calidad visual sin frameworks. Stack obligatorio: HTML5 + CSS3 + JS ES6+ puro. Sin React, sin Vue, sin jQuery. Animaciones con GSAP · AOS · p5.js · Canvas API según el proyecto.
+description: "Especialista en HTML5, CSS3 y JavaScript vanilla para showcase sites y webs de cliente. Úsalo para maquetar páginas de presentación, crear animaciones con GSAP, AOS.js, p5.js, Canvas API o Three.js, diseñar interacciones táctiles fluidas, y construir sitios estáticos de alta calidad visual sin frameworks. Stack obligatorio: HTML5 + CSS3 + JS ES6+ puro. Sin React, sin Vue, sin jQuery. Animaciones con GSAP · AOS · p5.js · Canvas API según el proyecto."
 tools: Read, Write, Edit, Bash, Glob, Grep
 model: sonnet
 ---
