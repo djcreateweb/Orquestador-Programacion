@@ -1,0 +1,167 @@
+/* ================================================================
+   METAL TITLE — efecto "acero pulido" tipo logo de Endgame
+   Requiere css/tokens.css cargado antes (usa --steel-*, --brand-*).
+
+   Uso:
+   <h1 class="hero-title">
+     <span class="metal-title">Guía de visionado</span>
+     <span class="metal-title-accent">hasta Doomsday</span>
+   </h1>
+
+   - .metal-title       → título grande (hero, ≥ ~2rem / var(--fs-hero)).
+                           Degradado de acero + bisel + brillo.
+   - .metal-title--sm   → variante plana para tamaños medios
+                           (h2 de fase, cabeceras de panel, tabs
+                           activos) donde el degradado completo
+                           perdería legibilidad.
+   - .metal-title-accent→ palabra de énfasis SOBRE el título metálico
+                           (color sólido azul eléctrico, NO metálico,
+                           para que contraste con el acero — sustituye
+                           al antiguo <span> rojo del sistema previo).
+   - .metal-title--shine→ modificador opcional que añade un barrido
+                           de luz sutil y lento (respeta
+                           prefers-reduced-motion).
+   ================================================================ */
+
+.metal-title{
+  font-family: var(--font-hero);
+  font-weight: var(--fw-regular); /* Anton solo tiene 400, ya es "black" visualmente */
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.05;
+
+  /* Fallback de color sólido: se ve SIEMPRE, incluso si el navegador
+     no soporta background-clip:text (queda oculto detrás del relleno
+     transparente en navegadores compatibles). */
+  color: var(--steel-3);
+
+  /* Degradado de acero: dos bandas de brillo (arriba ~12% y de nuevo
+     ~64%) simulan el reflejo doble de una letra biselada/redondeada,
+     como en el logotipo cromado de Endgame. */
+  background-image: linear-gradient(180deg,
+    #ffffff       0%,
+    var(--steel-5) 12%,
+    var(--steel-4) 30%,
+    var(--steel-2) 48%,
+    var(--steel-sheen) 64%,
+    var(--steel-3) 80%,
+    var(--steel-1) 100%
+  );
+  background-size: 100% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Bisel + halo de ambiente lila/azul: el text-shadow se sigue
+     pintando aunque el relleno sea transparente (background-clip:text),
+     porque usa la máscara del glifo, no el color de relleno. */
+  text-shadow:
+    0 1px 0    rgba(255,255,255,.5),   /* filo superior iluminado (bisel) */
+    0 -1px 1px rgba(0,0,0,.55),        /* filo inferior en sombra (bisel) */
+    0 3px 6px  rgba(0,0,0,.55),        /* profundidad / separación del fondo */
+    0 0 22px   rgba(139,92,246,.35),   /* halo lila ambiental */
+    0 0 38px   rgb(96 165 250 / .25);  /* halo azul ambiental, más amplio */
+
+  /* Borde muy fino para definir el trazo del glifo sobre fondos
+     variables (fotografía del hero) — sutil, no compite con el degradado. */
+  -webkit-text-stroke: .6px rgba(20,18,38,.5);
+
+  /* Sombra de caída del bloque completo de texto, refuerza que "flota"
+     sobre la imagen/fondo del hero. */
+  filter: drop-shadow(0 6px 14px rgba(5,4,14,.5));
+}
+
+/* Variante plana para tamaños medios (h2 de fase, cabeceras de panel,
+   marca del topbar, tab activo): sin degradado completo — un solo
+   tono de acero + sombra ligera. El degradado de .metal-title pierde
+   legibilidad por debajo de ~1.5rem porque las bandas oscuras del
+   gradiente (--steel-1/--steel-2) ocupan demasiada altura de x-height
+   relativa al grosor de trazo. */
+.metal-title--sm{
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--steel-4);
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.25),
+    0 2px 4px rgba(0,0,0,.5),
+    0 0 12px rgba(139,92,246,.25);
+}
+
+/* Palabra de énfasis sobre un .metal-title: color sólido (no metálico)
+   para máximo contraste frente al acero — reemplaza al <span> rojo
+   del sistema anterior. */
+.metal-title-accent{
+  font-family: inherit;
+  color: var(--brand-blue-bright);
+  text-shadow:
+    0 2px 10px rgba(0,0,0,.5),
+    0 0 20px rgb(96 165 250 / .5),
+    0 0 34px rgba(139,92,246,.3);
+}
+
+/* ── Modificador opcional: barrido de luz sutil ──
+   Requiere --steel-sheen visible en una banda ancha para que el
+   barrido se note; se anima background-position en vertical muy
+   lento (8s) para leerse como "reflejo que se mueve", no como parpadeo. */
+.metal-title--shine{
+  background-size: 100% 260%;
+  background-position: 0 0%;
+  animation: metalShineSweep 8s ease-in-out infinite;
+}
+@keyframes metalShineSweep{
+  0%,100% { background-position: 0 0%;   }
+  50%     { background-position: 0 100%; }
+}
+
+/* ── Degradación elegante ──
+
+   1) Navegadores sin soporte de background-clip:text (o
+      forced-colors / alto contraste del SO): se cae a color
+      sólido + sombra, sin perder legibilidad. */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)){
+  .metal-title{
+    background-image: none;
+    -webkit-text-fill-color: unset;
+    color: var(--steel-3);
+  }
+}
+
+/* 2) prefers-contrast:more → se prioriza la legibilidad sobre el
+      efecto: relleno sólido claro, sombra reforzada, sin degradado
+      ni stroke translúcido. */
+@media (prefers-contrast: more){
+  .metal-title{
+    background-image: none;
+    -webkit-text-fill-color: unset;
+    color: var(--steel-4);
+    -webkit-text-stroke: 0;
+    text-shadow: 0 2px 6px rgba(0,0,0,.75);
+  }
+}
+
+/* 3) forced-colors (modo alto contraste de Windows): se respeta la
+      paleta del sistema operativo, sin gradientes ni sombras de color. */
+@media (forced-colors: active){
+  .metal-title,
+  .metal-title--sm,
+  .metal-title-accent{
+    background: none;
+    -webkit-text-fill-color: unset;
+    color: CanvasText;
+    text-shadow: none;
+    -webkit-text-stroke: 0;
+    filter: none;
+  }
+}
+
+/* 4) prefers-reduced-motion → se anula cualquier animación del
+      modificador --shine (queda como .metal-title estático). */
+@media (prefers-reduced-motion: reduce){
+  .metal-title--shine{
+    animation: none;
+    background-position: 0 0;
+  }
+}

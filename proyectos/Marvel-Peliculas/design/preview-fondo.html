@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vista previa — Fondo Endgame (MCU Tracker)</title>
+
+<!--
+  VISTA PREVIA AUTÓNOMA — NO forma parte de index.html.
+  Sirve solo para revisar en el navegador la composición de
+  css/background.css sobre la paleta de css/tokens.css, junto con
+  el efecto .metal-title (css/metal-title.css) y un par de tarjetas
+  de ejemplo que imitan .item de DISENO-SPEC.md (opacas, con
+  --surface/--border) para verificar legibilidad AA por encima
+  del fondo nuevo.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/metal-title.css">
+<link rel="stylesheet" href="../css/background.css">
+
+<style>
+  /* ── Estilos SOLO de esta vista previa (shell de demo) ──
+     No forman parte del sistema de diseño entregable; replican de
+     forma mínima el aspecto de .topbar / .item / .stat descritos en
+     DISENO-SPEC.md únicamente para poder juzgar el fondo con
+     contenido real encima, sin depender de index.html. */
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:var(--font-body);
+    color:var(--text);
+    background:var(--bg); /* fallback visible si .bg-fx no cargara */
+  }
+
+  /* Barra superior mínima — comprueba el "cristal esmerilado" del
+     backdrop-filter sobre el fondo nuevo, y el texto "suelto"
+     (no dentro de tarjeta) contra el fondo difuminado. */
+  .preview-topbar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:var(--sp-4);
+    padding:var(--sp-3) var(--sp-6);
+    background:rgba(10,10,19,.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--border);
+  }
+  .preview-topbar__brand{
+    font-family:var(--font-display); font-weight:var(--fw-bold);
+    letter-spacing:var(--tracking-wide); text-transform:uppercase;
+    font-size:var(--fs-body); color:var(--text-2);
+  }
+  .preview-topbar__hint{
+    font-size:var(--fs-small); color:var(--muted);
+  }
+
+  .preview-wrap{
+    max-width:var(--container-max);
+    margin:0 auto;
+    padding:var(--sp-20) var(--sp-6) var(--sp-24);
+  }
+
+  .preview-hero{
+    text-align:center;
+    padding-bottom:var(--sp-16);
+  }
+  .preview-hero .hero-eyebrow{
+    display:block;
+    font-family:var(--font-body); font-weight:700;
+    font-size:var(--fs-eyebrow); text-transform:uppercase;
+    letter-spacing:var(--tracking-widest);
+    color:var(--brand-blue-bright);
+    margin-bottom:var(--sp-3);
+  }
+  .preview-hero h1{
+    margin:0;
+    font-size:var(--fs-hero);
+  }
+  .preview-hero p{
+    max-width:52ch; margin:var(--sp-5) auto 0;
+    font-size:var(--fs-hero-sub); color:var(--text-2);
+    line-height:1.6;
+  }
+
+  /* Sección de "prueba de contraste": texto suelto directamente
+     sobre .bg-fx, sin tarjeta ni superficie opaca detrás — es el
+     caso más exigente para AA (.hint/.legend/footer del sitio real). */
+  .preview-loose-text{
+    text-align:center;
+    margin:0 0 var(--sp-16);
+    font-size:var(--fs-small);
+    color:var(--muted);
+  }
+  .preview-loose-text b{ color:var(--text-2); }
+
+  .preview-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:var(--sp-4);
+  }
+
+  /* Tarjeta de ejemplo — imita .item de DISENO-SPEC.md: opaca
+     (background:var(--surface)), no debe verse afectada por el
+     fondo en ningún caso; solo sirve para comprobar que el fondo
+     NO resta legibilidad alrededor de ella. */
+  .item-demo{
+    display:flex; align-items:center; gap:var(--sp-4);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:3px solid var(--type-color, var(--film));
+    border-radius:var(--r-lg);
+    padding:var(--sp-3) var(--sp-4) var(--sp-3) var(--sp-3);
+    box-shadow:var(--shadow-sm);
+    transition:border-color var(--dur-fast) var(--ease-smooth),
+               transform var(--dur-fast) var(--ease-smooth),
+               box-shadow var(--dur-fast) var(--ease-smooth);
+  }
+  .item-demo:hover{
+    border-color:var(--border-hover);
+    transform:translateY(-2px);
+    box-shadow:var(--shadow-md);
+  }
+  .item-demo--serie{ --type-color:var(--serie); }
+  .item-demo--film{  --type-color:var(--film); }
+
+  .poster-demo{
+    flex-shrink:0;
+    width:var(--poster-w);
+    aspect-ratio:var(--poster-ratio);
+    border-radius:var(--r-sm);
+    background:
+      linear-gradient(160deg, var(--tint, var(--film-tint)), transparent 70%),
+      var(--surface-3);
+    border:1px solid var(--border);
+  }
+
+  .item-demo__body{ flex:1; min-width:0; }
+  .tag-demo{
+    display:inline-block;
+    font-family:var(--font-display); font-weight:var(--fw-semibold);
+    font-size:10px; text-transform:uppercase; letter-spacing:var(--tracking-wide);
+    padding:2px 8px; border-radius:var(--r-full);
+    margin-bottom:4px;
+  }
+  .tag-demo--film{  color:var(--film);  background:rgba(59,130,246,.12); }
+  .tag-demo--serie{ color:var(--serie); background:rgba(168,85,247,.12); }
+
+  .item-demo__title{
+    margin:0; font-size:var(--fs-body); font-weight:600; color:var(--text);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .item-demo__meta{ margin:2px 0 0; font-size:var(--fs-small); color:var(--muted); }
+
+  .check-demo{
+    flex-shrink:0; width:24px; height:24px; border-radius:var(--r-full);
+    border:2px solid var(--border-hover);
+  }
+  .check-demo--done{
+    border-color:var(--done); background:var(--done);
+  }
+
+  .preview-footer{
+    margin-top:var(--sp-24);
+    text-align:center;
+    font-size:var(--fs-xs);
+    color:var(--muted);
+  }
+
+  @media (max-width:640px){
+    .preview-wrap{ padding:var(--sp-16) var(--sp-4) var(--sp-16); }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       .bg-fx — EXACTAMENTE la misma estructura documentada en el
+       encabezado de css/background.css, primer hijo de <body>.
+       ============================================================ -->
+  <div class="bg-fx" aria-hidden="true">
+    <div class="bg-fx__base"></div>
+    <div class="bg-fx__base-cool"></div>
+    <div class="bg-fx__skyline"></div>
+    <div class="bg-fx__tint"></div>
+    <div class="bg-fx__bolt"></div>
+    <div class="bg-fx__mark"></div>
+    <div class="bg-fx__vignette"></div>
+  </div>
+
+  <div class="preview-topbar">
+    <span class="preview-topbar__brand">MCU Tracker</span>
+    <span class="preview-topbar__hint">vista previa de fondo · css/background.css</span>
+  </div>
+
+  <main class="preview-wrap">
+
+    <section class="preview-hero">
+      <span class="hero-eyebrow">Diseño · Endgame</span>
+      <h1>
+        <span class="metal-title">Guía de visionado</span><br>
+        <span class="metal-title-accent">hasta&nbsp;Doomsday</span>
+      </h1>
+      <p>
+        Este título usa <code>.metal-title</code> (acero pulido) directamente
+        sobre el fondo compuesto: backdrop difuminado + skyline + acento de
+        energía + viñeta. Si se lee con nitidez aquí, se leerá en cualquier
+        sección real del sitio.
+      </p>
+    </section>
+
+    <p class="preview-loose-text">
+      Texto <b>suelto</b> sin tarjeta detrás (como <code>.hint</code>/<code>.legend</code>/<code>footer</code>
+      del sitio real) — debe mantenerse legible gracias solo a la capa de viñeta.
+    </p>
+
+    <section class="preview-cards">
+      <article class="item-demo item-demo--film">
+        <div class="poster-demo" style="--tint:var(--film-tint)"></div>
+        <div class="item-demo__body">
+          <span class="tag-demo tag-demo--film">Película</span>
+          <h3 class="item-demo__title">Avengers: Endgame</h3>
+          <p class="item-demo__meta">2019 · Fase 3</p>
+        </div>
+        <span class="check-demo" aria-hidden="true"></span>
+      </article>
+
+      <article class="item-demo item-demo--serie">
+        <div class="poster-demo" style="--tint:var(--serie-tint)"></div>
+        <div class="item-demo__body">
+          <span class="tag-demo tag-demo--serie">Serie</span>
+          <h3 class="item-demo__title">Loki</h3>
+          <p class="item-demo__meta">2021 · Fase 4</p>
+        </div>
+        <span class="check-demo check-demo--done" aria-hidden="true"></span>
+      </article>
+    </section>
+
+    <p class="preview-footer">
+      assets/fondo/ — endgame-backdrop.jpg · endgame-backdrop-2.jpg (≥1024px) ·
+      stark-tower.jpg · energia.png · avengers-logo.png — ver CREDITOS.md
+    </p>
+
+  </main>
+
+</body>
+</html>

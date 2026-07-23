@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MCU Tracker · Checklist del MCU por fases + X-Men</title>
+<meta name="description" content="Marca qué películas y series del MCU por fases y de la saga X-Men ya has visto, con duración de cada título y dónde verlo en España.">
+<meta name="theme-color" content="#0b0b14">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2360a5fa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 1.4 L28.4 8.2 V21.8 L16 30.6 L3.6 21.8 V8.2 Z' fill='%230b0b14' stroke='url(%23g)' stroke-width='1.8'/%3E%3Cpath d='M16 8.2 L18.3 14.1 L24.2 16 L18.3 17.9 L16 23.8 L13.7 17.9 L7.8 16 L13.7 14.1 Z' fill='url(%23g)'/%3E%3C/svg%3E">
+
+<!-- Open Graph: og:image usa ruta relativa porque esta página no tiene dominio propio fijo (repo/local); hacerla absoluta al publicar. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="MCU Tracker · Checklist del MCU por fases + X-Men">
+<meta property="og:description" content="Marca qué películas y series del MCU por fases y de la saga X-Men ya has visto, con duración de cada título y dónde verlo en España.">
+<meta property="og:image" content="assets/fondo/endgame-backdrop.jpg">
+<meta property="og:locale" content="es_ES">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MCU Tracker · Checklist del MCU por fases + X-Men">
+<meta name="twitter:description" content="Marca qué películas y series del MCU por fases y de la saga X-Men ya has visto, con duración de cada título y dónde verlo en España.">
+<meta name="twitter:image" content="assets/fondo/endgame-backdrop.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- LCP: imagen del hero pintada por JS como --hero-img (setupHeroBg), fetchpriority en <img> no aplicaría — se precarga aquí (design/PLAN-REDISENO-PRO.md §9) -->
+<link rel="preload" as="image" href="assets/fondo/endgame-backdrop.jpg" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/metal-title.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/background.css">
+</head>
+<body>
+
+<div class="bg-fx" aria-hidden="true">
+  <div class="bg-fx__photo"></div>
+  <div class="bg-fx__glows"></div>
+  <div class="bg-fx__grain"></div>
+</div>
+<div class="poster-wall" id="posterWall" aria-hidden="true"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30" focusable="false">
+          <defs>
+            <linearGradient id="brandEmblemGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#8b5cf6"/>
+              <stop offset="100%" stop-color="#60a5fa"/>
+            </linearGradient>
+          </defs>
+          <path d="M16 1.4 L28.4 8.2 V21.8 L16 30.6 L3.6 21.8 V8.2 Z"
+                fill="#232338" stroke="url(#brandEmblemGrad)" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M16 8.2 L18.3 14.1 L24.2 16 L18.3 17.9 L16 23.8 L13.7 17.9 L7.8 16 L13.7 14.1 Z"
+                fill="url(#brandEmblemGrad)"/>
+        </svg>
+      </span>
+      <span class="brand-word"><b>MCU</b> Tracker</span>
+    </div>
+    <div class="topbar-progress">
+      <span class="pct" id="pctLabel">0% completado</span>
+      <div class="mini-bar"><div class="mini-fill" id="miniFill"></div></div>
+    </div>
+  </div>
+</div>
+
+<section class="hero-cinematic">
+  <div class="hero-cinematic__media" id="heroMedia"></div>
+  <div class="hero-cinematic__content wrap">
+    <p class="hero-eyebrow">Universo Marvel · Orden de estreno · 2008—2026</p>
+    <h1 class="hero-title"><span class="metal-title">Guía de visionado</span> <span class="metal-title-accent">hasta Doomsday</span></h1>
+    <p class="hero-subtitle">Los 81 títulos del multiverso en un solo recorrido: marca lo que ya has visto y retoma la maratón donde la dejaste.</p>
+    <div class="hero-actions">
+      <a class="hero-action hero-action--primary" id="heroContinue" href="#checklist"><span id="heroCta">Empezar recorrido</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="hero-action hero-action--ghost" href="#resumenes">Ver resúmenes</a>
+      <div class="hero-badge">
+        <svg class="hero-badge__ring" viewBox="0 0 48 48" width="46" height="46" aria-hidden="true">
+          <circle cx="24" cy="24" r="20" stroke="var(--border)" stroke-width="4" fill="none"/>
+          <circle cx="24" cy="24" r="20" stroke="url(#heroRingGrad)" stroke-width="4" fill="none"
+                  stroke-linecap="round" stroke-dasharray="125.7" stroke-dashoffset="125.7"
+                  transform="rotate(-90 24 24)" id="heroRingProgress"/>
+          <defs>
+            <linearGradient id="heroRingGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--brand-purple)"/>
+              <stop offset="100%" stop-color="var(--brand-blue)"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="hero-badge__text">
+          <span class="hero-badge__pct" id="heroPct">0%</span>
+          <span class="hero-badge__label">Completado</span>
+          <span class="hero-badge__count" id="heroCount">0 / 0 títulos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tabs-bar">
+  <div class="tabs-inner wrap" role="tablist" aria-label="Secciones">
+    <button class="tab active" role="tab" aria-selected="true" aria-controls="panel-checklist" id="tab-checklist" data-tab="checklist" tabindex="0">
+      <svg class="tab__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="8 12.4 10.8 15.2 16 9.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="tab__label tab__label--full">Checklist Marvel</span><span class="tab__label tab__label--short">Marvel</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-xmen" id="tab-xmen" data-tab="xmen" tabindex="-1">
+      <svg class="tab__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.2 8.8 14.8 15.2M14.8 8.8 9.2 15.2" stroke-linecap="round"/></svg>
+      <span class="tab__label tab__label--full">Checklist X-Men</span><span class="tab__label tab__label--short">X-Men</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-resumenes" id="tab-resumenes" data-tab="resumenes" tabindex="-1">
+      <svg class="tab__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10.3 8.7 15.6 12 10.3 15.3Z" stroke-linejoin="round"/></svg>
+      <span class="tab__label tab__label--full">Resúmenes</span><span class="tab__label tab__label--short">Resúmenes</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-plataforma" id="tab-plataforma" data-tab="plataforma" tabindex="-1">
+      <svg class="tab__icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.4" cy="10.4" r="6.4"/><path d="m19.4 19.4-4.2-4.2" stroke-linecap="round"/></svg>
+      <span class="tab__label tab__label--full">Plataforma</span><span class="tab__label tab__label--short">Plataforma</span>
+    </button>
+    <!-- HUECO EXTENSIBLE: para añadir otra pestaña, duplicar el patrón de arriba
+         (icono .tab__icon + las dos variantes de etiqueta .tab__label +
+         botón .tab + panel .tab-panel) y añadir su id a TAB_IDS en el
+         script. En móvil (<900px) la bottom nav es un grid de 4 columnas
+         fijas (css/styles.css @media max-width:899px) — una 5ª pestaña
+         requeriría ajustar grid-template-columns ahí. En escritorio
+         .tabs-inner sigue soportando overflow-x. -->
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section id="panel-checklist" role="tabpanel" aria-labelledby="tab-checklist" class="tab-panel active">
+    <div class="stats">
+      <div class="stat stat--done"><div class="val g" id="statDone">0</div><div class="lbl">Vistos</div></div>
+      <div class="stat stat--left"><div class="val b" id="statLeft">0</div><div class="lbl">Pendientes</div></div>
+      <div class="stat stat--total"><div class="val" id="statTotal">0</div><div class="lbl">Total</div></div>
+    </div>
+
+    <div class="time-strip" title="Tiempo de metraje visto frente al total del multiverso">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span id="timeSeen">≈ 0 h vistas</span>
+      <div class="time-strip__bar" aria-hidden="true"><div class="time-strip__fill" id="timeFill"></div></div>
+      <span id="timeLeft">quedan ≈ 0 h</span>
+    </div>
+
+    <div class="toolbar">
+      <div class="legend">
+        <span class="legend__item"><i class="dot f" aria-hidden="true"></i>Película</span>
+        <span class="legend__item"><i class="dot s" aria-hidden="true"></i>Serie</span>
+        <span class="legend__item"><i class="dot e" aria-hidden="true"></i>Especial</span>
+      </div>
+      <span class="toolbar__divider" aria-hidden="true"></span>
+      <button class="reset" id="resetBtn" type="button">
+        <svg class="reset__icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/>
+        </svg>
+        Restablecer progreso
+      </button>
+      <button class="sync" id="syncBtn" type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M8 3 4 7l4 4M4 7h13M16 21l4-4-4-4M20 17H7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Sincronizar
+      </button>
+    </div>
+    <div class="hint">
+      <svg class="hint__icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/>
+      </svg>
+      Pulsa el <b>título</b> para buscarlo en Google.
+    </div>
+
+    <div class="filterbar">
+      <div class="filterbar__search">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.4" cy="10.4" r="6.4"/><path d="m19.4 19.4-4.2-4.2" stroke-linecap="round"/></svg>
+        <input type="search" id="filterSearch" placeholder="Buscar título…" aria-label="Buscar título en el checklist" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="filterbar__group" role="group" aria-label="Filtrar por tipo">
+        <button class="fchip active" data-ftype="all" type="button" aria-pressed="true">Todo</button>
+        <button class="fchip" data-ftype="film" type="button" aria-pressed="false">Películas</button>
+        <button class="fchip" data-ftype="serie" type="button" aria-pressed="false">Series</button>
+        <button class="fchip" data-ftype="especial" type="button" aria-pressed="false">Especiales</button>
+      </div>
+      <div class="filterbar__group" role="group" aria-label="Filtrar por estado">
+        <button class="fchip active" data-festado="all" type="button" aria-pressed="true">Todos</button>
+        <button class="fchip" data-festado="pend" type="button" aria-pressed="false">Pendientes</button>
+        <button class="fchip" data-festado="visto" type="button" aria-pressed="false">Vistos</button>
+      </div>
+    </div>
+
+    <nav class="phase-jump" id="phaseJump" aria-label="Ir directamente a una fase"></nav>
+
+    <div id="checklistList"></div>
+    <p class="filter-empty" id="filterEmpty" hidden>Ningún título coincide con la búsqueda o los filtros.</p>
+  </section>
+
+  <section id="panel-xmen" role="tabpanel" aria-labelledby="tab-xmen" class="tab-panel" hidden>
+    <div class="panel-intro">
+      <h2>Saga X-Men</h2>
+      <p>Todas las películas y series de la saga mutante en orden de estreno. Lo que marques aquí también suma al progreso global.</p>
+    </div>
+    <div id="xmenList"></div>
+  </section>
+
+  <section id="panel-resumenes" role="tabpanel" aria-labelledby="tab-resumenes" class="tab-panel" hidden>
+    <div class="panel-intro">
+      <h2>Resúmenes en YouTube</h2>
+      <p>Toca cualquier póster para abrir su búsqueda de resúmenes en YouTube y ponte al día antes de continuar la maratón. Los títulos que ya has visto llevan la marca verde.</p>
+    </div>
+    <div class="shelf-filter" role="group" aria-label="Filtrar títulos por estado">
+      <button class="fchip active" data-mfilter="all" type="button" aria-pressed="true">Todos</button>
+      <button class="fchip" data-mfilter="pend" type="button" aria-pressed="false">Pendientes</button>
+      <button class="fchip" data-mfilter="visto" type="button" aria-pressed="false">Vistos</button>
+    </div>
+    <div class="media-grid" id="resumenesList"></div>
+  </section>
+
+  <section id="panel-plataforma" role="tabpanel" aria-labelledby="tab-plataforma" class="tab-panel" hidden>
+    <div class="panel-intro">
+      <h2>¿Dónde verla?</h2>
+      <p>Toca cualquier póster para buscar al instante en qué plataforma está disponible ese título en España.</p>
+    </div>
+    <div class="shelf-filter" role="group" aria-label="Filtrar títulos por estado">
+      <button class="fchip active" data-mfilter="all" type="button" aria-pressed="true">Todos</button>
+      <button class="fchip" data-mfilter="pend" type="button" aria-pressed="false">Pendientes</button>
+      <button class="fchip" data-mfilter="visto" type="button" aria-pressed="false">Vistos</button>
+    </div>
+    <div class="media-grid" id="plataformaList"></div>
+  </section>
+
+</main>
+
+<footer>
+  El progreso se guarda automáticamente en este dispositivo. Con «Sincronizar» (pestaña Checklist) puedes llevar tus vistos y notas a otro dispositivo.<br>
+  Fechas de 2026 según el calendario oficial vigente, sujetas a cambios.<br>
+  Duraciones totales aproximadas (en series, suma de todos los episodios); «≈» indica una estimación para títulos sin metraje confirmado.
+</footer>
+
+<button class="to-top" id="toTop" type="button" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- Sincronizar dispositivos: exportar/importar progreso+notas sin servidor (setupSync en js/app.js) -->
+<div class="sync-scrim" id="syncScrim" hidden></div>
+<div class="sync-modal" id="syncModal" role="dialog" aria-modal="true" aria-labelledby="syncTitle" hidden>
+  <div class="sync-modal__head">
+    <h2 id="syncTitle">Sincronizar dispositivos</h2>
+    <button class="sync-modal__close" id="syncClose" type="button" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <p class="sync-modal__intro">Tu progreso vive solo en este dispositivo. Copia tu código y pégalo en el tracker del otro dispositivo para llevarte los vistos y las notas.</p>
+  <label class="sync-field">
+    <span>Tu código</span>
+    <textarea id="syncExport" rows="3" readonly spellcheck="false"></textarea>
+  </label>
+  <button class="sync-action" id="syncCopy" type="button">Copiar código</button>
+  <label class="sync-field">
+    <span>Pegar un código</span>
+    <textarea id="syncImport" rows="3" spellcheck="false" placeholder="Pega aquí el código del otro dispositivo (empieza por MCU1.)"></textarea>
+  </label>
+  <button class="sync-action sync-action--primary" id="syncApply" type="button">Importar en este dispositivo</button>
+  <p class="sync-msg" id="syncMsg" role="status"></p>
+</div>
+
+<!-- Orden de carga obligatorio: imágenes → datos → app (ver js/app.js y CLAUDE.md) -->
+<script src="js/images-posters.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+/* ================================================================
+   DESIGN SYSTEM — MCU Tracker · "MULTIVERSO" (v3 — Fase 0 tokens)
+   Evolución de la paleta "Endgame": mismo lila/azul, con superficies
+   escalonadas por luminosidad, acentos aclarados para dark mode
+   (violet-400 / blue-400) y semánticos que cumplen AA.
+
+   Fuente de verdad: design/PLAN-REDISENO-PRO.md — §2 (tabla de
+   tokens) y §10-§11 (plan de fases y criterios de aceptación).
+   Esta es la FASE 0: solo tokens. Los ficheros que consumen estas
+   variables (styles.css, background.css, metal-title.css, index.html)
+   NO se tocan en esta fase — por eso cada nombre de variable antiguo
+   se conserva como alias del nuevo token canónico (ver comentarios
+   "alias legacy — migrar en fases 1-4").
+
+   Este fichero NO toca index.html. Es system-ready: se puede
+   pegar tal cual dentro de un <style> o enlazar como
+   <link rel="stylesheet" href="css/tokens.css">
+   ANTES de css/metal-title.css y de cualquier otro CSS del sitio.
+   ================================================================ */
+
+/* ── Google Fonts — FASE 2: 5 archivos de peso (§3 del plan) ──
+   Anton   → SOLO título hero / .metal-title (trazo grueso, ideal
+             lienzo para degradado + bisel; ver metal-title.css)
+   Oswald  → display reservado a: h2 de fase/panel-intro y cifras
+             de stats (condensada, cinematográfica; ver roles en
+             css/styles.css). Tabs, labels, marca y títulos de fila
+             pasan a Inter 600 — ver design/PLAN-REDISENO-PRO.md §3.
+   Inter   → cuerpo de texto + roles UI (tabs, labels, títulos de
+             fila, metadatos)
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+*/
+
+:root{
+  /* ================================================
+     COLOR — Base / superficies ("espacio profundo")
+     Navy-violeta oscuro y neutro (nunca negro puro),
+     escalonado por luminosidad para que lila/azul/acero
+     destaquen sobre él.
+     ================================================ */
+  --bg:            #0b0b14;
+  --surface-1:     #13131f;  /* tarjetas base (.item, .action-row, .stat, .count) */
+  --surface-2:     #1a1a2b;  /* hover de tarjeta, tracks, trigger de nota */
+  --surface-3:     #232338;  /* popover, chips activos, elevación modal */
+  --border:        rgb(165 165 220 / .12);  /* bordes 1px con alpha, no gris sólido */
+  --border-hover:  rgb(165 165 220 / .22);  /* borde en hover/focus */
+  --highlight:     rgb(255 255 255 / .05);  /* inset 0 1px 0 — luz cenital superior */
+  --text:          #f2f1f8;  /* texto primario, velo lavanda — ~18:1 sobre --bg */
+  --text-2:        #a9a9c4;  /* secundario, labels, subtítulos — ~8.1:1 sobre --bg */
+  --muted:         #74748f;  /* metadatos/fechas, solo ≥13px — ~4.4:1 sobre --bg */
+
+  /* alias legacy — migrar en fases 1-4 */
+  --surface:       var(--surface-1);
+
+  /* ================================================
+     COLOR — Semántica de tipo (acentos aclarados,
+     se mantiene el verde "visto")
+     ================================================ */
+  --film:          #60a5fa;   /* azul-400 — ~7.1:1 sobre --bg */
+  --serie:         #a78bfa;   /* violet-400 — ~7.6:1 sobre --bg */
+  --especial:      #e0a94f;   /* ámbar cálido, NO amarillo puro — ~8.9:1 sobre --bg */
+  --done:          #34d399;   /* verde "visto" — ~9.5:1 sobre --bg */
+
+  /* ================================================
+     COLOR — Utilidad UI (enlaces, hovers de texto)
+     ================================================ */
+  /* alias legacy — migrar en fases 1-4 */
+  --blue:          var(--accent-2);
+  --blue-hover:    var(--accent-2);
+
+  /* ================================================
+     COLOR — Acentos de marca "Multiverso" (canónicos)
+     Violeta + azul aclarados (violet-400 / blue-400),
+     hilo conductor del progreso (barra global, barra de
+     fase, tab activo, anillo del hero).
+     ================================================ */
+  --accent:        #a78bfa;  /* acento texto/interacción (violet-400) — ~7.6:1 */
+  --accent-fill:   #8b5cf6;  /* relleno de barras/gradiente (no texto) — 4.7:1 no-texto */
+  --accent-2:      #60a5fa;  /* acento secundario + focus (blue-400) — ~7.1:1 */
+  --accent-deep:   #4c2889;  /* glows/gradientes profundos, scrims */
+
+  --brand-gradient:      linear-gradient(90deg,  var(--accent-fill) 0%, var(--accent-2) 100%);
+  --brand-gradient-diag: linear-gradient(135deg, var(--accent-fill) 0%, var(--accent-2) 100%);
+
+  /* alias legacy — migrar en fases 1-4 */
+  --brand-purple:        var(--accent-fill);
+  --brand-purple-bright: var(--accent);
+  --brand-purple-deep:   var(--accent-deep);
+
+  --brand-blue:          var(--accent-2);
+  --brand-blue-bright:   var(--accent-2);
+  --brand-blue-deep:     #1b3a8a;  /* sin equivalente "deep" en la tabla nueva (solo violeta tiene --accent-deep); se conserva el valor original del gradiente "profundo" de la nota guardada */
+
+  /* ================================================
+     COLOR — Metálico / acero (plata pulida — logo Endgame)
+     Escala de grises fríos con leve tinte azul-violeta,
+     de sombra profunda a brillo casi blanco. Uso exclusivo
+     de .metal-title (ver css/metal-title.css). Se conserva
+     intacta; solo se recolorean sus halos rgba en fases 1-4.
+     ================================================ */
+  --steel-1: #3a3d47;   /* sombra profunda / bisel inferior */
+  --steel-2: #6b6f7c;   /* acero medio-oscuro */
+  --steel-3: #9ba0ae;   /* acero medio — también color sólido de fallback */
+  --steel-4: #cdd1db;   /* acero claro */
+  --steel-5: #f5f6fa;   /* brillo casi blanco */
+  --steel-sheen: #c9d4ff; /* reflejo frío teñido de azul-violeta (ambiente Endgame) */
+
+  /* ================================================
+     Marcas externas controladas (sin cambios de valor —
+     son colores de marca reales de terceros, fuera del
+     rediseño; siguen siendo AA sobre la nueva base oscura)
+     ================================================ */
+  --youtube-red:       #d0201a;
+  --youtube-red-text:  #ff5a5f;
+  --disney-blue:       #113ccf;
+  --disney-blue-text:  #5b8def;
+
+  /* ================================================
+     Tintes de tipo para placeholders de póster
+     (recalculados a partir de los nuevos --film/--serie/--especial)
+     ================================================ */
+  --film-tint:     rgb(96 165 250 / .5);
+  --serie-tint:    rgb(167 139 250 / .5);
+  --especial-tint: rgb(224 169 79 / .45);
+
+  /* ================================================
+     TIPOGRAFÍA — FASE 2 (design/PLAN-REDISENO-PRO.md §3)
+     Escala fluida + roles: Oswald reservado a h2 de fase/panel-intro
+     y cifras de stats; tabs/labels/marca/títulos de fila en Inter 600.
+     ================================================ */
+  --font-hero:    'Anton', sans-serif;              /* SOLO hero / .metal-title grande */
+  --font-display: 'Oswald', sans-serif;             /* SOLO h2 fase/panel-intro + cifras de stats */
+  --font-body:    'Inter', system-ui, sans-serif;   /* cuerpo + tabs/labels/marca/títulos de fila */
+
+  /* Pesos */
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;  /* ya no se usa en Oswald/Inter de los componentes — se conserva el token */
+  --fw-black:    800;  /* uso conceptual: Anton ya es "black" visualmente con weight:400 */
+
+  /* Tracking (letter-spacing) */
+  --tracking-tight:  -.02em;   /* hero-title grande */
+  --tracking-normal: 0;
+  --tracking-wide:   .05em;    /* marca (.brand), .metal-title--sm */
+  --tracking-widest: .18em;    /* legacy — ya no se usa en eyebrow/list-divider (ver --tracking-label) */
+  --tracking-label:  .10em;    /* eyebrow / label / tab / stat-lbl / list-divider (Inter 600 uppercase) */
+
+  /* Escala tipográfica fluida (320→1240px) — tabla §3 del plan.
+     rem siempre dentro de clamp(); tabular-nums se aplica aparte
+     (ver regla compartida en css/styles.css) en toda cifra. */
+  --fs-hero:   clamp(2.75rem, 1.5rem + 6vw, 5rem);       /* 44 → 80px — Anton, hero */
+  --fs-h2:     clamp(1.5rem, 1.2rem + 1.6vw, 2.25rem);   /* 24 → 36px — Oswald 600, h2 fase/panel */
+  --fs-title:  clamp(1.0625rem, 1rem + .4vw, 1.25rem);   /* 17 → 20px — Inter 600, título de fila */
+  --fs-body:   1rem;                                      /* 16px fijo — Inter 400, cuerpo */
+  --fs-meta:   .8125rem;                                  /* 13px — Inter 400, metadato/fecha */
+  --fs-label:  .75rem;                                    /* 12px — Inter 600 uppercase, eyebrow/label/tab */
+  --fs-stat:   clamp(1.75rem, 1.3rem + 2.2vw, 2.75rem);   /* 28 → 44px — Oswald 600, cifra de stats */
+  --fs-micro:  .6875rem;                                  /* 11px — Inter 400, micro-texto */
+
+  /* alias legacy — mismo valor que su rol nuevo equivalente, para
+     que ningún selector existente quede sin resolver tras la Fase 2 */
+  --fs-eyebrow:   var(--fs-label);           /* antes .72rem — ahora = rol label/tab */
+  --fs-hero-sub:  clamp(.875rem,2vw,1rem);   /* sin rol propio en la tabla §3; se conserva */
+  --fs-small:     var(--fs-label);           /* antes .75rem — coincide exacto con --fs-label */
+  --fs-xs:        var(--fs-micro);           /* antes .6875rem — coincide exacto con --fs-micro */
+
+  /* ================================================
+     ESPACIADO (sin cambios respecto al sistema anterior)
+     ================================================ */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px;
+  --sp-8:32px; --sp-10:40px; --sp-12:48px; --sp-16:64px; --sp-20:80px; --sp-24:96px;
+
+  /* ================================================
+     RADIOS (sin cambios)
+     ================================================ */
+  --r-xs:6px; --r-sm:8px; --r-md:9px; --r-lg:11px; --r-xl:16px; --r-full:9999px;
+
+  /* ================================================
+     SOMBRAS / GLOW — una sola fuente de luz (cenital),
+     glow unificado de acento reemplazando --glow-purple/--glow-blue
+     ================================================ */
+  --shadow-sm: 0 1px 2px rgb(0 0 0/.5);
+  --shadow-md: 0 1px 2px rgb(0 0 0/.5), 0 8px 24px rgb(0 0 0/.35);
+  --shadow-lg: 0 1px 2px rgb(0 0 0/.5), 0 18px 48px -12px rgb(0 0 0/.55);
+  --glow-accent: 0 0 20px rgb(139 92 246/.35);
+
+  /* alias legacy — migrar en fases 1-4 */
+  --glow-purple: var(--glow-accent);
+  --glow-blue:   var(--glow-accent);
+
+  /* ================================================
+     MOVIMIENTO (sin cambios)
+     ================================================ */
+  --ease-smooth: cubic-bezier(.4,0,.2,1);
+  --ease-bounce: cubic-bezier(.34,1.56,.64,1);
+  --dur-fast:120ms; --dur-normal:200ms; --dur-slow:400ms; --dur-slower:600ms;
+
+  /* ================================================
+     LAYOUT
+     ================================================ */
+  --container-max: 1200px;
+  --topbar-h: 56px;
+  --poster-w: 54px;
+  --poster-w-sm: 46px;
+  --poster-ratio: 2/3;
+
+  /* ================================================
+     SUPERFICIES DE CRISTAL (glass) — mismo mecanismo;
+     solo se recalculan los rgba de fondo al nuevo --bg
+     #0b0b14 (rgb(11,11,20)). Bordes/blur/highlight
+     (basados en blanco) quedan igual.
+     ================================================ */
+  --glass-bg:            rgba(11,11,20,.80);
+  --glass-bg-strong:     rgba(11,11,20,.88);
+  --glass-border:        rgba(255,255,255,.08);
+  --glass-border-strong: rgba(255,255,255,.16);
+  --glass-blur:          blur(16px) saturate(150%);
+  --glass-highlight:     inset 0 1px 0 rgba(255,255,255,.06);
+
+  /* Foco de teclado — acento secundario azul (blue-400),
+     ~7.1:1 sobre --bg, cumple holgadamente 3:1 de componentes UI */
+  --focus-ring-color: var(--accent-2);
+}
+
+/* ============ FOCUS-VISIBLE GLOBAL ============
+   Copiar tal cual junto al resto del CSS del sitio: anillo de
+   foco de teclado recoloreado al nuevo --accent-2. */
+:focus-visible{
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
+  border-radius: var(--r-xs);
+}

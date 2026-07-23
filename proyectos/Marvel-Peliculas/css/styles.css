@@ -1,0 +1,1574 @@
+/* ================================================================
+   MCU TRACKER — ESTILOS DE COMPONENTES / LAYOUT
+   Extraído del <style> inline de index.html y migrado a la paleta
+   "Endgame" (lila/púrpura + azul eléctrico + acero) según la tabla
+   de migración de design/DISENO-SISTEMA-ENDGAME.md §6.
+
+   Requiere, en este orden, ANTES de este fichero:
+     css/tokens.css       → :root (paleta, tipografía, espaciado...)
+     css/metal-title.css  → .metal-title / .metal-title-accent
+
+   El fondo global (.bg-fx) vive en css/background.css — NO se
+   duplica aquí. El :root viejo (rojo/dorado) y el bloque .bg-fx
+   viejo (CSS-only) del index.html original quedan eliminados por
+   completo; ahora los aportan tokens.css y background.css.
+   ================================================================ */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  color:var(--text);
+  min-height:100vh;padding:0 0 90px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  /* body NO define background propio: lo pinta .bg-fx (fixed, z-index:-1);
+     --bg queda como color de seguridad ya asignado por .bg-fx mismo. */
+}
+img{max-width:100%;display:block}
+
+/* ============ TABULAR-NUMS — toda cifra (stats, %, contadores, duración) ============
+   font-variant-numeric evita que los dígitos "bailen" de ancho al actualizar
+   (fallback font-feature-settings:'tnum' para navegadores más viejos). */
+.stat .val,
+.topbar-progress .pct,
+.phase-pct,
+.count,
+.hero-badge__pct,
+.hero-badge__count,
+.duration,
+.rating__value{
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:'tnum';
+}
+
+/* ============ TOPBAR ============ */
+.topbar{
+  border-bottom:1px solid var(--border);
+  background:rgba(10,10,19,.94);
+  position:sticky;top:0;z-index:11;backdrop-filter:blur(10px);
+}
+.topbar-inner{
+  max-width:var(--container-max);margin:0 auto;padding:14px var(--sp-5);
+  display:flex;align-items:center;gap:12px;
+}
+.brand{
+  font-family:var(--font-body);font-weight:var(--fw-semibold);font-size:15px;
+  display:flex;align-items:center;gap:10px;
+  letter-spacing:var(--tracking-wide);
+}
+.brand-mark{
+  width:30px; height:30px;
+  display:grid; place-items:center;
+  flex-shrink:0;
+  filter:drop-shadow(0 0 5px rgba(139,92,246,.35));
+}
+.brand-mark svg{ display:block; }
+.brand-word b{
+  color:var(--brand-blue);
+  font-weight:var(--fw-semibold);
+}
+.topbar-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.topbar-progress .pct{font-size:12.5px;font-weight:600;color:var(--text-2)}
+.mini-bar{width:110px;height:6px;background:var(--surface-2);border-radius:var(--r-full);overflow:hidden}
+.mini-fill{
+  height:100%;width:0;background:var(--brand-gradient);border-radius:var(--r-full);
+  transition:width var(--dur-slower) var(--ease-smooth);
+}
+
+/* ============ HERO CINEMATOGRÁFICO ============ */
+.hero-cinematic{
+  position:relative;
+  isolation:isolate;
+  min-height:clamp(420px,60vh,620px);
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  background:var(--surface-2); /* fondo de seguridad, nunca visible salvo error extremo */
+}
+.hero-cinematic__media{
+  position:absolute; inset:0; z-index:0;
+  background-image:
+    linear-gradient(to top,
+      #0b0b14 0%,
+      rgb(11 11 20 / .6) 40%,
+      transparent 75%),
+    linear-gradient(90deg, #0b0b14 0%, transparent 50%),
+    var(--hero-img, none);
+  background-size:cover;
+  background-position:center 22%;
+  background-repeat:no-repeat;
+}
+.hero-cinematic__content{
+  position:relative; z-index:1;
+  padding-bottom:var(--sp-10);
+  padding-top:var(--sp-16);
+}
+.hero-eyebrow{
+  font-family:var(--font-body); font-weight:var(--fw-semibold); font-size:var(--fs-label);
+  text-transform:uppercase; letter-spacing:var(--tracking-label); color:var(--brand-blue-bright);
+  margin-bottom:var(--sp-2);
+  text-shadow:0 1px 6px rgba(0,0,0,.6);
+}
+.hero-title{
+  font-family:var(--font-hero); font-weight:var(--fw-regular); font-size:var(--fs-hero);
+  text-transform:uppercase; letter-spacing:.01em; line-height:.98; color:var(--text);
+  text-shadow:0 3px 20px rgba(0,0,0,.55), 0 1px 4px rgba(0,0,0,.7);
+}
+/* .metal-title / .metal-title-accent (spans hijos de .hero-title) vienen
+   de css/metal-title.css — no se redefinen aquí para no pisar su cascada. */
+.hero-subtitle{
+  font-size:var(--fs-hero-sub); color:rgba(255,255,255,.86);
+  max-width:56ch; margin-top:var(--sp-3); line-height:1.6;
+  text-shadow:0 2px 10px rgba(0,0,0,.55);
+}
+.hero-badge{
+  display:inline-flex; align-items:center; gap:var(--sp-4);
+  margin-top:var(--sp-6);
+  padding:10px 20px 10px 10px;
+  background:rgba(20,20,32,.55);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--r-full);
+  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+  box-shadow:var(--shadow-md);
+}
+.hero-badge__text{ display:flex; flex-direction:column; line-height:1.15; }
+.hero-badge__pct{ font-family:var(--font-body); font-weight:var(--fw-semibold); font-size:19px; color:var(--text); }
+.hero-badge__label{ font-size:var(--fs-label); color:var(--text-2); text-transform:uppercase; letter-spacing:var(--tracking-label); font-weight:var(--fw-semibold); }
+.hero-badge__count{ font-size:11px; color:var(--text-2); margin-top:1px; } /* <13px: --muted no cumple AA aquí (§9) */
+#heroRingProgress{ transition:stroke-dashoffset var(--dur-slower) var(--ease-smooth); }
+
+.wrap{max-width:var(--container-max);margin:0 auto;padding:0 var(--sp-5)}
+
+/* ============ TABS ============ */
+.tabs-bar{
+  position:sticky; top:var(--topbar-h); z-index:9;
+  background:var(--glass-bg-strong);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border-bottom:1px solid var(--glass-border);
+  box-shadow:var(--glass-highlight);
+}
+.tabs-inner{
+  display:flex; gap:4px;
+  overflow-x:auto; scrollbar-width:none;
+}
+.tabs-inner::-webkit-scrollbar{ display:none; }
+
+.tab{
+  position:relative;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:14px 22px;
+  font-family:var(--font-body); font-weight:var(--fw-semibold); font-size:var(--fs-label);
+  text-transform:uppercase; letter-spacing:var(--tracking-label);
+  color:var(--text-2); white-space:nowrap; cursor:pointer;
+  background:none; border:none; border-radius:var(--r-sm) var(--r-sm) 0 0;
+  transition:color var(--dur-fast) var(--ease-smooth), background var(--dur-fast) var(--ease-smooth);
+}
+.tab:focus-visible{
+  outline:2px solid var(--brand-blue-bright); outline-offset:-2px; border-radius:var(--r-xs) var(--r-xs) 0 0;
+  /* anillo doble capa (§8/§9): también cubre los destinos de la bottom nav
+     móvil, sobre cristal/blur variable */
+  box-shadow:inset 0 0 0 2px var(--bg), inset 0 0 0 4px var(--accent-2);
+}
+.tab.active{ color:var(--text); }
+.tab.active::after{
+  content:""; position:absolute; left:18px; right:18px; bottom:-1px; height:2px;
+  border-radius:var(--r-full);
+  background:var(--brand-gradient);
+  box-shadow:0 0 10px rgba(139,92,246,.55);
+}
+
+/* Fallback: cristal sin backdrop-filter / transparencia reducida
+   (.hint ya no es una "píldora" de cristal — texto plano, no aplica) */
+@supports not (backdrop-filter: blur(1px)){
+  .stat, .toolbar, .tabs-bar{ background:var(--surface); }
+}
+@media (prefers-reduced-transparency: reduce){
+  .stat, .toolbar, .tabs-bar{ background:var(--surface); backdrop-filter:none; -webkit-backdrop-filter:none; }
+}
+
+.tab-panel{ display:none; }
+.tab-panel.active{ display:block; animation:tabFadeIn var(--dur-normal) var(--ease-smooth); }
+@keyframes tabFadeIn{ from{ opacity:0; transform:translateY(4px);} to{ opacity:1; transform:none; } }
+
+/* ============ STATS / TOOLBAR ============ */
+.stats{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+  margin:24px 0 10px;
+}
+.stat{
+  position:relative; overflow:hidden;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r-xl);
+  padding:22px 14px 18px;
+  text-align:center;
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--shadow-md), var(--glass-highlight);
+  transition:transform var(--dur-fast) var(--ease-smooth),
+             border-color var(--dur-fast) var(--ease-smooth),
+             box-shadow var(--dur-fast) var(--ease-smooth);
+}
+.stat::before{
+  content:""; position:absolute; top:0; left:16px; right:16px; height:3px;
+  border-radius:0 0 var(--r-full) var(--r-full);
+  background:var(--muted); opacity:.4;
+}
+.stat--done::before{ background:var(--done); opacity:1; box-shadow:0 0 12px rgb(52 211 153 / .5); }
+.stat--left::before{ background:var(--blue-hover); opacity:1; box-shadow:0 0 12px rgb(96 165 250 / .45); }
+.stat--total::before{ background:var(--brand-gradient); opacity:1; box-shadow:0 0 12px rgb(96 165 250 / .4); }
+.stat .val{font-family:var(--font-display);font-weight:var(--fw-semibold);font-size:var(--fs-stat);letter-spacing:0;line-height:1}
+.stat .val.g{color:var(--done)}
+.stat .val.b{color:var(--blue-hover)}
+.stat .lbl{color:var(--text-2);font-size:var(--fs-label);margin-top:6px;font-weight:var(--fw-semibold);text-transform:uppercase;letter-spacing:var(--tracking-label)}
+
+.toolbar{
+  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+  gap:16px;
+  margin:0 0 10px;
+  padding:12px 22px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r-full);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--shadow-sm), var(--glass-highlight);
+}
+.legend{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.legend__item{display:inline-flex;align-items:center;gap:6px;color:var(--text-2);font-size:12px;font-weight:600}
+.dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+.dot.f{background:var(--film);box-shadow:0 0 6px rgb(96 165 250 / .5)}
+.dot.s{background:var(--serie);box-shadow:0 0 6px rgb(167 139 250 / .5)}
+.dot.e{background:var(--especial);box-shadow:0 0 6px rgba(193,127,62,.5)}
+.toolbar__divider{width:1px;height:20px;background:var(--glass-border-strong);flex-shrink:0}
+.reset,
+.sync{
+  display:inline-flex; align-items:center; gap:7px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border-hover);color:var(--text-2);
+  padding:8px 16px;border-radius:var(--r-full);cursor:pointer;font-size:12.5px;font-weight:600;
+  font-family:var(--font-body);transition:border-color var(--dur-fast) var(--ease-smooth),color var(--dur-fast) var(--ease-smooth),background var(--dur-fast) var(--ease-smooth);
+}
+.sync svg{flex-shrink:0;}
+.reset__icon{flex-shrink:0;transition:transform var(--dur-slow) var(--ease-smooth)}
+.hint{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;margin:8px 0 0;
+  padding:0;
+  color:var(--text-2);font-size:11.5px;font-weight:500; /* <13px: --muted no cumple AA aquí (§9) */
+  background:none;border:none;border-radius:0;
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+.hint b{color:var(--text-2);font-weight:600}
+.hint__icon{flex-shrink:0;color:var(--muted);opacity:.7}
+
+/* ============ FASES / PROGRESO POR FASE ============ */
+.phase{margin:48px 0 0}
+#checklistList>.phase:first-child,
+#xmenList>.phase:first-child{margin-top:28px}
+.phase-head{display:flex;align-items:baseline;gap:11px;margin-bottom:10px;flex-wrap:wrap}
+.phase-head h2{font-family:var(--font-display);font-weight:var(--fw-semibold);font-size:var(--fs-h2);text-transform:uppercase;line-height:1.1;letter-spacing:.02em}
+.phase-head .years{color:var(--text-2);font-size:12.5px;font-weight:500} /* <13px: --muted no cumple AA aquí (§9) */
+.phase-pct{margin-left:auto;font-family:var(--font-body);font-weight:var(--fw-semibold);font-size:13px;color:var(--text)}
+.count{font-size:12px;font-weight:600;color:var(--text-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xs);padding:4px 11px}
+.count b{color:var(--done)}
+
+.phase-progress-track{
+  width:100%; height:6px; border-radius:var(--r-full);
+  background:var(--surface-2); border:1px solid var(--border);
+  overflow:hidden; margin:0 0 20px;
+}
+.phase-progress-fill{
+  height:100%; border-radius:var(--r-full);
+  background:var(--brand-gradient);
+  width:0%;
+  box-shadow:0 0 8px rgba(139,92,246,.4);
+  transition:width var(--dur-slower) var(--ease-smooth);
+}
+
+.grid{display:flex;flex-direction:column;gap:12px}
+
+/* ============ TARJETA DE TÍTULO ============
+   Grid (no flex): el mismo lenguaje de .action-row, y permite
+   reordenar visualmente el clúster derecho (duración · tag · nota)
+   en móvil sin tocar el HTML — ver @media (max-width:560px). */
+.item{
+  display:grid;
+  grid-template-columns:var(--poster-w) 1fr auto auto auto;
+  grid-template-areas:"poster meta duration tag rating";
+  align-items:center;
+  column-gap:var(--sp-4);
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  border-left:3px solid var(--type-border);
+  padding:13px 16px 13px 13px;
+  transition:background var(--dur-fast) var(--ease-smooth),
+             border-color var(--dur-fast) var(--ease-smooth),
+             transform var(--dur-fast) var(--ease-smooth),
+             box-shadow var(--dur-fast) var(--ease-smooth);
+}
+/* Realce de teclado equivalente al hover (§8): la fila en sí no es
+   focusable (solo .check/.rating__trigger dentro lo son), así que se
+   usa :focus-within para dar el mismo feedback visual al navegar con
+   Tab — funciona en cualquier dispositivo, sin depender de hover. */
+.item:focus-within{
+  background:var(--surface-2); border-color:var(--border-hover);
+  transform:translateY(-2px); box-shadow:var(--shadow-sm);
+}
+.item.done .title{color:var(--muted);text-decoration:line-through;text-decoration-color:rgb(52 211 153 / .55);text-decoration-thickness:1.5px}
+.item.done .date{color:#586170}
+
+/* ── Póster (comparte estilos con .action-row) ── */
+.poster{
+  grid-area:poster;
+  position:relative; flex-shrink:0;
+  width:var(--poster-w); aspect-ratio:var(--poster-ratio);
+  border-radius:var(--r-sm);
+  background-image:linear-gradient(155deg, var(--type-tint) 0%, transparent 60%);
+  background-color:var(--surface-2);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+  transition:transform var(--dur-fast) var(--ease-smooth);
+}
+.poster img{
+  position:absolute; inset:0; z-index:0;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  border-radius:inherit;
+  display:block;
+}
+
+/* Estado "visto": scrim oscuro sobre el póster (sin afectar al badge del check, que va por encima) */
+.item.done .poster::after{
+  content:"";
+  position:absolute; inset:0; z-index:1;
+  background:rgba(10,10,19,.6);
+  border-radius:inherit;
+  pointer-events:none;
+}
+
+/* Checkbox superpuesto en la esquina del póster */
+.check{
+  position:absolute; right:-4px; bottom:-4px; z-index:2;
+  width:24px; height:24px; border-radius:50%;
+  background:var(--surface); border:2px solid var(--bg);
+  display:grid; place-items:center; cursor:pointer;
+  transition:background var(--dur-fast) var(--ease-smooth),
+             border-color var(--dur-fast) var(--ease-smooth);
+}
+.check::before{ content:""; position:absolute; inset:-10px; } /* amplía el área táctil a 44x44 (§9 punto 8) */
+.check:focus-visible{
+  outline:2px solid var(--brand-blue-bright); outline-offset:2px;
+  /* anillo doble capa (§8/§9): el check flota sobre el póster (imagen/colores
+     variables), este box-shadow asegura separación+contraste sin depender
+     del fondo bajo el control */
+  box-shadow:0 0 0 2px var(--bg), 0 0 0 4px var(--accent-2);
+}
+.item.done .check{ background:var(--done); border-color:var(--bg); }
+.check svg{ width:13px; height:13px; stroke:var(--bg); stroke-width:3.4; fill:none; opacity:0; transition:opacity var(--dur-fast); }
+.item.done .check svg{ opacity:1; }
+
+/* ── Meta (título + fecha) — sube ligeramente su presencia ── */
+.meta{ grid-area:meta; min-width:0; cursor:pointer; }
+.title{ font-weight:var(--fw-semibold); font-size:var(--fs-title); line-height:1.25; letter-spacing:0; transition:color var(--dur-fast); }
+.date{ color:var(--muted); font-size:var(--fs-meta); line-height:1.4; letter-spacing:.01em; margin-top:3px; font-weight:400; }
+
+/* ── Tag de tipo (discreto: no compite con la nota) ── */
+.tag{
+  grid-area:tag;
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:24px;
+  font-size:10.5px; font-weight:var(--fw-semibold); letter-spacing:.4px;
+  padding:0 10px; border-radius:var(--r-xs); flex-shrink:0;
+}
+.tag.film{ background:rgb(96 165 250 / .13); color:var(--film); }
+.tag.serie{ background:rgb(167 139 250 / .13); color:var(--serie); }
+.tag.especial{ background:rgba(193,127,62,.13); color:var(--especial); }
+.item.done .tag{ opacity:.55; }
+
+/* ── Duración total: texto plano y muted, sin competir con tag/nota ── */
+.duration{
+  grid-area:duration;
+  display:inline-flex; align-items:center; gap:5px; flex-shrink:0;
+  font-size:var(--fs-meta); line-height:1.4; letter-spacing:.01em; font-weight:500; color:var(--muted);
+  white-space:nowrap;
+}
+.duration svg{ flex-shrink:0; color:var(--muted); }
+.item.done .duration{ opacity:.55; }
+
+/* ================================================
+   RATING V2 — disparador + popover (rejilla 0–10)
+   Paleta Endgame: --brand-purple* / --brand-blue* / --steel-*
+   (design/DISENO-RATING-V2.md — tokens --accent-*/--metal-* del
+   documento se resuelven aquí directamente sobre los tokens ya
+   existentes en css/tokens.css, sin introducir una segunda familia
+   de nombres duplicada)
+   ================================================ */
+.rating{
+  grid-area:rating;
+  position:relative; /* ancla del popover */
+  display:inline-flex; flex-shrink:0;
+}
+
+/* ── Disparador (único acento interactivo del clúster derecho) ── */
+.rating__trigger{
+  appearance:none; -webkit-appearance:none;
+  font:inherit; font-family:var(--font-body);
+  display:inline-flex; align-items:center; gap:5px;
+  min-height:24px;
+  padding:0 9px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--r-full);
+  color:var(--steel-3);
+  cursor:pointer;
+  transition:border-color var(--dur-fast) var(--ease-smooth),
+             background var(--dur-fast) var(--ease-smooth),
+             box-shadow var(--dur-fast) var(--ease-smooth),
+             color var(--dur-fast) var(--ease-smooth);
+}
+.rating__star{ flex-shrink:0; color:inherit; transition:color var(--dur-fast) var(--ease-smooth), filter var(--dur-fast) var(--ease-smooth); }
+.rating__chevron{ flex-shrink:0; color:var(--muted); transition:transform var(--dur-normal) var(--ease-smooth), color var(--dur-fast) var(--ease-smooth); }
+.rating__value{
+  min-width:14px; text-align:center;
+  font-weight:var(--fw-semibold); font-size:12px; line-height:1;
+  color:inherit;
+}
+
+/* ── Estado: disparador abierto ── */
+.rating__trigger[aria-expanded="true"]{
+  border-color:var(--brand-blue-bright);
+  background:var(--surface-3);
+  box-shadow:0 0 0 3px rgb(96 165 250 / .16);
+}
+.rating__trigger[aria-expanded="true"] .rating__chevron{ transform:rotate(180deg); color:var(--brand-blue-bright); }
+
+/* ── Estado: con nota (0–10 elegido) ── */
+.rating[data-rating]:not([data-rating=""]) .rating__trigger{
+  background:rgba(139,92,246,.10);
+  border-color:rgba(139,92,246,.4);
+}
+.rating[data-rating]:not([data-rating=""]) .rating__star{
+  color:var(--brand-purple);
+  filter:drop-shadow(0 0 4px rgba(139,92,246,.5));
+}
+.rating[data-rating]:not([data-rating=""]) .rating__value{
+  background:linear-gradient(180deg, var(--steel-5), var(--brand-purple-bright));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  font-weight:var(--fw-semibold);
+}
+/* ── Estado: visto (.item.done) pero aún sin nota → invitación sutil a puntuar ── */
+.item.done .rating[data-rating=""] .rating__trigger{
+  border-color:rgb(96 165 250 / .4);
+  box-shadow:0 0 0 1px rgb(96 165 250 / .15);
+}
+/* Nota: igual que en v1, el chip de nota NO hereda el opacity de .item.done
+   — la nota importa más, no menos, una vez el título ya está marcado como visto. */
+
+/* ── Foco de teclado (propio de este componente) ── */
+.rating__trigger:focus-visible{
+  outline:2px solid var(--brand-blue-bright);
+  outline-offset:2px;
+}
+.rating__popover:focus{ outline:none; }
+
+/* ── Popover ── */
+.rating__popover{
+  position:absolute; z-index:30;
+  right:0; top:calc(100% + 8px);
+  width:max-content; max-width:calc(100vw - 16px);
+  padding:8px;
+  background:linear-gradient(160deg, var(--surface-3) 0%, var(--surface-2) 100%);
+  border:1px solid var(--steel-2);
+  border-radius:var(--r-lg);
+  box-shadow:var(--shadow-lg), 0 0 0 1px rgba(139,92,246,.15), inset 0 1px 0 rgba(255,255,255,.06);
+  transform-origin:top right;
+  opacity:0; transform:scale(.94) translateY(-4px);
+  transition:opacity var(--dur-normal) var(--ease-smooth), transform var(--dur-normal) var(--ease-smooth);
+}
+.rating__popover.is-open{ opacity:1; transform:scale(1) translateY(0); }
+.rating__popover[hidden]{ display:none; } /* refuerzo explícito del atributo hidden */
+
+/* Variante "hacia arriba" — se aplica en JS cuando no cabe debajo */
+.rating__popover--up{ top:auto; bottom:calc(100% + 8px); transform-origin:bottom right; }
+.rating__popover--up{ transform:scale(.94) translateY(4px); }
+.rating__popover--up.is-open{ transform:scale(1) translateY(0); }
+
+/* ── Cabecera contextual (v3): etiqueta + título del ítem ── */
+.rating__head{
+  display:flex; align-items:baseline; gap:8px;
+  margin:0 2px 8px;
+  padding-bottom:7px;
+  border-bottom:1px solid var(--steel-1);
+  min-width:0;
+}
+.rating__head-label{
+  flex-shrink:0;
+  font-family:var(--font-body); font-weight:var(--fw-semibold);
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--brand-purple-bright);
+}
+.rating__head-title{
+  min-width:0;
+  font-family:var(--font-body); font-weight:500; font-size:11px;
+  color:var(--text-2);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* ── Escala v3: fila única 0–10 con relleno "medidor" ──
+   El DOM mantiene la opción "Sin nota" PRIMERA (índice 0 del listbox,
+   contrato de teclado intacto); visualmente se envía al final con
+   order:1 como acción de limpieza a ancho completo. */
+.rating__grid{
+  display:flex; flex-wrap:wrap; align-items:center; gap:4px;
+  max-width:calc(11 * 30px + 10 * 4px); /* 11 opciones por fila exactas */
+}
+
+.rating__option--clear{
+  order:1;
+  width:100%; flex:1 1 100%;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  min-height:28px; margin-top:6px; padding-top:6px;
+  border-top:1px solid var(--steel-1);
+  font-family:var(--font-body); font-size:11.5px; font-weight:600;
+  color:var(--steel-3);
+  border-radius:var(--r-md);
+}
+
+/* ── Opciones numéricas 0–10 ── */
+.rating__option{
+  display:flex; align-items:center; justify-content:center;
+  width:30px; height:32px;
+  border-radius:var(--r-md);
+  background:rgba(255,255,255,.035);
+  border:1px solid transparent;
+  font-family:var(--font-body); font-weight:var(--fw-semibold); font-size:12.5px;
+  color:var(--text-2);
+  cursor:pointer; user-select:none;
+  transition:background var(--dur-fast) var(--ease-smooth),
+             color var(--dur-fast) var(--ease-smooth),
+             border-color var(--dur-fast) var(--ease-smooth),
+             box-shadow var(--dur-fast) var(--ease-smooth),
+             transform var(--dur-fast) var(--ease-smooth);
+}
+.rating__option:active{ transform:scale(.92); }
+
+/* Relleno del "medidor" (clase .is-fill puesta por setActiveOption):
+   todas las opciones numéricas hasta la señalada se encienden, como
+   una barra de energía lila→azul. */
+.rating__option.is-fill{
+  background:linear-gradient(180deg, rgba(139,92,246,.42), rgba(96,165,250,.30));
+  border-color:rgba(155,142,255,.35);
+  color:#fff;
+}
+
+/* Opción actualmente GUARDADA (aria-selected=true) — fondo sólido, texto blanco */
+.rating__option[aria-selected="true"]{
+  background:linear-gradient(135deg, var(--brand-purple-deep), var(--brand-blue-deep));
+  color:#fff;
+  box-shadow:0 2px 10px rgba(139,92,246,.4);
+}
+.rating__option--clear[aria-selected="true"]{
+  background:none; color:var(--text); border-top-color:var(--brand-purple);
+}
+
+/* Opción actualmente RESALTADA por teclado/hover (independiente de si está guardada) */
+.rating__option.is-active{
+  box-shadow:0 0 0 2px var(--brand-blue-bright), inset 0 0 0 1px rgba(255,255,255,.15);
+}
+.rating__option[aria-selected="true"].is-active{
+  box-shadow:0 0 0 2px var(--brand-blue-bright), 0 2px 10px rgba(139,92,246,.4);
+}
+
+/* Eleva el z-index de la fila con el popover abierto por encima de sus vecinas
+   Y por encima del topbar sticky (z-index:11) / tabs-bar sticky de escritorio
+   (z-index:9): sin esto, el popover (z-index:30, pero confinado al stacking
+   context que esta regla crea en .item) quedaría oculto bajo esas barras
+   cuando se abre hacia arriba (.rating__popover--up) cerca de la parte
+   superior del viewport (QA rediseño 2026-07-23). */
+.item:has(.rating__popover:not([hidden])){ position:relative; z-index:12; }
+
+/* ================================================================
+   RATING V2 — MODO "BOTTOM SHEET" (MÓVIL, FASE 5)
+   design/PLAN-REDISENO-PRO.md §6 ("Nota como bottom sheet"), §7 fila
+   "Popover / bottom sheet de nota", §9 punto 9, §10 fila "5" y §11
+   riesgo "Bottom sheet corrompe mcu_ratings_v1". La clase
+   .rating__popover--sheet la añade/retira SOLO el JS (isMobileSheet()
+   evaluado en cada apertura, ver <script> inline) — el popover de
+   escritorio (arriba, sin esta clase) queda exactamente igual. No se
+   ata a un @media(max-width) propio: el JS ya decide cuándo se aplica
+   y closePopover() limpia clase/scrim/body sin depender del ancho
+   actual, por si el viewport cruzó el breakpoint con el sheet abierto.
+   ================================================================ */
+.rating__popover--sheet{
+  position:fixed;
+  left:0; right:0; top:auto; bottom:0;
+  width:auto; max-width:none;
+  margin:0;
+  border-radius:var(--r-xl) var(--r-xl) 0 0;
+  padding:16px 14px calc(16px + env(safe-area-inset-bottom));
+  background:var(--surface-3);
+  border:1px solid var(--border);
+  border-bottom:none;
+  box-shadow:var(--shadow-lg);
+  transform-origin:bottom center;
+  opacity:1; /* el sheet no se desvanece: solo entra deslizándose desde abajo */
+  transform:translateY(100%);
+}
+.rating__popover--sheet.is-open{ transform:translateY(0); }
+
+/* La fila (.item) que aloja el sheet debe imponerse sobre la bottom
+   nav fija (.tabs-bar, position:fixed z-index:40 en <900px — Fase 4)
+   aunque su propio z-index:5 (regla de arriba) cree un stacking
+   context que de otro modo atraparía el sheet por debajo de la nav:
+   sheet (50) > scrim (45) > bottom nav (40), ver §7/§11. */
+.item:has(.rating__popover--sheet:not([hidden])){ z-index:50; }
+
+/* v3: rejilla de 4 columnas con botones grandes ≥52px táctiles
+   (0-3 / 4-7 / 8-10 + "Sin nota" a ancho completo al final).
+   El salto vertical de teclado usa COLS=4 en este modo (js/app.js). */
+.rating__popover--sheet .rating__head{
+  margin:0 4px 12px;
+  padding-bottom:10px;
+}
+.rating__popover--sheet .rating__head-label{ font-size:11px; }
+.rating__popover--sheet .rating__head-title{ font-size:13px; color:var(--text); }
+.rating__popover--sheet .rating__grid{
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;
+  max-width:420px; margin:0 auto;
+}
+.rating__popover--sheet .rating__option{
+  width:auto; height:auto; min-height:52px;
+  border-radius:12px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(183,189,237,.14);
+  font-size:17px;
+}
+.rating__popover--sheet .rating__option--clear{
+  grid-column:1 / -1;
+  min-height:48px; margin-top:4px; padding-top:0;
+  border-top:none;
+  border:1px solid rgba(183,189,237,.14);
+  font-size:14px;
+}
+
+/* ── Scrim de fondo — único <div> reutilizado, insertado en <body> por JS ── */
+.rating-scrim{
+  position:fixed; inset:0;
+  background:rgb(0 0 0 / .5);
+  z-index:45; /* entre el sheet (50) y la bottom nav fija (40) */
+  opacity:0;
+  transition:opacity var(--dur-normal) var(--ease-smooth);
+}
+.rating-scrim[hidden]{ display:none; }
+.rating-scrim.is-open{ opacity:1; }
+
+/* Bloqueo de scroll del body mientras el sheet está abierto (§9 punto 9) */
+body.sheet-open{
+  overflow:hidden;
+  overscroll-behavior:contain;
+}
+
+/* ============ RESÚMENES / PLATAFORMA ============ */
+.panel-intro{ margin:20px 0 22px; }
+.panel-intro h2{ font-family:var(--font-display); font-weight:var(--fw-semibold); font-size:var(--fs-h2); text-transform:uppercase; line-height:1.1; letter-spacing:.02em; padding-bottom:9px; display:inline-block; }
+#panel-resumenes .panel-intro h2{ border-bottom:2px solid var(--youtube-red); }
+#panel-plataforma .panel-intro h2{ border-bottom:2px solid var(--brand-blue); }
+#panel-xmen .panel-intro h2{ border-bottom:2px solid var(--especial); }
+.panel-intro p{ color:var(--text-2); font-size:13px; margin-top:7px; max-width:56ch; }
+
+/* Cabecera de grupo dentro de una .media-grid ("Universo Marvel" / "Saga X-Men"):
+   etiqueta pequeña uppercase + regla que ocupa el ancho restante. */
+.list-divider{
+  display:flex; align-items:center; gap:var(--sp-3);
+  margin-top:var(--sp-5); /* aire extra sobre el gap normal de la .media-grid, separa del grupo anterior */
+  font-family:var(--font-body); font-weight:var(--fw-semibold);
+  font-size:var(--fs-label); letter-spacing:var(--tracking-label);
+  text-transform:uppercase; color:var(--text-2); /* <13px (--fs-label=12px): --muted no cumple AA aquí (§9) */
+  user-select:none;
+}
+.list-divider::after{ content:""; flex:1 1 auto; height:1px; background:var(--border); }
+.list-divider:first-child{ margin-top:0; } /* el primero no necesita aire extra: es el inicio de la lista */
+
+/* ── Estantería de pósters (rediseño 2026-07-23) ──
+   Cada título es una tarjeta-póster .media-card donde TODO el <a> es
+   el enlace (sin CTA aparte). El acento por pestaña lo dan los
+   modificadores --youtube (rojo) y --google (lila/azul de marca).
+   La tarjeta SÍ puede llevar overflow:hidden: dentro no vive ningún
+   popover (el contrato de CLAUDE.md aplica a .item/.grid, no aquí). */
+.media-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:16px 12px;
+  margin-bottom:12px;
+}
+.media-grid .list-divider{ grid-column:1 / -1; }
+
+.media-card{
+  position:relative;
+  display:flex; flex-direction:column;
+  text-decoration:none; color:inherit;
+  border-radius:14px;
+  background:linear-gradient(150deg,rgba(20,23,42,.94),rgba(14,16,30,.88));
+  border:1px solid rgba(183,189,237,.13);
+  box-shadow:0 8px 22px rgba(0,0,0,.13), inset 0 1px rgba(255,255,255,.035);
+  overflow:hidden;
+  transition:transform var(--dur-fast) var(--ease-smooth),
+             border-color var(--dur-fast) var(--ease-smooth),
+             box-shadow var(--dur-fast) var(--ease-smooth);
+}
+.media-card:focus-visible{
+  outline:2px solid var(--brand-blue-bright); outline-offset:2px;
+  transform:translateY(-3px); box-shadow:var(--shadow-md);
+}
+
+.media-card__art{
+  position:relative; display:block;
+  aspect-ratio:var(--poster-ratio);
+  background-image:linear-gradient(155deg, var(--type-tint) 0%, transparent 60%);
+  background-color:var(--surface-2);
+  overflow:hidden;
+}
+.media-card__art img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center; display:block;
+  transition:transform var(--dur-slow) var(--ease-smooth),
+             filter var(--dur-normal) var(--ease-smooth);
+}
+
+/* Velo de hover/focus: gradiente inferior + icono grande de la acción */
+.media-card__veil{
+  position:absolute; inset:0; z-index:2;
+  display:grid; place-items:center;
+  background:linear-gradient(180deg, rgba(7,9,19,0) 30%, rgba(7,9,19,.72) 100%);
+  opacity:0;
+  transition:opacity var(--dur-normal) var(--ease-smooth);
+  pointer-events:none;
+}
+.media-card__veil svg{
+  width:46px; height:46px; padding:12px;
+  border-radius:50%;
+  color:#fff;
+  background:rgba(10,12,26,.6);
+  border:1px solid rgba(255,255,255,.3);
+  backdrop-filter:blur(6px);
+  box-shadow:0 8px 24px rgba(0,0,0,.45);
+}
+.media-card--youtube .media-card__veil svg{ background:rgba(208,32,26,.88); border-color:rgba(255,120,120,.5); }
+.media-card--google .media-card__veil svg{ background:linear-gradient(135deg,#835ff1,#4e94ed); border-color:rgba(190,175,255,.55); }
+.media-card:focus-visible .media-card__veil{ opacity:1; }
+
+/* Chip de acción (siempre visible: en táctil no hay hover) */
+.media-card__chip{
+  position:absolute; z-index:3; top:8px; left:8px;
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 9px;
+  border-radius:var(--r-full);
+  font-family:var(--font-body); font-weight:var(--fw-semibold);
+  font-size:9.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:#fff;
+  background:rgba(9,11,23,.72);
+  border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(8px);
+}
+.media-card__chip svg{ width:11px; height:11px; flex-shrink:0; }
+.media-card--youtube .media-card__chip{ background:rgba(148,17,13,.85); border-color:rgba(255,110,110,.42); }
+.media-card--google .media-card__chip{ background:rgba(84,58,196,.8); border-color:rgba(167,143,255,.48); }
+
+/* Insignia "ya vista" (clase .is-done sincronizada desde updateItemUI) */
+.media-card__seen{
+  position:absolute; z-index:3; top:8px; right:8px;
+  width:22px; height:22px; border-radius:50%;
+  display:none; place-items:center;
+  background:var(--done);
+  box-shadow:0 2px 8px rgba(0,0,0,.45);
+}
+.media-card__seen svg{ width:12px; height:12px; stroke:var(--bg); stroke-width:3.4; fill:none; }
+.media-card.is-done .media-card__seen{ display:grid; }
+.media-card.is-done .media-card__art img{ filter:grayscale(.3) brightness(.72); }
+
+.media-card__body{
+  display:flex; flex-direction:column; gap:3px;
+  padding:10px 11px 12px;
+  min-height:58px;
+}
+.media-card__title{
+  font-family:var(--font-body); font-weight:var(--fw-semibold);
+  font-size:12.5px; line-height:1.3; color:#f1f2ff;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.media-card__meta{ font-size:10.5px; color:#8d93b2; letter-spacing:.02em; }
+
+footer{
+  max-width:var(--container-max);margin:56px auto 0;padding:20px var(--sp-5) 0;
+  border-top:1px solid var(--border);
+  color:var(--text-2);font-size:12.5px;line-height:1.75;
+}
+
+/* ============ RESPONSIVE ============
+   Rangos (mobile-first, base <900px pensada como móvil — §6 del plan):
+     <600px    → fila compacta 2 filas (este bloque)
+     600-899px → 1 columna de lista pero fila de 1 línea "como escritorio"
+                 (hereda las reglas base de .item/.action-row/.stats sin
+                 overrides adicionales: --poster-w normal, stats 3 col)
+     ≥900px    → 2 columnas de lista (capa Fase 3 más abajo)
+   La bottom navigation (<900px) vive en su propio bloque
+   @media (max-width:899px) justo después de este. */
+@media (max-width:599px){
+  :root{ --poster-w:48px; } /* 48×72 (aspect-ratio 2/3) — fila compacta §6 */
+  .stats{gap:9px}
+  .stat{padding:18px 10px 14px;border-radius:var(--r-lg)}
+  .stat .val{font-size:22px}
+  .stat .lbl{font-size:10px}
+  .toolbar{flex-direction:column;padding:14px 16px;border-radius:var(--r-xl);gap:12px}
+  .toolbar__divider{display:none}
+  .reset,.sync{width:100%;justify-content:center}
+  /* ============ ÍTEM: fila compacta (2 filas) ============
+     fila 1 = póster (con rowspan natural, vía grid-template-areas) +
+     título/fecha; fila 2, bajo el texto (no bajo el póster) = duración ·
+     tag · nota en fila, con un gap cómodo. Ningún hijo cambia de clase:
+     solo se reasignan áreas (JS-safe, ver CLAUDE.md). */
+  .item{
+    grid-template-columns:var(--poster-w) auto auto auto 1fr;
+    grid-template-areas:
+      "poster meta     meta  meta   meta"
+      "poster duration tag   rating .";
+    row-gap:8px; column-gap:10px;
+    min-height:64px;
+    padding:10px 12px 10px 11px;
+  }
+  .meta{ min-width:0; } /* permite que .date use ellipsis sin desbordar la fila */
+  .title{
+    font-size:13.5px;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+    overflow:hidden; /* recorta solo el texto de 2 líneas, no la fila/tarjeta */
+  }
+  .date{
+    font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    color:var(--text-2); /* <13px aquí: --muted (heredado de .date base) no cumple AA (§9) */
+  }
+  .tag{font-size:10px;min-height:22px;padding:0 8px}
+  .duration{font-size:10.5px;gap:4px;color:var(--text-2)} /* <13px aquí: --muted no cumple AA (§9) */
+  .duration svg{display:none}
+
+  .rating__trigger{ min-height:22px; padding:0 7px; gap:4px; }
+  .rating__star{ width:9px; height:9px; }
+  .rating__chevron{ width:7px; height:7px; }
+  .rating__value{ font-size:11px; min-width:12px; }
+  /* (el popover compacto no necesita overrides aquí: en <900px la nota
+     se abre siempre como bottom sheet — ver .rating__popover--sheet) */
+
+  .list-divider{margin-top:var(--sp-4)}
+  /* Estantería tipo streaming: 3 pósters por fila en móvil */
+  .media-grid{grid-template-columns:repeat(3,1fr);gap:12px 8px}
+  .media-card__chip{padding:5px 6px}
+  .media-card__chip span{display:none} /* chip solo-icono: no tapa el póster estrecho */
+  .media-card__body{padding:8px 9px 10px;min-height:52px}
+  .media-card__title{font-size:11.5px}
+  .media-card__meta{font-size:9.5px}
+}
+
+/* ============ MÓVIL + TABLET — FASE 4: bottom navigation (<900px) ============
+   design/PLAN-REDISENO-PRO.md §6, §7 (fila "Tabs / Bottom-nav"), §10
+   fila "4 · Móvil + bottom nav". Los mismos 4 botones .tab (id/data-tab/
+   aria-* intactos — CLAUDE.md) pasan de pestañas superiores a bottom
+   navigation fija; setupTabs() solo lee data-tab y togglea clases, no
+   textContent, así que añadir icono+labels dentro es JS-safe (§11). */
+@media (max-width:899px){
+  :root{ --bottom-nav-h:56px; }
+
+  .topbar{ padding-top:env(safe-area-inset-top); }
+
+  body{
+    /* la bottom nav es 'position:fixed'; reserva su hueco para que no
+       tape el último ítem/el footer (§9 punto 5) */
+    padding-bottom:calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 12px);
+  }
+  footer{ margin-bottom:calc(env(safe-area-inset-bottom) + 16px); }
+
+  /* Tabs superiores → bottom nav fija (mismo <div>, nuevo continente) */
+  .tabs-bar{
+    position:fixed; top:auto; left:0; right:0; bottom:0; z-index:40;
+    height:calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));
+    padding-bottom:env(safe-area-inset-bottom);
+    background:var(--glass-bg-strong);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:var(--glass-blur);
+    border-bottom:none;
+    border-top:1px solid var(--border);
+    box-shadow:0 -8px 24px rgb(0 0 0 / .35);
+  }
+  .tabs-bar .tabs-inner{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:0; height:100%;
+    max-width:none; margin:0; padding:0;
+    overflow-x:visible;
+  }
+
+  .tab{
+    flex-direction:column;
+    display:flex; align-items:center; justify-content:center;
+    gap:2px;
+    min-height:44px;
+    padding:6px 4px;
+    font-size:11px; letter-spacing:.02em;
+    border-radius:0;
+    color:var(--text-2);
+  }
+  .tab.active{ color:var(--accent); }
+  /* Indicador del destino activo: barra sobre el icono, sustituye el
+     subrayado inferior de escritorio (mismo pseudo-elemento ::after,
+     reposicionado — no hay dos indicadores a la vez). */
+  .tab.active::after{
+    content:""; position:absolute; left:50%; right:auto; top:4px; bottom:auto;
+    transform:translateX(-50%);
+    width:22px; height:3px; border-radius:var(--r-full);
+    background:var(--brand-gradient);
+    box-shadow:0 0 8px rgb(139 92 246 / .5);
+  }
+
+  .tab__icon{ width:22px; height:22px; flex-shrink:0; }
+  .tab__label--full{ display:none; }
+  .tab__label--short{
+    display:block;
+    font-family:var(--font-body); font-weight:var(--fw-semibold);
+    font-size:11px; line-height:1.1; text-transform:none; letter-spacing:.01em;
+  }
+
+  /* Amplía el área táctil del disparador de nota a ≥44px sin tocar su
+     tamaño visual (el .check ya tiene su propio ::before ~36x36). */
+  .rating__trigger{ position:relative; }
+  .rating__trigger::after{ content:""; position:absolute; inset:-12px; }
+
+  /* La tabs-bar ya no es sticky arriba (es la bottom nav fija): solo el
+     topbar queda arriba, así que el margen de scroll es más corto que
+     en escritorio (§9 punto 5). */
+  .phase,
+  .tab-panel{ scroll-margin-top:calc(var(--topbar-h) + 8px); }
+}
+
+/* ============ HOVER STATES — FASE 3 (§5, §8) ============
+   Todo :hover de tarjetas/filas/pósters y de controles pequeños
+   (tabs, botones, opciones de nota, CTAs) vive agrupado aquí,
+   condicionado a puntero fino con hover real — evita que el estado
+   quede "pegado" tras un tap en dispositivos táctiles. El realce
+   equivalente para teclado (:focus-visible / :focus-within) se
+   define junto a cada componente, SIN depender de esta media query,
+   para que funcione también sin ratón (ver §9). */
+@media (hover:hover) and (pointer:fine){
+  .tab:hover{ color:var(--text); background:rgba(255,255,255,.04); }
+
+  .stat:hover{
+    transform:translateY(-3px);
+    border-color:var(--glass-border-strong);
+    box-shadow:var(--shadow-lg), var(--glass-highlight);
+  }
+
+  .reset:hover,
+  .sync:hover{ border-color:var(--brand-blue-bright); color:var(--brand-blue-bright); background:rgb(96 165 250 / .08); }
+  .reset:hover .reset__icon{ transform:rotate(-70deg); }
+
+  .item:hover{
+    background:var(--surface-2); border-color:var(--border-hover);
+    border-left-color:var(--type-border); /* conserva el acento de tipo al pasar el ratón */
+    transform:translateY(-2px); box-shadow:var(--shadow-sm);
+  }
+
+  .item:hover .poster{ transform:scale(1.04); }
+
+  .check:hover{ border-color:var(--done); }
+  .meta:hover .title{ color:var(--blue-hover); }
+
+  .rating__trigger:hover{ border-color:var(--border-hover); background:var(--surface-3); }
+  .rating[data-rating]:not([data-rating=""]) .rating__trigger:hover{ border-color:rgba(139,92,246,.6); }
+  .rating__option:hover{ background:var(--surface); color:var(--text); }
+  .rating__option--clear:hover{ background:var(--surface); color:var(--text); border-radius:var(--r-md); }
+
+  .media-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(153,166,255,.38);
+    box-shadow:0 14px 30px rgba(0,0,0,.3);
+  }
+  .media-card--youtube:hover{ border-color:rgba(255,90,95,.55); }
+  .media-card--google:hover{ border-color:rgba(160,143,255,.6); }
+  .media-card:hover .media-card__art img{ transform:scale(1.06); }
+  .media-card:hover .media-card__veil{ opacity:1; }
+}
+
+/* ============ INTERACCIÓN ACTIVA — FASE 3 (§8) ============
+   Feedback táctil <100ms en controles y filas clicables; sin halo
+   nativo de iOS/Android en el tap (los :focus-visible/:focus-within
+   propios de cada componente ya cubren el estado de teclado). */
+button,
+a,
+.check,
+.meta,
+.media-card,
+.rating__option{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.tab:active,
+.reset:active,
+.sync:active,
+.check:active,
+.media-card:active,
+.rating__trigger:active{
+  transform:scale(.98);
+}
+
+/* ============ ESCRITORIO — FASE 3 (@media min-width:900px) ============
+   Capa añadida SIN alterar el comportamiento por debajo de 900px: el
+   @media (max-width:560px) de arriba queda intacto tal cual (la
+   reestructuración móvil completa llega en la Fase 4).
+   design/PLAN-REDISENO-PRO.md §5, §7, §8, §10 fila "3 · Escritorio". */
+@media (min-width:900px){
+  :root{ --poster-w:64px; }
+
+  /* Listas a 2 columnas, relleno row-major (conserva el orden
+     cronológico de lectura izquierda→derecha). Sin "columns" CSS;
+     ni .grid ni .item llevan overflow:hidden — el
+     popover de nota debe poder desbordar la fila (contrato §10/CLAUDE.md). */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(440px, 1fr));
+    gap:14px;
+  }
+  .list-divider{ grid-column:1 / -1; }
+
+  /* Estantería con más aire en escritorio */
+  .media-grid{
+    grid-template-columns:repeat(auto-fill, minmax(164px, 1fr));
+    gap:18px 14px;
+  }
+
+  /* Densidad de fila: duración + tag + nota visibles sin abrir nada. */
+  .item{
+    min-height:64px;
+    padding:14px 18px;
+  }
+
+  /* Hero panorámico: más ancho y con más aire, no "más grande". */
+  .hero-cinematic{ min-height:clamp(460px, 62vh, 660px); }
+
+  /* Stats: de tarjeta "cristal" a superficie plana con luz cenital
+     (§7 tabla de componentes) — solo en escritorio; por debajo de
+     900px se conserva el glassmorphism actual sin cambios visuales. */
+  .stat{
+    background:var(--surface-1);
+    border-color:var(--border);
+    box-shadow:var(--shadow-md), inset 0 1px 0 var(--highlight);
+  }
+}
+
+/* ============ ESCRITORIO — FASE 4 complemento (§6, §7 "Tabs / Bottom-nav") ============
+   Bloque aparte para no tocar la capa ≥900px de Fase 3 de arriba (queda
+   intacta): aquí solo se resuelve la visibilidad de icono/label de los
+   .tab en escritorio (el icono nuevo de la Fase 4 se oculta; solo la
+   pestaña de escritorio "de toda la vida" queda visible) y el
+   scroll-margin-top de las secciones bajo topbar + tabs-bar sticky
+   (§9 punto 5). */
+@media (min-width:900px){
+  .tab__icon{ display:none; }
+  .tab__label--short{ display:none; }
+  .tab__label--full{ display:inline; }
+
+  .phase,
+  .tab-panel{ scroll-margin-top:calc(var(--topbar-h) + 56px + 8px); }
+}
+
+/* ============ ACCESIBILIDAD ============ */
+/* El :focus-visible global (color --focus-ring-color) ya lo aporta
+   css/tokens.css — no se duplica aquí. Los overrides de mayor
+   especificidad (.tab, .check, .rating__trigger) sí se definen
+   arriba, junto a cada componente, con --brand-blue-bright. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition-duration:.001ms !important;
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* Windows High Contrast / forced-colors (§9 — mejora barata): en modo de
+   colores forzados, el navegador ignora background/box-shadow/color no
+   del sistema; sin un borde de sistema explícito, .item/.tab/.rating__trigger
+   quedan sin contorno visible (sus bordes actuales usan --border, un
+   rgb() con alpha que el modo forced-colors puede aplanar). ButtonBorder
+   es el color de sistema para bordes de controles: garantiza un borde
+   visible pase lo que pase con la paleta del tema forzado. */
+@media (forced-colors: active){
+  .item,
+  .tab,
+  .rating__trigger{
+    border-color: ButtonBorder;
+  }
+}
+
+/* ================================================================
+   MCU TRACKER — REDISEÑO EDITORIAL / MULTIVERSO 2.0
+   Capa visual final. Mantiene las clases y contratos del tracker; solo
+   cambia composición, jerarquía, superficies y tratamiento de imágenes.
+   ================================================================ */
+
+:root{
+  --topbar-h:68px;
+  --container-max:1240px;
+  --surface-1:#111321;
+  --surface-2:#191c2e;
+  --surface-3:#242742;
+  --border:rgba(183,188,238,.16);
+  --border-hover:rgba(153,166,255,.38);
+  --glass-bg:rgba(12,14,28,.72);
+  --glass-bg-strong:rgba(9,11,22,.88);
+  --poster-w:68px;
+}
+
+body{
+  background:transparent;
+  color:#f4f5ff;
+}
+
+.topbar{
+  height:var(--topbar-h);
+  background:rgba(7,9,19,.82);
+  border-bottom:1px solid rgba(178,184,242,.13);
+  box-shadow:0 12px 34px rgba(0,0,0,.2);
+}
+.topbar-inner{height:100%;padding:0 var(--sp-5);}
+.brand{font-size:16px;letter-spacing:.04em;}
+.brand-mark{width:34px;height:34px;filter:drop-shadow(0 0 12px rgba(121,111,255,.58));}
+.brand-word{color:#f7f7ff;}
+.brand-word b{color:#9b8cff;}
+.topbar-progress{gap:12px;}
+.topbar-progress .pct{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#b7b9d2;}
+.mini-bar{width:128px;height:7px;background:#24263a;}
+
+.hero-cinematic{
+  min-height:clamp(600px,78vh,790px);
+  align-items:flex-end;
+  border-bottom:1px solid rgba(176,185,255,.13);
+  background:#0c0e1c;
+}
+/* Fondo Endgame protagonista (rediseño 2026-07-23): velos mucho más
+   ligeros — la fotografía se ve de verdad; la legibilidad del texto la
+   garantizan el gradiente inferior + los text-shadow del contenido.
+   Composición: la imagen va con zoom y ANCLADA A LA IZQUIERDA
+   (background-position X=0) — al ser más ancha que el contenedor, el
+   reparto (centro de la foto) cae en la mitad DERECHA del viewport y no
+   choca con el titular, que vive a la izquierda sobre la zona oscura de
+   Thanos. max(100%,240vh) garantiza cobertura también en ultrapanorámicos. */
+.hero-cinematic__media{
+  background-image:
+    linear-gradient(90deg,rgba(6,8,18,.95) 0%,rgba(7,9,20,.72) 34%,rgba(8,10,23,.12) 62%,rgba(8,10,23,.22) 100%),
+    linear-gradient(0deg,#0b0d1b 2%,rgba(11,13,27,.6) 20%,rgba(11,13,27,0) 56%),
+    var(--hero-img,url('../assets/fondo/endgame-backdrop.jpg'));
+  background-position:center,center,0% 30%;
+  background-size:auto,auto,max(100%,240vh) auto;
+  filter:saturate(1.05) contrast(1.03);
+  animation:heroDrift 16s var(--ease-smooth) both;
+}
+@keyframes heroDrift{ from{ transform:scale(1.07); } to{ transform:scale(1.005); } }
+.hero-cinematic__media::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 76% 26%,rgba(122,111,255,.18),transparent 30%),linear-gradient(120deg,transparent 48%,rgba(90,118,255,.1) 70%,transparent 86%);
+  mix-blend-mode:screen;pointer-events:none;
+}
+.hero-cinematic__content{
+  width:100%;
+  padding-top:110px;
+  padding-bottom:66px;
+}
+/* Rediseño 2026-07-23 (descarga visual): el hero queda en 4 bloques —
+   eyebrow único, titular, subtítulo corto y una sola fila de acciones
+   con el anillo de progreso integrado. Kicker y chips eliminados. */
+.hero-eyebrow{margin-bottom:14px;color:#6faeff;font-size:11px;letter-spacing:.17em;}
+.hero-title{max-width:820px;font-size:clamp(3rem,6.4vw,6rem);line-height:.94;letter-spacing:-.02em;}
+/* Dos líneas SIEMPRE ("Guía de visionado" / "Hasta Doomsday"): en inline,
+   según el ancho, "HASTA" saltaba a la primera línea y el titular invadía
+   los rostros del reparto en la mitad derecha. */
+.hero-title .metal-title,.hero-title .metal-title-accent{display:block;}
+.hero-subtitle{max-width:560px;margin-top:18px;font-size:clamp(1rem,1.25vw,1.12rem);line-height:1.7;color:#d7d9ea;}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:30px;}
+.hero-action{display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:0 17px;border:1px solid transparent;border-radius:10px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;transition:transform var(--dur-fast),background var(--dur-fast),border-color var(--dur-fast),box-shadow var(--dur-fast);}
+.hero-action--primary{background:linear-gradient(110deg,#8b66ff,#5e9fff);color:#fff;box-shadow:0 8px 24px rgba(89,91,226,.28);}
+.hero-action--ghost{border-color:rgba(189,194,243,.28);background:rgba(10,12,26,.4);color:#d8dcf2;backdrop-filter:blur(9px);}
+.hero-badge{margin-top:0;margin-left:8px;padding:8px 19px 8px 9px;border-color:rgba(185,191,241,.22);background:rgba(9,11,23,.62);box-shadow:0 14px 36px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.08);}
+.hero-badge__pct{font-size:20px;}
+
+.tabs-bar{top:var(--topbar-h);background:rgba(9,11,22,.79);border-bottom:1px solid rgba(180,186,239,.15);box-shadow:0 10px 26px rgba(0,0,0,.24);}
+.tabs-inner{gap:8px;padding-top:5px;}
+.tab{padding:16px 20px 15px;border-radius:10px 10px 0 0;letter-spacing:.12em;color:#9fa4c0;}
+.tab.active{color:#f6f6ff;background:linear-gradient(180deg,rgba(132,111,255,.11),transparent);}
+.tab.active::after{height:3px;left:16px;right:16px;box-shadow:0 0 16px rgba(117,121,255,.85);}
+
+main.wrap{padding-bottom:18px;}
+.stats{gap:14px;margin:28px 0 16px;}
+.stat{min-height:120px;padding:25px 18px 21px;background:linear-gradient(145deg,rgba(22,24,42,.92),rgba(14,16,30,.78));border:1px solid rgba(185,190,239,.16);border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.06);}
+.stat::before{left:20px;right:20px;height:2px;}
+.stat .val{font-size:clamp(2.1rem,3.4vw,3.1rem);}
+.stat .lbl{margin-top:10px;font-size:10px;letter-spacing:.2em;color:#afb2cb;}
+.toolbar{justify-content:space-between;margin:0;padding:10px 13px 10px 18px;background:rgba(16,18,34,.66);border:1px solid rgba(184,190,239,.13);border-radius:13px;box-shadow:inset 0 1px rgba(255,255,255,.04);}
+.legend{gap:14px;}
+.legend__item{font-size:11px;color:#acb0cb;}
+.reset,.sync{padding:8px 12px;border-color:rgba(185,190,239,.2);background:rgba(255,255,255,.035);font-size:11px;}
+.hint{margin:11px 0 0;justify-content:flex-start;color:#9297b4;font-size:11px;}
+
+.phase{margin-top:52px;}
+.phase-head{margin-bottom:13px;gap:12px;}
+.phase-head h2,.panel-intro h2{font-size:clamp(1.45rem,2.1vw,2rem);letter-spacing:.07em;color:#f2f3ff;}
+.phase-head h2::first-letter{color:#a68cff;}
+.phase-head .years{font-size:11px;letter-spacing:.08em;color:#858aa8;text-transform:uppercase;}
+.phase-pct{font-size:11px;color:#bfc3e1;letter-spacing:.08em;}
+.count{padding:5px 10px;border-radius:999px;background:rgba(123,110,255,.1);border-color:rgba(155,142,255,.28);font-size:11px;}
+.phase-progress-track{height:4px;margin-bottom:16px;background:rgba(135,143,211,.12);border:none;}
+.phase-progress-fill{box-shadow:0 0 13px rgba(130,103,255,.72);}
+.grid{gap:10px;}
+.item{min-height:82px;padding:11px 14px 11px 11px;border-radius:14px;background:linear-gradient(125deg,rgba(20,23,42,.94),rgba(14,16,30,.86));border-color:rgba(183,189,237,.13);border-left-width:2px;box-shadow:0 8px 22px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.035);}
+.item:hover,.item:focus-within{box-shadow:0 12px 26px rgba(0,0,0,.22),0 0 0 1px rgba(142,133,255,.12);}
+.poster{width:var(--poster-w);border-radius:9px;background-color:#1b1f38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 5px 12px rgba(0,0,0,.25);}
+.poster img{filter:saturate(.92);}
+.title{font-size:14px;color:#f1f2ff;}
+.date{font-size:11px;color:#8d93b2;}
+.tag{min-height:23px;padding:0 9px;border-radius:6px;font-size:9px;letter-spacing:.08em;text-transform:uppercase;}
+.duration{font-size:11px;color:#8e94b1;}
+.rating__trigger{min-height:28px;padding:0 9px;background:rgba(31,34,59,.9);border-color:rgba(177,184,238,.18);color:#bfc3df;}
+.rating[data-rating]:not([data-rating=""]) .rating__trigger{background:linear-gradient(110deg,rgba(123,87,236,.25),rgba(62,127,238,.15));border-color:rgba(149,126,255,.55);box-shadow:0 0 16px rgba(104,84,218,.18);}
+.rating__popover{padding:11px 12px 12px;background:linear-gradient(145deg,#272b4b,#171a30);border-color:rgba(176,165,255,.45);box-shadow:0 20px 46px rgba(0,0,0,.45),0 0 24px rgba(104,88,239,.18);}
+.rating__option{color:#bdc2dc;} /* el tamaño (fila única 30×32 / sheet 4 col) lo fija la capa base v3 */
+.rating__option[aria-selected="true"]{background:linear-gradient(135deg,#835ff1,#4e94ed);box-shadow:0 5px 14px rgba(104,86,228,.4);}
+/* "Sin nota" seleccionada = estado por defecto: tinte suave, nunca el
+   gradiente CTA de los números (misma especificidad, debe ir después) */
+.rating__option--clear[aria-selected="true"]{background:rgba(131,95,241,.13);box-shadow:none;color:#e6e4ff;}
+
+.panel-intro{position:relative;margin:34px 0 28px;padding:21px 24px 22px;border:1px solid rgba(185,191,239,.15);border-radius:16px;background:linear-gradient(120deg,rgba(26,29,52,.88),rgba(13,16,30,.68));box-shadow:inset 0 1px rgba(255,255,255,.05);overflow:hidden;}
+.panel-intro::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(180deg,#8f72ff,#54a9ff);box-shadow:0 0 18px rgba(113,105,255,.7);}
+.panel-intro h2{padding-bottom:0!important;border:0!important;}
+.panel-intro p{max-width:68ch;margin-top:10px;color:#aeb2cc;font-size:13px;line-height:1.65;}
+.list-divider{grid-column:1/-1;margin:10px 0 1px;padding:0 2px;color:#a8acc9;font-size:10px;letter-spacing:.18em;}
+.list-divider::after{background:linear-gradient(90deg,rgba(153,142,255,.36),transparent);}
+/* (la estantería .media-grid/.media-card del rediseño 2026-07-23 se
+   define completa en la sección "Estantería de pósters" de arriba) */
+
+footer{margin-top:74px;padding-top:23px;color:#858ba8;border-color:rgba(184,190,239,.12);font-size:11px;letter-spacing:.02em;}
+
+@media (hover:hover) and (pointer:fine){
+  .hero-action:hover{transform:translateY(-2px);}
+  .hero-action--primary:hover{box-shadow:0 12px 30px rgba(89,91,226,.42);}
+  .hero-action--ghost:hover{border-color:#8193ff;background:rgba(108,95,233,.13);}
+}
+
+@media (max-width:899px){
+  .hero-cinematic{min-height:clamp(560px,76vh,700px);}
+  /* Tablet: zoom moderado con la misma ancla izquierda (el reparto se
+     mantiene a la derecha del texto sin recortarse fuera de cuadro) */
+  .hero-cinematic__media{background-position:center,center,0% 28%;background-size:auto,auto,auto 118%;}
+  .hero-cinematic__content{padding-top:88px;padding-bottom:55px;}
+  .hero-title{font-size:clamp(3rem,11vw,5rem);}
+  .hero-subtitle{max-width:52ch;}
+  .tabs-inner{padding-top:0;}
+  .tab.active{background:transparent;}
+  /* Re-asserta la bottom nav: la regla de escritorio de esta capa
+     (.tabs-bar{top:var(--topbar-h)}) pisaba el top:auto del bloque
+     móvil anterior y dejaba la nav pegada bajo la cabecera. */
+  .tabs-bar{top:auto;bottom:0;border-bottom:none;border-top:1px solid var(--border);box-shadow:0 -8px 24px rgb(0 0 0 / .35);}
+}
+
+@media (max-width:599px){
+  .topbar{height:60px;}
+  :root{--topbar-h:60px;--poster-w:52px;}
+  .topbar-inner{padding:0 14px;}
+  .brand{font-size:14px;gap:8px;}
+  .brand-mark{width:30px;height:30px;}
+  .topbar-progress .pct{font-size:9px;letter-spacing:.05em;}
+  .mini-bar{width:68px;height:5px;}
+  .hero-cinematic{min-height:680px;}
+  /* Móvil: MISMA composición que escritorio, comprimida — zoom con la
+     ventana visible empezando en la zona de Thanos (~28% de la foto):
+     el texto queda a la izquierda sobre lo oscuro y el reparto (Iron
+     Man y compañía) a la derecha; mismo velo lateral 90deg + fundido
+     inferior. background-size explícito: 3 capas, sin heredar el
+     max(100%,240vh) de escritorio, que aquí dejaría solo a Thanos. */
+  .hero-cinematic__media{
+    background-image:
+      linear-gradient(90deg,rgba(6,8,18,.88) 0%,rgba(7,9,20,.52) 34%,rgba(8,10,23,.1) 62%,rgba(8,10,23,.2) 100%),
+      linear-gradient(0deg,#0b0d1b 4%,rgba(11,13,27,.68) 30%,rgba(11,13,27,.05) 62%),
+      var(--hero-img,url('../assets/fondo/endgame-backdrop.jpg'));
+    background-position:center,center,28% 16%;
+    background-size:auto,auto,auto 118%;
+  }
+  .hero-cinematic__content{padding:150px 16px 40px;}
+  .hero-eyebrow{font-size:9px;letter-spacing:.12em;margin-bottom:10px;}
+  .hero-title{font-size:clamp(2.6rem,13vw,4.4rem);line-height:.96;}
+  .hero-title .metal-title,.hero-title .metal-title-accent{display:block;}
+  .hero-subtitle{margin-top:15px;font-size:14px;line-height:1.55;}
+  .hero-actions{margin-top:20px;gap:10px;}
+  .hero-action{width:100%;justify-content:center;min-height:42px;font-size:10px;}
+  .hero-badge{margin:10px auto 0;}
+  .stats{margin-top:20px;}
+  .stat{min-height:104px;padding:19px 8px 15px;}
+  .stat .val{font-size:28px;}
+  .stat .lbl{font-size:9px;letter-spacing:.12em;}
+  .toolbar{align-items:stretch;}
+  .legend{justify-content:space-between;width:100%;}
+  .phase{margin-top:38px;}
+  .phase-head h2,.panel-intro h2{font-size:1.4rem;}
+  .item{min-height:76px;}
+  .panel-intro{margin-top:22px;padding:18px 18px 19px;}
+  .panel-intro p{font-size:12px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-cinematic__media::after{mix-blend-mode:normal;}
+}
+
+/* ================================================================
+   SINCRONIZAR DISPOSITIVOS — exportar/importar progreso sin servidor
+   (rediseño 2026-07-23). Modal centrado sobre scrim propio; el código
+   es MCU1. + base64 de {v,seen,ratings} (ver setupSync en js/app.js).
+   z-index por encima de todo lo demás: scrim 55 · modal 56 (el sheet
+   de nota usa 50 y la bottom nav 40, ver CLAUDE.md).
+   ================================================================ */
+.sync-scrim{
+  position:fixed;inset:0;z-index:55;
+  background:rgb(0 0 0/.55);
+  opacity:0;transition:opacity var(--dur-normal) var(--ease-smooth);
+}
+.sync-scrim[hidden]{display:none;}
+.sync-scrim.is-open{opacity:1;}
+
+.sync-modal{
+  position:fixed;z-index:56;left:50%;top:50%;
+  width:min(480px,calc(100vw - 28px));
+  max-height:min(86vh,660px);overflow:auto;
+  padding:20px 20px 18px;
+  background:linear-gradient(150deg,#20233f,#141628);
+  border:1px solid rgba(176,165,255,.4);
+  border-radius:16px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 24px rgba(104,88,239,.16);
+  opacity:0;transform:translate(-50%,-50%) scale(.96);
+  transition:opacity var(--dur-normal) var(--ease-smooth),transform var(--dur-normal) var(--ease-smooth);
+}
+.sync-modal[hidden]{display:none;}
+.sync-modal.is-open{opacity:1;transform:translate(-50%,-50%) scale(1);}
+
+.sync-modal__head{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.sync-modal__head h2{
+  font-family:var(--font-display);font-weight:var(--fw-semibold);
+  font-size:1.1rem;text-transform:uppercase;letter-spacing:.06em;color:#f2f3ff;
+}
+.sync-modal__close{
+  display:grid;place-items:center;flex-shrink:0;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text-2);
+  cursor:pointer;transition:color var(--dur-fast) var(--ease-smooth),border-color var(--dur-fast) var(--ease-smooth);
+}
+.sync-modal__intro{margin-top:8px;font-size:12.5px;line-height:1.6;color:var(--text-2);}
+
+.sync-field{display:block;margin-top:14px;}
+.sync-field span{
+  display:block;margin-bottom:6px;
+  font-size:10px;font-weight:var(--fw-semibold);letter-spacing:.12em;text-transform:uppercase;color:var(--text-2);
+}
+.sync-field textarea{
+  display:block;width:100%;resize:none;
+  font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.5;
+  color:var(--text);word-break:break-all;
+  background:rgba(9,11,23,.72);border:1px solid var(--border);border-radius:10px;
+  padding:10px 11px;
+}
+.sync-field textarea:focus-visible{outline:2px solid var(--accent-2);outline-offset:1px;}
+
+.sync-action{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;min-height:40px;margin-top:9px;
+  border-radius:10px;border:1px solid rgba(185,190,239,.25);
+  background:rgba(255,255,255,.045);color:var(--text);
+  font-family:var(--font-body);font-weight:var(--fw-semibold);font-size:11.5px;
+  letter-spacing:.05em;text-transform:uppercase;cursor:pointer;
+  transition:background var(--dur-fast) var(--ease-smooth),border-color var(--dur-fast) var(--ease-smooth),transform var(--dur-fast) var(--ease-smooth),box-shadow var(--dur-fast) var(--ease-smooth);
+}
+.sync-action--primary{
+  background:linear-gradient(110deg,#8b66ff,#5e9fff);
+  border-color:transparent;color:#fff;
+  box-shadow:0 8px 24px rgba(89,91,226,.28);
+}
+.sync-action:active{transform:scale(.98);}
+
+.sync-msg{margin-top:10px;min-height:1.2em;font-size:12px;line-height:1.5;color:#ff8a8f;}
+.sync-msg.is-ok{color:var(--done);}
+
+/* Bloqueo de scroll del fondo mientras el modal está abierto (clase
+   propia: no reutiliza body.sheet-open, que gestiona closePopover) */
+body.modal-open{overflow:hidden;overscroll-behavior:contain;}
+
+@media (hover:hover) and (pointer:fine){
+  .sync-modal__close:hover{color:var(--text);border-color:var(--border-hover);}
+  .sync-action:hover{border-color:rgba(160,143,255,.5);background:rgba(255,255,255,.08);}
+  .sync-action--primary:hover{background:linear-gradient(110deg,#9a79ff,#6fa9ff);box-shadow:0 12px 30px rgba(89,91,226,.4);}
+}
+
+/* ================================================================
+   MEJORAS 2026-07-23 (sesión "sigue mejorando"):
+   filtros del checklist · tira de tiempo · duración por fase ·
+   nota en media-cards · flash de "continuar" · botón volver-arriba
+   ================================================================ */
+
+/* ── Barra de filtros (checklist): búsqueda + tipo + estado ──
+   Filtro SOLO visual: oculta filas/fases con .is-filtered-out, no toca
+   state/ratings ni los contadores de progreso. */
+.filterbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 4px;}
+.filterbar__search{position:relative;flex:1 1 220px;min-width:180px;display:flex;align-items:center;}
+.filterbar__search svg{position:absolute;left:12px;color:var(--muted);pointer-events:none;}
+.filterbar__search input{
+  width:100%;min-height:38px;padding:0 12px 0 34px;
+  font-family:var(--font-body);font-size:13px;color:var(--text);
+  background:rgba(16,18,34,.66);border:1px solid rgba(184,190,239,.16);border-radius:var(--r-full);
+  transition:border-color var(--dur-fast) var(--ease-smooth),background var(--dur-fast) var(--ease-smooth);
+}
+.filterbar__search input::placeholder{color:var(--muted);}
+.filterbar__search input:focus-visible{outline:2px solid var(--accent-2);outline-offset:1px;border-color:transparent;}
+.filterbar__search input::-webkit-search-cancel-button{-webkit-appearance:none;}
+.filterbar__group{display:flex;gap:5px;flex-wrap:wrap;}
+.fchip{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:30px;padding:0 12px;border-radius:var(--r-full);cursor:pointer;
+  font-family:var(--font-body);font-weight:var(--fw-semibold);font-size:10.5px;
+  letter-spacing:.05em;text-transform:uppercase;
+  color:var(--text-2);background:rgba(255,255,255,.035);border:1px solid rgba(185,190,239,.16);
+  transition:color var(--dur-fast) var(--ease-smooth),border-color var(--dur-fast) var(--ease-smooth),background var(--dur-fast) var(--ease-smooth);
+}
+.fchip.active{color:#fff;background:linear-gradient(110deg,rgba(123,87,236,.5),rgba(62,127,238,.4));border-color:rgba(155,142,255,.55);}
+.fchip:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;}
+.fchip:active{transform:scale(.97);}
+.item.is-filtered-out{display:none;}
+.phase.is-filtered-out{display:none;}
+.filter-empty{margin:26px 2px 0;font-size:13px;color:var(--text-2);}
+
+/* ── Tira de tiempo: horas de metraje vistas vs. restantes ── */
+.time-strip{
+  display:flex;align-items:center;gap:10px;
+  margin:10px 0 12px;padding:9px 14px;
+  background:rgba(16,18,34,.5);border:1px solid rgba(184,190,239,.1);border-radius:var(--r-full);
+  color:var(--text-2);font-size:11.5px;font-weight:500;
+}
+.time-strip svg{flex-shrink:0;color:var(--muted);}
+.time-strip span{white-space:nowrap;font-variant-numeric:tabular-nums;font-feature-settings:'tnum';}
+.time-strip__bar{flex:1 1 auto;height:5px;border-radius:var(--r-full);background:rgba(135,143,211,.14);overflow:hidden;}
+.time-strip__fill{height:100%;width:0;border-radius:var(--r-full);background:var(--brand-gradient);box-shadow:0 0 8px rgba(130,103,255,.5);transition:width var(--dur-slower) var(--ease-smooth);}
+
+/* ── Metraje total en la cabecera de cada fase ── */
+.phase-duration{
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  font-size:11px;font-weight:500;color:#8e94b1;
+  font-variant-numeric:tabular-nums;font-feature-settings:'tnum';
+}
+.phase-duration svg{color:#8e94b1;flex-shrink:0;}
+
+/* ── Tu nota en las tarjetas de Resúmenes/Plataforma ── */
+.media-card__nota{
+  position:absolute;z-index:3;bottom:8px;left:8px;
+  display:inline-flex;align-items:center;
+  padding:3px 8px;border-radius:var(--r-full);
+  font-family:var(--font-body);font-weight:var(--fw-semibold);font-size:10px;
+  letter-spacing:.03em;color:#fff;
+  background:linear-gradient(110deg,rgba(123,87,236,.85),rgba(62,127,238,.8));
+  border:1px solid rgba(190,175,255,.5);
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── Realce temporal de la fila destino de «Continuar maratón» ── */
+.item.is-flash{
+  border-color:var(--accent-2);
+  box-shadow:0 0 0 2px rgb(96 165 250 / .55), 0 0 24px rgb(96 165 250 / .3);
+}
+
+/* ── Botón flotante volver-arriba (bajo la bottom nav en z-index) ── */
+.to-top{
+  position:fixed;right:16px;bottom:22px;z-index:39;
+  width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;cursor:pointer;
+  color:var(--text-2);
+  background:rgba(14,16,30,.85);border:1px solid rgba(184,190,239,.25);
+  backdrop-filter:blur(8px);
+  box-shadow:0 10px 26px rgba(0,0,0,.4);
+  opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity var(--dur-normal) var(--ease-smooth),transform var(--dur-normal) var(--ease-smooth),color var(--dur-fast) var(--ease-smooth),border-color var(--dur-fast) var(--ease-smooth);
+}
+.to-top.is-show{opacity:1;transform:none;pointer-events:auto;}
+.to-top:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;}
+.to-top:active{transform:scale(.94);}
+@media (max-width:899px){
+  .to-top{right:12px;bottom:calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 14px);}
+}
+@media (max-width:599px){
+  .filterbar{gap:8px;}
+  .filterbar__search{flex-basis:100%;}
+  .filterbar__group{width:100%;}
+  .fchip{flex:1 1 auto;padding:0 8px;}
+  .time-strip{padding:8px 12px;gap:8px;font-size:10px;}
+}
+@media (hover:hover) and (pointer:fine){
+  .filterbar__search input:hover{border-color:rgba(184,190,239,.3);}
+  .fchip:hover{color:var(--text);border-color:rgba(160,143,255,.45);background:rgba(255,255,255,.07);}
+  .fchip.active:hover{color:#fff;}
+  .to-top:hover{color:var(--text);border-color:rgba(160,143,255,.55);}
+}
+
+/* ================================================================
+   MEJORAS 2026-07-23 (ronda 2): filtros de estantería · salto de
+   fases · fase completada + marcar todo · pop del tick
+   ================================================================ */
+
+/* ── Filtro de estado en Resúmenes/Plataforma (CSS-driven) ── */
+.shelf-filter{display:flex;gap:5px;flex-wrap:wrap;margin:-8px 0 18px;}
+.media-grid[data-mfilter="pend"] .media-card.is-done{display:none;}
+.media-grid[data-mfilter="visto"] .media-card:not(.is-done){display:none;}
+
+/* ── Salto rápido de fases bajo la barra de filtros ── */
+.phase-jump{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0 0;}
+.phase-jump .fchip{text-decoration:none;}
+
+/* ── Fase completada: insignia + barra en verde ── */
+.phase-complete{
+  display:none;align-items:center;gap:4px;
+  min-height:22px;padding:0 9px;border-radius:var(--r-full);
+  font-family:var(--font-body);font-weight:var(--fw-semibold);
+  font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--done);background:rgb(52 211 153/.12);border:1px solid rgb(52 211 153/.35);
+}
+.phase-complete svg{width:10px;height:10px;stroke:var(--done);stroke-width:3.2;fill:none;flex-shrink:0;}
+.phase.is-complete .phase-complete{display:inline-flex;}
+.phase.is-complete .phase-progress-fill{background:linear-gradient(90deg,#34d399,#60a5fa);box-shadow:0 0 10px rgb(52 211 153/.5);}
+
+/* ── Botón marcar/quitar toda la fase ── */
+.phase-mark{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:26px;padding:0 11px;border-radius:var(--r-full);cursor:pointer;
+  font-family:var(--font-body);font-weight:var(--fw-semibold);
+  font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--text-2);background:rgba(255,255,255,.035);border:1px solid rgba(185,190,239,.18);
+  transition:color var(--dur-fast) var(--ease-smooth),border-color var(--dur-fast) var(--ease-smooth),background var(--dur-fast) var(--ease-smooth);
+}
+.phase-mark:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;}
+.phase-mark:active{transform:scale(.97);}
+
+/* ── Pop del tick al marcar (clase .pop puesta solo por toggleItem) ── */
+.item.pop .check svg{animation:checkPop .4s var(--ease-bounce);}
+@keyframes checkPop{0%{transform:scale(.3);}65%{transform:scale(1.35);}100%{transform:scale(1);}}
+
+@media (max-width:599px){
+  /* Salto de fases: carrusel horizontal de una línea */
+  .phase-jump{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+  .phase-jump::-webkit-scrollbar{display:none;}
+  .phase-jump .fchip{flex:0 0 auto;}
+  .shelf-filter .fchip{flex:1 1 auto;}
+  .phase-mark{min-height:24px;padding:0 9px;font-size:9px;}
+}
+@media (hover:hover) and (pointer:fine){
+  .phase-mark:hover{color:var(--text);border-color:rgba(160,143,255,.45);background:rgba(255,255,255,.07);}
+}
