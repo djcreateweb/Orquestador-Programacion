@@ -732,7 +732,7 @@ function applyFilters(){
       const matchR=filterState.rating==='all'
         || (filterState.rating==='rated' && hasRating)
         || (filterState.rating==='unrated' && !hasRating)
-        || (!isNaN(Number(filterState.rating)) && hasRating && Number(currentRating)>=Number(filterState.rating));
+        || (!isNaN(Number(filterState.rating)) && hasRating && Number(currentRating)===Number(filterState.rating));
       const show=matchQ&&matchT&&matchE&&matchR;
       ref.row.classList.toggle('is-filtered-out',!show);
       if(show) visible++;
@@ -755,6 +755,15 @@ function setupFilters(){
   });
   const ratingSelect=document.getElementById('filterRating');
   if(ratingSelect){
+    for(let n=1;n<=10;n++){
+      let option=ratingSelect.querySelector('option[value="'+n+'"]');
+      if(!option){
+        option=document.createElement('option');
+        option.value=String(n);
+      }
+      option.textContent='Nota '+n;
+      ratingSelect.appendChild(option);
+    }
     ratingSelect.addEventListener('change',function(){
       filterState.rating=ratingSelect.value;
       applyFilters();
