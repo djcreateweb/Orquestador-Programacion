@@ -3,12 +3,13 @@
 ## Qué es
 
 Tracker de visionado del Universo Cinematográfico Marvel (MCU) + saga X-Men.
-Aplicación estática sin build step, sin dependencias y sin backend:
-`index.html` es solo markup; el CSS vive en `css/` y el JS en `js/`.
-Se abre directamente en el navegador (`file://` o cualquier hosting estático).
+Aplicación estática sin build step: funciona en local con `localStorage` y,
+cuando se configura Firebase, añade Google Sign-In y sincronización con
+Cloud Firestore.
 
 - HTML5 + CSS3 + JavaScript vanilla (ES2017, IIFE, `'use strict'`)
-- Persistencia 100% en `localStorage` del navegador (sin servidor, sin cuentas)
+- Persistencia local en `localStorage`; Firebase es opcional y no debe impedir
+  el funcionamiento local cuando la configuración está vacía
 - Fuentes: Google Fonts (Anton, Oswald, Inter) vía `<link>` en `<head>`
 - Repo git **anidado** dentro del monorepo del Orquestador — no hacer commits
   automáticos aquí salvo petición explícita del usuario
@@ -36,10 +37,16 @@ js/
   data.js                   DATA (6 fases MCU), XMEN_DATA, PRESET_VISTO.
                              Se carga SEGUNDO.
   app.js                    Toda la lógica de la app (IIFE). Se carga TERCERO.
+  firebase-config.js        Plantilla de configuración del proyecto.
+  firebase.js               SDK modular bajo demanda: Google Auth + Firestore.
 assets/posters/*.jpg        81 pósters TMDB (w500), uno por item.
 assets/fondo/*.jpg           endgame-backdrop.jpg (hero), endgame-backdrop-2 y
                              stark-tower (capas ambientales de background.css).
 docs/                       CHANGELOG.md · DOCUMENTACION.md · disney-links.md
+                             FIREBASE-SETUP.md (configuración y despliegue).
+firebase.json               Hosting + Firestore rules/indexes para Firebase CLI.
+firestore.rules             Cada usuario solo puede leer/escribir su documento.
+firestore.indexes.json      Índices explícitos (actualmente vacíos).
 design/                     Specs y previews de diseño (histórico, no
                              autoritativo frente al código real):
                              PLAN-REDISENO-PRO.md, DISENO-*.md,
@@ -49,7 +56,8 @@ archivo/                    Legacy sin referencias: posters.data.js,
 ```
 
 **Orden de carga obligatorio** en `index.html`:
-`js/images-posters.js` → `js/data.js` → `js/app.js`. Los tres declaran
+`js/images-posters.js` → `js/data.js` → `js/firebase-config.js` → `js/app.js`
+→ `js/firebase.js` (module). Los scripts clásicos declaran
 `const` en el ámbito global del script clásico; `app.js` consume
 `POSTERS_LOCAL`, `HERO_LOCAL`, `DATA`, `XMEN_DATA` y `PRESET_VISTO`.
 
@@ -155,10 +163,11 @@ respetarlas o migrar explícitamente los datos existentes.
   retirar siempre clase/scrim.
 - **`css/tokens.css` mantiene alias legacy** (`--surface`, `--blue`,
   `--brand-purple*`, etc.) — no eliminarlos sin migrar cada selector.
-- **Filtros del checklist** (`.filterbar`: búsqueda + tipo + estado):
+- **Filtros del checklist** (`.filterbar`: búsqueda + tipo + estado + nota):
   SOLO visuales — ocultan filas/fases con `.is-filtered-out` sin tocar
-  `state`/`ratings` ni contadores. Solo aplican a las fases de `DATA`
-  (X-Men sin filtros). `applyFilters()` se llama desde `refreshAllUI()`
+  `state`/`ratings` ni contadores. `#filterRating` permite cualquier nota,
+  con nota, sin nota o umbrales 5+/7+/8+/9+. Solo aplican a las fases de
+  `DATA` (X-Men sin filtros). `applyFilters()` se llama desde `refreshAllUI()`
   y `toggleItem()` para mantener coherencia; `phaseRefs` guarda ahora
   también `sec` (el nodo de la fase) para poder ocultar fases vacías.
 - **Tira de tiempo** (`#timeSeen/#timeLeft/#timeFill`) y **CTA dinámico
@@ -196,6 +205,13 @@ respetarlas o migrar explícitamente los datos existentes.
   55/56, por encima del sheet de nota) y clase `body.modal-open` para el
   bloqueo de scroll (independiente de `body.sheet-open`). Ver
   `setupSync()` en `js/app.js`.
+- **Firebase opcional**: `js/firebase.js` carga el SDK modular desde el CDN
+  solo si `js/firebase-config.js` contiene la configuración real. Google
+  Sign-In usa popup en escritorio y redirect en móvil. El documento
+  `users/{uid}` guarda `seen`, `ratings`, perfil y `updatedAt`; las reglas en
+  `firestore.rules` limitan el acceso al usuario autenticado. El modo Firebase
+  requiere servir la app por HTTP/Hosting, no abrirla con `file://`. Ver
+  `docs/FIREBASE-SETUP.md`.
 
 ## Notas de proceso
 
@@ -205,8 +221,8 @@ respetarlas o migrar explícitamente los datos existentes.
   en `docs/DOCUMENTACION.md`, sesión 2026-07-23).
 - Tras cualquier edición de `js/data.js` o `js/app.js`, verificar con
   `grep`/lectura que `DATA`, `XMEN_DATA`, `TAB_IDS` y las funciones
-  `build*` siguen presentes y completas, y que `index.html` conserva las
-  tres `<script src>` en orden, antes de dar la tarea por cerrada.
+  `build*` siguen presentes y completas, y que `index.html` conserva el
+  orden de carga de imágenes → datos → configuración → app → Firebase.
 - QA visual sin navegador interactivo: Edge headless
   (`msedge --headless=new --screenshot=... file:///...`). Ojo: en Windows
   el ancho mínimo real de ventana es ~500px — para probar viewports

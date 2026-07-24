@@ -39,6 +39,35 @@
 </div>
 <div class="poster-wall" id="posterWall" aria-hidden="true"></div>
 
+<!-- Pantalla de acceso: se activa automáticamente cuando Firebase está configurado. -->
+<div class="auth-gate" id="authGate" hidden>
+  <div class="auth-gate__backdrop" aria-hidden="true"></div>
+  <section class="auth-gate__card" role="dialog" aria-modal="true" aria-labelledby="authGateTitle">
+    <div class="auth-gate__mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="42" height="42" focusable="false">
+        <defs>
+          <linearGradient id="authGateGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#60a5fa"/>
+          </linearGradient>
+        </defs>
+        <path d="M16 1.4 28.4 8.2v13.6L16 30.6 3.6 21.8V8.2Z" fill="#232338" stroke="url(#authGateGrad)" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="m16 8.2 2.3 5.9 5.9 1.9-5.9 1.9-2.3 5.9-2.3-5.9L7.8 16l5.9-1.9Z" fill="url(#authGateGrad)"/>
+      </svg>
+    </div>
+    <p class="auth-gate__eyebrow">MCU TRACKER · MULTIVERSO</p>
+    <h1 id="authGateTitle"><span>Tu maratón.</span> <em>Tu historia.</em></h1>
+    <p class="auth-gate__copy">Inicia sesión para guardar tus vistos, tus notas y tu porcentaje de progreso en todos tus dispositivos.</p>
+    <button class="auth-gate__google" id="authGateButton" type="button">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.27c0-.72-.06-1.42-.18-2.09H12v3.96h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.7 2.91-4.2 2.91-7.26Z"/><path fill="#34A853" d="M12 21.7c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.7-1.72-5.47-4.03H3.28v2.53A9.74 9.74 0 0 0 12 21.7Z"/><path fill="#FBBC05" d="M6.53 13.78A5.86 5.86 0 0 1 6.22 12c0-.62.11-1.22.31-1.78V7.69H3.28A9.74 9.74 0 0 0 2.25 12c0 1.56.37 3.03 1.03 4.31l3.25-2.53Z"/><path fill="#EA4335" d="M12 6.19c1.43 0 2.71.49 3.72 1.46l2.79-2.79C16.84 3.17 14.63 2.3 12 2.3a9.74 9.74 0 0 0-8.72 5.39l3.25 2.53C7.3 7.91 9.46 6.19 12 6.19Z"/></svg>
+      <span>Continuar con Google</span>
+    </button>
+    <p class="auth-gate__status" id="authGateStatus" role="status" aria-live="polite">Conectando con Firebase…</p>
+    <button class="auth-gate__local" id="authGateLocal" type="button">Continuar sin cuenta</button>
+    <p class="auth-gate__footnote">Tu progreso queda protegido y solo tú puedes verlo.</p>
+  </section>
+</div>
+
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand">
@@ -61,6 +90,17 @@
     <div class="topbar-progress">
       <span class="pct" id="pctLabel">0% completado</span>
       <div class="mini-bar"><div class="mini-fill" id="miniFill"></div></div>
+    </div>
+    <div class="auth-area" id="authArea">
+      <span class="auth-status" id="authStatus" aria-live="polite">Solo este dispositivo</span>
+      <div class="auth-user" id="authUser" hidden>
+        <img id="authAvatar" src="" alt="">
+        <span class="auth-user__name" id="authUserName"></span>
+      </div>
+      <button class="auth-button" id="authButton" type="button" title="Entrar con Google" aria-label="Entrar con Google">
+        <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.27c0-.72-.06-1.42-.18-2.09H12v3.96h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.7 2.91-4.2 2.91-7.26Z"/><path fill="#34A853" d="M12 21.7c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.7-1.72-5.47-4.03H3.28v2.53A9.74 9.74 0 0 0 12 21.7Z"/><path fill="#FBBC05" d="M6.53 13.78A5.86 5.86 0 0 1 6.22 12c0-.62.11-1.22.31-1.78V7.69H3.28A9.74 9.74 0 0 0 2.25 12c0 1.56.37 3.03 1.03 4.31l3.25-2.53Z"/><path fill="#EA4335" d="M12 6.19c1.43 0 2.71.49 3.72 1.46l2.79-2.79C16.84 3.17 14.63 2.3 12 2.3a9.74 9.74 0 0 0-8.72 5.39l3.25 2.53C7.3 7.91 9.46 6.19 12 6.19Z"/></svg>
+        <span id="authButtonLabel">Entrar con Google</span>
+      </button>
     </div>
   </div>
 </div>
@@ -184,6 +224,18 @@
         <button class="fchip" data-festado="pend" type="button" aria-pressed="false">Pendientes</button>
         <button class="fchip" data-festado="visto" type="button" aria-pressed="false">Vistos</button>
       </div>
+      <label class="filterbar__rating">
+        <span>Nota</span>
+        <select id="filterRating" aria-label="Filtrar por puntuación">
+          <option value="all">Cualquier nota</option>
+          <option value="rated">Con nota</option>
+          <option value="unrated">Sin nota</option>
+          <option value="5">5 o más</option>
+          <option value="7">7 o más</option>
+          <option value="8">8 o más</option>
+          <option value="9">9 o más</option>
+        </select>
+      </label>
     </div>
 
     <nav class="phase-jump" id="phaseJump" aria-label="Ir directamente a una fase"></nav>
@@ -261,9 +313,11 @@
   <p class="sync-msg" id="syncMsg" role="status"></p>
 </div>
 
-<!-- Orden de carga obligatorio: imágenes → datos → app (ver js/app.js y CLAUDE.md) -->
+<!-- Orden de carga obligatorio: imágenes → datos → app → Firebase (ver js/app.js y docs/FIREBASE-SETUP.md) -->
 <script src="js/images-posters.js"></script>
 <script src="js/data.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/app.js"></script>
+<script type="module" src="js/firebase.js"></script>
 </body>
 </html>

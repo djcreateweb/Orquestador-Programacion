@@ -26,6 +26,25 @@ const CLOCK='<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke=
 let state={};
 let ratings={};
 
+window.mcuGetSnapshot=function(){
+  const seen=Object.keys(state).filter(function(t){ return !!state[t]; });
+  const total=typeof TRACKED_ITEMS!=='undefined' ? TRACKED_ITEMS.length : 0;
+  return {
+    seen:seen,
+    ratings:Object.assign({},ratings),
+    progressPercent:total ? Math.round(seen.length/total*100) : 0
+  };
+};
+
+function notifyLocalChange(){
+  const snapshot=window.mcuGetSnapshot();
+  window.dispatchEvent(new CustomEvent('mcu-local-change',{detail:{
+    seen:snapshot.seen,
+    ratings:snapshot.ratings,
+    progressPercent:snapshot.progressPercent
+  }}));
+}
+
 /* ============ HELPERS ============ */
 function posterOf(it){ return POSTERS_LOCAL[it.t] || null; }
 function googleUrl(it){ return 'https://www.google.com/search?q='+encodeURIComponent(it.q||it.t); }
@@ -53,16 +72,23 @@ function load(){
   try{ state=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ state={}; }
   if(!localStorage.getItem(KEY)){ PRESET_VISTO.forEach(t=>state[t]=true); save(); }
 }
-function save(){ localStorage.setItem(KEY,JSON.stringify(state)); }
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(state));
+  notifyLocalChange();
+}
 
 function loadRatings(){
   try{ ratings=JSON.parse(localStorage.getItem(RATINGS_KEY))||{}; }catch(e){ ratings={}; }
 }
-function saveRatings(){ localStorage.setItem(RATINGS_KEY,JSON.stringify(ratings)); }
+function saveRatings(){
+  localStorage.setItem(RATINGS_KEY,JSON.stringify(ratings));
+  notifyLocalChange();
+}
 function setRating(t,val){
   if(val===''){ delete ratings[t]; }else{ ratings[t]=Number(val); }
   saveRatings();
   syncMediaRating(t); // refleja la nota en las tarjetas de Resúmenes/Plataforma
+  applyFilters();
 }
 
 /* ============ ÍNDICES AUXILIARES ============ */
@@ -683,7 +709,7 @@ function toggleItem(t){
    Ocultan filas (.is-filtered-out) y fases vacías sin tocar state,
    ratings ni los contadores de progreso. Solo afectan a las fases de
    DATA (la pestaña X-Men, con 19 items, no lleva filtros). */
-const filterState={q:'',type:'all',estado:'all'};
+const filterState={q:'',type:'all',estado:'all',rating:'all'};
 
 function normalizeText(s){
   return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -701,7 +727,13 @@ function applyFilters(){
       const matchT=filterState.type==='all' || it.type===filterState.type;
       const isSeen=!!state[it.t];
       const matchE=filterState.estado==='all' || (filterState.estado==='visto' ? isSeen : !isSeen);
-      const show=matchQ&&matchT&&matchE;
+      const currentRating=ratings[it.t];
+      const hasRating=currentRating!==undefined && currentRating!==null && currentRating!=='';
+      const matchR=filterState.rating==='all'
+        || (filterState.rating==='rated' && hasRating)
+        || (filterState.rating==='unrated' && !hasRating)
+        || (!isNaN(Number(filterState.rating)) && hasRating && Number(currentRating)>=Number(filterState.rating));
+      const show=matchQ&&matchT&&matchE&&matchR;
       ref.row.classList.toggle('is-filtered-out',!show);
       if(show) visible++;
     });
@@ -721,6 +753,13 @@ function setupFilters(){
     filterState.q=input.value;
     applyFilters();
   });
+  const ratingSelect=document.getElementById('filterRating');
+  if(ratingSelect){
+    ratingSelect.addEventListener('change',function(){
+      filterState.rating=ratingSelect.value;
+      applyFilters();
+    });
+  }
   bar.querySelectorAll('.fchip').forEach(function(chip){
     chip.addEventListener('click',function(){
       if(chip.dataset.ftype!==undefined){ filterState.type=chip.dataset.ftype; }
@@ -732,6 +771,28 @@ function setupFilters(){
       });
       applyFilters();
     });
+  });
+}
+
+/* ============ FIRESTORE: cargar un perfil remoto sin perder el modo local ============ */
+function setupCloudSync(){
+  window.addEventListener('mcu-cloud-load',function(event){
+    const data=event.detail||{};
+    if(!Array.isArray(data.seen) || !data.ratings || typeof data.ratings!=='object') return;
+    state={};
+    data.seen.forEach(function(t){ if(typeof t==='string') state[t]=true; });
+    ratings={};
+    Object.keys(data.ratings).forEach(function(t){
+      const n=Number(data.ratings[t]);
+      if(Number.isFinite(n) && n>=0 && n<=10) ratings[t]=Math.round(n);
+    });
+    localStorage.setItem(KEY,JSON.stringify(state));
+    localStorage.setItem(RATINGS_KEY,JSON.stringify(ratings));
+    buildChecklist();
+    buildXmen();
+    buildResumenes();
+    buildPlataforma();
+    refreshAllUI();
   });
 }
 
@@ -1053,5 +1114,6 @@ setupFilters();
 setupShelfFilters();
 setupContinue();
 setupToTop();
+setupCloudSync();
 
 })();

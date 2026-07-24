@@ -1,0 +1,35 @@
+{
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "MCU Tracker",
+        "supportEmail": "djcreateweb@gmail.com",
+          "authorizedRedirectUris": [
+            "https://mcu-tracker-31ddf.web.app/__/auth/handler",
+          "https://mcu-tracker-31ddf.firebaseapp.com/__/auth/handler"
+        ]
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "CLAUDE.md",
+      "AGENTS.md",
+      "firebase-debug.log",
+      "firestore.rules",
+      "firestore.indexes.json",
+      "docs/**",
+      "design/**",
+      "archivo/**",
+      ".git/**"
+    ],
+    "cleanUrls": true
+  }
+}

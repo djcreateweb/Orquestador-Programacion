@@ -1572,3 +1572,203 @@ body.modal-open{overflow:hidden;overscroll-behavior:contain;}
 @media (hover:hover) and (pointer:fine){
   .phase-mark:hover{color:var(--text);border-color:rgba(160,143,255,.45);background:rgba(255,255,255,.07);}
 }
+
+/* ================================================================
+   GOOGLE AUTH + FILTRO DE PUNTUACIÓN + MOBILE HARDENING
+   ================================================================ */
+
+html{
+  background:#0b0b14;
+  overflow-x:hidden;
+}
+body{
+  min-width:0;
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+.auth-area{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  min-width:0;
+}
+.auth-status{
+  color:#858ba8;
+  font-size:10px;
+  white-space:nowrap;
+}
+.auth-status.is-error{color:#ff8a8f;}
+.auth-user{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+  color:#d9dcf1;
+  font-size:11px;
+  font-weight:600;
+}
+.auth-user[hidden]{display:none;}
+.auth-user img{
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid rgba(177,184,238,.4);
+}
+.auth-user__name{
+  max-width:120px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.auth-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:32px;
+  padding:0 11px;
+  border:1px solid rgba(184,190,239,.2);
+  border-radius:var(--r-full);
+  background:rgba(255,255,255,.05);
+  color:#edf0ff;
+  font-family:var(--font-body);
+  font-size:10px;
+  font-weight:600;
+  white-space:nowrap;
+  cursor:pointer;
+  transition:background var(--dur-fast),border-color var(--dur-fast),transform var(--dur-fast),opacity var(--dur-fast);
+}
+.auth-button:disabled{cursor:wait;opacity:.65;}
+.auth-button:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;}
+
+.filterbar__rating{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  min-height:38px;
+  padding:0 8px 0 11px;
+  border:1px solid rgba(184,190,239,.16);
+  border-radius:var(--r-full);
+  background:rgba(16,18,34,.66);
+  color:var(--text-2);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.filterbar__rating select{
+  min-height:28px;
+  max-width:145px;
+  padding:0 22px 0 8px;
+  border:1px solid rgba(160,143,255,.3);
+  border-radius:var(--r-full);
+  background:#1a1d34;
+  color:#f0f1ff;
+  font:600 11px var(--font-body);
+  letter-spacing:0;
+  cursor:pointer;
+}
+.filterbar__rating select:focus-visible{outline:2px solid var(--accent-2);outline-offset:1px;}
+
+@media (hover:hover) and (pointer:fine){
+  .auth-button:hover{border-color:rgba(160,143,255,.58);background:rgba(123,87,236,.16);}
+}
+
+@media (max-width:899px){
+  html,body{width:100%;max-width:100%;}
+  .topbar,.hero-cinematic,.tabs-bar,main,footer{max-width:100vw;}
+  .topbar-inner,.wrap{width:100%;max-width:100%;min-width:0;}
+  .auth-status{display:none;}
+  .auth-user__name{max-width:76px;}
+  .filterbar,.filterbar__group,.filterbar__rating,.filterbar__search{min-width:0;max-width:100%;}
+  .filterbar__rating{flex:1 1 190px;justify-content:space-between;}
+  .filterbar__rating select{flex:1 1 auto;max-width:none;}
+  .item,.media-card,.media-grid,.grid,.phase{min-width:0;max-width:100%;}
+  .item .meta{min-width:0;}
+  .media-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+
+@media (max-width:599px){
+  .topbar-inner{position:relative;display:flex;gap:7px;padding-left:12px;padding-right:52px;}
+  .topbar-progress{min-width:0;margin-left:auto;justify-content:flex-end;gap:5px;}
+  .topbar-progress .pct{font-size:8px;letter-spacing:.03em;}
+  .topbar-progress .pct{max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .mini-bar{width:52px;}
+  .auth-area{position:absolute;right:12px;top:50%;display:flex;flex:0 0 32px;gap:4px;transform:translateY(-50%);}
+  .auth-user__name{display:none;}
+  .auth-button{width:32px;min-width:32px;height:32px;min-height:32px;padding:0;gap:0;border-radius:50%;font-size:0;}
+  .auth-button span{display:none;}
+  .auth-button svg{width:13px;height:13px;}
+  .filterbar__rating{flex-basis:100%;width:100%;}
+  .filterbar__rating select{font-size:12px;min-height:30px;}
+  .filterbar__search input{font-size:16px;}
+  .hero-title{max-width:100%;font-size:clamp(2.2rem,10.8vw,4.6rem);letter-spacing:-.035em;}
+  .hero-title .metal-title,.hero-title .metal-title-accent{max-width:100%;}
+  .hero-subtitle{display:block;width:100%;max-width:none;min-width:0;white-space:normal;overflow-wrap:break-word;word-break:normal;}
+  .media-grid{gap:10px 7px;}
+  .media-card{border-radius:11px;}
+  .item{width:100%;}
+}
+
+/* ================================================================
+   PANTALLA DE ACCESO FIREBASE · MCU / ENDGAME
+   ================================================================ */
+
+.auth-gate[hidden]{display:none;}
+body.auth-gate-open{overflow:hidden;}
+.auth-gate{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  overflow:auto;
+  isolation:isolate;
+}
+.auth-gate__backdrop{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:linear-gradient(90deg,rgba(11,11,20,.97) 0%,rgba(11,11,20,.82) 43%,rgba(11,11,20,.62) 100%),url('../assets/fondo/endgame-backdrop.jpg') center/cover no-repeat;
+  filter:saturate(.85);
+}
+.auth-gate::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(circle at 74% 36%,rgb(96 165 250/.16),transparent 30%),radial-gradient(circle at 20% 75%,rgb(139 92 246/.14),transparent 32%),linear-gradient(120deg,transparent 35%,rgb(167 139 250/.06),transparent 70%);
+}
+.auth-gate__card{
+  width:min(100%,460px);
+  padding:clamp(30px,6vw,58px) clamp(24px,7vw,58px) 28px;
+  border:1px solid rgb(205 209 219/.2);
+  border-radius:var(--r-xl);
+  background:linear-gradient(145deg,rgb(35 35 56/.94),rgb(13 14 28/.94));
+  box-shadow:0 24px 80px rgb(0 0 0/.64),inset 0 1px 0 rgb(255 255 255/.1),0 0 0 1px rgb(139 92 246/.08);
+  text-align:center;
+  backdrop-filter:blur(18px) saturate(135%);
+  animation:authGateIn .45s var(--ease-smooth) both;
+}
+.auth-gate__mark{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 20px;border:1px solid rgb(160 143 255/.3);border-radius:20px;background:rgb(11 11 20/.52);box-shadow:0 0 34px rgb(139 92 246/.18);}
+.auth-gate__eyebrow{margin:0 0 12px;color:var(--accent-2);font:600 11px/1.2 var(--font-body);letter-spacing:.18em;}
+.auth-gate h1{margin:0;color:var(--text);font:400 clamp(2.35rem,6vw,3.5rem)/.95 var(--font-hero);letter-spacing:-.025em;text-transform:uppercase;}
+.auth-gate h1 span,.auth-gate h1 em{display:block;font-style:normal;}
+.auth-gate h1 em{color:transparent;background:var(--brand-gradient);background-clip:text;-webkit-background-clip:text;}
+.auth-gate__copy{max-width:340px;margin:22px auto 26px;color:var(--text-2);font:400 14px/1.65 var(--font-body);}
+.auth-gate__google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:50px;border:1px solid rgb(255 255 255/.18);border-radius:var(--r-md);background:#f8f9ff;color:#202124;font:600 13px var(--font-body);cursor:pointer;box-shadow:0 8px 22px rgb(0 0 0/.25);transition:transform var(--dur-fast),box-shadow var(--dur-fast),background var(--dur-fast);}
+.auth-gate__google:disabled{cursor:wait;opacity:.62;}
+.auth-gate__google:focus-visible,.auth-gate__local:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px;}
+.auth-gate__local{margin-top:17px;padding:5px 8px;border:0;background:transparent;color:var(--muted);font:500 11px var(--font-body);cursor:pointer;text-decoration:underline;text-decoration-color:rgb(169 169 196/.35);text-underline-offset:3px;}
+.auth-gate__status{min-height:16px;margin:13px 0 0;color:var(--accent);font:500 11px var(--font-body);}
+.auth-gate__status.is-error{color:#ff8a8f;}
+.auth-gate__footnote{margin:26px 0 0;color:var(--muted);font:400 10px/1.5 var(--font-body);}
+@keyframes authGateIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@media (hover:hover) and (pointer:fine){.auth-gate__google:hover{background:#fff;box-shadow:0 12px 30px rgb(96 165 250/.2);transform:translateY(-1px)}.auth-gate__local:hover{color:var(--text-2);}}
+@media (max-width:599px){.auth-gate{padding:14px}.auth-gate__card{padding:34px 22px 24px}.auth-gate__copy{font-size:13px;}}
