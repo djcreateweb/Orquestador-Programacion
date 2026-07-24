@@ -1448,6 +1448,15 @@ body.modal-open{overflow:hidden;overscroll-behavior:contain;}
 .phase.is-filtered-out{display:none;}
 .filter-empty{margin:26px 2px 0;font-size:13px;color:var(--text-2);}
 
+/* Filtros compactos compartidos por las cuatro secciones. */
+.section-filterbar{margin-top:12px;margin-bottom:18px;}
+.filterbar .fchip[data-ftype="all"],
+.filterbar .fchip[data-festado="all"],
+.filterbar .fchip[data-festado="visto"]{display:none;}
+.phase-jump,.shelf-filter{display:none!important;}
+.media-card.is-filtered-out{display:none!important;}
+.filter-empty[hidden]{display:none;}
+
 /* ── Tira de tiempo: horas de metraje vistas vs. restantes ── */
 .time-strip{
   display:flex;align-items:center;gap:10px;
@@ -1705,6 +1714,9 @@ body{
   .auth-button svg{width:13px;height:13px;}
   .filterbar__rating{flex-basis:100%;width:100%;}
   .filterbar__rating select{font-size:12px;min-height:30px;}
+  .section-filterbar{gap:8px;margin-bottom:14px;}
+  .section-filterbar .filterbar__search{flex-basis:100%;}
+  .section-filterbar .filterbar__group{flex:1 1 auto;}
   .filterbar__search input{font-size:16px;}
   .hero-title{max-width:100%;font-size:clamp(2.2rem,10.8vw,4.6rem);letter-spacing:-.035em;}
   .hero-title .metal-title,.hero-title .metal-title-accent{max-width:100%;}

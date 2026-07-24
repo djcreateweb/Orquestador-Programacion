@@ -503,6 +503,8 @@ function buildMediaCard(it, kind){
 
   const card=document.createElement('a');
   card.className='media-card media-card--'+kind+(state[it.t]?' is-done':'');
+  card.dataset.mcuTitle=it.t;
+  card.dataset.mcuType=it.type;
   card.href=url;
   card.target='_blank';
   card.rel='noopener';
@@ -1097,6 +1099,192 @@ function setupTabs(){
   window.addEventListener('hashchange',()=>activateTab(tabNameFromHash()));
   activateTab(tabNameFromHash());
 }
+
+/* ============ FILTROS UNIFICADOS Y LISTAS SIN FASES ============ */
+const filterStates={
+  checklist:{q:'',type:'all',pending:false,rating:'all'},
+  xmen:{q:'',type:'all',pending:false,rating:'all'},
+  resumenes:{q:'',type:'all',pending:false,rating:'all'},
+  plataforma:{q:'',type:'all',pending:false,rating:'all'}
+};
+
+function addFilterButton(group,text,kind,value){
+  const button=document.createElement('button');
+  button.className='fchip';
+  button.type='button';
+  button.setAttribute('aria-pressed','false');
+  button.textContent=text;
+  if(kind==='type') button.dataset.filterType=value;
+  else button.dataset.filterPending='true';
+  group.appendChild(button);
+  return button;
+}
+
+function fillRatingFilter(select){
+  select.innerHTML='';
+  [['all','Cualquier nota'],['rated','Con nota'],['unrated','Sin nota']].forEach(function(entry){
+    const option=document.createElement('option');
+    option.value=entry[0]; option.textContent=entry[1]; select.appendChild(option);
+  });
+  for(let n=1;n<=10;n++){
+    const option=document.createElement('option');
+    option.value=String(n); option.textContent='Nota '+n; select.appendChild(option);
+  }
+}
+
+function createSectionFilterBar(section){
+  const bar=document.createElement('div');
+  bar.className='filterbar section-filterbar';
+  bar.setAttribute('role','search');
+  bar.setAttribute('aria-label','Filtros de '+section);
+
+  const search=document.createElement('div');
+  search.className='filterbar__search';
+  search.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.4" cy="10.4" r="6.4"/><path d="m19.4 19.4-4.2-4.2" stroke-linecap="round"/></svg>';
+  const input=document.createElement('input');
+  input.type='search'; input.placeholder='Buscar titulo...'; input.autocomplete='off'; input.spellcheck=false;
+  input.setAttribute('aria-label','Buscar titulo'); input.dataset.filterSearch='true';
+  search.appendChild(input); bar.appendChild(search);
+
+  const types=document.createElement('div');
+  types.className='filterbar__group'; types.setAttribute('role','group'); types.setAttribute('aria-label','Filtrar por tipo');
+  addFilterButton(types,'Peliculas','type','film');
+  addFilterButton(types,'Series','type','serie');
+  addFilterButton(types,'Especiales','type','especial');
+  bar.appendChild(types);
+
+  const pending=document.createElement('div');
+  pending.className='filterbar__group'; pending.setAttribute('role','group'); pending.setAttribute('aria-label','Filtrar por estado');
+  addFilterButton(pending,'Pendientes','pending','pend'); bar.appendChild(pending);
+
+  const ratingLabel=document.createElement('label'); ratingLabel.className='filterbar__rating';
+  const ratingText=document.createElement('span'); ratingText.textContent='Nota';
+  const select=document.createElement('select'); select.setAttribute('aria-label','Filtrar por nota');
+  select.dataset.filterRating='true'; fillRatingFilter(select);
+  ratingLabel.append(ratingText,select); bar.appendChild(ratingLabel);
+  return bar;
+}
+
+function syncFilterBar(bar,filter){
+  bar.querySelectorAll('[data-filter-type]').forEach(function(button){
+    const active=filter.type===button.dataset.filterType;
+    button.classList.toggle('active',active); button.setAttribute('aria-pressed',String(active));
+  });
+  const pending=bar.querySelector('[data-filter-pending]');
+  if(pending){ pending.classList.toggle('active',filter.pending); pending.setAttribute('aria-pressed',String(filter.pending)); }
+  const select=bar.querySelector('[data-filter-rating]');
+  if(select) select.value=filter.rating;
+}
+
+function wireFilterBar(section,bar){
+  const filter=filterStates[section];
+  const input=bar.querySelector('[data-filter-search]');
+  const rating=bar.querySelector('[data-filter-rating]');
+  if(input) input.addEventListener('input',function(){ filter.q=input.value; applyFilters(); });
+  bar.querySelectorAll('[data-filter-type]').forEach(function(button){
+    button.addEventListener('click',function(){
+      filter.type=filter.type===button.dataset.filterType?'all':button.dataset.filterType;
+      syncFilterBar(bar,filter); applyFilters();
+    });
+  });
+  const pending=bar.querySelector('[data-filter-pending]');
+  if(pending) pending.addEventListener('click',function(){ filter.pending=!filter.pending; syncFilterBar(bar,filter); applyFilters(); });
+  if(rating) rating.addEventListener('change',function(){ filter.rating=rating.value; applyFilters(); });
+  syncFilterBar(bar,filter);
+}
+
+function matchesSectionFilter(it,filter){
+  const query=normalizeText(filter.q.trim());
+  if(query && normalizeText(it.t).indexOf(query)===-1) return false;
+  if(filter.type!=='all' && it.type!==filter.type) return false;
+  if(filter.pending && state[it.t]) return false;
+  const currentRating=ratings[it.t];
+  const hasRating=currentRating!==undefined && currentRating!==null && currentRating!=='';
+  if(filter.rating==='rated' && !hasRating) return false;
+  if(filter.rating==='unrated' && hasRating) return false;
+  if(!isNaN(Number(filter.rating)) && (!hasRating || Number(currentRating)!==Number(filter.rating))) return false;
+  return true;
+}
+
+function ensureFilterEmpty(id,list){
+  let empty=document.getElementById(id);
+  if(!empty){
+    empty=document.createElement('p'); empty.className='filter-empty'; empty.id=id;
+    empty.textContent='Ningun titulo coincide con la busqueda o los filtros.';
+    list.parentNode.insertBefore(empty,list.nextSibling);
+  }
+  return empty;
+}
+
+function applyItemSection(section,groups,emptyId){
+  const filter=filterStates[section]; let visible=0;
+  groups.forEach(function(group){
+    group.items.forEach(function(it){
+      const ref=itemRefs.get(it.t); if(!ref) return;
+      const show=matchesSectionFilter(it,filter);
+      ref.row.classList.toggle('is-filtered-out',!show); if(show) visible++;
+    });
+  });
+  const empty=document.getElementById(emptyId); if(empty) empty.hidden=visible>0;
+}
+
+function applyMediaSection(section){
+  const grid=document.getElementById(section==='resumenes'?'resumenesList':'plataformaList');
+  if(!grid) return;
+  const filter=filterStates[section]; let visible=0;
+  grid.querySelectorAll('.media-card').forEach(function(card){
+    const it={t:card.dataset.mcuTitle,type:card.dataset.mcuType};
+    const show=matchesSectionFilter(it,filter);
+    card.classList.toggle('is-filtered-out',!show); if(show) visible++;
+  });
+  grid.querySelectorAll('.list-divider').forEach(function(divider){
+    let hasVisible=false; let node=divider.nextElementSibling;
+    while(node && !node.classList.contains('list-divider')){
+      if(node.classList.contains('media-card')&&!node.classList.contains('is-filtered-out')) hasVisible=true;
+      node=node.nextElementSibling;
+    }
+    divider.hidden=!hasVisible;
+  });
+  const empty=document.getElementById('filterEmpty-'+section); if(empty) empty.hidden=visible>0;
+}
+
+function applyFilters(){
+  applyItemSection('checklist',DATA,'filterEmpty');
+  applyItemSection('xmen',XMEN_DATA,'filterEmpty-xmen');
+  applyMediaSection('resumenes'); applyMediaSection('plataforma');
+}
+
+function buildFlatList(containerId,groups){
+  const container=document.getElementById(containerId); container.innerHTML='';
+  const grid=document.createElement('div'); grid.className='grid flat-list';
+  groups.forEach(function(group){ group.items.forEach(function(it){ grid.appendChild(buildItemRow(it)); }); });
+  container.appendChild(grid); return grid;
+}
+
+function buildChecklist(){ itemRefs.clear(); phaseRefs.clear(); buildFlatList('checklistList',DATA); }
+function buildXmen(){ buildFlatList('xmenList',XMEN_DATA); }
+
+function setupFilters(){
+  const checklistBar=document.querySelector('#panel-checklist .filterbar');
+  if(checklistBar){
+    const input=document.getElementById('filterSearch');
+    if(input) input.dataset.filterSearch='true';
+    checklistBar.querySelectorAll('[data-ftype]').forEach(function(button){ button.dataset.filterType=button.dataset.ftype; });
+    const pending=checklistBar.querySelector('[data-festado="pend"]');
+    if(pending) pending.dataset.filterPending='true';
+    const rating=document.getElementById('filterRating');
+    if(rating){ rating.dataset.filterRating='true'; fillRatingFilter(rating); }
+    wireFilterBar('checklist',checklistBar);
+  }
+  [['xmen','xmenList'],['resumenes','resumenesList'],['plataforma','plataformaList']].forEach(function(entry){
+    const list=document.getElementById(entry[1]); if(!list) return;
+    const bar=createSectionFilterBar(entry[0]); list.parentNode.insertBefore(bar,list);
+    ensureFilterEmpty('filterEmpty-'+entry[0],list); wireFilterBar(entry[0],bar);
+  });
+  applyFilters();
+}
+
+function setupShelfFilters(){}
 
 /* ============ BOOTSTRAP ============ */
 document.getElementById('resetBtn').addEventListener('click',()=>{
